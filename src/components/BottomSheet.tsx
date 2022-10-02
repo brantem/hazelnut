@@ -8,10 +8,10 @@ export type BottomSheetProps = {
   children: React.ReactNode;
 };
 
-const BottomSheet = ({ isOpen, onClose, title, children }: BottomSheetProps) => {
+const BottomSheet = ({ isOpen, onClose, title, children, ...props }: BottomSheetProps) => {
   return (
     <Transition show={isOpen} as={Fragment}>
-      <Dialog onClose={onClose} className="relative inset-0 z-50">
+      <Dialog onClose={onClose} className="relative inset-0 z-50" data-testid="bottom-sheet" {...props}>
         <Transition.Child
           enter="transition duration-100 ease-out"
           enterFrom="transform opacity-0"
@@ -21,7 +21,7 @@ const BottomSheet = ({ isOpen, onClose, title, children }: BottomSheetProps) => 
           leaveTo="transform opacity-0"
           as={Fragment}
         >
-          <Dialog.Backdrop className="fixed inset-0 bg-neutral-500/25" />
+          <Dialog.Backdrop className="fixed inset-0 bg-neutral-500/25" data-testid="bottom-sheet-backdrop" />
         </Transition.Child>
 
         <div className="fixed inset-0 flex items-end justify-center">

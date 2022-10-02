@@ -1,20 +1,21 @@
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 
-import navigations from 'data/navigations';
+import { Navigation } from 'types/shared';
 
 export type HeaderProps = {
+  navigations: Navigation[];
   action?: {
     text: string;
     onClick: () => void;
   };
 };
 
-const Header = ({ action }: HeaderProps) => {
+const Header = ({ navigations, action }: HeaderProps) => {
   const router = useRouter();
   const navigation = useMemo(() => {
     return navigations.find((navigation) => navigation.href === router.pathname)!;
-  }, [router.pathname]);
+  }, [navigations, router.pathname]);
 
   return (
     <header className="flex items-center justify-between py-3 px-4">

@@ -11,20 +11,7 @@ type GroupsState = {
 };
 
 export const useGroupsStore = create<GroupsState>()((set) => ({
-  groups: [
-    {
-      id: 'group-1',
-      title: 'Activities',
-      items: ['Climbing', 'Cleaning', 'Cooking'],
-      color: 'red',
-    },
-    {
-      id: 'group-2',
-      title: 'Sunscreen',
-      items: ['Chemical', 'Physical'],
-      color: 'amber',
-    },
-  ],
+  groups: [],
   add: (group) => {
     set((state) => ({
       groups: [...state.groups, { id: nanoid(), items: [], ...group }],

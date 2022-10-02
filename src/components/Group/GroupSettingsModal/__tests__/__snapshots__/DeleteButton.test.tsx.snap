@@ -1,0 +1,21 @@
+// Vitest Snapshot v1
+
+exports[`DeleteButton > should render successfully 1`] = `
+<div>
+  <button
+    class="rounded-md p-3 text-left hover:bg-neutral-100"
+  >
+    Delete
+  </button>
+</div>
+`;
+
+exports[`DeleteButton > should render successfully 2`] = `
+<div>
+  <button
+    class="rounded-md p-3 text-left text-red-500 hover:bg-red-50"
+  >
+    Click to Confirm
+  </button>
+</div>
+`;

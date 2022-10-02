@@ -1,0 +1,30 @@
+// Vitest Snapshot v1
+
+exports[`Header 1`] = `
+<div>
+  <header
+    class="flex items-center justify-between py-3 px-4"
+  >
+    <div
+      class="flex items-center text-2xl font-semibold"
+    >
+      <div
+        class="h-6 w-6"
+      >
+        <span />
+      </div>
+       
+      <h1
+        class="ml-3"
+      >
+        A
+      </h1>
+    </div>
+    <button
+      class="px-3 py-1.5 text-sm rounded-md hover:bg-neutral-100"
+    >
+      Action
+    </button>
+  </header>
+</div>
+`;

@@ -1,12 +1,11 @@
 import { useMemo } from 'react';
-import { RadioGroup } from '@headlessui/react';
-import clsx from 'clsx';
 import { useFormik } from 'formik';
 
 import BottomSheet, { BottomSheetProps } from 'components/BottomSheet';
 import Input from 'components/Input';
+import ColorPicker from 'components/ColorPicker';
 
-import { typeColors } from 'data/colors';
+import colors from 'data/colors';
 import { useGroupsStore } from 'lib/stores';
 import { Group } from 'types/group';
 
@@ -27,7 +26,7 @@ const SaveGroupModal = ({ isOpen, onClose, groupId, onSubmit }: SaveGroupModalPr
   const formik = useFormik<Values>({
     initialValues: {
       title: group?.title || '',
-      color: group?.color || typeColors[groups.length % typeColors.length],
+      color: group?.color || colors[groups.length % colors.length],
     },
     onSubmit: async (values, { resetForm }) => {
       await onSubmit(values);
@@ -38,7 +37,12 @@ const SaveGroupModal = ({ isOpen, onClose, groupId, onSubmit }: SaveGroupModalPr
   });
 
   return (
-    <BottomSheet isOpen={isOpen} onClose={onClose} title={`${groupId ? 'Edit' : 'Add'} Group`}>
+    <BottomSheet
+      isOpen={isOpen}
+      onClose={onClose}
+      title={`${groupId ? 'Edit' : 'Add'} Group`}
+      data-testid="save-group-modal"
+    >
       <form onSubmit={formik.handleSubmit}>
         <Input
           label="Title"
@@ -49,32 +53,11 @@ const SaveGroupModal = ({ isOpen, onClose, groupId, onSubmit }: SaveGroupModalPr
           required
         />
 
-        <RadioGroup
-          className="px-4 py-3"
+        <ColorPicker
           value={formik.values.color}
           onChange={(color: string) => formik.setFieldValue('color', color)}
-        >
-          <RadioGroup.Label className="block text-sm text-neutral-700">Color</RadioGroup.Label>
-
-          <div className="flex justify-between space-x-3 mt-2 w-full">
-            {typeColors.map((color) => (
-              <RadioGroup.Option
-                value={color}
-                key={color}
-                className={({ checked }) =>
-                  clsx(
-                    `h-9 w-9 rounded-full focus:outline-none ring-offset-2`,
-                    checked && 'ring-2',
-                    formik.isSubmitting
-                      ? `bg-${color}-300 ring-neutral-300`
-                      : `bg-${color}-500 ring-neutral-500 cursor-pointer`,
-                  )
-                }
-                disabled={formik.isSubmitting}
-              />
-            ))}
-          </div>
-        </RadioGroup>
+          isDisabled={formik.isSubmitting}
+        />
 
         <div className="bg-neutral-50 px-4 py-3">
           <button
