@@ -17,7 +17,7 @@ const NavItem = ({ icon, href, children }: NavItemProps) => {
     <Link href={href}>
       <a
         className={clsx([
-          'flex-1 px-4 py-3 font-medium text-sm text-center flex items-center justify-center',
+          'flex-1 px-4 py-3 font-medium text-center flex items-center justify-center',
           isActive && 'bg-black text-white',
         ])}
       >
