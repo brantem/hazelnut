@@ -17,11 +17,11 @@ const NavItem = ({ icon, href, children }: NavItemProps) => {
     <Link href={href}>
       <a
         className={clsx([
-          'flex-1 px-4 py-3 text-lg font-normal text-center flex items-center justify-center',
+          'flex-1 px-4 py-3 font-medium text-sm text-center flex items-center justify-center',
           isActive && 'bg-black text-white',
         ])}
       >
-        {icon}
+        <div className="h-6 w-6">{icon}</div>
         <span className="ml-2">{children}</span>
       </a>
     </Link>
@@ -30,7 +30,7 @@ const NavItem = ({ icon, href, children }: NavItemProps) => {
 
 const Nav = () => {
   return (
-    <nav className="flex w-full border-t border-t-gray-200 divide-x divide-gray-200">
+    <nav className="flex w-full border-t border-t-neutral-200 divide-x divide-neutral-200">
       {navigations.map((navigation, i) => (
         <NavItem key={i} icon={navigation.icon} href={navigation.href}>
           {navigation.text}

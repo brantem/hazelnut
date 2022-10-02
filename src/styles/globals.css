@@ -4,11 +4,13 @@
 
 :root {
   font-family: 'Inter', sans-serif;
+  font-weight: 500;
 }
 
 @supports (font-variation-settings: normal) {
   :root {
     font-family: 'Inter var', sans-serif;
+    font-weight: 500;
   }
 }
 
@@ -19,7 +21,7 @@ body,
 }
 
 body {
-  @apply bg-gray-50 flex justify-center;
+  @apply bg-neutral-50 flex justify-center;
 }
 
 #__next {

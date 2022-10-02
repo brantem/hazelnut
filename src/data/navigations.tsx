@@ -1,22 +1,20 @@
-import CircleStackIcon from 'components/icons/CircleStackIcon';
-import DocumentCheckIcon from 'components/icons/DocumentCheckIcon';
-import HomeIcon from 'components/icons/HomeIcon';
+import { HomeIcon, DocumentCheckIcon, CircleStackIcon } from '@heroicons/react/24/outline';
 
 import { Navigation } from 'types/shared';
 
 const navigations: Navigation[] = [
   {
-    icon: <HomeIcon />,
+    icon: <HomeIcon className="h-6 w-6" />,
     href: '/',
     text: 'Home',
   },
   {
-    icon: <DocumentCheckIcon />,
+    icon: <DocumentCheckIcon className="h-6 w-6" />,
     href: '/routines',
     text: 'Routines',
   },
   {
-    icon: <CircleStackIcon />,
+    icon: <CircleStackIcon className="h-6 w-6" />,
     href: '/stuff',
     text: 'Stuff',
   },
