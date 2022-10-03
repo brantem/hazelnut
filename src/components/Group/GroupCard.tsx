@@ -5,7 +5,6 @@ import clsx from 'clsx';
 import DeleteButton from 'components/DeleteButton';
 
 import { useGroupsStore } from 'lib/stores';
-
 import type { Group } from 'types/group';
 
 type GroupCardProps = {

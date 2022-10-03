@@ -2,6 +2,7 @@ import { render, renderHook, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import GroupSettingsModal from 'components/Group/GroupSettingsModal';
+
 import { useGroupsStore } from 'lib/stores';
 
 beforeEach(() => {

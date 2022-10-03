@@ -2,6 +2,7 @@ import { render, screen, act, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import GroupCard from 'components/Group/GroupCard';
+
 import { useGroupsStore } from 'lib/stores';
 
 describe('GroupCard', () => {
