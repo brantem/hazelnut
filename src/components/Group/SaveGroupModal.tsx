@@ -1,27 +1,18 @@
-import { useMemo } from 'react';
 import { useFormik } from 'formik';
 
-import BottomSheet, { BottomSheetProps } from 'components/BottomSheet';
+import BottomSheet from 'components/BottomSheet';
 import Input from 'components/Input';
 import ColorPicker from 'components/ColorPicker';
 
 import colors from 'data/colors';
-import { useGroupsStore } from 'lib/stores';
+import { useGroupsStore, useGroupStore } from 'lib/stores';
 import { Group } from 'types/group';
 
 type Values = Pick<Group, 'title' | 'color'>;
 
-type SaveGroupModalProps = Pick<BottomSheetProps, 'isOpen' | 'onClose'> & {
-  groupId: string | null;
-  onSubmit: (values: Values) => void;
-};
-
-const SaveGroupModal = ({ isOpen, onClose, groupId, onSubmit }: SaveGroupModalProps) => {
-  const { groups } = useGroupsStore();
-  const group = useMemo(() => {
-    if (!groupId) return null;
-    return groups.find((group) => group.id === groupId);
-  }, [groups, groupId]);
+const SaveGroupModal = () => {
+  const { groups, add, edit } = useGroupsStore();
+  const { group, clear, isSaveOpen, hide } = useGroupStore();
 
   const formik = useFormik<Values>({
     initialValues: {
@@ -29,19 +20,25 @@ const SaveGroupModal = ({ isOpen, onClose, groupId, onSubmit }: SaveGroupModalPr
       color: group?.color || colors[groups.length % colors.length],
     },
     onSubmit: async (values, { resetForm }) => {
-      await onSubmit(values);
+      if (group) {
+        edit(group.id, values);
+      } else {
+        add(values);
+      }
+
       resetForm();
-      onClose();
+      hide();
     },
     enableReinitialize: true,
   });
 
   return (
     <BottomSheet
-      isOpen={isOpen}
-      onClose={onClose}
-      title={`${groupId ? 'Edit' : 'Add'} Group`}
+      isOpen={isSaveOpen}
+      onClose={hide}
+      title={`${group ? 'Edit' : 'Add'} Group`}
       data-testid="save-group-modal"
+      afterLeave={clear}
     >
       <form onSubmit={formik.handleSubmit}>
         <div className="px-4 py-3 space-y-6">
@@ -63,10 +60,10 @@ const SaveGroupModal = ({ isOpen, onClose, groupId, onSubmit }: SaveGroupModalPr
         <div className="bg-neutral-50 px-4 py-3">
           <button
             type="submit"
-            className="rounded-md bg-black py-3 px-4 text-white enabled:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-500 w-full disabled:opacity-70"
+            className="rounded-md bg-black py-3 px-4 text-white enabled:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-500 w-full disabled:opacity-70"
             disabled={!formik.dirty || formik.isSubmitting}
           >
-            {groupId ? 'Save' : 'Add'}
+            {group ? 'Save' : 'Add'}
           </button>
         </div>
       </form>

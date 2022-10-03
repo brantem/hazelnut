@@ -22,13 +22,7 @@ const AddItemModal = () => {
   });
 
   return (
-    <BottomSheet
-      isOpen={isAddOpen}
-      onClose={hide}
-      title="Add Item"
-      data-testid="add-item-modal"
-      afterLeave={() => clear()}
-    >
+    <BottomSheet isOpen={isAddOpen} onClose={hide} title="Add Item" data-testid="add-item-modal" afterLeave={clear}>
       <form onSubmit={formik.handleSubmit}>
         <div className="px-4 py-3">
           <Input

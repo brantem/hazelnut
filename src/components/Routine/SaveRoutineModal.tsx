@@ -41,7 +41,7 @@ const SaveRoutineModal = () => {
       onClose={hide}
       title={`${routine ? 'Edit' : 'Add'} Routine`}
       data-testid="save-routine-modal"
-      afterLeave={() => clear()}
+      afterLeave={clear}
     >
       <form onSubmit={formik.handleSubmit}>
         <div className="px-4 py-3 space-y-6">
@@ -79,7 +79,7 @@ const SaveRoutineModal = () => {
         <div className="bg-neutral-50 px-4 py-3">
           <button
             type="submit"
-            className="rounded-md bg-black py-3 px-4 text-white enabled:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-500 w-full disabled:opacity-70"
+            className="rounded-md bg-black py-3 px-4 text-white enabled:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-500 w-full disabled:opacity-70"
             disabled={!formik.dirty || formik.isSubmitting}
           >
             {routine ? 'Save' : 'Add'}

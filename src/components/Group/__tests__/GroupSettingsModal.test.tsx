@@ -3,7 +3,8 @@ import '@testing-library/jest-dom';
 
 import GroupSettingsModal from 'components/Group/GroupSettingsModal';
 
-import { useGroupsStore } from 'lib/stores';
+import { useGroupsStore, useGroupStore } from 'lib/stores';
+import { Group } from 'types/group';
 
 beforeEach(() => {
   const mockIntersectionObserver = vi.fn();
@@ -11,20 +12,57 @@ beforeEach(() => {
   window.IntersectionObserver = mockIntersectionObserver;
 });
 
-test('GroupSettingsModal', async () => {
-  const { result } = renderHook(() => useGroupsStore());
-  const remove = vi.spyOn(result.current, 'remove').mockImplementation(() => {});
-  act(() => result.current.add({ id: 'group-1', title: 'Group 1', color: 'red' } as any));
+const group: Group = {
+  id: 'group-1',
+  title: 'Group 1',
+  color: 'red',
+};
 
-  const onClose = vi.fn(() => {});
-  const onEditClick = vi.fn(() => {});
-  render(<GroupSettingsModal groupId="group-1" isOpen onClose={onClose} onEditClick={onEditClick} />);
+describe('GroupSettingsModal', async () => {
+  beforeEach(() => {
+    const { result } = renderHook(() => useGroupStore());
+    act(() => {
+      result.current.hide();
+      result.current.clear();
+    });
+  });
 
-  act(() => screen.getByText('Edit').click());
-  expect(onEditClick).toHaveBeenCalled();
+  it('should open settings modal', () => {
+    const { result } = renderHook(() => useGroupStore());
 
-  act(() => screen.getByText('Delete').click());
-  act(() => screen.getByText('Confirm').click());
-  expect(remove).toHaveBeenCalled();
-  expect(onClose).toHaveBeenCalled();
+    render(<GroupSettingsModal />);
+
+    expect(screen.queryByTestId('group-settings-modal')).not.toBeInTheDocument();
+    act(() => result.current.showSettings(group));
+    expect(screen.getByTestId('group-settings-modal')).toBeInTheDocument();
+  });
+
+  it('should open edit modal', () => {
+    const { result } = renderHook(() => useGroupStore());
+    const showSave = vi.spyOn(result.current, 'showSave');
+
+    render(<GroupSettingsModal />);
+
+    act(() => result.current.showSettings(group));
+    act(() => screen.getByText('Edit').click());
+    expect(showSave).toHaveBeenCalledWith();
+    // TODO: check clear
+  });
+
+  it('should delete group', () => {
+    const groups = renderHook(() => useGroupsStore());
+    const remove = vi.spyOn(groups.result.current, 'remove');
+
+    const { result } = renderHook(() => useGroupStore());
+    const hide = vi.spyOn(result.current, 'hide');
+
+    render(<GroupSettingsModal />);
+
+    act(() => result.current.showSettings(group));
+    act(() => screen.getByText('Delete').click());
+    act(() => screen.getByText('Confirm').click());
+    expect(remove).toHaveBeenCalledWith('group-1');
+    expect(hide).toHaveBeenCalled();
+    // TODO: check clear
+  });
 });

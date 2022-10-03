@@ -4,15 +4,15 @@ import clsx from 'clsx';
 
 import DeleteButton from 'components/DeleteButton';
 
-import { useItemsStore, useItemStore } from 'lib/stores';
+import { useGroupStore, useItemsStore, useItemStore } from 'lib/stores';
 import type { Group } from 'types/group';
 
 type GroupCardProps = {
   group: Group;
-  onSettingsClick: () => void;
 };
 
-const GroupCard = ({ group, onSettingsClick }: GroupCardProps) => {
+const GroupCard = ({ group }: GroupCardProps) => {
+  const { showSettings } = useGroupStore();
   const items = useItemsStore((state) => state.items.filter((item) => item.groupId === group.id));
   const { remove } = useItemsStore();
   const { showAdd } = useItemStore();
@@ -32,7 +32,7 @@ const GroupCard = ({ group, onSettingsClick }: GroupCardProps) => {
 
           <button
             className={`p-1 rounded-md hover:bg-${group.color}-100`}
-            onClick={onSettingsClick}
+            onClick={() => showSettings(group)}
             data-testid="group-card-settings"
           >
             <EllipsisVerticalIcon className="h-5 w-5" />

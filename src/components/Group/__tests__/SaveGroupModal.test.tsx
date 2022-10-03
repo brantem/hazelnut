@@ -3,7 +3,8 @@ import '@testing-library/jest-dom';
 
 import SaveGroupModal from 'components/Group/SaveGroupModal';
 
-import { useGroupsStore } from 'lib/stores';
+import { useGroupsStore, useGroupStore } from 'lib/stores';
+import { Group } from 'types/group';
 
 beforeEach(() => {
   const mockIntersectionObserver = vi.fn();
@@ -11,30 +12,62 @@ beforeEach(() => {
   window.IntersectionObserver = mockIntersectionObserver;
 });
 
-describe('SaveGroupModal', () => {
-  it('should add new group', async () => {
-    const onClose = vi.fn(() => {});
-    const onSubmit = vi.fn(() => {});
-    render(<SaveGroupModal isOpen onClose={onClose} groupId={null} onSubmit={onSubmit} />);
+const group: Group = {
+  id: 'group-1',
+  title: 'Group 1',
+  color: 'red',
+};
 
+describe('SaveGroupModal', () => {
+  beforeEach(() => {
+    const { result } = renderHook(() => useGroupStore());
+    act(() => {
+      result.current.hide();
+      result.current.clear();
+    });
+  });
+
+  it('should open save modal', () => {
+    const { result } = renderHook(() => useGroupStore());
+
+    render(<SaveGroupModal />);
+
+    expect(screen.queryByTestId('save-group-modal')).not.toBeInTheDocument();
+    act(() => result.current.showSave());
+    expect(screen.getByTestId('save-group-modal')).toBeInTheDocument();
+  });
+
+  it('should add new group', async () => {
+    const groups = renderHook(() => useGroupsStore());
+    const add = vi.spyOn(groups.result.current, 'add');
+
+    const { result } = renderHook(() => useGroupStore());
+    const hide = vi.spyOn(result.current, 'hide');
+
+    render(<SaveGroupModal />);
+
+    act(() => result.current.showSave());
     act(() => {
       fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Group 1' } });
       screen.getByText('Add').click();
     });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
     const values = { title: 'Group 1', color: 'red' };
-    expect(onSubmit).toHaveBeenCalledWith(values);
-    expect(onClose).toHaveBeenCalled();
+    expect(add).toHaveBeenCalledWith(values);
+    expect(hide).toHaveBeenCalled();
+    // TODO: check clear
   });
 
   it('should edit existing group', async () => {
-    const { result } = renderHook(() => useGroupsStore());
-    act(() => result.current.add({ id: 'group-1', title: 'Group 1', color: 'red' } as any));
+    const groups = renderHook(() => useGroupsStore());
+    const edit = vi.spyOn(groups.result.current, 'edit');
 
-    const onClose = vi.fn(() => {});
-    const onSubmit = vi.fn(() => {});
-    render(<SaveGroupModal isOpen onClose={onClose} groupId="group-1" onSubmit={onSubmit} />);
+    const { result } = renderHook(() => useGroupStore());
+    const hide = vi.spyOn(result.current, 'hide');
 
+    render(<SaveGroupModal />);
+
+    act(() => result.current.showSave(group));
     act(() => {
       fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Group 1a' } });
       screen.getByTestId('color-picker-option-amber').click();
@@ -42,7 +75,8 @@ describe('SaveGroupModal', () => {
     });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
     const values = { title: 'Group 1a', color: 'amber' };
-    expect(onSubmit).toHaveBeenCalledWith(values);
-    expect(onClose).toHaveBeenCalled();
+    expect(edit).toHaveBeenCalledWith(group.id, values);
+    expect(hide).toHaveBeenCalled();
+    // TODO: check clear
   });
 });
