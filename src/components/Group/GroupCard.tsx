@@ -42,8 +42,12 @@ const GroupCard = ({ group, onAddItemClick, onSettingsClick }: GroupCardProps) =
       {group.items.length ? (
         <ol className="space-y-1 pt-2 pb-1" data-testid="group-card-items">
           {group.items.map((item) => (
-            <li data-testid="group-card-items-item" key={item.id} className="flex justify-between items-center">
-              <span>{item.title}</span>
+            <li
+              data-testid="group-card-items-item"
+              key={item.id}
+              className="flex justify-between items-center space-x-3"
+            >
+              <span className="truncate">{item.title}</span>
 
               <DeleteButton
                 className={(isClicked) =>

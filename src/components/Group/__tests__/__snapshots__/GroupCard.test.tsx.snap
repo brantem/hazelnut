@@ -89,10 +89,12 @@ exports[`GroupCard > should render successfully 1`] = `
       data-testid="group-card-items"
     >
       <li
-        class="flex justify-between items-center"
+        class="flex justify-between items-center space-x-3"
         data-testid="group-card-items-item"
       >
-        <span>
+        <span
+          class="truncate"
+        >
           Item 1
         </span>
         <button
