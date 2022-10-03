@@ -5,6 +5,7 @@ module.exports = {
     { pattern: /text-.+-(400|600)/ },
     { pattern: /bg-.+-(50|300)/ },
     { pattern: /bg-.+-(100|200)/, variants: ['hover', 'disabled'] },
+    { pattern: /ring-.+-(500)/ },
   ],
   theme: {
     extend: {},

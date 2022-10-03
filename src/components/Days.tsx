@@ -2,7 +2,9 @@ import clsx from 'clsx';
 
 import { Day } from 'types/shared';
 
-const Days = ({ days }: { days: Day[] }) => {
+const Days = ({ days = [] }: { days: Day[] }) => {
+  if (!days.length) return null;
+
   return (
     <div className="space-x-2">
       {days.length === 7 ? (

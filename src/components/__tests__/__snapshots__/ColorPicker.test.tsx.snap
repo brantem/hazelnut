@@ -16,12 +16,12 @@ exports[`ColorPicker > should render successfully 1`] = `
       Color
     </label>
     <div
-      class="flex flex-wrap justify-between space-x-3 mt-2 w-full"
+      class="flex justify-between space-x-2 mt-2 w-full"
       role="none"
     >
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-red-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-red-500 ring-red-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-red"
         id="headlessui-radiogroup-option-:r2:"
@@ -30,64 +30,145 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-amber-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-orange-500 ring-orange-500 cursor-pointer"
         data-headlessui-state=""
-        data-testid="color-picker-option-amber"
+        data-testid="color-picker-option-orange"
         id="headlessui-radiogroup-option-:r3:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-lime-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-amber-500 ring-amber-500 cursor-pointer"
         data-headlessui-state=""
-        data-testid="color-picker-option-lime"
+        data-testid="color-picker-option-amber"
         id="headlessui-radiogroup-option-:r4:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-emerald-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-yellow-500 ring-yellow-500 cursor-pointer"
         data-headlessui-state=""
-        data-testid="color-picker-option-emerald"
+        data-testid="color-picker-option-yellow"
         id="headlessui-radiogroup-option-:r5:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-cyan-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-lime-500 ring-lime-500 cursor-pointer"
         data-headlessui-state=""
-        data-testid="color-picker-option-cyan"
+        data-testid="color-picker-option-lime"
         id="headlessui-radiogroup-option-:r6:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-blue-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-green-500 ring-green-500 cursor-pointer"
         data-headlessui-state=""
-        data-testid="color-picker-option-blue"
+        data-testid="color-picker-option-green"
         id="headlessui-radiogroup-option-:r7:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-violet-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-emerald-500 ring-emerald-500 cursor-pointer"
         data-headlessui-state=""
-        data-testid="color-picker-option-violet"
+        data-testid="color-picker-option-emerald"
         id="headlessui-radiogroup-option-:r8:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-fuchsia-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-teal-500 ring-teal-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-teal"
+        id="headlessui-radiogroup-option-:r9:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-cyan-500 ring-cyan-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-cyan"
+        id="headlessui-radiogroup-option-:ra:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-sky-500 ring-sky-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-sky"
+        id="headlessui-radiogroup-option-:rb:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-blue-500 ring-blue-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-blue"
+        id="headlessui-radiogroup-option-:rc:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-indigo-500 ring-indigo-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-indigo"
+        id="headlessui-radiogroup-option-:rd:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-violet-500 ring-violet-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-violet"
+        id="headlessui-radiogroup-option-:re:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-purple-500 ring-purple-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-purple"
+        id="headlessui-radiogroup-option-:rf:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-fuchsia-500 ring-fuchsia-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-fuchsia"
-        id="headlessui-radiogroup-option-:r9:"
+        id="headlessui-radiogroup-option-:rg:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-pink-500 ring-pink-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-pink"
+        id="headlessui-radiogroup-option-:rh:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-rose-500 ring-rose-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-rose"
+        id="headlessui-radiogroup-option-:ri:"
         role="radio"
         tabindex="-1"
       />
@@ -112,12 +193,12 @@ exports[`ColorPicker > should render successfully 2`] = `
       Color
     </label>
     <div
-      class="flex flex-wrap justify-between space-x-3 mt-2 w-full"
+      class="flex justify-between space-x-2 mt-2 w-full"
       role="none"
     >
       <div
         aria-checked="true"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 ring-2 bg-red-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 ring-2 bg-red-500 ring-red-500 cursor-pointer"
         data-headlessui-state="checked active"
         data-testid="color-picker-option-red"
         id="headlessui-radiogroup-option-:r2:"
@@ -126,64 +207,145 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-amber-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-orange-500 ring-orange-500 cursor-pointer"
         data-headlessui-state=""
-        data-testid="color-picker-option-amber"
+        data-testid="color-picker-option-orange"
         id="headlessui-radiogroup-option-:r3:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-lime-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-amber-500 ring-amber-500 cursor-pointer"
         data-headlessui-state=""
-        data-testid="color-picker-option-lime"
+        data-testid="color-picker-option-amber"
         id="headlessui-radiogroup-option-:r4:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-emerald-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-yellow-500 ring-yellow-500 cursor-pointer"
         data-headlessui-state=""
-        data-testid="color-picker-option-emerald"
+        data-testid="color-picker-option-yellow"
         id="headlessui-radiogroup-option-:r5:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-cyan-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-lime-500 ring-lime-500 cursor-pointer"
         data-headlessui-state=""
-        data-testid="color-picker-option-cyan"
+        data-testid="color-picker-option-lime"
         id="headlessui-radiogroup-option-:r6:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-blue-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-green-500 ring-green-500 cursor-pointer"
         data-headlessui-state=""
-        data-testid="color-picker-option-blue"
+        data-testid="color-picker-option-green"
         id="headlessui-radiogroup-option-:r7:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-violet-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-emerald-500 ring-emerald-500 cursor-pointer"
         data-headlessui-state=""
-        data-testid="color-picker-option-violet"
+        data-testid="color-picker-option-emerald"
         id="headlessui-radiogroup-option-:r8:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-fuchsia-500 ring-neutral-500 cursor-pointer"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-teal-500 ring-teal-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-teal"
+        id="headlessui-radiogroup-option-:r9:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-cyan-500 ring-cyan-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-cyan"
+        id="headlessui-radiogroup-option-:ra:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-sky-500 ring-sky-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-sky"
+        id="headlessui-radiogroup-option-:rb:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-blue-500 ring-blue-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-blue"
+        id="headlessui-radiogroup-option-:rc:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-indigo-500 ring-indigo-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-indigo"
+        id="headlessui-radiogroup-option-:rd:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-violet-500 ring-violet-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-violet"
+        id="headlessui-radiogroup-option-:re:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-purple-500 ring-purple-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-purple"
+        id="headlessui-radiogroup-option-:rf:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-fuchsia-500 ring-fuchsia-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-fuchsia"
-        id="headlessui-radiogroup-option-:r9:"
+        id="headlessui-radiogroup-option-:rg:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-pink-500 ring-pink-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-pink"
+        id="headlessui-radiogroup-option-:rh:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-rose-500 ring-rose-500 cursor-pointer"
+        data-headlessui-state=""
+        data-testid="color-picker-option-rose"
+        id="headlessui-radiogroup-option-:ri:"
         role="radio"
         tabindex="-1"
       />
@@ -195,99 +357,189 @@ exports[`ColorPicker > should render successfully 2`] = `
 exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
 <div>
   <div
-    aria-labelledby="headlessui-label-:rb:"
+    aria-labelledby="headlessui-label-:rk:"
     data-testid="color-picker"
-    id="headlessui-radiogroup-:ra:"
+    id="headlessui-radiogroup-:rj:"
     role="radiogroup"
   >
     <label
       class="block text-sm text-neutral-700"
-      id="headlessui-label-:rb:"
+      id="headlessui-label-:rk:"
       role="none"
     >
       Color
     </label>
     <div
-      class="flex flex-wrap justify-between space-x-3 mt-2 w-full"
+      class="flex justify-between space-x-2 mt-2 w-full"
       role="none"
     >
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-red-300 ring-neutral-300"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-red-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-red"
-        id="headlessui-radiogroup-option-:rc:"
+        id="headlessui-radiogroup-option-:rl:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-amber-300 ring-neutral-300"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-orange-300 ring-neutral-300"
+        data-headlessui-state="disabled"
+        data-testid="color-picker-option-orange"
+        id="headlessui-radiogroup-option-:rm:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        aria-disabled="true"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-amber-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-amber"
-        id="headlessui-radiogroup-option-:rd:"
+        id="headlessui-radiogroup-option-:rn:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-lime-300 ring-neutral-300"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-yellow-300 ring-neutral-300"
+        data-headlessui-state="disabled"
+        data-testid="color-picker-option-yellow"
+        id="headlessui-radiogroup-option-:ro:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        aria-disabled="true"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-lime-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-lime"
-        id="headlessui-radiogroup-option-:re:"
+        id="headlessui-radiogroup-option-:rp:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-emerald-300 ring-neutral-300"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-green-300 ring-neutral-300"
+        data-headlessui-state="disabled"
+        data-testid="color-picker-option-green"
+        id="headlessui-radiogroup-option-:rq:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        aria-disabled="true"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-emerald-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-emerald"
-        id="headlessui-radiogroup-option-:rf:"
+        id="headlessui-radiogroup-option-:rr:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-cyan-300 ring-neutral-300"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-teal-300 ring-neutral-300"
+        data-headlessui-state="disabled"
+        data-testid="color-picker-option-teal"
+        id="headlessui-radiogroup-option-:rs:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        aria-disabled="true"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-cyan-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-cyan"
-        id="headlessui-radiogroup-option-:rg:"
+        id="headlessui-radiogroup-option-:rt:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-blue-300 ring-neutral-300"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-sky-300 ring-neutral-300"
+        data-headlessui-state="disabled"
+        data-testid="color-picker-option-sky"
+        id="headlessui-radiogroup-option-:ru:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        aria-disabled="true"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-blue-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-blue"
-        id="headlessui-radiogroup-option-:rh:"
+        id="headlessui-radiogroup-option-:rv:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-violet-300 ring-neutral-300"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-indigo-300 ring-neutral-300"
+        data-headlessui-state="disabled"
+        data-testid="color-picker-option-indigo"
+        id="headlessui-radiogroup-option-:r10:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        aria-disabled="true"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-violet-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-violet"
-        id="headlessui-radiogroup-option-:ri:"
+        id="headlessui-radiogroup-option-:r11:"
         role="radio"
         tabindex="-1"
       />
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-10 w-10 rounded-full focus:outline-none ring-offset-2 bg-fuchsia-300 ring-neutral-300"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-purple-300 ring-neutral-300"
+        data-headlessui-state="disabled"
+        data-testid="color-picker-option-purple"
+        id="headlessui-radiogroup-option-:r12:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        aria-disabled="true"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-fuchsia-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-fuchsia"
-        id="headlessui-radiogroup-option-:rj:"
+        id="headlessui-radiogroup-option-:r13:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        aria-disabled="true"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-pink-300 ring-neutral-300"
+        data-headlessui-state="disabled"
+        data-testid="color-picker-option-pink"
+        id="headlessui-radiogroup-option-:r14:"
+        role="radio"
+        tabindex="-1"
+      />
+      <div
+        aria-checked="false"
+        aria-disabled="true"
+        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-rose-300 ring-neutral-300"
+        data-headlessui-state="disabled"
+        data-testid="color-picker-option-rose"
+        id="headlessui-radiogroup-option-:r15:"
         role="radio"
         tabindex="-1"
       />

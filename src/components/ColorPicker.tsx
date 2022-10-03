@@ -14,7 +14,7 @@ const ColorPicker = ({ value, onChange, isDisabled }: ColorPickerProps) => {
     <RadioGroup value={value} onChange={onChange} data-testid="color-picker">
       <RadioGroup.Label className="block text-sm text-neutral-700">Color</RadioGroup.Label>
 
-      <div className="flex flex-wrap justify-between space-x-3 mt-2 w-full">
+      <div className="flex justify-between space-x-2 mt-2 w-full">
         {colors.map((color) => {
           const isActive = color === value;
           return (
@@ -22,9 +22,9 @@ const ColorPicker = ({ value, onChange, isDisabled }: ColorPickerProps) => {
               value={color}
               key={color}
               className={clsx(
-                `h-10 w-10 rounded-full focus:outline-none ring-offset-2`,
+                `h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2`,
                 isActive && 'ring-2',
-                isDisabled ? `bg-${color}-300 ring-neutral-300` : `bg-${color}-500 ring-neutral-500 cursor-pointer`,
+                isDisabled ? `bg-${color}-300 ring-neutral-300` : `bg-${color}-500 ring-${color}-500 cursor-pointer`,
               )}
               disabled={isDisabled}
               data-testid={`color-picker-option-${color}`}

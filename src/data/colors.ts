@@ -1,3 +1,21 @@
-const colors = ['red', 'amber', 'lime', 'emerald', 'cyan', 'blue', 'violet', 'fuchsia'];
+const colors = [
+  'red',
+  'orange',
+  'amber',
+  'yellow',
+  'lime',
+  'green',
+  'emerald',
+  'teal',
+  'cyan',
+  'sky',
+  'blue',
+  'indigo',
+  'violet',
+  'purple',
+  'fuchsia',
+  'pink',
+  'rose',
+];
 
 export default colors;
