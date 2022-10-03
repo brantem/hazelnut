@@ -4,17 +4,23 @@ import type { Group as _Group } from 'types/group';
 
 type GroupProps = {
   group: _Group;
+  onAddItemClick: () => void;
   onSettingsClick: () => void;
 };
 
-const Group = ({ group, onSettingsClick }: GroupProps) => {
+const Group = ({ group, onAddItemClick, onSettingsClick }: GroupProps) => {
   return (
     <div className={`px-4 py-3 bg-${group.color}-50`} data-testid="group-card">
       <div className="flex justify-between items-center space-x-3">
         <h3 className={`uppercase text-sm font-semibold text-${group.color}-600 truncate`}>{group.title}</h3>
 
         <div className="flex items-center space-x-1 flex-shrink-0">
-          <button className={`px-2 py-1 text-sm rounded-md hover:bg-${group.color}-100 flex-shrink-0`}>Add Item</button>
+          <button
+            className={`px-2 py-1 text-sm rounded-md hover:bg-${group.color}-100 flex-shrink-0`}
+            onClick={onAddItemClick}
+          >
+            Add Item
+          </button>
 
           <button
             className={`p-1 rounded-md hover:bg-${group.color}-100`}
@@ -28,9 +34,9 @@ const Group = ({ group, onSettingsClick }: GroupProps) => {
 
       {group.items.length ? (
         <ol className="space-y-1 py-1" data-testid="group-card-items">
-          {group.items.map((item, j) => (
-            <li data-testid="group-card-items-item" key={j}>
-              {item}
+          {group.items.map((item) => (
+            <li data-testid="group-card-items-item" key={item.id}>
+              {item.title}
             </li>
           ))}
         </ol>

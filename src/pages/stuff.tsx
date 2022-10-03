@@ -4,29 +4,46 @@ import type { NextPage } from 'next';
 import Layout from 'components/Layout';
 import GroupCard from 'components/Group/GroupCard';
 import SaveGroupModal from 'components/Group/SaveGroupModal';
+import AddGroupItemModal from 'components/Group/GroupItem/AddGroupItemModal';
 import GroupSettingsModal from 'components/Group/GroupSettingsModal';
 
 import { useGroupsStore } from 'lib/stores';
 
 const Stuff: NextPage = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { groups, add, edit } = useGroupsStore();
+  const [isGroupOpen, setIsGroupOpen] = useState(false);
+  const [isGroupItemOpen, setIsGroupItemOpen] = useState(false);
+  const [isGroupSettingsOpen, setIsGroupSettingsOpen] = useState(false);
+  const { groups, add, addItem, edit } = useGroupsStore();
 
   const [groupId, setGroupId] = useState<string | null>(null);
 
   return (
     <>
-      <Layout header={{ action: { text: 'Add Group', onClick: () => setIsOpen(true) } }}>
+      <Layout header={{ action: { text: 'Add Group', onClick: () => setIsGroupOpen(true) } }}>
         <section className="space-y-3">
           {groups.map((group, i) => (
-            <GroupCard key={i} group={group} onSettingsClick={() => setGroupId(group.id)} />
+            <GroupCard
+              key={i}
+              group={group}
+              onAddItemClick={() => {
+                setGroupId(group.id);
+                setIsGroupItemOpen(true);
+              }}
+              onSettingsClick={() => {
+                setGroupId(group.id);
+                setIsGroupSettingsOpen(true);
+              }}
+            />
           ))}
         </section>
       </Layout>
 
       <SaveGroupModal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        isOpen={isGroupOpen}
+        onClose={() => {
+          if (groupId) setGroupId(null);
+          setIsGroupOpen(false);
+        }}
         groupId={groupId}
         onSubmit={(group) => {
           if (groupId) {
@@ -38,11 +55,27 @@ const Stuff: NextPage = () => {
         }}
       />
 
+      <AddGroupItemModal
+        isOpen={isGroupItemOpen}
+        onClose={() => setIsGroupItemOpen(false)}
+        onSubmit={(item) => {
+          addItem(groupId!, item);
+          setIsGroupItemOpen(false);
+          setGroupId(null);
+        }}
+      />
+
       <GroupSettingsModal
-        isOpen={!!groupId}
-        onClose={() => setGroupId(null)}
+        isOpen={isGroupSettingsOpen}
+        onClose={() => {
+          setIsGroupSettingsOpen(false);
+          setGroupId(null);
+        }}
         groupId={groupId!}
-        onEditClick={() => setIsOpen(true)}
+        onEditClick={() => {
+          setIsGroupOpen(true);
+          setIsGroupSettingsOpen(false);
+        }}
       />
     </>
   );
