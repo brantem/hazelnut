@@ -1,8 +1,7 @@
-import { render, renderHook, screen, act } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import DeleteButton from 'components/Group/GroupSettingsModal/DeleteButton';
-import { useGroupsStore } from 'lib/stores';
+import DeleteButton from 'components/DeleteButton';
 
 describe('DeleteButton', () => {
   beforeEach(() => {
@@ -14,11 +13,8 @@ describe('DeleteButton', () => {
   });
 
   it('should render successfully', () => {
-    const { result } = renderHook(() => useGroupsStore());
-    const remove = vi.spyOn(result.current, 'remove');
-
-    const onClick = vi.fn(() => {});
-    const { container } = render(<DeleteButton groupId="group-1" onClick={onClick} />);
+    const onConfirm = vi.fn(() => {});
+    const { container } = render(<DeleteButton onConfirm={onConfirm} />);
 
     expect(container).toMatchSnapshot();
     const button = screen.getByText('Delete');
@@ -29,13 +25,12 @@ describe('DeleteButton', () => {
     const confirm = screen.getByText('Click to Confirm');
     expect(confirm).toBeInTheDocument();
     act(() => confirm.click());
-    expect(remove).toHaveBeenCalledWith('group-1');
-    expect(onClick).toHaveBeenCalled();
+    expect(onConfirm).toHaveBeenCalled();
     expect(container).toMatchSnapshot();
   });
 
   it('should timed out', async () => {
-    render(<DeleteButton groupId="group-1" onClick={() => {}} />);
+    render(<DeleteButton onConfirm={() => {}} />);
 
     const button = screen.getByText('Delete');
     expect(button).toBeInTheDocument();

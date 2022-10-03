@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import BottomSheet, { BottomSheetProps } from 'components/BottomSheet';
-import DeleteButton from 'components/Group/GroupSettingsModal/DeleteButton';
+import DeleteButton from 'components/DeleteButton';
 
 import { useGroupsStore } from 'lib/stores';
 
@@ -11,7 +11,7 @@ type GroupSettingsModal = Pick<BottomSheetProps, 'isOpen' | 'onClose'> & {
 };
 
 const GroupSettingsModal = ({ isOpen, onClose, groupId, onEditClick }: GroupSettingsModal) => {
-  const { groups } = useGroupsStore();
+  const { groups, remove } = useGroupsStore();
   const group = useMemo(() => {
     if (!groupId) return null;
     return groups.find((group) => group.id === groupId);
@@ -24,7 +24,12 @@ const GroupSettingsModal = ({ isOpen, onClose, groupId, onEditClick }: GroupSett
           Edit
         </button>
 
-        <DeleteButton groupId={groupId} onClick={onClose} />
+        <DeleteButton
+          onConfirm={() => {
+            remove(groupId);
+            onClose();
+          }}
+        />
       </div>
     </BottomSheet>
   );

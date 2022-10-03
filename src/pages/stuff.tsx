@@ -49,6 +49,7 @@ const Stuff: NextPage = () => {
           if (groupId) {
             edit(groupId, group);
             setGroupId(null);
+            setIsGroupSettingsOpen(false);
           } else {
             add(group);
           }
@@ -72,10 +73,7 @@ const Stuff: NextPage = () => {
           setGroupId(null);
         }}
         groupId={groupId!}
-        onEditClick={() => {
-          setIsGroupOpen(true);
-          setIsGroupSettingsOpen(false);
-        }}
+        onEditClick={() => setIsGroupOpen(true)}
       />
     </>
   );

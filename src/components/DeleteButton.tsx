@@ -1,15 +1,10 @@
 import { useState } from 'react';
 
-import { useGroupsStore } from 'lib/stores';
-
 type DeleteButtonProps = {
-  groupId: string;
-  onClick: () => void;
+  onConfirm: () => void;
 };
 
-const DeleteButton = ({ groupId, onClick }: DeleteButtonProps) => {
-  const { remove } = useGroupsStore();
-
+const DeleteButton = ({ onConfirm }: DeleteButtonProps) => {
   const [isDelete, setIsDelete] = useState(false);
 
   return !isDelete ? (
@@ -23,13 +18,7 @@ const DeleteButton = ({ groupId, onClick }: DeleteButtonProps) => {
       Delete
     </button>
   ) : (
-    <button
-      className="rounded-md p-3 text-left text-red-500 hover:bg-red-50"
-      onClick={() => {
-        remove(groupId);
-        onClick();
-      }}
-    >
+    <button className="rounded-md p-3 text-left text-red-500 hover:bg-red-50" onClick={onConfirm}>
       Click to Confirm
     </button>
   );
