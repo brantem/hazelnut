@@ -37,13 +37,12 @@ const Routines: NextPage = () => {
         onClose={() => {
           if (routineId) setRoutineId(null);
           setIsRoutineOpen(false);
+          if (isRoutineSettingsOpen) setIsRoutineSettingsOpen(false);
         }}
         routineId={routineId}
         onSubmit={(routine) => {
           if (routineId) {
             edit(routineId, routine);
-            setRoutineId(null);
-            setIsRoutineSettingsOpen(false);
           } else {
             add(routine);
           }

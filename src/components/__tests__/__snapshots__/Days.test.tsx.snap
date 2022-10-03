@@ -1,0 +1,27 @@
+// Vitest Snapshot v1
+
+exports[`Days > should show "Everyday" 1`] = `
+<div>
+  <div
+    class="space-x-2"
+  >
+    <span>
+      Everyday
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Days > should show only "M" 1`] = `
+<div>
+  <div
+    class="space-x-2"
+  >
+    <span
+      class=""
+    >
+      M
+    </span>
+  </div>
+</div>
+`;

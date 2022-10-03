@@ -4,12 +4,13 @@ import { useFormik } from 'formik';
 import BottomSheet, { BottomSheetProps } from 'components/BottomSheet';
 import Input from 'components/Input';
 import ColorPicker from 'components/ColorPicker';
+import DayPicker from 'components/DayPicker';
 
 import colors from 'data/colors';
 import { useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 
-type Values = Pick<Routine, 'title' | 'color'>;
+type Values = Omit<Routine, 'id'>;
 
 type SaveRoutineModalProps = Pick<BottomSheetProps, 'isOpen' | 'onClose'> & {
   routineId: string | null;
@@ -27,6 +28,8 @@ const SaveRoutineModal = ({ isOpen, onClose, routineId, onSubmit }: SaveRoutineM
     initialValues: {
       title: routine?.title || '',
       color: routine?.color || colors[routines.length % colors.length],
+      days: routine?.days || [],
+      time: routine?.time || '',
     },
     onSubmit: async (values, { resetForm }) => {
       await onSubmit(values);
@@ -44,20 +47,37 @@ const SaveRoutineModal = ({ isOpen, onClose, routineId, onSubmit }: SaveRoutineM
       data-testid="save-routine-modal"
     >
       <form onSubmit={formik.handleSubmit}>
-        <Input
-          label="Title"
-          name="title"
-          value={formik.values.title}
-          onChange={formik.handleChange}
-          disabled={formik.isSubmitting}
-          required
-        />
+        <div className="px-4 py-3 space-y-6">
+          <Input
+            label="Title"
+            name="title"
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            disabled={formik.isSubmitting}
+            required
+          />
 
-        <ColorPicker
-          value={formik.values.color}
-          onChange={(color: string) => formik.setFieldValue('color', color)}
-          isDisabled={formik.isSubmitting}
-        />
+          <ColorPicker
+            value={formik.values.color}
+            onChange={(color: string) => formik.setFieldValue('color', color)}
+            isDisabled={formik.isSubmitting}
+          />
+
+          <DayPicker
+            value={formik.values.days}
+            onChange={(days: string[]) => formik.setFieldValue('days', days)}
+            isDisabled={formik.isSubmitting}
+          />
+
+          <Input
+            label="Time"
+            name="time"
+            type="time"
+            required
+            value={formik.values.time}
+            onChange={formik.handleChange}
+          />
+        </div>
 
         <div className="bg-neutral-50 px-4 py-3">
           <button

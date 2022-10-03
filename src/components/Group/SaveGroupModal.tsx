@@ -44,20 +44,21 @@ const SaveGroupModal = ({ isOpen, onClose, groupId, onSubmit }: SaveGroupModalPr
       data-testid="save-group-modal"
     >
       <form onSubmit={formik.handleSubmit}>
-        <Input
-          label="Title"
-          name="title"
-          value={formik.values.title}
-          onChange={formik.handleChange}
-          disabled={formik.isSubmitting}
-          required
-        />
-
-        <ColorPicker
-          value={formik.values.color}
-          onChange={(color: string) => formik.setFieldValue('color', color)}
-          isDisabled={formik.isSubmitting}
-        />
+        <div className="px-4 py-3 space-y-6">
+          <Input
+            label="Title"
+            name="title"
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            disabled={formik.isSubmitting}
+            required
+          />
+          <ColorPicker
+            value={formik.values.color}
+            onChange={(color: string) => formik.setFieldValue('color', color)}
+            isDisabled={formik.isSubmitting}
+          />
+        </div>
 
         <div className="bg-neutral-50 px-4 py-3">
           <button

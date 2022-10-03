@@ -43,13 +43,12 @@ const Stuff: NextPage = () => {
         onClose={() => {
           if (groupId) setGroupId(null);
           setIsGroupOpen(false);
+          if (isGroupSettingsOpen) setIsGroupSettingsOpen(false);
         }}
         groupId={groupId}
         onSubmit={(group) => {
           if (groupId) {
             edit(groupId, group);
-            setGroupId(null);
-            setIsGroupSettingsOpen(false);
           } else {
             add(group);
           }
@@ -58,12 +57,11 @@ const Stuff: NextPage = () => {
 
       <AddGroupItemModal
         isOpen={isGroupItemOpen}
-        onClose={() => setIsGroupItemOpen(false)}
-        onSubmit={(item) => {
-          addItem(groupId!, item);
+        onClose={() => {
           setIsGroupItemOpen(false);
           setGroupId(null);
         }}
+        onSubmit={(item) => addItem(groupId!, item)}
       />
 
       <GroupSettingsModal

@@ -1,0 +1,398 @@
+// Vitest Snapshot v1
+
+exports[`DayPicker > should render successfully 1`] = `
+<div>
+  <div
+    data-testid="day-picker"
+  >
+    <label
+      class="block text-sm font-medium text-neutral-700"
+    >
+      Day(s)
+    </label>
+    <div
+      class="flex justify-between items-center mt-2"
+    >
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none cursor-pointer"
+        data-testid="day-picker-option-monday"
+        for="MONDAY"
+        tabindex="0"
+      >
+        M
+        <input
+          class="sr-only"
+          id="MONDAY"
+          name="MONDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none cursor-pointer"
+        data-testid="day-picker-option-tuesday"
+        for="TUESDAY"
+        tabindex="0"
+      >
+        T
+        <input
+          class="sr-only"
+          id="TUESDAY"
+          name="TUESDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none cursor-pointer"
+        data-testid="day-picker-option-wednesday"
+        for="WEDNESDAY"
+        tabindex="0"
+      >
+        W
+        <input
+          class="sr-only"
+          id="WEDNESDAY"
+          name="WEDNESDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none cursor-pointer"
+        data-testid="day-picker-option-thursday"
+        for="THURSDAY"
+        tabindex="0"
+      >
+        T
+        <input
+          class="sr-only"
+          id="THURSDAY"
+          name="THURSDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none cursor-pointer"
+        data-testid="day-picker-option-friday"
+        for="FRIDAY"
+        tabindex="0"
+      >
+        F
+        <input
+          class="sr-only"
+          id="FRIDAY"
+          name="FRIDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none cursor-pointer"
+        data-testid="day-picker-option-saturday"
+        for="SATURDAY"
+        tabindex="0"
+      >
+        S
+        <input
+          class="sr-only"
+          id="SATURDAY"
+          name="SATURDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none cursor-pointer"
+        data-testid="day-picker-option-sunday"
+        for="SUNDAY"
+        tabindex="0"
+      >
+        S
+        <input
+          class="sr-only"
+          id="SUNDAY"
+          name="SUNDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DayPicker > should render successfully 2`] = `
+<div>
+  <div
+    data-testid="day-picker"
+  >
+    <label
+      class="block text-sm font-medium text-neutral-700"
+    >
+      Day(s)
+    </label>
+    <div
+      class="flex justify-between items-center mt-2"
+    >
+      <label
+        aria-checked="true"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none bg-black border-black cursor-pointer text-white"
+        data-testid="day-picker-option-monday"
+        for="MONDAY"
+        tabindex="0"
+      >
+        M
+        <input
+          class="sr-only"
+          id="MONDAY"
+          name="MONDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none cursor-pointer"
+        data-testid="day-picker-option-tuesday"
+        for="TUESDAY"
+        tabindex="0"
+      >
+        T
+        <input
+          class="sr-only"
+          id="TUESDAY"
+          name="TUESDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none cursor-pointer"
+        data-testid="day-picker-option-wednesday"
+        for="WEDNESDAY"
+        tabindex="0"
+      >
+        W
+        <input
+          class="sr-only"
+          id="WEDNESDAY"
+          name="WEDNESDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none cursor-pointer"
+        data-testid="day-picker-option-thursday"
+        for="THURSDAY"
+        tabindex="0"
+      >
+        T
+        <input
+          class="sr-only"
+          id="THURSDAY"
+          name="THURSDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none cursor-pointer"
+        data-testid="day-picker-option-friday"
+        for="FRIDAY"
+        tabindex="0"
+      >
+        F
+        <input
+          class="sr-only"
+          id="FRIDAY"
+          name="FRIDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none cursor-pointer"
+        data-testid="day-picker-option-saturday"
+        for="SATURDAY"
+        tabindex="0"
+      >
+        S
+        <input
+          class="sr-only"
+          id="SATURDAY"
+          name="SATURDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none cursor-pointer"
+        data-testid="day-picker-option-sunday"
+        for="SUNDAY"
+        tabindex="0"
+      >
+        S
+        <input
+          class="sr-only"
+          id="SUNDAY"
+          name="SUNDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DayPicker > shouldn't be selectable when disabled 1`] = `
+<div>
+  <div
+    data-testid="day-picker"
+  >
+    <label
+      class="block text-sm font-medium text-neutral-700"
+    >
+      Day(s)
+    </label>
+    <div
+      class="flex justify-between items-center mt-2"
+    >
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none bg-neutral-100 text-neutral-500"
+        data-testid="day-picker-option-monday"
+        for="MONDAY"
+        tabindex="-1"
+      >
+        M
+        <input
+          class="sr-only"
+          disabled=""
+          id="MONDAY"
+          name="MONDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none bg-neutral-100 text-neutral-500"
+        data-testid="day-picker-option-tuesday"
+        for="TUESDAY"
+        tabindex="-1"
+      >
+        T
+        <input
+          class="sr-only"
+          disabled=""
+          id="TUESDAY"
+          name="TUESDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none bg-neutral-100 text-neutral-500"
+        data-testid="day-picker-option-wednesday"
+        for="WEDNESDAY"
+        tabindex="-1"
+      >
+        W
+        <input
+          class="sr-only"
+          disabled=""
+          id="WEDNESDAY"
+          name="WEDNESDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none bg-neutral-100 text-neutral-500"
+        data-testid="day-picker-option-thursday"
+        for="THURSDAY"
+        tabindex="-1"
+      >
+        T
+        <input
+          class="sr-only"
+          disabled=""
+          id="THURSDAY"
+          name="THURSDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none bg-neutral-100 text-neutral-500"
+        data-testid="day-picker-option-friday"
+        for="FRIDAY"
+        tabindex="-1"
+      >
+        F
+        <input
+          class="sr-only"
+          disabled=""
+          id="FRIDAY"
+          name="FRIDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none bg-neutral-100 text-neutral-500"
+        data-testid="day-picker-option-saturday"
+        for="SATURDAY"
+        tabindex="-1"
+      >
+        S
+        <input
+          class="sr-only"
+          disabled=""
+          id="SATURDAY"
+          name="SATURDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+      <label
+        aria-checked="false"
+        class="rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none bg-neutral-100 text-neutral-500"
+        data-testid="day-picker-option-sunday"
+        for="SUNDAY"
+        tabindex="-1"
+      >
+        S
+        <input
+          class="sr-only"
+          disabled=""
+          id="SUNDAY"
+          name="SUNDAY"
+          tabindex="-1"
+          type="checkbox"
+        />
+      </label>
+    </div>
+  </div>
+</div>
+`;

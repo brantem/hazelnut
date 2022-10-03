@@ -14,7 +14,7 @@ beforeEach(() => {
 test('RoutineSettingsModal', async () => {
   const { result } = renderHook(() => useRoutinesStore());
   const remove = vi.spyOn(result.current, 'remove').mockImplementation(() => {});
-  act(() => result.current.add({ id: 'routine-1', title: 'Routine 1', color: 'red' } as any));
+  act(() => result.current.add({ id: 'routine-1', title: 'Routine 1', color: 'red', days: ['MONDAY'] } as any));
 
   const onClose = vi.fn(() => {});
   const onEditClick = vi.fn(() => {});

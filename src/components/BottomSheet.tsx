@@ -4,7 +4,7 @@ import { Transition, Dialog } from '@headlessui/react';
 export type BottomSheetProps = {
   isOpen: boolean;
   onClose: () => void;
-  title?: string;
+  title?: React.ReactNode;
   children: React.ReactNode;
 };
 

@@ -12,7 +12,12 @@ const Routine = ({ routine, onSettingsClick }: RoutineProps) => {
   return (
     <div className={`px-4 py-3 bg-${routine.color}-50`} data-testid="routine-card">
       <div className="flex justify-between items-center space-x-3">
-        <h3 className={`uppercase text-sm font-semibold text-${routine.color}-600 truncate`}>{routine.title}</h3>
+        <div className="flex items-center space-x-3 max-w-[440px]">
+          <h3 className={`uppercase text-sm font-semibold text-${routine.color}-600 truncate`}>{routine.title} </h3>
+          <span className={`font-medium text-sm text-${routine.color}-400 ml-2 tabular-nums flex-shrink-0`}>
+            {routine.time}
+          </span>
+        </div>
 
         <div className="flex items-center space-x-1 flex-shrink-0">
           <button

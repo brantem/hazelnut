@@ -24,14 +24,16 @@ const AddGroupItemModal = ({ isOpen, onClose, onSubmit }: AddGroupItemModalProps
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose} title="Add Item" data-testid="add-group-item-modal">
       <form onSubmit={formik.handleSubmit}>
-        <Input
-          label="Title"
-          name="title"
-          value={formik.values.title}
-          onChange={formik.handleChange}
-          disabled={formik.isSubmitting}
-          required
-        />
+        <div className="px-4 py-3">
+          <Input
+            label="Title"
+            name="title"
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            disabled={formik.isSubmitting}
+            required
+          />
+        </div>
 
         <div className="bg-neutral-50 px-4 py-3">
           <button

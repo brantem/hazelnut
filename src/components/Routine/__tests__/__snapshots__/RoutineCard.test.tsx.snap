@@ -9,11 +9,19 @@ exports[`RoutineCard 1`] = `
     <div
       class="flex justify-between items-center space-x-3"
     >
-      <h3
-        class="uppercase text-sm font-semibold text-red-600 truncate"
+      <div
+        class="flex items-center space-x-3 max-w-[440px]"
       >
-        Routine 1
-      </h3>
+        <h3
+          class="uppercase text-sm font-semibold text-red-600 truncate"
+        >
+          Routine 1
+           
+        </h3>
+        <span
+          class="font-medium text-sm text-red-400 ml-2 tabular-nums flex-shrink-0"
+        />
+      </div>
       <div
         class="flex items-center space-x-1 flex-shrink-0"
       >
