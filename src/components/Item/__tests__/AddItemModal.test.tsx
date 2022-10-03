@@ -1,7 +1,9 @@
-import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, act, fireEvent, waitFor, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import AddGroupItemModal from 'components/Group/GroupItem/AddGroupItemModal';
+import AddItemModal from 'components/Item/AddItemModal';
+
+import { useItemsStore } from 'lib/stores';
 
 beforeEach(() => {
   const mockIntersectionObserver = vi.fn();
@@ -9,10 +11,12 @@ beforeEach(() => {
   window.IntersectionObserver = mockIntersectionObserver;
 });
 
-test('AddGroupItemModal', async () => {
+test('AddItemModal', async () => {
+  const { result } = renderHook(() => useItemsStore());
+  const add = vi.spyOn(result.current, 'add');
+
   const onClose = vi.fn(() => {});
-  const onSubmit = vi.fn(() => {});
-  render(<AddGroupItemModal isOpen onClose={onClose} onSubmit={onSubmit} />);
+  render(<AddItemModal groupId="group-1" isOpen onClose={onClose} />);
 
   act(() => {
     fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Item 1' } });
@@ -20,6 +24,6 @@ test('AddGroupItemModal', async () => {
   });
   await waitFor(() => new Promise((res) => setTimeout(res, 0)));
   const values = { title: 'Item 1' };
-  expect(onSubmit).toHaveBeenCalledWith(values);
+  expect(add).toHaveBeenCalledWith('group-1', values);
   expect(onClose).toHaveBeenCalled();
 });

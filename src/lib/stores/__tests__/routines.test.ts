@@ -20,9 +20,12 @@ test('useRoutinesStore', () => {
 
   // edit
   act(() => result.current.edit('routine-1', { title: 'Routine 1a', color: 'orange' }));
-  expect(result.current.routines[0]).toEqual({ id: 'routine-1', title: 'Routine 1a', color: 'orange' });
+  expect(result.current.routines).toEqual([
+    { id: 'routine-1', title: 'Routine 1a', color: 'orange' },
+    { id: 'routine-2', title: 'Routine 2', color: 'amber' },
+  ]);
 
   // remove
-  act(() => result.current.remove(result.current.routines[1].id));
-  expect(result.current.routines).toHaveLength(1);
+  act(() => result.current.remove('routine-1'));
+  expect(result.current.routines).toEqual([{ id: 'routine-2', title: 'Routine 2', color: 'amber' }]);
 });

@@ -1,7 +1,9 @@
-import { act, render, screen, fireEvent, waitFor, within } from '@testing-library/react';
+import { act, render, screen, fireEvent, waitFor, within, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import Stuff from 'pages/stuff';
+
+import { useItemsStore } from 'lib/stores';
 
 vi.mock('next/router', () => ({
   useRouter() {
@@ -18,6 +20,9 @@ beforeEach(() => {
 });
 
 test('Stuff', async () => {
+  const { result } = renderHook(() => useItemsStore());
+  act(() => result.current.add('group-1', { title: 'Item 1' }));
+
   const { container } = render(<Stuff />);
 
   expect(container).toMatchSnapshot();

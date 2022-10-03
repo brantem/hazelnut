@@ -3,19 +3,21 @@ import { useFormik } from 'formik';
 import BottomSheet, { BottomSheetProps } from 'components/BottomSheet';
 import Input from 'components/Input';
 
-import { GroupItem } from 'types/group';
+import { Item } from 'types/item';
+import { useItemsStore } from 'lib/stores';
 
-type Values = Pick<GroupItem, 'title'>;
+type Values = Pick<Item, 'title'>;
 
-type AddGroupItemModalProps = Pick<BottomSheetProps, 'isOpen' | 'onClose'> & {
-  onSubmit: (values: Values) => void;
+type AddItemModalProps = Pick<BottomSheetProps, 'isOpen' | 'onClose'> & {
+  groupId: string;
 };
 
-const AddGroupItemModal = ({ isOpen, onClose, onSubmit }: AddGroupItemModalProps) => {
+const AddItemModal = ({ groupId, isOpen, onClose }: AddItemModalProps) => {
+  const { add } = useItemsStore();
   const formik = useFormik<Values>({
     initialValues: { title: '' },
     onSubmit: async (values, { resetForm }) => {
-      await onSubmit(values);
+      await add(groupId, values);
       resetForm();
       onClose();
     },
@@ -49,4 +51,4 @@ const AddGroupItemModal = ({ isOpen, onClose, onSubmit }: AddGroupItemModalProps
   );
 };
 
-export default AddGroupItemModal;
+export default AddItemModal;

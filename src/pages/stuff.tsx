@@ -4,7 +4,7 @@ import type { NextPage } from 'next';
 import Layout from 'components/Layout';
 import GroupCard from 'components/Group/GroupCard';
 import SaveGroupModal from 'components/Group/SaveGroupModal';
-import AddGroupItemModal from 'components/Group/GroupItem/AddGroupItemModal';
+import AddItemModal from 'components/Item/AddItemModal';
 import GroupSettingsModal from 'components/Group/GroupSettingsModal';
 
 import { useGroupsStore } from 'lib/stores';
@@ -13,7 +13,7 @@ const Stuff: NextPage = () => {
   const [isGroupOpen, setIsGroupOpen] = useState(false);
   const [isGroupItemOpen, setIsGroupItemOpen] = useState(false);
   const [isGroupSettingsOpen, setIsGroupSettingsOpen] = useState(false);
-  const { groups, add, addItem, edit } = useGroupsStore();
+  const { groups, add, edit } = useGroupsStore();
 
   const [groupId, setGroupId] = useState<string | null>(null);
 
@@ -55,13 +55,13 @@ const Stuff: NextPage = () => {
         }}
       />
 
-      <AddGroupItemModal
+      <AddItemModal
+        groupId={groupId!}
         isOpen={isGroupItemOpen}
         onClose={() => {
           setIsGroupItemOpen(false);
           setGroupId(null);
         }}
-        onSubmit={(item) => addItem(groupId!, item)}
       />
 
       <GroupSettingsModal

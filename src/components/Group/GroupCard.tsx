@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import DeleteButton from 'components/DeleteButton';
 
-import { useGroupsStore } from 'lib/stores';
+import { useItemsStore } from 'lib/stores';
 import type { Group } from 'types/group';
 
 type GroupCardProps = {
@@ -14,7 +14,8 @@ type GroupCardProps = {
 };
 
 const GroupCard = ({ group, onAddItemClick, onSettingsClick }: GroupCardProps) => {
-  const { removeItem } = useGroupsStore();
+  const items = useItemsStore((state) => state.items.filter((item) => item.groupId === group.id));
+  const { remove } = useItemsStore();
 
   return (
     <div className={`px-4 py-3 bg-${group.color}-50`} data-testid="group-card">
@@ -39,9 +40,9 @@ const GroupCard = ({ group, onAddItemClick, onSettingsClick }: GroupCardProps) =
         </div>
       </div>
 
-      {group.items.length ? (
+      {items.length ? (
         <ol className="space-y-1 pt-2 pb-1" data-testid="group-card-items">
-          {group.items.map((item) => (
+          {items.map((item) => (
             <li
               data-testid="group-card-items-item"
               key={item.id}
@@ -54,7 +55,7 @@ const GroupCard = ({ group, onAddItemClick, onSettingsClick }: GroupCardProps) =
                   clsx(`hover:bg-red-100 text-red-500 text-sm`, isClicked ? 'px-2 py-1.5' : 'p-1.5')
                 }
                 text={<MinusCircleIcon className="h-5 w-5" />}
-                onConfirm={() => removeItem(group.id, item.id)}
+                onConfirm={() => remove(item.id)}
               />
             </li>
           ))}
