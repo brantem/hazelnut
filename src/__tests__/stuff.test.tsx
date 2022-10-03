@@ -44,13 +44,13 @@ test('Stuff', async () => {
   // add item
   {
     act(() => screen.getByText('Add Item').click());
-    expect(screen.getByTestId('add-group-item-modal')).toBeInTheDocument();
+    expect(screen.getByTestId('add-item-modal')).toBeInTheDocument();
     act(() => {
       fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Item 1' } });
       screen.getByText('Add').click();
     });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
-    expect(screen.queryByTestId('add-group-item-modal')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('add-item-modal')).not.toBeInTheDocument();
     expect(screen.getByTestId('group-card-items-item').textContent).toEqual('Item 1');
   }
 

@@ -1,30 +1,34 @@
 import { useFormik } from 'formik';
 
-import BottomSheet, { BottomSheetProps } from 'components/BottomSheet';
+import BottomSheet from 'components/BottomSheet';
 import Input from 'components/Input';
 
 import { Item } from 'types/item';
-import { useItemsStore } from 'lib/stores';
+import { useItemsStore, useItemStore } from 'lib/stores';
 
 type Values = Pick<Item, 'title'>;
 
-type AddItemModalProps = Pick<BottomSheetProps, 'isOpen' | 'onClose'> & {
-  groupId: string;
-};
-
-const AddItemModal = ({ groupId, isOpen, onClose }: AddItemModalProps) => {
+const AddItemModal = () => {
   const { add } = useItemsStore();
+  const { groupId, clear, isAddOpen, hide } = useItemStore();
+
   const formik = useFormik<Values>({
     initialValues: { title: '' },
     onSubmit: async (values, { resetForm }) => {
-      await add(groupId, values);
+      await add(groupId!, values);
       resetForm();
-      onClose();
+      hide();
     },
   });
 
   return (
-    <BottomSheet isOpen={isOpen} onClose={onClose} title="Add Item" data-testid="add-group-item-modal">
+    <BottomSheet
+      isOpen={isAddOpen}
+      onClose={hide}
+      title="Add Item"
+      data-testid="add-item-modal"
+      afterLeave={() => clear()}
+    >
       <form onSubmit={formik.handleSubmit}>
         <div className="px-4 py-3">
           <Input

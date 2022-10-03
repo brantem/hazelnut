@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 
 import GroupCard from 'components/Group/GroupCard';
 
-import { useGroupsStore, useItemsStore } from 'lib/stores';
+import { useGroupsStore, useItemsStore, useItemStore } from 'lib/stores';
 
 describe('GroupCard', () => {
   beforeEach(() => {
@@ -17,21 +17,19 @@ describe('GroupCard', () => {
   });
 
   it('should render successfully', () => {
-    const onAddItemClick = vi.fn(() => {});
+    const { result } = renderHook(() => useItemStore());
+    const showAdd = vi.spyOn(result.current, 'showAdd').mockImplementation(() => {});
+
     const onSettingsClick = vi.fn(() => {});
     const { container } = render(
-      <GroupCard
-        group={{ id: 'group-1', title: 'Group 1', color: 'red' }}
-        onAddItemClick={onAddItemClick}
-        onSettingsClick={onSettingsClick}
-      />,
+      <GroupCard group={{ id: 'group-1', title: 'Group 1', color: 'red' }} onSettingsClick={onSettingsClick} />,
     );
 
     expect(container).toMatchSnapshot();
     expect(screen.getAllByTestId('group-card-items-item')).toHaveLength(1);
 
     act(() => screen.getByText('Add Item').click());
-    expect(onAddItemClick).toHaveBeenCalled();
+    expect(showAdd).toHaveBeenCalledWith('group-1');
 
     act(() => screen.getByTestId('group-card-settings').click());
     expect(onSettingsClick).toHaveBeenCalled();
@@ -42,11 +40,7 @@ describe('GroupCard', () => {
     act(() => items.result.current.remove('item-1'));
 
     const { container } = render(
-      <GroupCard
-        group={{ id: 'group-1', title: 'Group 1', color: 'red' }}
-        onAddItemClick={() => {}}
-        onSettingsClick={() => {}}
-      />,
+      <GroupCard group={{ id: 'group-1', title: 'Group 1', color: 'red' }} onSettingsClick={() => {}} />,
     );
 
     expect(container).toMatchSnapshot();
@@ -60,17 +54,13 @@ describe('GroupCard', () => {
     const groups = renderHook(() => useGroupsStore());
     act(() => groups.result.current.add({ id: 'group-1', title: 'Group 1', color: 'red' } as any));
 
-    const { rerender } = render(
-      <GroupCard group={groups.result.current.groups[0]} onAddItemClick={() => {}} onSettingsClick={() => {}} />,
-    );
+    const { rerender } = render(<GroupCard group={groups.result.current.groups[0]} onSettingsClick={() => {}} />);
 
     expect(screen.getByTestId('group-card-items-item')).toBeInTheDocument();
     act(() => screen.getByTestId('delete-button').click());
     act(() => screen.getByTestId('delete-button-confirm').click());
     expect(remove).toHaveBeenCalledWith('item-1');
-    rerender(
-      <GroupCard group={groups.result.current.groups[0]} onAddItemClick={() => {}} onSettingsClick={() => {}} />,
-    );
+    rerender(<GroupCard group={groups.result.current.groups[0]} onSettingsClick={() => {}} />);
     expect(screen.queryByTestId('group-card-items-item')).not.toBeInTheDocument();
   });
 });

@@ -11,7 +11,6 @@ import { useGroupsStore } from 'lib/stores';
 
 const Stuff: NextPage = () => {
   const [isGroupOpen, setIsGroupOpen] = useState(false);
-  const [isGroupItemOpen, setIsGroupItemOpen] = useState(false);
   const [isGroupSettingsOpen, setIsGroupSettingsOpen] = useState(false);
   const { groups, add, edit } = useGroupsStore();
 
@@ -25,10 +24,6 @@ const Stuff: NextPage = () => {
             <GroupCard
               key={i}
               group={group}
-              onAddItemClick={() => {
-                setGroupId(group.id);
-                setIsGroupItemOpen(true);
-              }}
               onSettingsClick={() => {
                 setGroupId(group.id);
                 setIsGroupSettingsOpen(true);
@@ -55,14 +50,7 @@ const Stuff: NextPage = () => {
         }}
       />
 
-      <AddItemModal
-        groupId={groupId!}
-        isOpen={isGroupItemOpen}
-        onClose={() => {
-          setIsGroupItemOpen(false);
-          setGroupId(null);
-        }}
-      />
+      <AddItemModal />
 
       <GroupSettingsModal
         isOpen={isGroupSettingsOpen}

@@ -4,18 +4,18 @@ import clsx from 'clsx';
 
 import DeleteButton from 'components/DeleteButton';
 
-import { useItemsStore } from 'lib/stores';
+import { useItemsStore, useItemStore } from 'lib/stores';
 import type { Group } from 'types/group';
 
 type GroupCardProps = {
   group: Group;
-  onAddItemClick: () => void;
   onSettingsClick: () => void;
 };
 
-const GroupCard = ({ group, onAddItemClick, onSettingsClick }: GroupCardProps) => {
+const GroupCard = ({ group, onSettingsClick }: GroupCardProps) => {
   const items = useItemsStore((state) => state.items.filter((item) => item.groupId === group.id));
   const { remove } = useItemsStore();
+  const { showAdd } = useItemStore();
 
   return (
     <div className={`px-4 py-3 bg-${group.color}-50`} data-testid="group-card">
@@ -25,7 +25,7 @@ const GroupCard = ({ group, onAddItemClick, onSettingsClick }: GroupCardProps) =
         <div className="flex items-center space-x-1 flex-shrink-0">
           <button
             className={`px-2 py-1 text-sm rounded-md hover:bg-${group.color}-100 flex-shrink-0`}
-            onClick={onAddItemClick}
+            onClick={() => showAdd(group.id)}
           >
             Add Item
           </button>
