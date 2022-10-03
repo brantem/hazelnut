@@ -7,7 +7,7 @@ exports[`Nav 1`] = `
   >
     <a
       aria-current="page"
-      class="flex-1 px-4 py-3 font-medium text-center flex items-center justify-center bg-black text-white"
+      class="flex-1 px-4 py-3 font-medium text-center flex items-center justify-center"
       href="/"
     >
       <div
@@ -30,11 +30,6 @@ exports[`Nav 1`] = `
       >
         <span />
       </div>
-      <span
-        class="ml-2"
-      >
-        B
-      </span>
     </a>
   </nav>
 </div>

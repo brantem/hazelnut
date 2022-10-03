@@ -23,5 +23,5 @@ test('Nav', () => {
 
   expect(container).toMatchSnapshot();
   expect(screen.getByText('A').parentNode).toHaveAttribute('aria-current', 'page');
-  expect(screen.getByText('B').parentNode).not.toHaveAttribute('aria-current');
+  expect(screen.queryByText('B')).not.toBeInTheDocument();
 });

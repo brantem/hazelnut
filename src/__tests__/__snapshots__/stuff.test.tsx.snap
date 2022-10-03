@@ -52,7 +52,7 @@ exports[`Stuff 1`] = `
   >
     <a
       aria-current="page"
-      class="flex-1 px-4 py-3 font-medium text-center flex items-center justify-center bg-black text-white"
+      class="flex-1 px-4 py-3 font-medium text-center flex items-center justify-center"
       href="/"
     >
       <div
@@ -103,11 +103,6 @@ exports[`Stuff 1`] = `
           />
         </svg>
       </div>
-      <span
-        class="ml-2"
-      >
-        Routines
-      </span>
     </a>
     <a
       class="flex-1 px-4 py-3 font-medium text-center flex items-center justify-center"
@@ -132,11 +127,6 @@ exports[`Stuff 1`] = `
           />
         </svg>
       </div>
-      <span
-        class="ml-2"
-      >
-        Stuff
-      </span>
     </a>
   </nav>
 </div>
@@ -194,7 +184,7 @@ exports[`Stuff 2`] = `
   >
     <a
       aria-current="page"
-      class="flex-1 px-4 py-3 font-medium text-center flex items-center justify-center bg-black text-white"
+      class="flex-1 px-4 py-3 font-medium text-center flex items-center justify-center"
       href="/"
     >
       <div
@@ -245,11 +235,6 @@ exports[`Stuff 2`] = `
           />
         </svg>
       </div>
-      <span
-        class="ml-2"
-      >
-        Routines
-      </span>
     </a>
     <a
       class="flex-1 px-4 py-3 font-medium text-center flex items-center justify-center"
@@ -274,11 +259,6 @@ exports[`Stuff 2`] = `
           />
         </svg>
       </div>
-      <span
-        class="ml-2"
-      >
-        Stuff
-      </span>
     </a>
   </nav>
 </div>

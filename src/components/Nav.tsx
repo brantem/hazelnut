@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import clsx from 'clsx';
 
 import { Navigation } from 'types/shared';
 
@@ -17,14 +16,11 @@ const NavItem = ({ icon, href, children }: NavItemProps) => {
   return (
     <Link href={href}>
       <a
-        className={clsx([
-          'flex-1 px-4 py-3 font-medium text-center flex items-center justify-center',
-          isActive && 'bg-black text-white',
-        ])}
+        className="flex-1 px-4 py-3 font-medium text-center flex items-center justify-center"
         aria-current={isActive ? 'page' : undefined}
       >
         <div className="h-6 w-6">{icon}</div>
-        <span className="ml-2">{children}</span>
+        {isActive && <span className="ml-2">{children}</span>}
       </a>
     </Link>
   );
