@@ -15,8 +15,10 @@ const routine: Routine = {
 describe('useRoutineStore', () => {
   beforeEach(() => {
     const { result } = renderHook(() => useRoutineStore());
-    result.current.hide();
-    result.current.clear();
+    act(() => {
+      result.current.hide();
+      result.current.clear();
+    });
   });
 
   it('open add modal', () => {

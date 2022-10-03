@@ -13,8 +13,10 @@ const group: Group = {
 describe('useGroupStore', () => {
   beforeEach(() => {
     const { result } = renderHook(() => useGroupStore());
-    result.current.hide();
-    result.current.clear();
+    act(() => {
+      result.current.hide();
+      result.current.clear();
+    });
   });
 
   it('open add modal', () => {

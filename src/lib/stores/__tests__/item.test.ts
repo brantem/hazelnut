@@ -6,7 +6,10 @@ import { useItemStore } from 'lib/stores';
 describe('useItemStore', () => {
   beforeEach(() => {
     const { result } = renderHook(() => useItemStore());
-    result.current.hide();
+    act(() => {
+      result.current.hide();
+      result.current.clear();
+    });
   });
 
   it('open add modal', () => {
