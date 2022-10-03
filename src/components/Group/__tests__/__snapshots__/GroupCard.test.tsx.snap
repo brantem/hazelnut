@@ -1,6 +1,50 @@
 // Vitest Snapshot v1
 
-exports[`GroupCard 1`] = `
+exports[`GroupCard > should render empty group 1`] = `
+<div>
+  <div
+    class="px-4 py-3 bg-red-50"
+    data-testid="group-card"
+  >
+    <div
+      class="flex justify-between items-center space-x-3"
+    >
+      <h3
+        class="uppercase text-sm font-semibold text-red-600 truncate"
+      >
+        Group 1
+      </h3>
+      <div
+        class="flex items-center space-x-1 flex-shrink-0"
+      >
+        <button
+          class="px-2 py-1 text-sm rounded-md hover:bg-red-100 flex-shrink-0"
+        >
+          Add Item
+        </button>
+        <button
+          class="p-1 rounded-md hover:bg-red-100"
+          data-testid="group-card-settings"
+        >
+          <svg
+            aria-hidden="true"
+            class="h-5 w-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM10 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM11.5 15.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GroupCard > should render successfully 1`] = `
 <div>
   <div
     class="px-4 py-3 bg-red-50"
@@ -42,8 +86,11 @@ exports[`GroupCard 1`] = `
     </div>
     <ol
       class="space-y-1 py-1"
+      data-testid="group-card-items"
     >
-      <li>
+      <li
+        data-testid="group-card-items-item"
+      >
         Item 1
       </li>
     </ol>

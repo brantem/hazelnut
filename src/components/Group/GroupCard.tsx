@@ -26,11 +26,15 @@ const Group = ({ group, onSettingsClick }: GroupProps) => {
         </div>
       </div>
 
-      <ol className="space-y-1 py-1">
-        {group.items.map((item, j) => (
-          <li key={j}>{item}</li>
-        ))}
-      </ol>
+      {group.items.length ? (
+        <ol className="space-y-1 py-1" data-testid="group-card-items">
+          {group.items.map((item, j) => (
+            <li data-testid="group-card-items-item" key={j}>
+              {item}
+            </li>
+          ))}
+        </ol>
+      ) : null}
     </div>
   );
 };
