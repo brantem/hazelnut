@@ -17,8 +17,6 @@ const GroupSettingsModal = ({ isOpen, onClose, groupId, onEditClick }: GroupSett
     return groups.find((group) => group.id === groupId);
   }, [groups, groupId]);
 
-  if (!group) return null;
-
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose} title={group?.title} data-testid="group-settings-modal">
       <div className="px-2 pb-3 flex flex-col">
