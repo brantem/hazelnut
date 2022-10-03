@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`RoutineCard 1`] = `
+exports[`RoutineCard > should render successfully 1`] = `
 <div>
   <div
     class="px-4 py-3 bg-red-50"
@@ -20,7 +20,9 @@ exports[`RoutineCard 1`] = `
         </h3>
         <span
           class="font-medium text-sm text-red-400 ml-2 tabular-nums flex-shrink-0"
-        />
+        >
+          00:00
+        </span>
       </div>
       <div
         class="flex items-center space-x-1 flex-shrink-0"

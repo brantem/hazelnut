@@ -16,7 +16,7 @@ const Routines: NextPage = () => {
       <Layout header={{ action: { text: 'Add Routine', onClick: () => showSave() } }}>
         <section className="space-y-3">
           {routines.map((routine, i) => (
-            <RoutineCard key={i} routine={routine} onSettingsClick={() => showSettings(routine)} />
+            <RoutineCard key={i} routine={routine} />
           ))}
         </section>
       </Layout>

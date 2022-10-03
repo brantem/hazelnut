@@ -1,14 +1,15 @@
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
+import { useRoutineStore } from 'lib/stores';
 
-import type { Routine as _Routine } from 'types/routine';
+import type { Routine } from 'types/routine';
 
 type RoutineProps = {
-  routine: _Routine;
-
-  onSettingsClick: () => void;
+  routine: Routine;
 };
 
-const Routine = ({ routine, onSettingsClick }: RoutineProps) => {
+const RoutineCard = ({ routine }: RoutineProps) => {
+  const { showSettings } = useRoutineStore();
+
   return (
     <div className={`px-4 py-3 bg-${routine.color}-50`} data-testid="routine-card">
       <div className="flex justify-between items-center space-x-3">
@@ -22,7 +23,7 @@ const Routine = ({ routine, onSettingsClick }: RoutineProps) => {
         <div className="flex items-center space-x-1 flex-shrink-0">
           <button
             className={`p-1 rounded-md hover:bg-${routine.color}-100`}
-            onClick={onSettingsClick}
+            onClick={() => showSettings(routine)}
             data-testid="routine-card-settings"
           >
             <EllipsisVerticalIcon className="h-5 w-5" />
@@ -33,4 +34,4 @@ const Routine = ({ routine, onSettingsClick }: RoutineProps) => {
   );
 };
 
-export default Routine;
+export default RoutineCard;
