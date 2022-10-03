@@ -6,7 +6,7 @@ const Days = ({ days = [] }: { days: Day[] }) => {
   if (!days.length) return null;
 
   return (
-    <div className="space-x-2">
+    <div className="space-x-2" data-testid="days">
       {days.length === 7 ? (
         <span>Everyday</span>
       ) : (

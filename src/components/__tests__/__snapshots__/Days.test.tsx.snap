@@ -1,9 +1,12 @@
 // Vitest Snapshot v1
 
+exports[`Days > should render null 1`] = `<div />`;
+
 exports[`Days > should show "Everyday" 1`] = `
 <div>
   <div
     class="space-x-2"
+    data-testid="days"
   >
     <span>
       Everyday
@@ -16,6 +19,7 @@ exports[`Days > should show only "M" 1`] = `
 <div>
   <div
     class="space-x-2"
+    data-testid="days"
   >
     <span
       class=""

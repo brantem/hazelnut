@@ -1,16 +1,16 @@
 import { Fragment } from 'react';
-import { Transition, Dialog } from '@headlessui/react';
+import { Transition, TransitionEvents, Dialog } from '@headlessui/react';
 
-export type BottomSheetProps = {
+export type BottomSheetProps = Pick<TransitionEvents, 'afterLeave'> & {
   isOpen: boolean;
   onClose: () => void;
   title?: React.ReactNode;
   children: React.ReactNode;
 };
 
-const BottomSheet = ({ isOpen, onClose, title, children, ...props }: BottomSheetProps) => {
+const BottomSheet = ({ isOpen, onClose, title, children, afterLeave, ...props }: BottomSheetProps) => {
   return (
-    <Transition show={isOpen} as={Fragment}>
+    <Transition show={isOpen} as={Fragment} afterLeave={afterLeave}>
       <Dialog onClose={onClose} className="relative inset-0 z-50" data-testid="bottom-sheet" {...props}>
         <Transition.Child
           enter="transition duration-100 ease-out"

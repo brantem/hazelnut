@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import type { NextPage } from 'next';
 
 import Layout from 'components/Layout';
@@ -6,58 +5,25 @@ import RoutineCard from 'components/Routine/RoutineCard';
 import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
-import { useRoutinesStore } from 'lib/stores';
+import { useRoutinesStore, useRoutineStore } from 'lib/stores';
 
 const Routines: NextPage = () => {
-  const [isRoutineOpen, setIsRoutineOpen] = useState(false);
-  const [isRoutineSettingsOpen, setIsRoutineSettingsOpen] = useState(false);
-  const { routines, add, edit } = useRoutinesStore();
-
-  const [routineId, setRoutineId] = useState<string | null>(null);
+  const { routines } = useRoutinesStore();
+  const { showSave, showSettings } = useRoutineStore();
 
   return (
     <>
-      <Layout header={{ action: { text: 'Add Routine', onClick: () => setIsRoutineOpen(true) } }}>
+      <Layout header={{ action: { text: 'Add Routine', onClick: () => showSave() } }}>
         <section className="space-y-3">
           {routines.map((routine, i) => (
-            <RoutineCard
-              key={i}
-              routine={routine}
-              onSettingsClick={() => {
-                setRoutineId(routine.id);
-                setIsRoutineSettingsOpen(true);
-              }}
-            />
+            <RoutineCard key={i} routine={routine} onSettingsClick={() => showSettings(routine)} />
           ))}
         </section>
       </Layout>
 
-      <SaveRoutineModal
-        isOpen={isRoutineOpen}
-        onClose={() => {
-          if (routineId) setRoutineId(null);
-          setIsRoutineOpen(false);
-          if (isRoutineSettingsOpen) setIsRoutineSettingsOpen(false);
-        }}
-        routineId={routineId}
-        onSubmit={(routine) => {
-          if (routineId) {
-            edit(routineId, routine);
-          } else {
-            add(routine);
-          }
-        }}
-      />
+      <SaveRoutineModal />
 
-      <RoutineSettingsModal
-        isOpen={isRoutineSettingsOpen}
-        onClose={() => {
-          setIsRoutineSettingsOpen(false);
-          setRoutineId(null);
-        }}
-        routineId={routineId!}
-        onEditClick={() => setIsRoutineOpen(true)}
-      />
+      <RoutineSettingsModal />
     </>
   );
 };

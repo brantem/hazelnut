@@ -1,28 +1,19 @@
-import { useMemo } from 'react';
 import { useFormik } from 'formik';
 
-import BottomSheet, { BottomSheetProps } from 'components/BottomSheet';
+import BottomSheet from 'components/BottomSheet';
 import Input from 'components/Input';
 import ColorPicker from 'components/ColorPicker';
 import DayPicker from 'components/DayPicker';
 
 import colors from 'data/colors';
-import { useRoutinesStore } from 'lib/stores';
+import { useRoutinesStore, useRoutineStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 
 type Values = Omit<Routine, 'id'>;
 
-type SaveRoutineModalProps = Pick<BottomSheetProps, 'isOpen' | 'onClose'> & {
-  routineId: string | null;
-  onSubmit: (values: Values) => void;
-};
-
-const SaveRoutineModal = ({ isOpen, onClose, routineId, onSubmit }: SaveRoutineModalProps) => {
-  const { routines } = useRoutinesStore();
-  const routine = useMemo(() => {
-    if (!routineId) return null;
-    return routines.find((routine) => routine.id === routineId);
-  }, [routines, routineId]);
+const SaveRoutineModal = () => {
+  const { routines, add, edit } = useRoutinesStore();
+  const { routine, clear, isSaveOpen, hide } = useRoutineStore();
 
   const formik = useFormik<Values>({
     initialValues: {
@@ -32,19 +23,25 @@ const SaveRoutineModal = ({ isOpen, onClose, routineId, onSubmit }: SaveRoutineM
       time: routine?.time || '',
     },
     onSubmit: async (values, { resetForm }) => {
-      await onSubmit(values);
+      if (routine) {
+        edit(routine?.id, values);
+      } else {
+        add(values);
+      }
+
       resetForm();
-      onClose();
+      hide();
     },
     enableReinitialize: true,
   });
 
   return (
     <BottomSheet
-      isOpen={isOpen}
-      onClose={onClose}
-      title={`${routineId ? 'Edit' : 'Add'} Routine`}
+      isOpen={isSaveOpen}
+      onClose={hide}
+      title={`${routine ? 'Edit' : 'Add'} Routine`}
       data-testid="save-routine-modal"
+      afterLeave={() => clear()}
     >
       <form onSubmit={formik.handleSubmit}>
         <div className="px-4 py-3 space-y-6">
@@ -85,7 +82,7 @@ const SaveRoutineModal = ({ isOpen, onClose, routineId, onSubmit }: SaveRoutineM
             className="rounded-md bg-black py-3 px-4 text-white enabled:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-500 w-full disabled:opacity-70"
             disabled={!formik.dirty || formik.isSubmitting}
           >
-            {routineId ? 'Save' : 'Add'}
+            {routine ? 'Save' : 'Add'}
           </button>
         </div>
       </form>

@@ -19,4 +19,11 @@ describe('Days', () => {
     expect(container).toMatchSnapshot();
     expect(screen.getByText('M'));
   });
+
+  it('should render null', () => {
+    const { container } = render(<Days days={[]} />);
+
+    expect(container).toMatchSnapshot();
+    expect(screen.queryByTestId('days')).not.toBeInTheDocument();
+  });
 });
