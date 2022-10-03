@@ -72,7 +72,7 @@ test('Stuff', async () => {
     const groupSettingsModal = screen.getByTestId('group-settings-modal');
     expect(groupSettingsModal).toBeInTheDocument();
     act(() => within(groupSettingsModal).getByText('Delete').click());
-    act(() => within(groupSettingsModal).getByText('Click to Confirm').click());
+    act(() => within(groupSettingsModal).getByText('Confirm').click());
     expect(screen.queryByTestId('group-settings-modal')).not.toBeInTheDocument();
     expect(screen.queryAllByTestId('group-card')).toHaveLength(0);
   }

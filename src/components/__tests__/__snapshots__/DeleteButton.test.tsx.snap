@@ -3,9 +3,10 @@
 exports[`DeleteButton > should render successfully 1`] = `
 <div>
   <button
-    class="rounded-md p-3 text-left hover:bg-neutral-100"
+    class="rounded-md text-left hover:bg-neutral-100 px-3 py-2"
+    data-testid="delete-button"
   >
-    Delete
+    A
   </button>
 </div>
 `;
@@ -13,9 +14,10 @@ exports[`DeleteButton > should render successfully 1`] = `
 exports[`DeleteButton > should render successfully 2`] = `
 <div>
   <button
-    class="rounded-md p-3 text-left text-red-500 hover:bg-red-50"
+    class="rounded-md text-left text-red-500 hover:bg-red-50 px-3 py-2"
+    data-testid="delete-button-confirm"
   >
-    Click to Confirm
+    B
   </button>
 </div>
 `;

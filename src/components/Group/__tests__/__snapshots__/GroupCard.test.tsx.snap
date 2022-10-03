@@ -85,13 +85,36 @@ exports[`GroupCard > should render successfully 1`] = `
       </div>
     </div>
     <ol
-      class="space-y-1 py-1"
+      class="space-y-1 pt-2 pb-1"
       data-testid="group-card-items"
     >
       <li
+        class="flex justify-between items-center"
         data-testid="group-card-items-item"
       >
-        Item 1
+        <span>
+          Item 1
+        </span>
+        <button
+          class="rounded-md text-left hover:bg-neutral-100 hover:bg-red-100 text-red-500 text-sm p-1.5"
+          data-testid="delete-button"
+        >
+          <svg
+            aria-hidden="true"
+            class="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
       </li>
     </ol>
   </div>

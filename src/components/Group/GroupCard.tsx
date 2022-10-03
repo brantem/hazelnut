@@ -1,14 +1,22 @@
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
+import { MinusCircleIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 
-import type { Group as _Group } from 'types/group';
+import DeleteButton from 'components/DeleteButton';
 
-type GroupProps = {
-  group: _Group;
+import { useGroupsStore } from 'lib/stores';
+
+import type { Group } from 'types/group';
+
+type GroupCardProps = {
+  group: Group;
   onAddItemClick: () => void;
   onSettingsClick: () => void;
 };
 
-const Group = ({ group, onAddItemClick, onSettingsClick }: GroupProps) => {
+const GroupCard = ({ group, onAddItemClick, onSettingsClick }: GroupCardProps) => {
+  const { removeItem } = useGroupsStore();
+
   return (
     <div className={`px-4 py-3 bg-${group.color}-50`} data-testid="group-card">
       <div className="flex justify-between items-center space-x-3">
@@ -33,10 +41,18 @@ const Group = ({ group, onAddItemClick, onSettingsClick }: GroupProps) => {
       </div>
 
       {group.items.length ? (
-        <ol className="space-y-1 py-1" data-testid="group-card-items">
+        <ol className="space-y-1 pt-2 pb-1" data-testid="group-card-items">
           {group.items.map((item) => (
-            <li data-testid="group-card-items-item" key={item.id}>
-              {item.title}
+            <li data-testid="group-card-items-item" key={item.id} className="flex justify-between items-center">
+              <span>{item.title}</span>
+
+              <DeleteButton
+                className={(isClicked) =>
+                  clsx(`hover:bg-red-100 text-red-500 text-sm`, isClicked ? 'px-2 py-1.5' : 'p-1.5')
+                }
+                text={<MinusCircleIcon className="h-5 w-5" />}
+                onConfirm={() => removeItem(group.id, item.id)}
+              />
             </li>
           ))}
         </ol>
@@ -45,4 +61,4 @@ const Group = ({ group, onAddItemClick, onSettingsClick }: GroupProps) => {
   );
 };
 
-export default Group;
+export default GroupCard;

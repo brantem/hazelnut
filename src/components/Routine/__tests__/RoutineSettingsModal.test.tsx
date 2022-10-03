@@ -23,7 +23,7 @@ test('RoutineSettingsModal', async () => {
   expect(onEditClick).toHaveBeenCalled();
 
   act(() => screen.getByText('Delete').click());
-  act(() => screen.getByText('Click to Confirm').click());
+  act(() => screen.getByText('Confirm').click());
   expect(remove).toHaveBeenCalled();
   expect(onClose).toHaveBeenCalled();
 });
