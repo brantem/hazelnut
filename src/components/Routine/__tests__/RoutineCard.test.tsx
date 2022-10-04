@@ -27,20 +27,25 @@ describe('RoutineCard', () => {
 
   it('should render successfully', () => {
     const { result } = renderHook(() => useRoutineStore());
+    const showSaveItems = vi.spyOn(result.current, 'showSaveItems').mockImplementation(() => {});
     const showSettings = vi.spyOn(result.current, 'showSettings').mockImplementation(() => {});
 
-    const { container } = render(<RoutineCard routine={routine} showSettingsButton />);
+    const { container } = render(<RoutineCard routine={routine} showAction />);
 
     expect(container).toMatchSnapshot();
+
+    act(() => screen.getByTestId('routine-card-items').click());
+    expect(showSaveItems).toHaveBeenCalledWith(routine);
 
     act(() => screen.getByTestId('routine-card-settings').click());
     expect(showSettings).toHaveBeenCalledWith(routine);
   });
 
-  it("shouldn't show settings button", () => {
+  it("shouldn't show action button", () => {
     const { container } = render(<RoutineCard routine={routine} />);
 
     expect(container).toMatchSnapshot();
+    expect(screen.queryByTestId('routine-card-items')).not.toBeInTheDocument();
     expect(screen.queryByTestId('routine-card-settings')).not.toBeInTheDocument();
   });
 });

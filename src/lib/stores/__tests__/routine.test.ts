@@ -35,6 +35,13 @@ describe('useRoutineStore', () => {
     expect(result.current.isSaveOpen).toEqual(true);
   });
 
+  it('show save items modal', () => {
+    const { result } = renderHook(() => useRoutineStore());
+    act(() => result.current.showSaveItems(routine));
+    expect(result.current.routine).toEqual(routine);
+    expect(result.current.isSaveItemsOpen).toEqual(true);
+  });
+
   it('show settings', () => {
     const { result } = renderHook(() => useRoutineStore());
     act(() => result.current.showSettings(routine));

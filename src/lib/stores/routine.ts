@@ -9,6 +9,9 @@ type RoutineState = {
   isSaveOpen: boolean;
   showSave: (routine?: Routine | null) => void;
 
+  isSaveItemsOpen: boolean;
+  showSaveItems: (routine?: Routine | null) => void;
+
   isSettingsOpen: boolean;
   showSettings: (routine: Routine) => void;
 
@@ -22,8 +25,11 @@ export const useRoutineStore = create<RoutineState>()((set) => ({
   isSaveOpen: false,
   showSave: (routine = null) => set((state) => ({ routine: routine || state.routine, isSaveOpen: true })),
 
+  isSaveItemsOpen: false,
+  showSaveItems: (routine = null) => set((state) => ({ routine: routine || state.routine, isSaveItemsOpen: true })),
+
   isSettingsOpen: false,
   showSettings: (routine) => set({ routine, isSettingsOpen: true }),
 
-  hide: () => set({ isSaveOpen: false, isSettingsOpen: false }),
+  hide: () => set({ isSaveOpen: false, isSaveItemsOpen: false, isSettingsOpen: false }),
 }));

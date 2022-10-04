@@ -28,6 +28,12 @@ exports[`RoutineCard > should render successfully 1`] = `
         class="flex items-center space-x-1 flex-shrink-0"
       >
         <button
+          class="px-2 py-1 text-sm rounded-md hover:bg-red-100 flex-shrink-0"
+          data-testid="routine-card-items"
+        >
+          Items
+        </button>
+        <button
           class="p-1 rounded-md hover:bg-red-100"
           data-testid="routine-card-settings"
         >
@@ -49,7 +55,7 @@ exports[`RoutineCard > should render successfully 1`] = `
 </div>
 `;
 
-exports[`RoutineCard > shouldn't show settings button 1`] = `
+exports[`RoutineCard > shouldn't show action button 1`] = `
 <div>
   <div
     class="px-4 py-3 bg-red-50"
