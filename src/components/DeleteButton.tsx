@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import clsx from 'clsx';
 
 type DeleteButtonProps = {
   className?: string | ((clicked: boolean) => string);
@@ -10,7 +9,7 @@ type DeleteButtonProps = {
 };
 
 const DeleteButton = ({
-  className = 'px-3 py-2',
+  className,
   text = 'Delete',
   confirmText = 'Confirm',
   timeout = 2000,
@@ -21,7 +20,8 @@ const DeleteButton = ({
   return !clicked ? (
     <button
       className={
-        (typeof className === 'function' ? className(false) : className) || 'rounded-md text-left hover:bg-neutral-100'
+        (typeof className === 'function' ? className(false) : className) ||
+        'rounded-md text-left hover:bg-neutral-100 px-3 py-2'
       }
       onClick={() => {
         setClicked(true);
@@ -35,7 +35,7 @@ const DeleteButton = ({
     <button
       className={
         (typeof className === 'function' ? className(true) : className) ||
-        'rounded-md text-left text-red-500 hover:bg-red-50'
+        'rounded-md text-left text-red-500 hover:bg-red-50 px-3 py-2'
       }
       onClick={onConfirm}
       data-testid="delete-button-confirm"

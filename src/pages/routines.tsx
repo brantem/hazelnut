@@ -9,7 +9,7 @@ import { useRoutinesStore, useRoutineStore } from 'lib/stores';
 
 const Routines: NextPage = () => {
   const { routines } = useRoutinesStore();
-  const { showSave, showSettings } = useRoutineStore();
+  const { showSave } = useRoutineStore();
 
   return (
     <>

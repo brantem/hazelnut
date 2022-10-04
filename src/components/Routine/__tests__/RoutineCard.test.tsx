@@ -17,7 +17,7 @@ const routine: Routine = {
 describe('RoutineCard', () => {
   beforeEach(() => {
     const items = renderHook(() => useItemsStore());
-    act(() => items.result.current.add('routine-1', { id: 'item-1', title: 'Item 1' } as any));
+    act(() => items.result.current.add('routine-1', { id: 'item-1', title: 'Item 1' } as Routine));
   });
 
   afterEach(() => {

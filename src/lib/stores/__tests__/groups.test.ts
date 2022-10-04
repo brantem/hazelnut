@@ -2,6 +2,7 @@ import { renderHook, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { useGroupsStore } from 'lib/stores';
+import { Group } from 'types/group';
 
 test('useGroupsStore', () => {
   const { result } = renderHook(() => useGroupsStore());
@@ -9,8 +10,8 @@ test('useGroupsStore', () => {
   // add
   expect(result.current.groups).toHaveLength(0);
   act(() => {
-    result.current.add({ id: 'group-1', title: 'Group 1', color: 'red' } as any);
-    result.current.add({ id: 'group-2', title: 'Group 2', color: 'amber' } as any);
+    result.current.add({ id: 'group-1', title: 'Group 1', color: 'red' } as Group);
+    result.current.add({ id: 'group-2', title: 'Group 2', color: 'amber' } as Group);
   });
   expect(result.current.groups).toEqual([
     { id: 'group-1', title: 'Group 1', color: 'red' },

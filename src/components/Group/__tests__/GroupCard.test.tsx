@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import GroupCard from 'components/Group/GroupCard';
 
 import { useGroupsStore, useGroupStore, useItemsStore, useItemStore } from 'lib/stores';
+import { Item } from 'types/item';
 import { Group } from 'types/group';
 
 const group: Group = {
@@ -15,7 +16,7 @@ const group: Group = {
 describe('GroupCard', () => {
   beforeEach(() => {
     const items = renderHook(() => useItemsStore());
-    act(() => items.result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as any));
+    act(() => items.result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as Item));
   });
 
   afterEach(() => {
@@ -57,7 +58,7 @@ describe('GroupCard', () => {
     const remove = vi.spyOn(items.result.current, 'remove');
 
     const groups = renderHook(() => useGroupsStore());
-    act(() => groups.result.current.add(group as any));
+    act(() => groups.result.current.add(group as Group));
 
     const { rerender } = render(<GroupCard group={groups.result.current.groups[0]} />);
 
