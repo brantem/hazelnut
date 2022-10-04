@@ -18,6 +18,7 @@ const routine: Routine = {
   color: 'red',
   days: ['MONDAY'],
   time: '00:00',
+  itemIds: [],
 };
 
 describe('RoutineSettingsModal', async () => {

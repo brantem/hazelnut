@@ -3,6 +3,7 @@ import type { NextPage } from 'next';
 import Layout from 'components/Layout';
 import RoutineCard from 'components/Routine/RoutineCard';
 import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
+import SaveItemsToRoutineModal from 'components/Item/SaveItemsToRoutineModal';
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
 import { useRoutinesStore, useRoutineStore } from 'lib/stores';
@@ -25,6 +26,8 @@ const Routines: NextPage = () => {
       </Layout>
 
       <SaveRoutineModal />
+
+      <SaveItemsToRoutineModal />
 
       <RoutineSettingsModal />
     </>

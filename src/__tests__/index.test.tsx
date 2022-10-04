@@ -29,6 +29,7 @@ const routine: Routine = {
   color: 'red',
   days: [getCurrentDay()],
   time: dayjs().format('HH:mm'),
+  itemIds: [],
 };
 
 describe('Home', () => {

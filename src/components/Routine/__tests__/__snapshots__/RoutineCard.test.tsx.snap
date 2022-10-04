@@ -63,6 +63,7 @@ exports[`RoutineCard > should render successfully 1`] = `
           class="w-full flex items-center"
         >
           <input
+            aria-checked="false"
             class="h-4 w-4 rounded border-red-300 text-red-600 focus:ring-red-500"
             id="routine-1-item-1"
             name="routine-1-item-1"
@@ -144,6 +145,7 @@ exports[`RoutineCard > should render successfully 2`] = `
           class="w-full flex items-center"
         >
           <input
+            aria-checked="false"
             class="h-4 w-4 rounded border-red-300 text-red-600 focus:ring-red-500"
             id="routine-1-item-1"
             name="routine-1-item-1"
@@ -199,6 +201,7 @@ exports[`RoutineCard > shouldn't show action button 1`] = `
           class="w-full flex items-center"
         >
           <input
+            aria-checked="false"
             class="h-4 w-4 rounded border-red-300 text-red-600 focus:ring-red-500"
             id="routine-1-item-1"
             name="routine-1-item-1"

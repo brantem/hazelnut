@@ -26,7 +26,7 @@ export const useRoutineStore = create<RoutineState>()((set) => ({
   showSave: (routine = null) => set((state) => ({ routine: routine || state.routine, isSaveOpen: true })),
 
   isSaveItemsOpen: false,
-  showSaveItems: (routine = null) => set((state) => ({ routine: routine || state.routine, isSaveItemsOpen: true })),
+  showSaveItems: (routine) => set({ routine, isSaveItemsOpen: true }),
 
   isSettingsOpen: false,
   showSettings: (routine) => set({ routine, isSettingsOpen: true }),
