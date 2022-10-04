@@ -51,9 +51,7 @@ const GroupCard = ({ group }: GroupCardProps) => {
               <span className="truncate">{item.title}</span>
 
               <DeleteButton
-                className={(isClicked) =>
-                  clsx(`hover:bg-red-100 text-red-500 text-sm`, isClicked ? 'px-2 py-1.5' : 'p-1.5')
-                }
+                className={(clicked) => clsx(`rounded-md hover:bg-red-100 text-red-500 text-sm p-1`, clicked && 'px-2')}
                 text={<MinusCircleIcon className="h-5 w-5" />}
                 onConfirm={() => remove(item.id)}
               />

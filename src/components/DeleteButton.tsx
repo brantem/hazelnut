@@ -2,7 +2,7 @@ import { useState } from 'react';
 import clsx from 'clsx';
 
 type DeleteButtonProps = {
-  className?: string | ((isClicked: boolean) => string);
+  className?: string | ((clicked: boolean) => string);
   text?: React.ReactNode;
   confirmText?: React.ReactNode;
   timeout?: number;
@@ -16,17 +16,16 @@ const DeleteButton = ({
   timeout = 2000,
   onConfirm,
 }: DeleteButtonProps) => {
-  const [isClicked, setIsClicked] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
-  return !isClicked ? (
+  return !clicked ? (
     <button
-      className={clsx(
-        'rounded-md text-left hover:bg-neutral-100',
-        typeof className === 'function' ? className(false) : className,
-      )}
+      className={
+        (typeof className === 'function' ? className(false) : className) || 'rounded-md text-left hover:bg-neutral-100'
+      }
       onClick={() => {
-        setIsClicked(true);
-        setTimeout(() => setIsClicked(false), timeout);
+        setClicked(true);
+        setTimeout(() => setClicked(false), timeout);
       }}
       data-testid="delete-button"
     >
@@ -34,10 +33,10 @@ const DeleteButton = ({
     </button>
   ) : (
     <button
-      className={clsx(
-        'rounded-md text-left text-red-500 hover:bg-red-50',
-        typeof className === 'function' ? className(true) : className,
-      )}
+      className={
+        (typeof className === 'function' ? className(true) : className) ||
+        'rounded-md text-left text-red-500 hover:bg-red-50'
+      }
       onClick={onConfirm}
       data-testid="delete-button-confirm"
     >
