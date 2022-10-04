@@ -7,8 +7,13 @@ exports[`ItemList > should render successfully 1`] = `
     data-testid="routine-card-items"
   >
     <li
-      class="flex items-center justify-between space-x-3"
+      aria-describedby="DndDescribedBy-0"
+      aria-disabled="false"
+      aria-roledescription="sortable"
+      class="flex h-7 items-center justify-between space-x-2"
       data-testid="routine-card-items-item"
+      role="button"
+      tabindex="0"
     >
       <div
         class="flex w-full items-center"
@@ -29,5 +34,22 @@ exports[`ItemList > should render successfully 1`] = `
       </div>
     </li>
   </ol>
+  <div
+    id="DndDescribedBy-0"
+    style="display: none;"
+  >
+    
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="DndLiveRegion-0"
+    role="status"
+    style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+  />
 </div>
 `;

@@ -12,10 +12,11 @@ export default defineConfig({
     environment: 'jsdom',
     coverage: {
       provider: 'c8',
-      all: true,
-      skipFull: true,
+      cleanOnRerun: true,
       include: ['src'],
       exclude: ['**/__mocks__', '**/types', '**/__tests__', 'src/pages/_*.tsx'],
+      skipFull: true,
+      all: true,
     },
   },
   resolve: {

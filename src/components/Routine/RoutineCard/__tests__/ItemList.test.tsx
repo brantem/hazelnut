@@ -31,4 +31,6 @@ describe('ItemList', () => {
     expect(screen.getByText('Item 1')).toBeInTheDocument();
     expect(screen.queryByText('Item 2')).not.toBeInTheDocument();
   });
+
+  // TODO: test onDragStart, onDragEnd, onDragCancel
 });

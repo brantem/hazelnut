@@ -27,6 +27,13 @@ describe('RoutineCard', () => {
   });
 
   it('should render successfully', () => {
+    const { container } = render(<RoutineCard routine={routine} />);
+
+    expect(container).toMatchSnapshot();
+    expect(screen.getAllByTestId('routine-card-items-item')).toHaveLength(1);
+  });
+
+  it('should show action button', () => {
     const { result } = renderHook(() => useRoutineStore());
     const showSaveItems = vi.spyOn(result.current, 'showSaveItems').mockImplementation(() => {});
     const showSettings = vi.spyOn(result.current, 'showSettings').mockImplementation(() => {});
@@ -34,10 +41,6 @@ describe('RoutineCard', () => {
     const { container } = render(<RoutineCard routine={routine} showAction />);
 
     expect(container).toMatchSnapshot();
-
-    expect(container).toMatchSnapshot();
-    expect(screen.getAllByTestId('routine-card-items-item')).toHaveLength(1);
-
     act(() => screen.getByTestId('routine-card-save-items').click());
     expect(showSaveItems).toHaveBeenCalledWith(routine);
 
@@ -45,11 +48,10 @@ describe('RoutineCard', () => {
     expect(showSettings).toHaveBeenCalledWith(routine);
   });
 
-  it("shouldn't show action button", () => {
-    const { container } = render(<RoutineCard routine={routine} />);
+  it('should show action button', () => {
+    const { container } = render(<RoutineCard routine={routine} isItemDraggable />);
 
     expect(container).toMatchSnapshot();
-    expect(screen.queryByTestId('routine-card-save-items')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('routine-card-settings')).not.toBeInTheDocument();
+    expect(screen.getByTestId('routine-card-items-item-handle')).toBeInTheDocument();
   });
 });

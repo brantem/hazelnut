@@ -8,9 +8,10 @@ import type { Routine } from 'types/routine';
 type RoutineProps = {
   routine: Routine;
   showAction?: boolean;
+  isItemDraggable?: boolean;
 };
 
-const RoutineCard = ({ routine, showAction }: RoutineProps) => {
+const RoutineCard = ({ routine, showAction, isItemDraggable = false }: RoutineProps) => {
   const { showSaveItems, showSettings } = useRoutineStore();
 
   return (
@@ -44,7 +45,7 @@ const RoutineCard = ({ routine, showAction }: RoutineProps) => {
         )}
       </div>
 
-      <ItemList routine={routine} />
+      <ItemList routine={routine} isDraggable={isItemDraggable} />
     </div>
   );
 };

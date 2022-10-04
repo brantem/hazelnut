@@ -18,7 +18,7 @@ describe('DayPicker', () => {
     expect(option).toHaveAttribute('aria-checked', 'true');
     expect(container).toMatchSnapshot();
 
-    // test space
+    // TODO: test space
   });
 
   it("shouldn't be selectable when disabled", () => {
@@ -29,6 +29,6 @@ describe('DayPicker', () => {
     act(() => screen.getByTestId('day-picker-option-monday').click());
     expect(onChange).not.toHaveBeenCalled();
 
-    // test space
+    // TODO: test space
   });
 });
