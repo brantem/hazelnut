@@ -1,7 +1,7 @@
 import { ChangeEvent, useRef } from 'react';
 import clsx from 'clsx';
 
-const days = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
+import days from 'data/days';
 
 type DayProps = {
   day: string;
