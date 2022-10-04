@@ -1,7 +1,7 @@
 import { act, render, screen, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import Stuff from 'pages/stuff';
+import Items from 'pages/items';
 
 import { useItemsStore, useGroupsStore } from 'lib/stores';
 
@@ -19,14 +19,14 @@ beforeEach(() => {
   window.IntersectionObserver = mockIntersectionObserver;
 });
 
-test('Stuff', async () => {
+test('Items', async () => {
   const items = renderHook(() => useItemsStore());
   act(() => items.result.current.add('group-1', { title: 'Item 1' }));
 
   const groups = renderHook(() => useGroupsStore());
   act(() => groups.result.current.add({ title: 'Group 1', color: 'red' }));
 
-  render(<Stuff />);
+  render(<Items />);
 
   expect(screen.getByTestId('group-card')).toBeInTheDocument();
 

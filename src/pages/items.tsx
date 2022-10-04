@@ -8,7 +8,7 @@ import GroupSettingsModal from 'components/Group/GroupSettingsModal';
 
 import { useGroupsStore, useGroupStore } from 'lib/stores';
 
-const Stuff: NextPage = () => {
+const Items: NextPage = () => {
   const { groups } = useGroupsStore();
   const { showSave } = useGroupStore();
 
@@ -31,4 +31,4 @@ const Stuff: NextPage = () => {
   );
 };
 
-export default Stuff;
+export default Items;

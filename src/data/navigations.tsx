@@ -15,8 +15,8 @@ const navigations: Navigation[] = [
   },
   {
     icon: <CircleStackIcon className="h-6 w-6" />,
-    href: '/stuff',
-    text: 'Stuff',
+    href: '/items',
+    text: 'Items',
   },
 ];
 
