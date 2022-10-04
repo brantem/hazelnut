@@ -1,4 +1,5 @@
-import { render, screen, act, fireEvent } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
+
 import '@testing-library/jest-dom';
 
 import DayPicker from 'components/DayPicker';
@@ -16,6 +17,8 @@ describe('DayPicker', () => {
     rerender(<DayPicker value={['MONDAY']} onChange={() => {}} />);
     expect(option).toHaveAttribute('aria-checked', 'true');
     expect(container).toMatchSnapshot();
+
+    // test space
   });
 
   it("shouldn't be selectable when disabled", () => {
@@ -26,7 +29,6 @@ describe('DayPicker', () => {
     act(() => screen.getByTestId('day-picker-option-monday').click());
     expect(onChange).not.toHaveBeenCalled();
 
-    fireEvent.keyDown(screen.getByTestId('day-picker-option-monday'));
-    expect(onChange).not.toHaveBeenCalled();
+    // test space
   });
 });

@@ -10,6 +10,13 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
+    coverage: {
+      provider: 'c8',
+      all: true,
+      skipFull: true,
+      include: ['src'],
+      exclude: ['**/__mocks__', '**/types', '**/__tests__', 'src/pages/_*.tsx'],
+    },
   },
   resolve: {
     alias: {

@@ -6,6 +6,7 @@ import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
 import { useRoutinesStore, useRoutineStore } from 'lib/stores';
+import { getMinutesFromTime } from 'lib/helpers';
 
 const Routines: NextPage = () => {
   const { routines } = useRoutinesStore();
@@ -15,9 +16,11 @@ const Routines: NextPage = () => {
     <>
       <Layout header={{ action: { text: 'Add Routine', onClick: () => showSave() } }}>
         <section className="space-y-3">
-          {routines.map((routine, i) => (
-            <RoutineCard key={i} routine={routine} />
-          ))}
+          {routines
+            .sort((a, b) => getMinutesFromTime(a.time) - getMinutesFromTime(b.time))
+            .map((routine, i) => (
+              <RoutineCard key={i} routine={routine} />
+            ))}
         </section>
       </Layout>
 
