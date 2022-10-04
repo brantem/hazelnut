@@ -24,7 +24,7 @@ const Header = ({ navigations, action }: HeaderProps) => {
       </div>
 
       {action && (
-        <button className="px-3 py-1.5 text-sm rounded-md hover:bg-neutral-100" onClick={action.onClick}>
+        <button className="rounded-md px-3 py-1.5 text-sm hover:bg-neutral-100" onClick={action.onClick}>
           {action.text}
         </button>
       )}

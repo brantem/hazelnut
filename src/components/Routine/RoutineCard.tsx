@@ -16,18 +16,18 @@ const RoutineCard = ({ routine, showAction }: RoutineProps) => {
 
   return (
     <div className={`px-4 py-3 bg-${routine.color}-50`} data-testid="routine-card">
-      <div className="flex justify-between items-center space-x-3 h-7">
-        <div className="flex items-center space-x-3 max-w-[440px]">
-          <h3 className={`uppercase text-sm font-semibold text-${routine.color}-600 truncate`}>{routine.title} </h3>
-          <span className={`font-medium text-sm text-${routine.color}-400 ml-2 tabular-nums flex-shrink-0`}>
+      <div className="flex h-7 items-center justify-between space-x-3">
+        <div className="flex max-w-[440px] items-center space-x-3">
+          <h3 className={`text-sm font-semibold uppercase text-${routine.color}-600 truncate`}>{routine.title} </h3>
+          <span className={`text-sm font-medium text-${routine.color}-400 ml-2 flex-shrink-0 tabular-nums`}>
             {routine.time}
           </span>
         </div>
 
         {showAction && (
-          <div className="flex items-center space-x-1 flex-shrink-0">
+          <div className="flex flex-shrink-0 items-center space-x-1">
             <button
-              className={`px-2 py-1 text-sm rounded-md hover:bg-${routine.color}-100 flex-shrink-0`}
+              className={`rounded-md px-2 py-1 text-sm hover:bg-${routine.color}-100 flex-shrink-0`}
               onClick={() => showSaveItems(routine)}
               data-testid="routine-card-save-items"
             >
@@ -35,7 +35,7 @@ const RoutineCard = ({ routine, showAction }: RoutineProps) => {
             </button>
 
             <button
-              className={`p-1 rounded-md hover:bg-${routine.color}-100`}
+              className={`rounded-md p-1 hover:bg-${routine.color}-100`}
               onClick={() => showSettings(routine)}
               data-testid="routine-card-settings"
             >
@@ -51,7 +51,7 @@ const RoutineCard = ({ routine, showAction }: RoutineProps) => {
             <li
               data-testid="routine-card-items-item"
               key={item.id}
-              className="flex justify-between items-center space-x-3"
+              className="flex items-center justify-between space-x-3"
             >
               <Checkbox label={item.title} name={routine.id + '-' + item.id} color={routine.color} />
             </li>

@@ -35,7 +35,7 @@ const BottomSheet = ({ isOpen, onClose, title, children, afterLeave, ...props }:
               leaveTo="transform translate-y-full"
               as={Fragment}
             >
-              <Dialog.Panel className="w-full max-w-lg rounded-t-md bg-white overflow-hidden">
+              <Dialog.Panel className="w-full max-w-lg overflow-hidden rounded-t-md bg-white">
                 {title && <Dialog.Title className="px-4 py-3 text-lg font-semibold">{title}</Dialog.Title>}
 
                 {children}

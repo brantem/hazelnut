@@ -21,7 +21,7 @@ exports[`Header 1`] = `
       </h1>
     </div>
     <button
-      class="px-3 py-1.5 text-sm rounded-md hover:bg-neutral-100"
+      class="rounded-md px-3 py-1.5 text-sm hover:bg-neutral-100"
     >
       Action
     </button>

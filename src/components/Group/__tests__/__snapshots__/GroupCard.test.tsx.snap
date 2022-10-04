@@ -7,23 +7,23 @@ exports[`GroupCard > should render empty group 1`] = `
     data-testid="group-card"
   >
     <div
-      class="flex justify-between items-center space-x-3"
+      class="flex items-center justify-between space-x-3"
     >
       <h3
-        class="uppercase text-sm font-semibold text-red-600 truncate"
+        class="text-sm font-semibold uppercase text-red-600 truncate"
       >
         Group 1
       </h3>
       <div
-        class="flex items-center space-x-1 flex-shrink-0"
+        class="flex flex-shrink-0 items-center space-x-1"
       >
         <button
-          class="px-2 py-1 text-sm rounded-md hover:bg-red-100 flex-shrink-0"
+          class="rounded-md px-2 py-1 text-sm hover:bg-red-100 flex-shrink-0"
         >
           Add Item
         </button>
         <button
-          class="p-1 rounded-md hover:bg-red-100"
+          class="rounded-md p-1 hover:bg-red-100"
           data-testid="group-card-settings"
         >
           <svg
@@ -51,23 +51,23 @@ exports[`GroupCard > should render successfully 1`] = `
     data-testid="group-card"
   >
     <div
-      class="flex justify-between items-center space-x-3"
+      class="flex items-center justify-between space-x-3"
     >
       <h3
-        class="uppercase text-sm font-semibold text-red-600 truncate"
+        class="text-sm font-semibold uppercase text-red-600 truncate"
       >
         Group 1
       </h3>
       <div
-        class="flex items-center space-x-1 flex-shrink-0"
+        class="flex flex-shrink-0 items-center space-x-1"
       >
         <button
-          class="px-2 py-1 text-sm rounded-md hover:bg-red-100 flex-shrink-0"
+          class="rounded-md px-2 py-1 text-sm hover:bg-red-100 flex-shrink-0"
         >
           Add Item
         </button>
         <button
-          class="p-1 rounded-md hover:bg-red-100"
+          class="rounded-md p-1 hover:bg-red-100"
           data-testid="group-card-settings"
         >
           <svg
@@ -89,7 +89,7 @@ exports[`GroupCard > should render successfully 1`] = `
       data-testid="group-card-items"
     >
       <li
-        class="flex justify-between items-center space-x-3"
+        class="flex items-center justify-between space-x-3"
         data-testid="group-card-items-item"
       >
         <span
@@ -98,7 +98,7 @@ exports[`GroupCard > should render successfully 1`] = `
           Item 1
         </span>
         <button
-          class="rounded-md hover:bg-red-100 text-red-500 text-sm p-1"
+          class="rounded-md p-1 text-sm text-red-500 hover:bg-red-100"
           data-testid="delete-button"
         >
           <svg

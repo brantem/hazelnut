@@ -16,12 +16,12 @@ exports[`ColorPicker > should render successfully 1`] = `
       Color
     </label>
     <div
-      class="flex justify-between space-x-2 mt-2 w-full"
+      class="mt-2 flex w-full justify-between space-x-2"
       role="none"
     >
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-red-500 ring-red-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-red-500 ring-red-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-red"
         id="headlessui-radiogroup-option-:r2:"
@@ -30,7 +30,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-orange-500 ring-orange-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-orange-500 ring-orange-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-orange"
         id="headlessui-radiogroup-option-:r3:"
@@ -39,7 +39,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-amber-500 ring-amber-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-amber-500 ring-amber-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-amber"
         id="headlessui-radiogroup-option-:r4:"
@@ -48,7 +48,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-yellow-500 ring-yellow-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-yellow-500 ring-yellow-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-yellow"
         id="headlessui-radiogroup-option-:r5:"
@@ -57,7 +57,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-lime-500 ring-lime-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-lime-500 ring-lime-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-lime"
         id="headlessui-radiogroup-option-:r6:"
@@ -66,7 +66,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-green-500 ring-green-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-green-500 ring-green-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-green"
         id="headlessui-radiogroup-option-:r7:"
@@ -75,7 +75,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-emerald-500 ring-emerald-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-emerald-500 ring-emerald-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-emerald"
         id="headlessui-radiogroup-option-:r8:"
@@ -84,7 +84,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-teal-500 ring-teal-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-teal-500 ring-teal-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-teal"
         id="headlessui-radiogroup-option-:r9:"
@@ -93,7 +93,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-cyan-500 ring-cyan-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-cyan-500 ring-cyan-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-cyan"
         id="headlessui-radiogroup-option-:ra:"
@@ -102,7 +102,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-sky-500 ring-sky-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-sky-500 ring-sky-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-sky"
         id="headlessui-radiogroup-option-:rb:"
@@ -111,7 +111,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-blue-500 ring-blue-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-blue-500 ring-blue-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-blue"
         id="headlessui-radiogroup-option-:rc:"
@@ -120,7 +120,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-indigo-500 ring-indigo-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-indigo-500 ring-indigo-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-indigo"
         id="headlessui-radiogroup-option-:rd:"
@@ -129,7 +129,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-violet-500 ring-violet-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-violet-500 ring-violet-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-violet"
         id="headlessui-radiogroup-option-:re:"
@@ -138,7 +138,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-purple-500 ring-purple-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-purple-500 ring-purple-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-purple"
         id="headlessui-radiogroup-option-:rf:"
@@ -147,7 +147,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-fuchsia-500 ring-fuchsia-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-fuchsia-500 ring-fuchsia-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-fuchsia"
         id="headlessui-radiogroup-option-:rg:"
@@ -156,7 +156,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-pink-500 ring-pink-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-pink-500 ring-pink-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-pink"
         id="headlessui-radiogroup-option-:rh:"
@@ -165,7 +165,7 @@ exports[`ColorPicker > should render successfully 1`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-rose-500 ring-rose-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-rose-500 ring-rose-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-rose"
         id="headlessui-radiogroup-option-:ri:"
@@ -193,12 +193,12 @@ exports[`ColorPicker > should render successfully 2`] = `
       Color
     </label>
     <div
-      class="flex justify-between space-x-2 mt-2 w-full"
+      class="mt-2 flex w-full justify-between space-x-2"
       role="none"
     >
       <div
         aria-checked="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 ring-2 bg-red-500 ring-red-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 ring-2 bg-red-500 ring-red-500 cursor-pointer"
         data-headlessui-state="checked active"
         data-testid="color-picker-option-red"
         id="headlessui-radiogroup-option-:r2:"
@@ -207,7 +207,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-orange-500 ring-orange-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-orange-500 ring-orange-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-orange"
         id="headlessui-radiogroup-option-:r3:"
@@ -216,7 +216,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-amber-500 ring-amber-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-amber-500 ring-amber-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-amber"
         id="headlessui-radiogroup-option-:r4:"
@@ -225,7 +225,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-yellow-500 ring-yellow-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-yellow-500 ring-yellow-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-yellow"
         id="headlessui-radiogroup-option-:r5:"
@@ -234,7 +234,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-lime-500 ring-lime-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-lime-500 ring-lime-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-lime"
         id="headlessui-radiogroup-option-:r6:"
@@ -243,7 +243,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-green-500 ring-green-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-green-500 ring-green-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-green"
         id="headlessui-radiogroup-option-:r7:"
@@ -252,7 +252,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-emerald-500 ring-emerald-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-emerald-500 ring-emerald-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-emerald"
         id="headlessui-radiogroup-option-:r8:"
@@ -261,7 +261,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-teal-500 ring-teal-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-teal-500 ring-teal-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-teal"
         id="headlessui-radiogroup-option-:r9:"
@@ -270,7 +270,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-cyan-500 ring-cyan-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-cyan-500 ring-cyan-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-cyan"
         id="headlessui-radiogroup-option-:ra:"
@@ -279,7 +279,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-sky-500 ring-sky-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-sky-500 ring-sky-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-sky"
         id="headlessui-radiogroup-option-:rb:"
@@ -288,7 +288,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-blue-500 ring-blue-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-blue-500 ring-blue-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-blue"
         id="headlessui-radiogroup-option-:rc:"
@@ -297,7 +297,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-indigo-500 ring-indigo-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-indigo-500 ring-indigo-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-indigo"
         id="headlessui-radiogroup-option-:rd:"
@@ -306,7 +306,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-violet-500 ring-violet-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-violet-500 ring-violet-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-violet"
         id="headlessui-radiogroup-option-:re:"
@@ -315,7 +315,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-purple-500 ring-purple-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-purple-500 ring-purple-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-purple"
         id="headlessui-radiogroup-option-:rf:"
@@ -324,7 +324,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-fuchsia-500 ring-fuchsia-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-fuchsia-500 ring-fuchsia-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-fuchsia"
         id="headlessui-radiogroup-option-:rg:"
@@ -333,7 +333,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-pink-500 ring-pink-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-pink-500 ring-pink-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-pink"
         id="headlessui-radiogroup-option-:rh:"
@@ -342,7 +342,7 @@ exports[`ColorPicker > should render successfully 2`] = `
       />
       <div
         aria-checked="false"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-rose-500 ring-rose-500 cursor-pointer"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-rose-500 ring-rose-500 cursor-pointer"
         data-headlessui-state=""
         data-testid="color-picker-option-rose"
         id="headlessui-radiogroup-option-:ri:"
@@ -370,13 +370,13 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       Color
     </label>
     <div
-      class="flex justify-between space-x-2 mt-2 w-full"
+      class="mt-2 flex w-full justify-between space-x-2"
       role="none"
     >
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-red-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-red-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-red"
         id="headlessui-radiogroup-option-:rl:"
@@ -386,7 +386,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-orange-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-orange-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-orange"
         id="headlessui-radiogroup-option-:rm:"
@@ -396,7 +396,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-amber-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-amber-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-amber"
         id="headlessui-radiogroup-option-:rn:"
@@ -406,7 +406,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-yellow-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-yellow-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-yellow"
         id="headlessui-radiogroup-option-:ro:"
@@ -416,7 +416,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-lime-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-lime-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-lime"
         id="headlessui-radiogroup-option-:rp:"
@@ -426,7 +426,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-green-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-green-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-green"
         id="headlessui-radiogroup-option-:rq:"
@@ -436,7 +436,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-emerald-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-emerald-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-emerald"
         id="headlessui-radiogroup-option-:rr:"
@@ -446,7 +446,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-teal-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-teal-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-teal"
         id="headlessui-radiogroup-option-:rs:"
@@ -456,7 +456,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-cyan-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-cyan-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-cyan"
         id="headlessui-radiogroup-option-:rt:"
@@ -466,7 +466,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-sky-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-sky-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-sky"
         id="headlessui-radiogroup-option-:ru:"
@@ -476,7 +476,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-blue-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-blue-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-blue"
         id="headlessui-radiogroup-option-:rv:"
@@ -486,7 +486,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-indigo-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-indigo-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-indigo"
         id="headlessui-radiogroup-option-:r10:"
@@ -496,7 +496,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-violet-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-violet-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-violet"
         id="headlessui-radiogroup-option-:r11:"
@@ -506,7 +506,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-purple-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-purple-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-purple"
         id="headlessui-radiogroup-option-:r12:"
@@ -516,7 +516,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-fuchsia-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-fuchsia-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-fuchsia"
         id="headlessui-radiogroup-option-:r13:"
@@ -526,7 +526,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-pink-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-pink-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-pink"
         id="headlessui-radiogroup-option-:r14:"
@@ -536,7 +536,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
       <div
         aria-checked="false"
         aria-disabled="true"
-        class="h-8 md:h-10 w-full rounded-full focus:outline-none ring-offset-2 bg-rose-300 ring-neutral-300"
+        class="h-8 w-full rounded-full ring-offset-2 focus:outline-none md:h-10 bg-rose-300 ring-neutral-300"
         data-headlessui-state="disabled"
         data-testid="color-picker-option-rose"
         id="headlessui-radiogroup-option-:r15:"

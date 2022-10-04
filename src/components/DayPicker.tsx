@@ -18,9 +18,9 @@ const Day = ({ day, isSelected, isDisabled, onChange }: DayProps) => {
       key={day}
       htmlFor={day}
       className={clsx(
-        'rounded-full text-center h-10 w-10 flex items-center justify-center border focus-visible:ring-2 ring-neutral-500 ring-offset-2 focus-visible:outline-none',
+        'flex h-10 w-10 items-center justify-center rounded-full border text-center ring-neutral-500 ring-offset-2 focus-visible:outline-none focus-visible:ring-2',
         {
-          'bg-black border-black': isSelected,
+          'border-black bg-black': isSelected,
           'bg-neutral-100': isDisabled,
           'cursor-pointer': !isDisabled,
           'text-white': isSelected,
@@ -59,7 +59,7 @@ const DayPicker = ({ value, onChange, isDisabled }: DayPickerProps) => {
     <div data-testid="day-picker">
       <label className="block text-sm font-medium text-neutral-700">Day(s)</label>
 
-      <div className="flex justify-between items-center mt-2">
+      <div className="mt-2 flex items-center justify-between">
         {days.map((day) => (
           <Day
             key={day}

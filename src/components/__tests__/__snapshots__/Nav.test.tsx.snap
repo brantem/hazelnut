@@ -3,11 +3,11 @@
 exports[`Nav 1`] = `
 <div>
   <nav
-    class="flex w-full border-t border-t-neutral-200 divide-x divide-neutral-200"
+    class="flex w-full divide-x divide-neutral-200 border-t border-t-neutral-200"
   >
     <a
       aria-current="page"
-      class="flex-1 px-4 py-3 font-medium text-center flex items-center justify-center"
+      class="flex flex-1 items-center justify-center px-4 py-3 text-center font-medium"
       href="/"
     >
       <div
@@ -22,7 +22,7 @@ exports[`Nav 1`] = `
       </span>
     </a>
     <a
-      class="flex-1 px-4 py-3 font-medium text-center flex items-center justify-center"
+      class="flex flex-1 items-center justify-center px-4 py-3 text-center font-medium"
       href="/b"
     >
       <div

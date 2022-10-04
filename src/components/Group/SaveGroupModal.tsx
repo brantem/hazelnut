@@ -41,7 +41,7 @@ const SaveGroupModal = () => {
       afterLeave={clear}
     >
       <form onSubmit={formik.handleSubmit}>
-        <div className="px-4 py-3 space-y-6">
+        <div className="space-y-6 px-4 py-3">
           <Input
             label="Title"
             name="title"
@@ -60,7 +60,7 @@ const SaveGroupModal = () => {
         <div className="bg-neutral-50 px-4 py-3">
           <button
             type="submit"
-            className="rounded-md bg-black py-3 px-4 text-white enabled:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-500 w-full disabled:opacity-70"
+            className="w-full rounded-md bg-black py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-neutral-500 enabled:hover:bg-neutral-800 disabled:opacity-70"
             disabled={!formik.dirty || formik.isSubmitting}
           >
             {group ? 'Save' : 'Add'}

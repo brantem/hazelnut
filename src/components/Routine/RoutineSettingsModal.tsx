@@ -16,7 +16,7 @@ const RoutineSettingsModal = () => {
         routine && (
           <>
             <span>{routine?.title}</span>
-            <div className="flex items-center justify-between space-x-3 text-base font-normal mt-1 text-neutral-500">
+            <div className="mt-1 flex items-center justify-between space-x-3 text-base font-normal text-neutral-500">
               <span>{routine?.time}</span>
               <Days days={routine?.days} />
             </div>
@@ -26,7 +26,7 @@ const RoutineSettingsModal = () => {
       data-testid="routine-settings-modal"
       afterLeave={() => !isSaveOpen && clear()}
     >
-      <div className="px-2 pb-3 flex flex-col">
+      <div className="flex flex-col px-2 pb-3">
         <button className="rounded-md px-3 py-2 text-left hover:bg-neutral-100" onClick={() => showSave()}>
           Edit
         </button>

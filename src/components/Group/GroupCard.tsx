@@ -19,19 +19,19 @@ const GroupCard = ({ group }: GroupCardProps) => {
 
   return (
     <div className={`px-4 py-3 bg-${group.color}-50`} data-testid="group-card">
-      <div className="flex justify-between items-center space-x-3">
-        <h3 className={`uppercase text-sm font-semibold text-${group.color}-600 truncate`}>{group.title}</h3>
+      <div className="flex items-center justify-between space-x-3">
+        <h3 className={`text-sm font-semibold uppercase text-${group.color}-600 truncate`}>{group.title}</h3>
 
-        <div className="flex items-center space-x-1 flex-shrink-0">
+        <div className="flex flex-shrink-0 items-center space-x-1">
           <button
-            className={`px-2 py-1 text-sm rounded-md hover:bg-${group.color}-100 flex-shrink-0`}
+            className={`rounded-md px-2 py-1 text-sm hover:bg-${group.color}-100 flex-shrink-0`}
             onClick={() => showAdd(group.id)}
           >
             Add Item
           </button>
 
           <button
-            className={`p-1 rounded-md hover:bg-${group.color}-100`}
+            className={`rounded-md p-1 hover:bg-${group.color}-100`}
             onClick={() => showSettings(group)}
             data-testid="group-card-settings"
           >
@@ -46,12 +46,12 @@ const GroupCard = ({ group }: GroupCardProps) => {
             <li
               data-testid="group-card-items-item"
               key={item.id}
-              className="flex justify-between items-center space-x-3"
+              className="flex items-center justify-between space-x-3"
             >
               <span className="truncate">{item.title}</span>
 
               <DeleteButton
-                className={(clicked) => clsx(`rounded-md hover:bg-red-100 text-red-500 text-sm p-1`, clicked && 'px-2')}
+                className={(clicked) => clsx(`rounded-md p-1 text-sm text-red-500 hover:bg-red-100`, clicked && 'px-2')}
                 text={<MinusCircleIcon className="h-5 w-5" />}
                 onConfirm={() => remove(item.id)}
               />

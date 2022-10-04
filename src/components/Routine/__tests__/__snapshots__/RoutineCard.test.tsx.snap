@@ -7,34 +7,34 @@ exports[`RoutineCard > should render successfully 1`] = `
     data-testid="routine-card"
   >
     <div
-      class="flex justify-between items-center space-x-3 h-7"
+      class="flex h-7 items-center justify-between space-x-3"
     >
       <div
-        class="flex items-center space-x-3 max-w-[440px]"
+        class="flex max-w-[440px] items-center space-x-3"
       >
         <h3
-          class="uppercase text-sm font-semibold text-red-600 truncate"
+          class="text-sm font-semibold uppercase text-red-600 truncate"
         >
           Routine 1
            
         </h3>
         <span
-          class="font-medium text-sm text-red-400 ml-2 tabular-nums flex-shrink-0"
+          class="text-sm font-medium text-red-400 ml-2 flex-shrink-0 tabular-nums"
         >
           00:00
         </span>
       </div>
       <div
-        class="flex items-center space-x-1 flex-shrink-0"
+        class="flex flex-shrink-0 items-center space-x-1"
       >
         <button
-          class="px-2 py-1 text-sm rounded-md hover:bg-red-100 flex-shrink-0"
+          class="rounded-md px-2 py-1 text-sm hover:bg-red-100 flex-shrink-0"
           data-testid="routine-card-save-items"
         >
           Items
         </button>
         <button
-          class="p-1 rounded-md hover:bg-red-100"
+          class="rounded-md p-1 hover:bg-red-100"
           data-testid="routine-card-settings"
         >
           <svg
@@ -56,11 +56,11 @@ exports[`RoutineCard > should render successfully 1`] = `
       data-testid="routine-card-items"
     >
       <li
-        class="flex justify-between items-center space-x-3"
+        class="flex items-center justify-between space-x-3"
         data-testid="routine-card-items-item"
       >
         <div
-          class="w-full flex items-center"
+          class="flex w-full items-center"
         >
           <input
             aria-checked="false"
@@ -70,7 +70,7 @@ exports[`RoutineCard > should render successfully 1`] = `
             type="checkbox"
           />
           <label
-            class="font-medium text-neutral-700 ml-3 flex-1 truncate"
+            class="ml-3 flex-1 truncate font-medium text-neutral-700"
             for="routine-1-item-1"
           >
             Item 1
@@ -89,34 +89,34 @@ exports[`RoutineCard > should render successfully 2`] = `
     data-testid="routine-card"
   >
     <div
-      class="flex justify-between items-center space-x-3 h-7"
+      class="flex h-7 items-center justify-between space-x-3"
     >
       <div
-        class="flex items-center space-x-3 max-w-[440px]"
+        class="flex max-w-[440px] items-center space-x-3"
       >
         <h3
-          class="uppercase text-sm font-semibold text-red-600 truncate"
+          class="text-sm font-semibold uppercase text-red-600 truncate"
         >
           Routine 1
            
         </h3>
         <span
-          class="font-medium text-sm text-red-400 ml-2 tabular-nums flex-shrink-0"
+          class="text-sm font-medium text-red-400 ml-2 flex-shrink-0 tabular-nums"
         >
           00:00
         </span>
       </div>
       <div
-        class="flex items-center space-x-1 flex-shrink-0"
+        class="flex flex-shrink-0 items-center space-x-1"
       >
         <button
-          class="px-2 py-1 text-sm rounded-md hover:bg-red-100 flex-shrink-0"
+          class="rounded-md px-2 py-1 text-sm hover:bg-red-100 flex-shrink-0"
           data-testid="routine-card-save-items"
         >
           Items
         </button>
         <button
-          class="p-1 rounded-md hover:bg-red-100"
+          class="rounded-md p-1 hover:bg-red-100"
           data-testid="routine-card-settings"
         >
           <svg
@@ -138,11 +138,11 @@ exports[`RoutineCard > should render successfully 2`] = `
       data-testid="routine-card-items"
     >
       <li
-        class="flex justify-between items-center space-x-3"
+        class="flex items-center justify-between space-x-3"
         data-testid="routine-card-items-item"
       >
         <div
-          class="w-full flex items-center"
+          class="flex w-full items-center"
         >
           <input
             aria-checked="false"
@@ -152,7 +152,7 @@ exports[`RoutineCard > should render successfully 2`] = `
             type="checkbox"
           />
           <label
-            class="font-medium text-neutral-700 ml-3 flex-1 truncate"
+            class="ml-3 flex-1 truncate font-medium text-neutral-700"
             for="routine-1-item-1"
           >
             Item 1
@@ -171,19 +171,19 @@ exports[`RoutineCard > shouldn't show action button 1`] = `
     data-testid="routine-card"
   >
     <div
-      class="flex justify-between items-center space-x-3 h-7"
+      class="flex h-7 items-center justify-between space-x-3"
     >
       <div
-        class="flex items-center space-x-3 max-w-[440px]"
+        class="flex max-w-[440px] items-center space-x-3"
       >
         <h3
-          class="uppercase text-sm font-semibold text-red-600 truncate"
+          class="text-sm font-semibold uppercase text-red-600 truncate"
         >
           Routine 1
            
         </h3>
         <span
-          class="font-medium text-sm text-red-400 ml-2 tabular-nums flex-shrink-0"
+          class="text-sm font-medium text-red-400 ml-2 flex-shrink-0 tabular-nums"
         >
           00:00
         </span>
@@ -194,11 +194,11 @@ exports[`RoutineCard > shouldn't show action button 1`] = `
       data-testid="routine-card-items"
     >
       <li
-        class="flex justify-between items-center space-x-3"
+        class="flex items-center justify-between space-x-3"
         data-testid="routine-card-items-item"
       >
         <div
-          class="w-full flex items-center"
+          class="flex w-full items-center"
         >
           <input
             aria-checked="false"
@@ -208,7 +208,7 @@ exports[`RoutineCard > shouldn't show action button 1`] = `
             type="checkbox"
           />
           <label
-            class="font-medium text-neutral-700 ml-3 flex-1 truncate"
+            class="ml-3 flex-1 truncate font-medium text-neutral-700"
             for="routine-1-item-1"
           >
             Item 1

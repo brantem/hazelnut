@@ -29,20 +29,20 @@ const SaveItemsToRoutineModal = () => {
       data-testid="save-items-to-routine-modal"
       afterLeave={clear}
     >
-      <ol className="px-4 py-3 space-y-3">
+      <ol className="space-y-3 px-4 py-3">
         {groups.map((group) => (
           <li key={group.id}>
             <div className="flex items-center space-x-3">
-              <span className={`truncate flex-shrink-0 max-w-full text-${group.color}-500`}>{group.title}</span>
+              <span className={`max-w-full flex-shrink-0 truncate text-${group.color}-500`}>{group.title}</span>
 
               <hr className="flex-1" />
             </div>
 
-            <ol className="space-y-1 mt-1">
+            <ol className="mt-1 space-y-1">
               {items.map((item) => {
                 if (item.groupId !== group.id) return null;
                 return (
-                  <li key={item.id} className="flex justify-between items-center space-x-3">
+                  <li key={item.id} className="flex items-center justify-between space-x-3">
                     <Checkbox
                       label={item.title}
                       name={item.id}
@@ -66,7 +66,7 @@ const SaveItemsToRoutineModal = () => {
       <div className="bg-neutral-50 px-4 py-3">
         <button
           type="submit"
-          className="rounded-md bg-black py-3 px-4 text-white enabled:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-500 w-full disabled:opacity-70"
+          className="w-full rounded-md bg-black py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-neutral-500 enabled:hover:bg-neutral-800 disabled:opacity-70"
           onClick={() => {
             edit(routine!.id, { itemIds });
             hide();

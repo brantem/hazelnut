@@ -16,7 +16,7 @@ const NavItem = ({ icon, href, children }: NavItemProps) => {
   return (
     <Link href={href}>
       <a
-        className="flex-1 px-4 py-3 font-medium text-center flex items-center justify-center"
+        className="flex flex-1 items-center justify-center px-4 py-3 text-center font-medium"
         aria-current={isActive ? 'page' : undefined}
       >
         <div className="h-6 w-6">{icon}</div>
@@ -28,7 +28,7 @@ const NavItem = ({ icon, href, children }: NavItemProps) => {
 
 const Nav = ({ navigations }: { navigations: Navigation[] }) => {
   return (
-    <nav className="flex w-full border-t border-t-neutral-200 divide-x divide-neutral-200">
+    <nav className="flex w-full divide-x divide-neutral-200 border-t border-t-neutral-200">
       {navigations.map((navigation, i) => (
         <NavItem key={i} icon={navigation.icon} href={navigation.href}>
           {navigation.text}
