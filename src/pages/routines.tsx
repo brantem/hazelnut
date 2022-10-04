@@ -19,7 +19,7 @@ const Routines: NextPage = () => {
           {routines
             .sort((a, b) => getMinutesFromTime(a.time) - getMinutesFromTime(b.time))
             .map((routine, i) => (
-              <RoutineCard key={i} routine={routine} />
+              <RoutineCard key={i} routine={routine} showSettingsButton />
             ))}
         </section>
       </Layout>

@@ -29,11 +29,18 @@ describe('RoutineCard', () => {
     const { result } = renderHook(() => useRoutineStore());
     const showSettings = vi.spyOn(result.current, 'showSettings').mockImplementation(() => {});
 
-    const { container } = render(<RoutineCard routine={routine} />);
+    const { container } = render(<RoutineCard routine={routine} showSettingsButton />);
 
     expect(container).toMatchSnapshot();
 
     act(() => screen.getByTestId('routine-card-settings').click());
     expect(showSettings).toHaveBeenCalledWith(routine);
+  });
+
+  it("shouldn't show settings button", () => {
+    const { container } = render(<RoutineCard routine={routine} />);
+
+    expect(container).toMatchSnapshot();
+    expect(screen.queryByTestId('routine-card-settings')).not.toBeInTheDocument();
   });
 });
