@@ -1,0 +1,33 @@
+// Vitest Snapshot v1
+
+exports[`ItemList > should render successfully 1`] = `
+<div>
+  <ol
+    class="space-y-1 pt-2 pb-1"
+    data-testid="routine-card-items"
+  >
+    <li
+      class="flex items-center justify-between space-x-3"
+      data-testid="routine-card-items-item"
+    >
+      <div
+        class="flex w-full items-center"
+      >
+        <input
+          aria-checked="false"
+          class="h-4 w-4 rounded border-red-300 text-red-600 focus:ring-red-500"
+          id="routine-1-item-1"
+          name="routine-1-item-1"
+          type="checkbox"
+        />
+        <label
+          class="ml-3 flex-1 truncate font-medium text-neutral-700"
+          for="routine-1-item-1"
+        >
+          Item 1
+        </label>
+      </div>
+    </li>
+  </ol>
+</div>
+`;
