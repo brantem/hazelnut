@@ -12,12 +12,13 @@ const routine: Routine = {
   color: 'red',
   days: ['MONDAY'],
   time: '00:00',
+  itemIds: ['item-1'],
 };
 
 describe('RoutineCard', () => {
   beforeEach(() => {
     const items = renderHook(() => useItemsStore());
-    act(() => items.result.current.add('routine-1', { id: 'item-1', title: 'Item 1' } as Routine));
+    act(() => items.result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as Routine));
   });
 
   afterEach(() => {
@@ -34,7 +35,10 @@ describe('RoutineCard', () => {
 
     expect(container).toMatchSnapshot();
 
-    act(() => screen.getByTestId('routine-card-items').click());
+    expect(container).toMatchSnapshot();
+    expect(screen.getAllByTestId('routine-card-items-item')).toHaveLength(1);
+
+    act(() => screen.getByTestId('routine-card-save-items').click());
     expect(showSaveItems).toHaveBeenCalledWith(routine);
 
     act(() => screen.getByTestId('routine-card-settings').click());
@@ -45,7 +49,7 @@ describe('RoutineCard', () => {
     const { container } = render(<RoutineCard routine={routine} />);
 
     expect(container).toMatchSnapshot();
-    expect(screen.queryByTestId('routine-card-items')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('routine-card-save-items')).not.toBeInTheDocument();
     expect(screen.queryByTestId('routine-card-settings')).not.toBeInTheDocument();
   });
 });

@@ -29,7 +29,7 @@ exports[`RoutineCard > should render successfully 1`] = `
       >
         <button
           class="px-2 py-1 text-sm rounded-md hover:bg-red-100 flex-shrink-0"
-          data-testid="routine-card-items"
+          data-testid="routine-card-save-items"
         >
           Items
         </button>
@@ -51,6 +51,113 @@ exports[`RoutineCard > should render successfully 1`] = `
         </button>
       </div>
     </div>
+    <ol
+      class="space-y-1 pt-2 pb-1"
+      data-testid="routine-card-items"
+    >
+      <li
+        class="flex justify-between items-center space-x-3"
+        data-testid="routine-card-items-item"
+      >
+        <div
+          class="w-full flex items-center"
+        >
+          <input
+            class="h-4 w-4 rounded border-red-300 text-red-600 focus:ring-red-500"
+            id="routine-1-item-1"
+            name="routine-1-item-1"
+            type="checkbox"
+          />
+          <label
+            class="font-medium text-neutral-700 ml-3 flex-1 truncate"
+            for="routine-1-item-1"
+          >
+            Item 1
+          </label>
+        </div>
+      </li>
+    </ol>
+  </div>
+</div>
+`;
+
+exports[`RoutineCard > should render successfully 2`] = `
+<div>
+  <div
+    class="px-4 py-3 bg-red-50"
+    data-testid="routine-card"
+  >
+    <div
+      class="flex justify-between items-center space-x-3 h-7"
+    >
+      <div
+        class="flex items-center space-x-3 max-w-[440px]"
+      >
+        <h3
+          class="uppercase text-sm font-semibold text-red-600 truncate"
+        >
+          Routine 1
+           
+        </h3>
+        <span
+          class="font-medium text-sm text-red-400 ml-2 tabular-nums flex-shrink-0"
+        >
+          00:00
+        </span>
+      </div>
+      <div
+        class="flex items-center space-x-1 flex-shrink-0"
+      >
+        <button
+          class="px-2 py-1 text-sm rounded-md hover:bg-red-100 flex-shrink-0"
+          data-testid="routine-card-save-items"
+        >
+          Items
+        </button>
+        <button
+          class="p-1 rounded-md hover:bg-red-100"
+          data-testid="routine-card-settings"
+        >
+          <svg
+            aria-hidden="true"
+            class="h-5 w-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM10 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM11.5 15.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <ol
+      class="space-y-1 pt-2 pb-1"
+      data-testid="routine-card-items"
+    >
+      <li
+        class="flex justify-between items-center space-x-3"
+        data-testid="routine-card-items-item"
+      >
+        <div
+          class="w-full flex items-center"
+        >
+          <input
+            class="h-4 w-4 rounded border-red-300 text-red-600 focus:ring-red-500"
+            id="routine-1-item-1"
+            name="routine-1-item-1"
+            type="checkbox"
+          />
+          <label
+            class="font-medium text-neutral-700 ml-3 flex-1 truncate"
+            for="routine-1-item-1"
+          >
+            Item 1
+          </label>
+        </div>
+      </li>
+    </ol>
   </div>
 </div>
 `;
@@ -80,6 +187,32 @@ exports[`RoutineCard > shouldn't show action button 1`] = `
         </span>
       </div>
     </div>
+    <ol
+      class="space-y-1 pt-2 pb-1"
+      data-testid="routine-card-items"
+    >
+      <li
+        class="flex justify-between items-center space-x-3"
+        data-testid="routine-card-items-item"
+      >
+        <div
+          class="w-full flex items-center"
+        >
+          <input
+            class="h-4 w-4 rounded border-red-300 text-red-600 focus:ring-red-500"
+            id="routine-1-item-1"
+            name="routine-1-item-1"
+            type="checkbox"
+          />
+          <label
+            class="font-medium text-neutral-700 ml-3 flex-1 truncate"
+            for="routine-1-item-1"
+          >
+            Item 1
+          </label>
+        </div>
+      </li>
+    </ol>
   </div>
 </div>
 `;

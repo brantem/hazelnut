@@ -7,7 +7,7 @@ import { Routine } from 'types/routine';
 
 type RoutinesState = {
   routines: Routine[];
-  add: (routine: Omit<Routine, 'id'>) => void;
+  add: (routine: Omit<Routine, 'id' | 'itemIds'>) => void;
   edit: (id: string, routine: Partial<Omit<Routine, 'id'>>) => void;
   remove: (id: string) => void;
 };
@@ -17,7 +17,7 @@ const useStore = create<RoutinesState>()(
     (set) => ({
       routines: [],
       add: (routine) => {
-        set((state) => ({ routines: [...state.routines, { id: nanoid(), ...routine }] }));
+        set((state) => ({ routines: [...state.routines, { id: nanoid(), itemIds: [], ...routine }] }));
       },
       edit: (id, routine) => {
         set((state) => ({
