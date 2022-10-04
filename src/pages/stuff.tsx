@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import Layout from 'components/Layout';
 import GroupCard from 'components/Group/GroupCard';
 import SaveGroupModal from 'components/Group/SaveGroupModal';
-import AddItemModal from 'components/Item/AddItemModal';
+import AddItemToGroupModal from 'components/Item/AddItemToGroupModal';
 import GroupSettingsModal from 'components/Group/GroupSettingsModal';
 
 import { useGroupsStore, useGroupStore } from 'lib/stores';
@@ -24,7 +24,7 @@ const Stuff: NextPage = () => {
 
       <SaveGroupModal />
 
-      <AddItemModal />
+      <AddItemToGroupModal />
 
       <GroupSettingsModal />
     </>

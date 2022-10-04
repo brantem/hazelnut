@@ -8,7 +8,7 @@ import { useItemsStore, useItemStore } from 'lib/stores';
 
 type Values = Pick<Item, 'title'>;
 
-const AddItemModal = () => {
+const AddItemToGroupModal = () => {
   const { add } = useItemsStore();
   const { groupId, clear, isAddOpen, hide } = useItemStore();
 
@@ -49,4 +49,4 @@ const AddItemModal = () => {
   );
 };
 
-export default AddItemModal;
+export default AddItemToGroupModal;

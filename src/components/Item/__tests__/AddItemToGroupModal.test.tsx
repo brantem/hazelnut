@@ -1,7 +1,7 @@
 import { render, screen, act, fireEvent, waitFor, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import AddItemModal from 'components/Item/AddItemModal';
+import AddItemToGroupModal from 'components/Item/AddItemToGroupModal';
 
 import { useItemsStore, useItemStore } from 'lib/stores';
 
@@ -11,7 +11,7 @@ beforeEach(() => {
   window.IntersectionObserver = mockIntersectionObserver;
 });
 
-describe('AddItemModal', () => {
+describe('AddItemToGroupModal', () => {
   beforeEach(() => {
     const { result } = renderHook(() => useItemStore());
     act(() => {
@@ -23,7 +23,7 @@ describe('AddItemModal', () => {
   it('should open settings modal', () => {
     const { result } = renderHook(() => useItemStore());
 
-    render(<AddItemModal />);
+    render(<AddItemToGroupModal />);
 
     expect(screen.queryByTestId('add-item-modal')).not.toBeInTheDocument();
     act(() => result.current.showAdd('group-1'));
@@ -37,7 +37,7 @@ describe('AddItemModal', () => {
     const { result } = renderHook(() => useItemStore());
     const hide = vi.spyOn(result.current, 'hide');
 
-    render(<AddItemModal />);
+    render(<AddItemToGroupModal />);
 
     act(() => result.current.showAdd('group-1'));
     act(() => {
