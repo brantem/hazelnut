@@ -1,10 +1,10 @@
-import { render, screen, renderHook, act } from '@testing-library/react';
+import { render, screen, renderHook, act, within, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import ItemList from 'components/Routine/RoutineCard/ItemList';
 
 import { Routine } from 'types/routine';
-import { useItemsStore } from 'lib/stores';
+import { useItemsStore, useRoutinesStore } from 'lib/stores';
 
 const routine: Routine = {
   id: 'routine-1',
@@ -16,7 +16,7 @@ const routine: Routine = {
 };
 
 describe('ItemList', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     const items = renderHook(() => useItemsStore());
     act(() => {
       items.result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as Routine);
@@ -33,12 +33,22 @@ describe('ItemList', () => {
     expect(screen.queryByTestId('routine-card-items-item-handle')).not.toBeInTheDocument();
   });
 
-  it('should be sortable', () => {
-    const { container } = render(<ItemList routine={routine} isSortable />);
+  it('should be sortable', async () => {
+    const { result } = renderHook(() => useRoutinesStore());
+    const edit = vi.spyOn(result.current, 'edit');
+
+    const itemIds = ['item-1', 'item-2'];
+    const { container } = render(<ItemList routine={{ ...routine, itemIds }} isSortable />);
 
     expect(container).toMatchSnapshot();
-    expect(screen.queryByTestId('routine-card-items-item-handle')).toBeInTheDocument();
+    const item = screen.getByText('Item 2').parentElement!.parentElement!;
+    const handle = within(item).getByTestId('routine-card-items-item-handle');
+    fireEvent.keyDown(handle, { code: 'Space' });
+    await waitFor(() => new Promise((res) => setTimeout(res, 0)));
+    fireEvent.keyDown(handle, { code: 'ArrowUp' });
+    await waitFor(() => new Promise((res) => setTimeout(res, 0)));
+    fireEvent.keyDown(handle, { code: 'Space' });
+    await waitFor(() => new Promise((res) => setTimeout(res, 0)));
+    await expect(edit).toHaveBeenCalledWith('routine-1', { itemIds: ['item-2', 'item-1'] });
   });
-
-  // TODO: test onDragStart, onDragEnd, onDragCancel
 });

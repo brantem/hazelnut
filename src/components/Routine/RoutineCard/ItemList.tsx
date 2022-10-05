@@ -99,9 +99,7 @@ const ItemList = ({ routine, isSortable }: ItemListProps) => {
         if (!over) return;
         const overIndex = items.findIndex((item) => item.id === over.id);
         if (activeIndex === overIndex) return;
-        // TODO: find a better way to remove deleted item ids
-        const itemIds = routine.itemIds.filter((itemId) => baseItems.find((item) => item.id === itemId));
-        edit(routine.id, { itemIds: arrayMove(itemIds, activeIndex, overIndex) });
+        edit(routine.id, { itemIds: arrayMove(items.map((item) => item.id), activeIndex, overIndex) }); // prettier-ignore
       }}
       onDragCancel={() => setItemId(null)}
       modifiers={[restrictToVerticalAxis, restrictToParentElement]}
