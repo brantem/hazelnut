@@ -30,6 +30,7 @@ describe('ItemList', () => {
     expect(container).toMatchSnapshot();
     expect(screen.getByText('Item 1')).toBeInTheDocument();
     expect(screen.queryByText('Item 2')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('routine-card-items-item-handle')).not.toBeInTheDocument();
   });
 
   // TODO: test onDragStart, onDragEnd, onDragCancel

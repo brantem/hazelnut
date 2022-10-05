@@ -28,7 +28,7 @@ import { Item as _Item } from 'types/item';
 type ItemProps = {
   routine: Routine;
   item: _Item;
-  isDraggable: boolean;
+  isDraggable?: boolean;
 };
 
 const Item = ({ routine, item, isDraggable }: ItemProps) => {
@@ -64,7 +64,7 @@ const Item = ({ routine, item, isDraggable }: ItemProps) => {
 
 type ItemListProps = {
   routine: Routine;
-  isDraggable: boolean;
+  isDraggable?: boolean;
 };
 
 const ItemList = ({ routine, isDraggable }: ItemListProps) => {
@@ -99,7 +99,9 @@ const ItemList = ({ routine, isDraggable }: ItemListProps) => {
         if (!over) return;
         const overIndex = items.findIndex((item) => item.id === over.id);
         if (activeIndex === overIndex) return;
-        edit(routine.id, { itemIds: arrayMove(routine.itemIds, activeIndex, overIndex) });
+        // TODO: find a better way to remove deleted item ids
+        const itemIds = routine.itemIds.filter((itemId) => baseItems.find((item) => item.id === itemId));
+        edit(routine.id, { itemIds: arrayMove(itemIds, activeIndex, overIndex) });
       }}
       onDragCancel={() => setItemId(null)}
       modifiers={[restrictToVerticalAxis, restrictToParentElement]}
