@@ -13,7 +13,7 @@ type RoutinesState = {
   showSave: (routine?: Routine | null) => void;
 
   isSaveItemsOpen: boolean;
-  showSaveItems: (routine?: Routine | null) => void;
+  showSaveItems: (routine: Routine) => void;
 
   isSettingsOpen: boolean;
   showSettings: (routine: Routine) => void;

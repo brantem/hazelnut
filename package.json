@@ -10,7 +10,8 @@
     "prepare": "husky install",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "type-check": "tsc --incremental --pretty --noEmit"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.5",
