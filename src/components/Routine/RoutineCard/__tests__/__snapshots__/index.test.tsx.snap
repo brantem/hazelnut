@@ -64,7 +64,7 @@ exports[`RoutineCard > should render successfully 1`] = `
           class="flex w-full items-center justify-between space-x-3"
         >
           <label
-            class="flex-1 truncate font-medium text-neutral-700"
+            class="flex-1 truncate font-medium"
             for="routine-1-item-1"
           >
             Item 1
@@ -186,7 +186,7 @@ exports[`RoutineCard > should show action button 1`] = `
           class="flex w-full items-center justify-between space-x-3"
         >
           <label
-            class="flex-1 truncate font-medium text-neutral-700"
+            class="flex-1 truncate font-medium"
             for="routine-1-item-1"
           >
             Item 1
@@ -301,7 +301,7 @@ exports[`RoutineCard > should show sort handle 1`] = `
           class="flex w-full items-center justify-between space-x-3"
         >
           <label
-            class="flex-1 truncate font-medium text-neutral-700"
+            class="flex-1 truncate font-medium"
             for="routine-1-item-1"
           >
             Item 1

@@ -8,7 +8,7 @@ type CheckboxProps = React.DetailedHTMLProps<InputHTMLAttributes<HTMLInputElemen
 const Checkbox = ({ label, name, color = 'neutral', ...props }: CheckboxProps) => {
   return (
     <div className="flex w-full items-center justify-between space-x-3">
-      <label htmlFor={name} className="flex-1 truncate font-medium text-neutral-700">
+      <label htmlFor={name} className="flex-1 truncate font-medium">
         {label}
       </label>
 
