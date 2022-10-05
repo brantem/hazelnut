@@ -57,16 +57,16 @@ describe('GroupCard', () => {
     const items = renderHook(() => useItemsStore());
     const remove = vi.spyOn(items.result.current, 'remove');
 
-    const groups = renderHook(() => useGroupsStore());
-    act(() => groups.result.current.add(group as Group));
+    const { result } = renderHook(() => useGroupsStore());
+    act(() => result.current.add(group as Group));
 
-    const { rerender } = render(<GroupCard group={groups.result.current.groups[0]} />);
+    const { rerender } = render(<GroupCard group={result.current.groups[0]} />);
 
     expect(screen.getByTestId('group-card-items-item')).toBeInTheDocument();
     act(() => screen.getByTestId('delete-button').click());
     act(() => screen.getByTestId('delete-button-confirm').click());
     expect(remove).toHaveBeenCalledWith('item-1');
-    rerender(<GroupCard group={groups.result.current.groups[0]} />);
+    rerender(<GroupCard group={result.current.groups[0]} />);
     expect(screen.queryByTestId('group-card-items-item')).not.toBeInTheDocument();
   });
 });

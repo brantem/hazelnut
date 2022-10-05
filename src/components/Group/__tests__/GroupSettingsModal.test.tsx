@@ -50,10 +50,8 @@ describe('GroupSettingsModal', async () => {
   });
 
   it('should delete group', () => {
-    const groups = renderHook(() => useGroupsStore());
-    const remove = vi.spyOn(groups.result.current, 'remove');
-
     const { result } = renderHook(() => useGroupsStore());
+    const remove = vi.spyOn(result.current, 'remove');
     const hide = vi.spyOn(result.current, 'hide');
 
     render(<GroupSettingsModal />);

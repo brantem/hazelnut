@@ -4,29 +4,99 @@ import '@testing-library/jest-dom';
 import { useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 
-test('useRoutinesStore', () => {
-  const { result } = renderHook(() => useRoutinesStore());
+const routine: Routine = {
+  id: 'routine-1',
+  title: 'Routine 1',
+  color: 'red',
+  days: ['MONDAY'],
+  time: '00:00',
+  itemIds: ['item-1'],
+};
 
-  // add
-  expect(result.current.routines).toHaveLength(0);
-  act(() => {
-    result.current.add({ id: 'routine-1', title: 'Routine 1', color: 'red' } as Routine);
-    result.current.add({ id: 'routine-2', title: 'Routine 2', color: 'amber' } as Routine);
+describe('useRoutinesStore', () => {
+  afterEach(() => {
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => {
+      result.current.hide();
+      result.current.resetAfterHide();
+    });
   });
-  expect(result.current.routines).toHaveLength(2);
-  expect(result.current.routines).toEqual([
-    { id: 'routine-1', title: 'Routine 1', color: 'red', itemIds: [] },
-    { id: 'routine-2', title: 'Routine 2', color: 'amber', itemIds: [] },
-  ]);
 
-  // edit
-  act(() => result.current.edit('routine-1', { title: 'Routine 1a', color: 'orange', itemIds: ['item-1'] }));
-  expect(result.current.routines).toEqual([
-    { id: 'routine-1', title: 'Routine 1a', color: 'orange', itemIds: ['item-1'] },
-    { id: 'routine-2', title: 'Routine 2', color: 'amber', itemIds: [] },
-  ]);
+  it('should open add modal', () => {
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => result.current.showSave());
+    expect(result.current.routine).toEqual(null);
+    expect(result.current.isSaveOpen).toEqual(true);
+  });
 
-  // remove
-  act(() => result.current.remove('routine-1'));
-  expect(result.current.routines).toEqual([{ id: 'routine-2', title: 'Routine 2', color: 'amber', itemIds: [] }]);
+  it('should open edit modal', () => {
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => result.current.showSave(routine));
+    expect(result.current.routine).toEqual(routine);
+    expect(result.current.isSaveOpen).toEqual(true);
+  });
+
+  it('should show save items modal', () => {
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => result.current.showSaveItems(routine));
+    expect(result.current.routine).toEqual(routine);
+    expect(result.current.isSaveItemsOpen).toEqual(true);
+  });
+
+  it('should show settings modal', () => {
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => result.current.showSettings(routine));
+    expect(result.current.routine).toEqual(routine);
+    expect(result.current.isSettingsOpen).toEqual(true);
+  });
+
+  it('should hide and reset', () => {
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => {
+      result.current.showSave(routine);
+      result.current.showSaveItems(routine);
+      result.current.showSettings(routine);
+    });
+    expect(result.current.routine).toEqual(routine);
+    expect(result.current.isSaveOpen).toEqual(true);
+    expect(result.current.isSaveItemsOpen).toEqual(true);
+    expect(result.current.isSettingsOpen).toEqual(true);
+    act(() => {
+      result.current.hide();
+      result.current.resetAfterHide();
+    });
+    expect(result.current.routine).toEqual(null);
+    expect(result.current.isSaveOpen).toEqual(false);
+    expect(result.current.isSaveItemsOpen).toEqual(false);
+    expect(result.current.isSettingsOpen).toEqual(false);
+  });
+
+  it('should add routine', () => {
+    const { result } = renderHook(() => useRoutinesStore());
+    expect(result.current.routines).toHaveLength(0);
+    act(() => {
+      result.current.add({ id: 'routine-1', title: 'Routine 1', color: 'red' } as Routine);
+      result.current.add({ id: 'routine-2', title: 'Routine 2', color: 'amber' } as Routine);
+    });
+    expect(result.current.routines).toHaveLength(2);
+    expect(result.current.routines).toEqual([
+      { id: 'routine-1', title: 'Routine 1', color: 'red', itemIds: [] },
+      { id: 'routine-2', title: 'Routine 2', color: 'amber', itemIds: [] },
+    ]);
+  });
+
+  it('should edit routine', () => {
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => result.current.edit('routine-1', { title: 'Routine 1a', color: 'orange', itemIds: ['item-1'] }));
+    expect(result.current.routines).toEqual([
+      { id: 'routine-1', title: 'Routine 1a', color: 'orange', itemIds: ['item-1'] },
+      { id: 'routine-2', title: 'Routine 2', color: 'amber', itemIds: [] },
+    ]);
+  });
+
+  it('should remove routine', () => {
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => result.current.remove('routine-1'));
+    expect(result.current.routines).toEqual([{ id: 'routine-2', title: 'Routine 2', color: 'amber', itemIds: [] }]);
+  });
 });

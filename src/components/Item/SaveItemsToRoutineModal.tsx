@@ -3,11 +3,10 @@ import { useEffect, useState } from 'react';
 import BottomSheet from 'components/BottomSheet';
 import Checkbox from 'components/Checkbox';
 
-import { useRoutinesStore, useRoutineStore, useGroupsStore, useItemsStore } from 'lib/stores';
+import { useRoutinesStore, useGroupsStore, useItemsStore } from 'lib/stores';
 
 const SaveItemsToRoutineModal = () => {
-  const { edit } = useRoutinesStore();
-  const { routine, isSaveItemsOpen, hide, clear } = useRoutineStore();
+  const { routine, isSaveItemsOpen, hide, resetAfterHide, edit } = useRoutinesStore();
   const { groups } = useGroupsStore();
   const { items } = useItemsStore();
 
@@ -27,7 +26,7 @@ const SaveItemsToRoutineModal = () => {
       onClose={hide}
       title="Items"
       data-testid="save-items-to-routine-modal"
-      afterLeave={clear}
+      afterLeave={resetAfterHide}
     >
       <ol className="space-y-3 px-4 py-3">
         {groups.map((group) => (

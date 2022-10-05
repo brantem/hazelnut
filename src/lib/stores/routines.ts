@@ -7,6 +7,20 @@ import { Routine } from 'types/routine';
 
 type RoutinesState = {
   routines: Routine[];
+  routine: Routine | null;
+
+  isSaveOpen: boolean;
+  showSave: (routine?: Routine | null) => void;
+
+  isSaveItemsOpen: boolean;
+  showSaveItems: (routine?: Routine | null) => void;
+
+  isSettingsOpen: boolean;
+  showSettings: (routine: Routine) => void;
+
+  hide: () => void;
+  resetAfterHide: () => void;
+
   add: (routine: Omit<Routine, 'id' | 'itemIds'>) => void;
   edit: (id: string, routine: Partial<Omit<Routine, 'id'>>) => void;
   remove: (id: string) => void;
@@ -16,6 +30,20 @@ const useStore = create<RoutinesState>()(
   persist(
     (set) => ({
       routines: [],
+      routine: null,
+
+      isSaveOpen: false,
+      showSave: (routine = null) => set((state) => ({ routine: routine || state.routine, isSaveOpen: true })),
+
+      isSaveItemsOpen: false,
+      showSaveItems: (routine) => set({ routine, isSaveItemsOpen: true }),
+
+      isSettingsOpen: false,
+      showSettings: (routine) => set({ routine, isSettingsOpen: true }),
+
+      hide: () => set({ isSaveOpen: false, isSaveItemsOpen: false, isSettingsOpen: false }),
+      resetAfterHide: () => set({ routine: null }),
+
       add: (routine) => {
         set((state) => ({ routines: [...state.routines, { id: nanoid(), itemIds: [], ...routine }] }));
       },
@@ -28,13 +56,30 @@ const useStore = create<RoutinesState>()(
         set((state) => ({ routines: state.routines.filter((routine) => routine.id !== id) }));
       },
     }),
-    { name: 'routines' },
+    {
+      name: 'routines',
+      partialize: (state) => ({ routines: state.routines }),
+    },
   ),
 );
 
 /* c8 ignore start */
 const dummy = {
   routines: [],
+  routine: null,
+
+  isSaveOpen: false,
+  showSave: () => {},
+
+  isSaveItemsOpen: false,
+  showSaveItems: () => {},
+
+  isSettingsOpen: false,
+  showSettings: () => {},
+
+  hide: () => {},
+  resetAfterHide: () => {},
+
   add: () => {},
   edit: () => {},
   remove: () => {},

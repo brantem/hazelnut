@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 
 import RoutineCard from 'components/Routine/RoutineCard';
 
-import { useRoutineStore, useItemsStore } from 'lib/stores';
+import { useRoutinesStore, useItemsStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 
 const routine: Routine = {
@@ -34,7 +34,7 @@ describe('RoutineCard', () => {
   });
 
   it('should show action button', () => {
-    const { result } = renderHook(() => useRoutineStore());
+    const { result } = renderHook(() => useRoutinesStore());
     const showSaveItems = vi.spyOn(result.current, 'showSaveItems').mockImplementation(() => {});
     const showSettings = vi.spyOn(result.current, 'showSettings').mockImplementation(() => {});
 

@@ -33,7 +33,7 @@ describe('useGroupsStore', () => {
     expect(result.current.isSaveOpen).toEqual(true);
   });
 
-  it('should show settings', () => {
+  it('should show settings modal', () => {
     const { result } = renderHook(() => useGroupsStore());
     act(() => result.current.showSettings(group));
     expect(result.current.group).toEqual(group);

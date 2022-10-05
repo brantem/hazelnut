@@ -38,10 +38,8 @@ describe('SaveGroupModal', () => {
   });
 
   it('should add new group', async () => {
-    const groups = renderHook(() => useGroupsStore());
-    const add = vi.spyOn(groups.result.current, 'add');
-
     const { result } = renderHook(() => useGroupsStore());
+    const add = vi.spyOn(result.current, 'add');
     const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveGroupModal />);
@@ -59,10 +57,8 @@ describe('SaveGroupModal', () => {
   });
 
   it('should edit existing group', async () => {
-    const groups = renderHook(() => useGroupsStore());
-    const edit = vi.spyOn(groups.result.current, 'edit');
-
     const { result } = renderHook(() => useGroupsStore());
+    const edit = vi.spyOn(result.current, 'edit');
     const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveGroupModal />);

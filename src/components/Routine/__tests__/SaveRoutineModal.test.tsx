@@ -4,13 +4,7 @@ import '@testing-library/jest-dom';
 import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
 
 import { Routine } from 'types/routine';
-import { useRoutinesStore, useRoutineStore } from 'lib/stores';
-
-beforeEach(() => {
-  const mockIntersectionObserver = vi.fn();
-  mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
-  window.IntersectionObserver = mockIntersectionObserver;
-});
+import { useRoutinesStore } from 'lib/stores';
 
 const routine: Routine = {
   id: 'routine-1',
@@ -23,15 +17,21 @@ const routine: Routine = {
 
 describe('SaveRoutineModal', () => {
   beforeEach(() => {
-    const { result } = renderHook(() => useRoutineStore());
+    const mockIntersectionObserver = vi.fn();
+    mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
+    window.IntersectionObserver = mockIntersectionObserver;
+  });
+
+  afterEach(() => {
+    const { result } = renderHook(() => useRoutinesStore());
     act(() => {
       result.current.hide();
-      result.current.clear();
+      result.current.resetAfterHide();
     });
   });
 
   it('should open save modal', () => {
-    const { result } = renderHook(() => useRoutineStore());
+    const { result } = renderHook(() => useRoutinesStore());
 
     render(<SaveRoutineModal />);
 
@@ -41,10 +41,8 @@ describe('SaveRoutineModal', () => {
   });
 
   it('should add new routine', async () => {
-    const routines = renderHook(() => useRoutinesStore());
-    const add = vi.spyOn(routines.result.current, 'add');
-
-    const { result } = renderHook(() => useRoutineStore());
+    const { result } = renderHook(() => useRoutinesStore());
+    const add = vi.spyOn(result.current, 'add');
     const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveRoutineModal />);
@@ -64,10 +62,8 @@ describe('SaveRoutineModal', () => {
   });
 
   it('should edit existing routine', async () => {
-    const routines = renderHook(() => useRoutinesStore());
-    const edit = vi.spyOn(routines.result.current, 'edit');
-
-    const { result } = renderHook(() => useRoutineStore());
+    const { result } = renderHook(() => useRoutinesStore());
+    const edit = vi.spyOn(result.current, 'edit');
     const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveRoutineModal />);

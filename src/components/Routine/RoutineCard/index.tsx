@@ -2,7 +2,7 @@ import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 
 import ItemList from 'components/Routine/RoutineCard/ItemList';
 
-import { useRoutineStore } from 'lib/stores';
+import { useRoutinesStore } from 'lib/stores';
 import type { Routine } from 'types/routine';
 
 type RoutineProps = {
@@ -12,7 +12,7 @@ type RoutineProps = {
 };
 
 const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutineProps) => {
-  const { showSaveItems, showSettings } = useRoutineStore();
+  const { showSaveItems, showSettings } = useRoutinesStore();
 
   return (
     <div className={`px-4 py-3 bg-${routine.color}-50`} data-testid="routine-card">

@@ -6,14 +6,13 @@ import ColorPicker from 'components/ColorPicker';
 import DayPicker from 'components/DayPicker';
 
 import colors from 'data/colors';
-import { useRoutinesStore, useRoutineStore } from 'lib/stores';
+import { useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 
 type Values = Omit<Routine, 'id' | 'itemIds'>;
 
 const SaveRoutineModal = () => {
-  const { routines, add, edit } = useRoutinesStore();
-  const { routine, clear, isSaveOpen, hide } = useRoutineStore();
+  const { routines, routine, isSaveOpen, hide, resetAfterHide, add, edit } = useRoutinesStore();
 
   const formik = useFormik<Values>({
     initialValues: {
@@ -41,7 +40,7 @@ const SaveRoutineModal = () => {
       onClose={hide}
       title={`${routine ? 'Edit' : 'Add'} Routine`}
       data-testid="save-routine-modal"
-      afterLeave={clear}
+      afterLeave={resetAfterHide}
     >
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-6 px-4 py-3">

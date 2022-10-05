@@ -34,13 +34,13 @@ const routine: Routine = {
 
 describe('Home', () => {
   beforeEach(() => {
-    const routines = renderHook(() => useRoutinesStore());
-    act(() => routines.result.current.remove('routine-1'));
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => result.current.remove('routine-1'));
   });
 
   it('should show active routine', async () => {
-    const routines = renderHook(() => useRoutinesStore());
-    act(() => routines.result.current.add(routine));
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => result.current.add(routine));
 
     render(<Home />);
 
@@ -48,9 +48,9 @@ describe('Home', () => {
   });
 
   it("shouldn't show different day routine routine", async () => {
-    const routines = renderHook(() => useRoutinesStore());
+    const { result } = renderHook(() => useRoutinesStore());
     const day = new Date().getDay() + 1;
-    act(() => routines.result.current.add({ ...routine, days: [days[day === days.length ? 0 : day]] }));
+    act(() => result.current.add({ ...routine, days: [days[day === days.length ? 0 : day]] }));
 
     render(<Home />);
 
@@ -58,8 +58,8 @@ describe('Home', () => {
   });
 
   it("shouldn't show past routine", async () => {
-    const routines = renderHook(() => useRoutinesStore());
-    act(() => routines.result.current.add({ ...routine, time: dayjs().subtract(1, 'hour').format('HH:mm') }));
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => result.current.add({ ...routine, time: dayjs().subtract(1, 'hour').format('HH:mm') }));
 
     render(<Home />);
 

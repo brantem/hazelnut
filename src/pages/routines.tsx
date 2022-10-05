@@ -6,12 +6,11 @@ import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
 import SaveItemsToRoutineModal from 'components/Item/SaveItemsToRoutineModal';
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
-import { useRoutinesStore, useRoutineStore } from 'lib/stores';
+import { useRoutinesStore } from 'lib/stores';
 import { getMinutesFromTime } from 'lib/helpers';
 
 const Routines: NextPage = () => {
-  const { routines } = useRoutinesStore();
-  const { showSave } = useRoutineStore();
+  const { routines, showSave } = useRoutinesStore();
 
   return (
     <>

@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 
 import SaveItemsToRoutineModal from 'components/Item/SaveItemsToRoutineModal';
 
-import { useGroupsStore, useItemsStore, useRoutinesStore, useRoutineStore } from 'lib/stores';
+import { useGroupsStore, useItemsStore, useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 import { Group } from 'types/group';
 import { Item } from 'types/item';
@@ -39,15 +39,15 @@ describe('SaveItemsToRoutineModal', () => {
   });
 
   beforeEach(() => {
-    const { result } = renderHook(() => useRoutineStore());
+    const { result } = renderHook(() => useRoutinesStore());
     act(() => {
       result.current.hide();
-      result.current.clear();
+      result.current.resetAfterHide();
     });
   });
 
   it('should open settings modal', () => {
-    const { result } = renderHook(() => useRoutineStore());
+    const { result } = renderHook(() => useRoutinesStore());
 
     render(<SaveItemsToRoutineModal />);
 
@@ -57,10 +57,8 @@ describe('SaveItemsToRoutineModal', () => {
   });
 
   it('should add item to routine', async () => {
-    const routines = renderHook(() => useRoutinesStore());
-    const edit = vi.spyOn(routines.result.current, 'edit').mockImplementation(() => {});
-
-    const { result } = renderHook(() => useRoutineStore());
+    const { result } = renderHook(() => useRoutinesStore());
+    const edit = vi.spyOn(result.current, 'edit').mockImplementation(() => {});
     const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveItemsToRoutineModal />);
@@ -76,10 +74,8 @@ describe('SaveItemsToRoutineModal', () => {
   });
 
   it('should remove item to routine', async () => {
-    const routines = renderHook(() => useRoutinesStore());
-    const edit = vi.spyOn(routines.result.current, 'edit').mockImplementation(() => {});
-
-    const { result } = renderHook(() => useRoutineStore());
+    const { result } = renderHook(() => useRoutinesStore());
+    const edit = vi.spyOn(result.current, 'edit').mockImplementation(() => {});
     const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveItemsToRoutineModal />);

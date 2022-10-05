@@ -3,14 +3,8 @@ import '@testing-library/jest-dom';
 
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
-import { useRoutinesStore, useRoutineStore } from 'lib/stores';
+import { useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
-
-beforeEach(() => {
-  const mockIntersectionObserver = vi.fn();
-  mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
-  window.IntersectionObserver = mockIntersectionObserver;
-});
 
 const routine: Routine = {
   id: 'routine-1',
@@ -23,15 +17,21 @@ const routine: Routine = {
 
 describe('RoutineSettingsModal', async () => {
   beforeEach(() => {
-    const { result } = renderHook(() => useRoutineStore());
+    const mockIntersectionObserver = vi.fn();
+    mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
+    window.IntersectionObserver = mockIntersectionObserver;
+  });
+
+  afterEach(() => {
+    const { result } = renderHook(() => useRoutinesStore());
     act(() => {
       result.current.hide();
-      result.current.clear();
+      result.current.resetAfterHide();
     });
   });
 
   it('should open settings modal', () => {
-    const { result } = renderHook(() => useRoutineStore());
+    const { result } = renderHook(() => useRoutinesStore());
 
     render(<RoutineSettingsModal />);
 
@@ -41,7 +41,7 @@ describe('RoutineSettingsModal', async () => {
   });
 
   it('should open edit modal', () => {
-    const { result } = renderHook(() => useRoutineStore());
+    const { result } = renderHook(() => useRoutinesStore());
     const showSave = vi.spyOn(result.current, 'showSave');
 
     render(<RoutineSettingsModal />);
@@ -53,10 +53,8 @@ describe('RoutineSettingsModal', async () => {
   });
 
   it('should delete routine', () => {
-    const routines = renderHook(() => useRoutinesStore());
-    const remove = vi.spyOn(routines.result.current, 'remove');
-
-    const { result } = renderHook(() => useRoutineStore());
+    const { result } = renderHook(() => useRoutinesStore());
+    const remove = vi.spyOn(result.current, 'remove');
     const hide = vi.spyOn(result.current, 'hide');
 
     render(<RoutineSettingsModal />);
