@@ -5,10 +5,11 @@ export type BottomSheetProps = Pick<TransitionEvents, 'afterLeave'> & {
   isOpen: boolean;
   onClose: () => void;
   title?: React.ReactNode;
+  rightElement?: React.ReactNode;
   children: React.ReactNode;
 };
 
-const BottomSheet = ({ isOpen, onClose, title, children, afterLeave, ...props }: BottomSheetProps) => {
+const BottomSheet = ({ isOpen, onClose, title, rightElement, children, afterLeave, ...props }: BottomSheetProps) => {
   return (
     <Transition show={isOpen} as={Fragment} afterLeave={afterLeave}>
       <Dialog onClose={onClose} className="relative inset-0 z-50" data-testid="bottom-sheet" {...props}>
@@ -25,7 +26,7 @@ const BottomSheet = ({ isOpen, onClose, title, children, afterLeave, ...props }:
         </Transition.Child>
 
         <div className="fixed inset-0 flex items-end justify-center">
-          <div className="flex w-full max-w-lg items-start gap-2">
+          <div className="flex h-full w-full max-w-lg items-end">
             <Transition.Child
               enter="transition duration-200 ease-out"
               enterFrom="transform translate-y-full"
@@ -35,8 +36,11 @@ const BottomSheet = ({ isOpen, onClose, title, children, afterLeave, ...props }:
               leaveTo="transform translate-y-full"
               as={Fragment}
             >
-              <Dialog.Panel className="w-full max-w-lg overflow-hidden rounded-t-md bg-white">
-                {title && <Dialog.Title className="px-4 py-3 text-lg font-semibold">{title}</Dialog.Title>}
+              <Dialog.Panel className="flex w-full max-w-lg flex-col overflow-hidden rounded-t-md bg-white">
+                <div className="flex items-center justify-between px-4 py-3">
+                  {title && <Dialog.Title className="text-lg font-semibold">{title}</Dialog.Title>}
+                  {rightElement}
+                </div>
 
                 {children}
               </Dialog.Panel>

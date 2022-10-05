@@ -25,5 +25,5 @@ body {
 }
 
 #__next {
-  @apply flex h-full w-full max-w-lg flex-col bg-white;
+  @apply flex w-full max-w-lg flex-col bg-white;
 }

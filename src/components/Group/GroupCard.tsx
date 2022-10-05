@@ -1,4 +1,4 @@
-import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
+import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid';
 import { MinusCircleIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
@@ -34,7 +34,7 @@ const GroupCard = ({ group }: GroupCardProps) => {
             onClick={() => showSettings(group)}
             data-testid="group-card-settings"
           >
-            <EllipsisVerticalIcon className="h-5 w-5" />
+            <EllipsisHorizontalIcon className="h-5 w-5" />
           </button>
         </div>
       </div>

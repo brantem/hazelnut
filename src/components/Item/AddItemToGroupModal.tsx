@@ -30,7 +30,7 @@ const AddItemToGroupModal = () => {
       afterLeave={resetAfterHide}
     >
       <form onSubmit={formik.handleSubmit}>
-        <div className="px-4 py-3">
+        <div className="px-4 pb-3">
           <Input
             label="Title"
             name="title"

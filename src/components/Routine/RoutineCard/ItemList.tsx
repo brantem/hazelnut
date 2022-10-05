@@ -40,13 +40,13 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
     <li
       ref={setNodeRef}
       data-testid="routine-card-items-item"
-      className="flex h-7 items-center justify-between space-x-2"
+      className="flex h-7 w-full items-center justify-between space-x-2 pr-1"
       style={{ transform: CSS.Transform.toString(transform), transition }}
       {...attributes}
     >
       {isSortable && (
         <button
-          className="-ml-1.5 p-1.5"
+          className="-ml-1.5 flex-grow-0 p-1.5"
           ref={setActivatorNodeRef}
           {...listeners}
           data-testid="routine-card-items-item-handle"
@@ -57,7 +57,7 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
         </button>
       )}
 
-      <Checkbox label={item.title} name={routine.id + '-' + item.id} color={routine.color} />
+      <Checkbox label={item.title} name={routine.id + '-' + item.id} color={routine.color} className="h-5 w-5" />
     </li>
   );
 };

@@ -33,27 +33,27 @@ exports[`RoutineCard > should render successfully 1`] = `
         aria-describedby="DndDescribedBy-0"
         aria-disabled="false"
         aria-roledescription="sortable"
-        class="flex h-7 items-center justify-between space-x-2"
+        class="flex h-7 w-full items-center justify-between space-x-2 pr-1"
         data-testid="routine-card-items-item"
         role="button"
         tabindex="0"
       >
         <div
-          class="flex w-full items-center"
+          class="flex w-full items-center justify-between space-x-3"
         >
-          <input
-            aria-checked="false"
-            class="h-4 w-4 rounded border-red-300 text-red-600 focus:ring-red-500"
-            id="routine-1-item-1"
-            name="routine-1-item-1"
-            type="checkbox"
-          />
           <label
-            class="ml-3 flex-1 truncate font-medium text-neutral-700"
+            class="flex-1 truncate font-medium text-neutral-700"
             for="routine-1-item-1"
           >
             Item 1
           </label>
+          <input
+            aria-checked="false"
+            class="h-5 w-5 rounded-full border-red-300 text-red-600 focus:ring-red-500"
+            id="routine-1-item-1"
+            name="routine-1-item-1"
+            type="checkbox"
+          />
         </div>
       </li>
     </ol>
@@ -123,7 +123,7 @@ exports[`RoutineCard > should show action button 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM10 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM11.5 15.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z"
+              d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM8.5 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM15.5 8.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
             />
           </svg>
         </button>
@@ -137,27 +137,27 @@ exports[`RoutineCard > should show action button 1`] = `
         aria-describedby="DndDescribedBy-1"
         aria-disabled="false"
         aria-roledescription="sortable"
-        class="flex h-7 items-center justify-between space-x-2"
+        class="flex h-7 w-full items-center justify-between space-x-2 pr-1"
         data-testid="routine-card-items-item"
         role="button"
         tabindex="0"
       >
         <div
-          class="flex w-full items-center"
+          class="flex w-full items-center justify-between space-x-3"
         >
-          <input
-            aria-checked="false"
-            class="h-4 w-4 rounded border-red-300 text-red-600 focus:ring-red-500"
-            id="routine-1-item-1"
-            name="routine-1-item-1"
-            type="checkbox"
-          />
           <label
-            class="ml-3 flex-1 truncate font-medium text-neutral-700"
+            class="flex-1 truncate font-medium text-neutral-700"
             for="routine-1-item-1"
           >
             Item 1
           </label>
+          <input
+            aria-checked="false"
+            class="h-5 w-5 rounded-full border-red-300 text-red-600 focus:ring-red-500"
+            id="routine-1-item-1"
+            name="routine-1-item-1"
+            type="checkbox"
+          />
         </div>
       </li>
     </ol>
@@ -215,13 +215,13 @@ exports[`RoutineCard > should show sort handle 1`] = `
         aria-describedby="DndDescribedBy-2"
         aria-disabled="false"
         aria-roledescription="sortable"
-        class="flex h-7 items-center justify-between space-x-2"
+        class="flex h-7 w-full items-center justify-between space-x-2 pr-1"
         data-testid="routine-card-items-item"
         role="button"
         tabindex="0"
       >
         <button
-          class="-ml-1.5 p-1.5"
+          class="-ml-1.5 flex-grow-0 p-1.5"
           data-testid="routine-card-items-item-handle"
         >
           <svg
@@ -236,21 +236,21 @@ exports[`RoutineCard > should show sort handle 1`] = `
           </svg>
         </button>
         <div
-          class="flex w-full items-center"
+          class="flex w-full items-center justify-between space-x-3"
         >
-          <input
-            aria-checked="false"
-            class="h-4 w-4 rounded border-red-300 text-red-600 focus:ring-red-500"
-            id="routine-1-item-1"
-            name="routine-1-item-1"
-            type="checkbox"
-          />
           <label
-            class="ml-3 flex-1 truncate font-medium text-neutral-700"
+            class="flex-1 truncate font-medium text-neutral-700"
             for="routine-1-item-1"
           >
             Item 1
           </label>
+          <input
+            aria-checked="false"
+            class="h-5 w-5 rounded-full border-red-300 text-red-600 focus:ring-red-500"
+            id="routine-1-item-1"
+            name="routine-1-item-1"
+            type="checkbox"
+          />
         </div>
       </li>
     </ol>

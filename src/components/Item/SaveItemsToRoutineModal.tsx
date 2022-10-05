@@ -24,11 +24,15 @@ const SaveItemsToRoutineModal = () => {
     <BottomSheet
       isOpen={isSaveItemsOpen}
       onClose={hide}
-      title="Items"
+      title={
+        <>
+          Items <span className="ml-1 text-base font-normal text-neutral-500">{itemIds.length}</span>
+        </>
+      }
       data-testid="save-items-to-routine-modal"
       afterLeave={resetAfterHide}
     >
-      <ol className="space-y-3 px-4 py-3">
+      <ol className="max-h-[75vh] flex-1 space-y-3 overflow-y-auto px-4 pb-3">
         {groups.map((group) => (
           <li key={group.id}>
             <div className="flex items-center space-x-3">
@@ -41,7 +45,7 @@ const SaveItemsToRoutineModal = () => {
               {items.map((item) => {
                 if (item.groupId !== group.id) return null;
                 return (
-                  <li key={item.id} className="flex items-center justify-between space-x-3">
+                  <li key={item.id} className="flex h-7 items-center pr-1">
                     <Checkbox
                       label={item.title}
                       name={item.id}

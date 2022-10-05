@@ -43,7 +43,7 @@ const SaveRoutineModal = () => {
       afterLeave={resetAfterHide}
     >
       <form onSubmit={formik.handleSubmit}>
-        <div className="space-y-6 px-4 py-3">
+        <div className="space-y-6 px-4 pb-3">
           <Input
             label="Title"
             name="title"

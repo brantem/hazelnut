@@ -3,7 +3,7 @@
 exports[`DeleteButton > should render successfully 1`] = `
 <div>
   <button
-    class="rounded-md px-3 py-2 text-left hover:bg-neutral-100"
+    class="px-4 py-2 text-left hover:bg-neutral-100"
     data-testid="delete-button"
   >
     A
@@ -14,7 +14,7 @@ exports[`DeleteButton > should render successfully 1`] = `
 exports[`DeleteButton > should render successfully 2`] = `
 <div>
   <button
-    class="rounded-md px-3 py-2 text-left text-red-500 hover:bg-red-50"
+    class="px-4 py-2 text-left text-red-500 hover:bg-red-50"
     data-testid="delete-button-confirm"
   >
     B

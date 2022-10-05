@@ -7,18 +7,19 @@ type CheckboxProps = React.DetailedHTMLProps<InputHTMLAttributes<HTMLInputElemen
 
 const Checkbox = ({ label, name, color = 'neutral', ...props }: CheckboxProps) => {
   return (
-    <div className="flex w-full items-center">
+    <div className="flex w-full items-center justify-between space-x-3">
+      <label htmlFor={name} className="flex-1 truncate font-medium text-neutral-700">
+        {label}
+      </label>
+
       <input
         {...props}
         type="checkbox"
         id={name}
         name={name}
-        className={`h-4 w-4 rounded border-${color}-300 text-${color}-600 focus:ring-${color}-500`}
+        className={`h-5 w-5 rounded-full border-${color}-300 text-${color}-600 focus:ring-${color}-500`}
         aria-checked={props.checked ? 'true' : 'false'}
       />
-      <label htmlFor={name} className="ml-3 flex-1 truncate font-medium text-neutral-700">
-        {label}
-      </label>
     </div>
   );
 };

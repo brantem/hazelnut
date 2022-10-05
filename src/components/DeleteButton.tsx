@@ -20,8 +20,7 @@ const DeleteButton = ({
   return !clicked ? (
     <button
       className={
-        (typeof className === 'function' ? className(false) : className) ||
-        'rounded-md px-3 py-2 text-left hover:bg-neutral-100'
+        (typeof className === 'function' ? className(false) : className) || 'px-4 py-2 text-left hover:bg-neutral-100'
       }
       onClick={() => {
         setClicked(true);
@@ -35,7 +34,7 @@ const DeleteButton = ({
     <button
       className={
         (typeof className === 'function' ? className(true) : className) ||
-        'rounded-md px-3 py-2 text-left text-red-500 hover:bg-red-50'
+        'px-4 py-2 text-left text-red-500 hover:bg-red-50'
       }
       onClick={onConfirm}
       data-testid="delete-button-confirm"

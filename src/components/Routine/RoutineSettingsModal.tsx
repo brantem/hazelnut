@@ -11,22 +11,17 @@ const RoutineSettingsModal = () => {
     <BottomSheet
       isOpen={isSettingsOpen}
       onClose={hide}
-      title={
-        routine && (
-          <>
-            <span>{routine?.title}</span>
-            <div className="mt-1 flex items-center justify-between space-x-3 text-base font-normal text-neutral-500">
-              <span>{routine?.time}</span>
-              <Days days={routine?.days} />
-            </div>
-          </>
-        )
-      }
+      title={routine?.title}
       data-testid="routine-settings-modal"
       afterLeave={() => !isSaveOpen && resetAfterHide()}
     >
-      <div className="flex flex-col px-2 pb-3">
-        <button className="rounded-md px-3 py-2 text-left hover:bg-neutral-100" onClick={() => showSave()}>
+      <div className="-mt-2 flex items-center justify-between space-x-3 px-4 text-base font-normal text-neutral-500">
+        <span>{routine?.time}</span>
+        <Days days={routine?.days || []} />
+      </div>
+
+      <div className="flex flex-col py-3">
+        <button className="px-4 py-2 text-left hover:bg-neutral-100" onClick={() => showSave()}>
           Edit
         </button>
 

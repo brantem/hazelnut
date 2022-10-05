@@ -1,4 +1,4 @@
-import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
+import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid';
 
 import ItemList from 'components/Routine/RoutineCard/ItemList';
 
@@ -39,7 +39,7 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
               onClick={() => showSettings(routine)}
               data-testid="routine-card-settings"
             >
-              <EllipsisVerticalIcon className="h-5 w-5" />
+              <EllipsisHorizontalIcon className="h-5 w-5" />
             </button>
           </div>
         )}
