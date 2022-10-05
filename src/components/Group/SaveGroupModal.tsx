@@ -5,14 +5,13 @@ import Input from 'components/Input';
 import ColorPicker from 'components/ColorPicker';
 
 import colors from 'data/colors';
-import { useGroupsStore, useGroupStore } from 'lib/stores';
+import { useGroupsStore } from 'lib/stores';
 import { Group } from 'types/group';
 
 type Values = Pick<Group, 'title' | 'color'>;
 
 const SaveGroupModal = () => {
-  const { groups, add, edit } = useGroupsStore();
-  const { group, clear, isSaveOpen, hide } = useGroupStore();
+  const { groups, group, isSaveOpen, hide, resetAfterHide, add, edit } = useGroupsStore();
 
   const formik = useFormik<Values>({
     initialValues: {
@@ -38,7 +37,7 @@ const SaveGroupModal = () => {
       onClose={hide}
       title={`${group ? 'Edit' : 'Add'} Group`}
       data-testid="save-group-modal"
-      afterLeave={clear}
+      afterLeave={resetAfterHide}
     >
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-6 px-4 py-3">

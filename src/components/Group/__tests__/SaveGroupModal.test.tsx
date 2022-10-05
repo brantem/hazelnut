@@ -3,14 +3,8 @@ import '@testing-library/jest-dom';
 
 import SaveGroupModal from 'components/Group/SaveGroupModal';
 
-import { useGroupsStore, useGroupStore } from 'lib/stores';
+import { useGroupsStore } from 'lib/stores';
 import { Group } from 'types/group';
-
-beforeEach(() => {
-  const mockIntersectionObserver = vi.fn();
-  mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
-  window.IntersectionObserver = mockIntersectionObserver;
-});
 
 const group: Group = {
   id: 'group-1',
@@ -20,15 +14,21 @@ const group: Group = {
 
 describe('SaveGroupModal', () => {
   beforeEach(() => {
-    const { result } = renderHook(() => useGroupStore());
+    const mockIntersectionObserver = vi.fn();
+    mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
+    window.IntersectionObserver = mockIntersectionObserver;
+  });
+
+  afterEach(() => {
+    const { result } = renderHook(() => useGroupsStore());
     act(() => {
       result.current.hide();
-      result.current.clear();
+      result.current.resetAfterHide();
     });
   });
 
   it('should open save modal', () => {
-    const { result } = renderHook(() => useGroupStore());
+    const { result } = renderHook(() => useGroupsStore());
 
     render(<SaveGroupModal />);
 
@@ -41,7 +41,7 @@ describe('SaveGroupModal', () => {
     const groups = renderHook(() => useGroupsStore());
     const add = vi.spyOn(groups.result.current, 'add');
 
-    const { result } = renderHook(() => useGroupStore());
+    const { result } = renderHook(() => useGroupsStore());
     const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveGroupModal />);
@@ -62,7 +62,7 @@ describe('SaveGroupModal', () => {
     const groups = renderHook(() => useGroupsStore());
     const edit = vi.spyOn(groups.result.current, 'edit');
 
-    const { result } = renderHook(() => useGroupStore());
+    const { result } = renderHook(() => useGroupsStore());
     const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveGroupModal />);

@@ -4,28 +4,85 @@ import '@testing-library/jest-dom';
 import { useGroupsStore } from 'lib/stores';
 import { Group } from 'types/group';
 
-test('useGroupsStore', () => {
-  const { result } = renderHook(() => useGroupsStore());
+const group: Group = {
+  id: 'group-1',
+  title: 'Group 1',
+  color: 'red',
+};
 
-  // add
-  expect(result.current.groups).toHaveLength(0);
-  act(() => {
-    result.current.add({ id: 'group-1', title: 'Group 1', color: 'red' } as Group);
-    result.current.add({ id: 'group-2', title: 'Group 2', color: 'amber' } as Group);
+describe('useGroupsStore', () => {
+  afterEach(() => {
+    const { result } = renderHook(() => useGroupsStore());
+    act(() => {
+      result.current.hide();
+      result.current.resetAfterHide();
+    });
   });
-  expect(result.current.groups).toEqual([
-    { id: 'group-1', title: 'Group 1', color: 'red' },
-    { id: 'group-2', title: 'Group 2', color: 'amber' },
-  ]);
 
-  // edit
-  act(() => result.current.edit('group-1', { title: 'Group 1a', color: 'orange' }));
-  expect(result.current.groups).toEqual([
-    { id: 'group-1', title: 'Group 1a', color: 'orange' },
-    { id: 'group-2', title: 'Group 2', color: 'amber' },
-  ]);
+  it('should open add modal', () => {
+    const { result } = renderHook(() => useGroupsStore());
+    act(() => result.current.showSave());
+    expect(result.current.group).toEqual(null);
+    expect(result.current.isSaveOpen).toEqual(true);
+  });
 
-  // remove
-  act(() => result.current.remove('group-1'));
-  expect(result.current.groups).toEqual([{ id: 'group-2', title: 'Group 2', color: 'amber' }]);
+  it('should open edit modal', () => {
+    const { result } = renderHook(() => useGroupsStore());
+    act(() => result.current.showSave(group));
+    expect(result.current.group).toEqual(group);
+    expect(result.current.isSaveOpen).toEqual(true);
+  });
+
+  it('should show settings', () => {
+    const { result } = renderHook(() => useGroupsStore());
+    act(() => result.current.showSettings(group));
+    expect(result.current.group).toEqual(group);
+    expect(result.current.isSettingsOpen).toEqual(true);
+  });
+
+  it('should hide and reset', () => {
+    const { result } = renderHook(() => useGroupsStore());
+    act(() => {
+      result.current.showSave(group);
+      result.current.showSettings(group);
+    });
+    expect(result.current.group).toEqual(group);
+    expect(result.current.isSaveOpen).toEqual(true);
+    expect(result.current.isSettingsOpen).toEqual(true);
+    act(() => {
+      result.current.hide();
+      result.current.resetAfterHide();
+    });
+    expect(result.current.group).toEqual(null);
+    expect(result.current.isSaveOpen).toEqual(false);
+    expect(result.current.isSettingsOpen).toEqual(false);
+  });
+
+  it('should add group', () => {
+    const { result } = renderHook(() => useGroupsStore());
+    expect(result.current.groups).toHaveLength(0);
+    act(() => {
+      result.current.add({ id: 'group-1', title: 'Group 1', color: 'red' } as Group);
+      result.current.add({ id: 'group-2', title: 'Group 2', color: 'amber' } as Group);
+    });
+    expect(result.current.groups).toEqual([
+      { id: 'group-1', title: 'Group 1', color: 'red' },
+      { id: 'group-2', title: 'Group 2', color: 'amber' },
+    ]);
+  });
+
+  it('should edit group', () => {
+    const { result } = renderHook(() => useGroupsStore());
+    act(() => result.current.edit('group-1', { title: 'Group 1a', color: 'orange' }));
+    expect(result.current.groups).toEqual([
+      { id: 'group-1', title: 'Group 1a', color: 'orange' },
+      { id: 'group-2', title: 'Group 2', color: 'amber' },
+    ]);
+  });
+
+  it('should remove group', () => {
+    const { result } = renderHook(() => useGroupsStore());
+    act(() => result.current.remove('group-1'));
+    expect(result.current.groups).toEqual([{ id: 'group-2', title: 'Group 2', color: 'amber' }]);
+  });
 });

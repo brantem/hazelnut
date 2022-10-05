@@ -6,11 +6,10 @@ import SaveGroupModal from 'components/Group/SaveGroupModal';
 import AddItemToGroupModal from 'components/Item/AddItemToGroupModal';
 import GroupSettingsModal from 'components/Group/GroupSettingsModal';
 
-import { useGroupsStore, useGroupStore } from 'lib/stores';
+import { useGroupsStore } from 'lib/stores';
 
 const Items: NextPage = () => {
-  const { groups } = useGroupsStore();
-  const { showSave } = useGroupStore();
+  const { groups, showSave } = useGroupsStore();
 
   return (
     <>

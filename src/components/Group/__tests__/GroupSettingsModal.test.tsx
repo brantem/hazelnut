@@ -3,14 +3,8 @@ import '@testing-library/jest-dom';
 
 import GroupSettingsModal from 'components/Group/GroupSettingsModal';
 
-import { useGroupsStore, useGroupStore } from 'lib/stores';
+import { useGroupsStore } from 'lib/stores';
 import { Group } from 'types/group';
-
-beforeEach(() => {
-  const mockIntersectionObserver = vi.fn();
-  mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
-  window.IntersectionObserver = mockIntersectionObserver;
-});
 
 const group: Group = {
   id: 'group-1',
@@ -20,15 +14,21 @@ const group: Group = {
 
 describe('GroupSettingsModal', async () => {
   beforeEach(() => {
-    const { result } = renderHook(() => useGroupStore());
+    const mockIntersectionObserver = vi.fn();
+    mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
+    window.IntersectionObserver = mockIntersectionObserver;
+  });
+
+  afterEach(() => {
+    const { result } = renderHook(() => useGroupsStore());
     act(() => {
       result.current.hide();
-      result.current.clear();
+      result.current.resetAfterHide();
     });
   });
 
   it('should open settings modal', () => {
-    const { result } = renderHook(() => useGroupStore());
+    const { result } = renderHook(() => useGroupsStore());
 
     render(<GroupSettingsModal />);
 
@@ -38,7 +38,7 @@ describe('GroupSettingsModal', async () => {
   });
 
   it('should open edit modal', () => {
-    const { result } = renderHook(() => useGroupStore());
+    const { result } = renderHook(() => useGroupsStore());
     const showSave = vi.spyOn(result.current, 'showSave');
 
     render(<GroupSettingsModal />);
@@ -53,7 +53,7 @@ describe('GroupSettingsModal', async () => {
     const groups = renderHook(() => useGroupsStore());
     const remove = vi.spyOn(groups.result.current, 'remove');
 
-    const { result } = renderHook(() => useGroupStore());
+    const { result } = renderHook(() => useGroupsStore());
     const hide = vi.spyOn(result.current, 'hide');
 
     render(<GroupSettingsModal />);
