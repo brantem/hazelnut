@@ -182,7 +182,7 @@ exports[`RoutineCard > should show action button 1`] = `
 </div>
 `;
 
-exports[`RoutineCard > should show action button 2`] = `
+exports[`RoutineCard > should show sort handle 1`] = `
 <div>
   <div
     class="px-4 py-3 bg-red-50"

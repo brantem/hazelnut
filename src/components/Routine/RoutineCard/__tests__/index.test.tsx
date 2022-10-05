@@ -48,8 +48,8 @@ describe('RoutineCard', () => {
     expect(showSettings).toHaveBeenCalledWith(routine);
   });
 
-  it('should show action button', () => {
-    const { container } = render(<RoutineCard routine={routine} isItemDraggable />);
+  it('should show sort handle', () => {
+    const { container } = render(<RoutineCard routine={routine} isItemSortable />);
 
     expect(container).toMatchSnapshot();
     expect(screen.getByTestId('routine-card-items-item-handle')).toBeInTheDocument();

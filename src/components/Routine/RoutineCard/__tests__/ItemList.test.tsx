@@ -33,5 +33,12 @@ describe('ItemList', () => {
     expect(screen.queryByTestId('routine-card-items-item-handle')).not.toBeInTheDocument();
   });
 
+  it('should be sortable', () => {
+    const { container } = render(<ItemList routine={routine} isSortable />);
+
+    expect(container).toMatchSnapshot();
+    expect(screen.queryByTestId('routine-card-items-item-handle')).toBeInTheDocument();
+  });
+
   // TODO: test onDragStart, onDragEnd, onDragCancel
 });

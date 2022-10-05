@@ -28,10 +28,10 @@ import { Item as _Item } from 'types/item';
 type ItemProps = {
   routine: Routine;
   item: _Item;
-  isDraggable?: boolean;
+  isSortable?: boolean;
 };
 
-const Item = ({ routine, item, isDraggable }: ItemProps) => {
+const Item = ({ routine, item, isSortable }: ItemProps) => {
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition } = useSortable({
     id: item.id,
   });
@@ -44,7 +44,7 @@ const Item = ({ routine, item, isDraggable }: ItemProps) => {
       style={{ transform: CSS.Transform.toString(transform), transition }}
       {...attributes}
     >
-      {isDraggable && (
+      {isSortable && (
         <button
           className="-ml-1.5 p-1.5"
           ref={setActivatorNodeRef}
@@ -64,10 +64,10 @@ const Item = ({ routine, item, isDraggable }: ItemProps) => {
 
 type ItemListProps = {
   routine: Routine;
-  isDraggable?: boolean;
+  isSortable?: boolean;
 };
 
-const ItemList = ({ routine, isDraggable }: ItemListProps) => {
+const ItemList = ({ routine, isSortable }: ItemListProps) => {
   const { edit } = useRoutinesStore();
   const { items: baseItems } = useItemsStore();
   const items = useMemo(() => {
@@ -109,7 +109,7 @@ const ItemList = ({ routine, isDraggable }: ItemListProps) => {
       <SortableContext items={items} strategy={verticalListSortingStrategy}>
         <ol className="space-y-1 pt-2 pb-1" data-testid="routine-card-items">
           {items.map((item) => (
-            <Item key={item.id} routine={routine} item={item} isDraggable={isDraggable} />
+            <Item key={item.id} routine={routine} item={item} isSortable={isSortable} />
           ))}
         </ol>
       </SortableContext>
