@@ -4,13 +4,13 @@ import BottomSheet from 'components/BottomSheet';
 import Input from 'components/Input';
 
 import { Item } from 'types/item';
-import { useItemsStore, useItemStore } from 'lib/stores';
+import { useItemsStore } from 'lib/stores';
 
 type Values = Pick<Item, 'title'>;
 
 const AddItemToGroupModal = () => {
   const { add } = useItemsStore();
-  const { groupId, clear, isAddOpen, hide } = useItemStore();
+  const { groupId, isAddOpen, hide, resetAfterHide } = useItemsStore();
 
   const formik = useFormik<Values>({
     initialValues: { title: '' },
@@ -22,7 +22,13 @@ const AddItemToGroupModal = () => {
   });
 
   return (
-    <BottomSheet isOpen={isAddOpen} onClose={hide} title="Add Item" data-testid="add-item-modal" afterLeave={clear}>
+    <BottomSheet
+      isOpen={isAddOpen}
+      onClose={hide}
+      title="Add Item"
+      data-testid="add-item-modal"
+      afterLeave={resetAfterHide}
+    >
       <form onSubmit={formik.handleSubmit}>
         <div className="px-4 py-3">
           <Input

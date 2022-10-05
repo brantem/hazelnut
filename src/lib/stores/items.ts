@@ -7,6 +7,14 @@ import { Item } from 'types/item';
 
 type ItemsState = {
   items: Item[];
+  groupId: string | null;
+
+  isAddOpen: boolean;
+  showAdd: (groupId: string) => void;
+
+  hide: () => void;
+  resetAfterHide: () => void;
+
   add: (groupId: string, item: Omit<Item, 'id' | 'groupId'>) => void;
   edit: (id: string, item: Partial<Omit<Item, 'id'>>) => void;
   remove: (id: string) => void;
@@ -16,6 +24,14 @@ const useStore = create<ItemsState>()(
   persist(
     (set) => ({
       items: [],
+      groupId: null,
+
+      isAddOpen: false,
+      showAdd: (groupId) => set({ groupId, isAddOpen: true }),
+
+      hide: () => set({ isAddOpen: false }),
+      resetAfterHide: () => set({ groupId: null }),
+
       add: (groupId, item) => {
         set((state) => ({ items: [...state.items, { id: nanoid(), groupId, ...item }] }));
       },
@@ -26,13 +42,24 @@ const useStore = create<ItemsState>()(
         set((state) => ({ items: state.items.filter((item) => item.id !== id) }));
       },
     }),
-    { name: 'items' },
+    {
+      name: 'items',
+      partialize: (state) => ({ items: state.items }),
+    },
   ),
 );
 
 /* c8 ignore start */
 const dummy = {
   items: [],
+  groupId: null,
+
+  isAddOpen: false,
+  showAdd: () => {},
+
+  hide: () => {},
+  resetAfterHide: () => {},
+
   add: () => {},
   edit: () => {},
   remove: () => {},

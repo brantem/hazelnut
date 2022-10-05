@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 
 import GroupCard from 'components/Group/GroupCard';
 
-import { useGroupsStore, useItemsStore, useItemStore } from 'lib/stores';
+import { useGroupsStore, useItemsStore } from 'lib/stores';
 import { Item } from 'types/item';
 import { Group } from 'types/group';
 
@@ -25,8 +25,8 @@ describe('GroupCard', () => {
   });
 
   it('should render successfully', () => {
-    const item = renderHook(() => useItemStore());
-    const showAdd = vi.spyOn(item.result.current, 'showAdd').mockImplementation(() => {});
+    const items = renderHook(() => useItemsStore());
+    const showAdd = vi.spyOn(items.result.current, 'showAdd').mockImplementation(() => {});
 
     const { result } = renderHook(() => useGroupsStore());
     const showSettings = vi.spyOn(result.current, 'showSettings').mockImplementation(() => {});

@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 
 import AddItemToGroupModal from 'components/Item/AddItemToGroupModal';
 
-import { useItemsStore, useItemStore } from 'lib/stores';
+import { useItemsStore } from 'lib/stores';
 
 beforeEach(() => {
   const mockIntersectionObserver = vi.fn();
@@ -13,15 +13,15 @@ beforeEach(() => {
 
 describe('AddItemToGroupModal', () => {
   beforeEach(() => {
-    const { result } = renderHook(() => useItemStore());
+    const { result } = renderHook(() => useItemsStore());
     act(() => {
       result.current.hide();
-      result.current.clear();
+      result.current.resetAfterHide();
     });
   });
 
   it('should open settings modal', () => {
-    const { result } = renderHook(() => useItemStore());
+    const { result } = renderHook(() => useItemsStore());
 
     render(<AddItemToGroupModal />);
 
@@ -31,10 +31,8 @@ describe('AddItemToGroupModal', () => {
   });
 
   it('should add new item', async () => {
-    const items = renderHook(() => useItemsStore());
-    const add = vi.spyOn(items.result.current, 'add');
-
-    const { result } = renderHook(() => useItemStore());
+    const { result } = renderHook(() => useItemsStore());
+    const add = vi.spyOn(result.current, 'add');
     const hide = vi.spyOn(result.current, 'hide');
 
     render(<AddItemToGroupModal />);

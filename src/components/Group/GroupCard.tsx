@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import DeleteButton from 'components/DeleteButton';
 
-import { useGroupsStore, useItemsStore, useItemStore } from 'lib/stores';
+import { useGroupsStore, useItemsStore } from 'lib/stores';
 import type { Group } from 'types/group';
 
 type GroupCardProps = {
@@ -14,8 +14,7 @@ type GroupCardProps = {
 const GroupCard = ({ group }: GroupCardProps) => {
   const { showSettings } = useGroupsStore();
   const items = useItemsStore((state) => state.items.filter((item) => item.groupId === group.id));
-  const { remove } = useItemsStore();
-  const { showAdd } = useItemStore();
+  const { showAdd, remove } = useItemsStore();
 
   return (
     <div className={`px-4 py-3 bg-${group.color}-50`} data-testid="group-card">
