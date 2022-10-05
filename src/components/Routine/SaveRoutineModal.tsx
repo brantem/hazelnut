@@ -9,7 +9,7 @@ import colors from 'data/colors';
 import { useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 
-type Values = Omit<Routine, 'id' | 'itemIds'>;
+type Values = Omit<Routine, 'id' | 'itemIds' | 'minimized'>;
 
 const SaveRoutineModal = () => {
   const { routines, routine, isSaveOpen, hide, resetAfterHide, add, edit } = useRoutinesStore();

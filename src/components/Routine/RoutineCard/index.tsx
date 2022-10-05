@@ -1,4 +1,5 @@
-import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid';
+import { EllipsisHorizontalIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+import clsx from 'clsx';
 
 import ItemList from 'components/Routine/RoutineCard/ItemList';
 
@@ -12,7 +13,7 @@ type RoutineProps = {
 };
 
 const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutineProps) => {
-  const { showSaveItems, showSettings } = useRoutinesStore();
+  const { showSaveItems, showSettings, edit } = useRoutinesStore();
 
   return (
     <div className={`px-4 py-3 bg-${routine.color}-50`} data-testid="routine-card">
@@ -24,8 +25,8 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
           </span>
         </div>
 
-        {showAction && (
-          <div className="flex flex-shrink-0 items-center space-x-1">
+        <div className="flex flex-shrink-0 items-center space-x-1">
+          {showAction && (
             <button
               className={`rounded-md px-2 py-1 text-sm hover:bg-${routine.color}-100 flex-shrink-0`}
               onClick={() => showSaveItems(routine)}
@@ -33,7 +34,9 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
             >
               Items
             </button>
+          )}
 
+          {showAction && (
             <button
               className={`rounded-md p-1 hover:bg-${routine.color}-100`}
               onClick={() => showSettings(routine)}
@@ -41,11 +44,19 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
             >
               <EllipsisHorizontalIcon className="h-5 w-5" />
             </button>
-          </div>
-        )}
+          )}
+
+          <button
+            className={clsx(`rounded-md p-1 hover:bg-${routine.color}-100`, routine.minimized && 'rotate-180')}
+            onClick={() => edit(routine.id, { minimized: !routine.minimized })}
+            data-testid="routine-card-minimize"
+          >
+            <ChevronUpIcon className="h-5 w-5" />
+          </button>
+        </div>
       </div>
 
-      <ItemList routine={routine} isSortable={isItemSortable} />
+      {!routine.minimized && <ItemList routine={routine} isSortable={isItemSortable} />}
     </div>
   );
 };

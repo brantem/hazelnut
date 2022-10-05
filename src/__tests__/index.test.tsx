@@ -30,6 +30,7 @@ const routine: Routine = {
   days: [getCurrentDay()],
   time: dayjs().format('HH:mm'),
   itemIds: [],
+  minimized: false,
 };
 
 describe('Home', () => {

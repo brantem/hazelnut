@@ -21,7 +21,7 @@ type RoutinesState = {
   hide: () => void;
   resetAfterHide: () => void;
 
-  add: (routine: Omit<Routine, 'id' | 'itemIds'>) => void;
+  add: (routine: Omit<Routine, 'id' | 'itemIds' | 'minimized'>) => void;
   edit: (id: string, routine: Partial<Omit<Routine, 'id'>>) => void;
   remove: (id: string) => void;
 };
@@ -45,7 +45,9 @@ const useStore = create<RoutinesState>()(
       resetAfterHide: () => set({ routine: null }),
 
       add: (routine) => {
-        set((state) => ({ routines: [...state.routines, { id: nanoid(), itemIds: [], ...routine }] }));
+        set((state) => ({
+          routines: [...state.routines, { id: nanoid(), itemIds: [], minimized: false, ...routine }],
+        }));
       },
       edit: (id, routine) => {
         set((state) => ({

@@ -15,6 +15,7 @@ const routine: Routine = {
   days: ['MONDAY'],
   time: '00:00',
   itemIds: ['item-0'],
+  minimized: false,
 };
 
 beforeEach(() => {

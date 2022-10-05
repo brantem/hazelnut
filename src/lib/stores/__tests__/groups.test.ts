@@ -8,6 +8,7 @@ const group: Group = {
   id: 'group-1',
   title: 'Group 1',
   color: 'red',
+  minimized: false,
 };
 
 describe('useGroupsStore', () => {
@@ -66,23 +67,23 @@ describe('useGroupsStore', () => {
       result.current.add({ id: 'group-2', title: 'Group 2', color: 'amber' } as Group);
     });
     expect(result.current.groups).toEqual([
-      { id: 'group-1', title: 'Group 1', color: 'red' },
-      { id: 'group-2', title: 'Group 2', color: 'amber' },
+      { id: 'group-1', title: 'Group 1', color: 'red', minimized: false },
+      { id: 'group-2', title: 'Group 2', color: 'amber', minimized: false },
     ]);
   });
 
   it('should edit group', () => {
     const { result } = renderHook(() => useGroupsStore());
-    act(() => result.current.edit('group-1', { title: 'Group 1a', color: 'orange' }));
+    act(() => result.current.edit('group-1', { title: 'Group 1a', color: 'orange', minimized: true }));
     expect(result.current.groups).toEqual([
-      { id: 'group-1', title: 'Group 1a', color: 'orange' },
-      { id: 'group-2', title: 'Group 2', color: 'amber' },
+      { id: 'group-1', title: 'Group 1a', color: 'orange', minimized: true },
+      { id: 'group-2', title: 'Group 2', color: 'amber', minimized: false },
     ]);
   });
 
   it('should remove group', () => {
     const { result } = renderHook(() => useGroupsStore());
     act(() => result.current.remove('group-1'));
-    expect(result.current.groups).toEqual([{ id: 'group-2', title: 'Group 2', color: 'amber' }]);
+    expect(result.current.groups).toEqual([{ id: 'group-2', title: 'Group 2', color: 'amber', minimized: false }]);
   });
 });

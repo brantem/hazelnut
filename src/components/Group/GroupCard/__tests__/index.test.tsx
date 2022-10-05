@@ -11,6 +11,7 @@ const group: Group = {
   id: 'group-1',
   title: 'Group 1',
   color: 'red',
+  minimized: false,
 };
 
 describe('GroupCard', () => {
@@ -36,37 +37,37 @@ describe('GroupCard', () => {
     expect(container).toMatchSnapshot();
     expect(screen.getAllByTestId('group-card-items-item')).toHaveLength(1);
 
-    act(() => screen.getByText('Add Item').click());
+    act(() => screen.getByTestId('group-card-add-item').click());
     expect(showAdd).toHaveBeenCalledWith('group-1');
 
     act(() => screen.getByTestId('group-card-settings').click());
     expect(showSettings).toHaveBeenCalledWith(group);
   });
 
-  it('should render empty group', () => {
-    const items = renderHook(() => useItemsStore());
-    act(() => items.result.current.remove('item-1'));
-
-    const { container } = render(<GroupCard group={group} />);
-
-    expect(container).toMatchSnapshot();
-    expect(screen.queryByTestId('group-card-items')).not.toBeInTheDocument();
-  });
-
   it('should remove item', () => {
     const items = renderHook(() => useItemsStore());
     const remove = vi.spyOn(items.result.current, 'remove');
 
-    const { result } = renderHook(() => useGroupsStore());
-    act(() => result.current.add(group as Group));
-
-    const { rerender } = render(<GroupCard group={result.current.groups[0]} />);
+    const { rerender } = render(<GroupCard group={group} />);
 
     expect(screen.getByTestId('group-card-items-item')).toBeInTheDocument();
     act(() => screen.getByTestId('delete-button').click());
     act(() => screen.getByTestId('delete-button-confirm').click());
     expect(remove).toHaveBeenCalledWith('item-1');
-    rerender(<GroupCard group={result.current.groups[0]} />);
+    rerender(<GroupCard group={group} />);
     expect(screen.queryByTestId('group-card-items-item')).not.toBeInTheDocument();
+  });
+
+  it('should be minimizable', () => {
+    const { result } = renderHook(() => useGroupsStore());
+    const edit = vi.spyOn(result.current, 'edit').mockImplementation(() => {});
+
+    const { rerender } = render(<GroupCard group={group} />);
+
+    expect(screen.getByTestId('group-card-items')).toBeInTheDocument();
+    act(() => screen.getByTestId('group-card-minimize').click());
+    expect(edit).toHaveBeenCalledWith('group-1', { minimized: true });
+    rerender(<GroupCard group={{ ...group, minimized: true }} />);
+    expect(screen.queryByTestId('group-card-items')).not.toBeInTheDocument();
   });
 });

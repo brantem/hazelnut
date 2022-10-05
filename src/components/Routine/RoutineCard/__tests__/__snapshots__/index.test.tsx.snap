@@ -24,6 +24,28 @@ exports[`RoutineCard > should render successfully 1`] = `
           00:00
         </span>
       </div>
+      <div
+        class="flex flex-shrink-0 items-center space-x-1"
+      >
+        <button
+          class="rounded-md p-1 hover:bg-red-100"
+          data-testid="routine-card-minimize"
+        >
+          <svg
+            aria-hidden="true"
+            class="h-5 w-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.832 6.29 12.77a.75.75 0 11-1.08-1.04l4.25-4.5a.75.75 0 011.08 0l4.25 4.5a.75.75 0 01-.02 1.06z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
     <ol
       class="space-y-1 pt-2 pb-1"
@@ -127,6 +149,24 @@ exports[`RoutineCard > should show action button 1`] = `
             />
           </svg>
         </button>
+        <button
+          class="rounded-md p-1 hover:bg-red-100"
+          data-testid="routine-card-minimize"
+        >
+          <svg
+            aria-hidden="true"
+            class="h-5 w-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.832 6.29 12.77a.75.75 0 11-1.08-1.04l4.25-4.5a.75.75 0 011.08 0l4.25 4.5a.75.75 0 01-.02 1.06z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </button>
       </div>
     </div>
     <ol
@@ -205,6 +245,28 @@ exports[`RoutineCard > should show sort handle 1`] = `
         >
           00:00
         </span>
+      </div>
+      <div
+        class="flex flex-shrink-0 items-center space-x-1"
+      >
+        <button
+          class="rounded-md p-1 hover:bg-red-100"
+          data-testid="routine-card-minimize"
+        >
+          <svg
+            aria-hidden="true"
+            class="h-5 w-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.832 6.29 12.77a.75.75 0 11-1.08-1.04l4.25-4.5a.75.75 0 011.08 0l4.25 4.5a.75.75 0 01-.02 1.06z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </button>
       </div>
     </div>
     <ol

@@ -13,6 +13,7 @@ const routine: Routine = {
   days: ['MONDAY'],
   time: '00:00',
   itemIds: ['item-1'],
+  minimized: false,
 };
 
 describe('RoutineCard', () => {
@@ -53,5 +54,18 @@ describe('RoutineCard', () => {
 
     expect(container).toMatchSnapshot();
     expect(screen.getByTestId('routine-card-items-item-handle')).toBeInTheDocument();
+  });
+
+  it('should be minimizable', () => {
+    const { result } = renderHook(() => useRoutinesStore());
+    const edit = vi.spyOn(result.current, 'edit').mockImplementation(() => {});
+
+    const { rerender } = render(<RoutineCard routine={routine} />);
+
+    expect(screen.getByTestId('routine-card-items')).toBeInTheDocument();
+    act(() => screen.getByTestId('routine-card-minimize').click());
+    expect(edit).toHaveBeenCalledWith('routine-1', { minimized: true });
+    rerender(<RoutineCard routine={{ ...routine, minimized: true }} />);
+    expect(screen.queryByTestId('routine-card-items')).not.toBeInTheDocument();
   });
 });

@@ -7,4 +7,5 @@ export type Routine = {
   days: Day[];
   time: string;
   itemIds: string[];
+  minimized: boolean;
 };

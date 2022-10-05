@@ -18,7 +18,7 @@ type GroupsState = {
   hide: () => void;
   resetAfterHide: () => void;
 
-  add: (group: Omit<Group, 'id'>) => void;
+  add: (group: Omit<Group, 'id' | 'minimized'>) => void;
   edit: (id: string, group: Partial<Omit<Group, 'id'>>) => void;
   remove: (id: string) => void;
 };
@@ -39,7 +39,7 @@ const useStore = create<GroupsState>()(
       resetAfterHide: () => set({ group: null }),
 
       add: (group) => {
-        set((state) => ({ groups: [...state.groups, { id: nanoid(), ...group }] }));
+        set((state) => ({ groups: [...state.groups, { id: nanoid(), minimized: false, ...group }] }));
       },
       edit: (id, group) => {
         set((state) => ({

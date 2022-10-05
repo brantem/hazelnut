@@ -13,6 +13,7 @@ const routine: Routine = {
   days: ['MONDAY'],
   time: '00:00',
   itemIds: ['item-1'],
+  minimized: false,
 };
 
 describe('ItemList', () => {

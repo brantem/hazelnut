@@ -13,6 +13,7 @@ const routine: Routine = {
   days: ['MONDAY'],
   time: '00:00',
   itemIds: [],
+  minimized: false,
 };
 
 describe('RoutineSettingsModal', async () => {

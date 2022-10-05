@@ -10,6 +10,7 @@ const group: Group = {
   id: 'group-1',
   title: 'Group 1',
   color: 'red',
+  minimized: false,
 };
 
 describe('GroupSettingsModal', async () => {
