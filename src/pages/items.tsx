@@ -13,7 +13,7 @@ const Items: NextPage = () => {
 
   return (
     <>
-      <Layout header={{ action: { text: 'Add Group', onClick: () => showSave() } }}>
+      <Layout header={{ actions: [{ text: 'Add Group', onClick: () => showSave() }] }}>
         <section className="space-y-3">
           {groups.map((group, i) => (
             <GroupCard key={i} group={group} />

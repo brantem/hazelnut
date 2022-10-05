@@ -19,10 +19,12 @@ test('Header', () => {
         { icon: <span />, href: '/', text: 'A' },
         { icon: <span />, href: '/b', text: 'B' },
       ]}
-      action={{
-        onClick: onActionClick,
-        text: 'Action',
-      }}
+      actions={[
+        {
+          onClick: onActionClick,
+          text: 'Action',
+        },
+      ]}
     />,
   );
 

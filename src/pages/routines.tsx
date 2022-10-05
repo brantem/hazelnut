@@ -14,7 +14,7 @@ const Routines: NextPage = () => {
 
   return (
     <>
-      <Layout header={{ action: { text: 'Add Routine', onClick: () => showSave() } }}>
+      <Layout header={{ actions: [{ text: 'Add Routine', onClick: () => showSave() }] }}>
         <section className="space-y-3">
           {routines
             .sort((a, b) => getMinutesFromTime(a.time) - getMinutesFromTime(b.time))

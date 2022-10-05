@@ -20,11 +20,15 @@ exports[`Header 1`] = `
         A
       </h1>
     </div>
-    <button
-      class="rounded-md px-3 py-1.5 text-sm hover:bg-neutral-100"
+    <div
+      class="flex items-center space-x-1"
     >
-      Action
-    </button>
+      <button
+        class="rounded-md px-3 py-1.5 text-sm hover:bg-neutral-100"
+      >
+        Action
+      </button>
+    </div>
   </header>
 </div>
 `;
