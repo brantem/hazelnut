@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import BottomSheet from 'components/BottomSheet';
-import Checkbox from 'components/Checkbox';
+import Group from 'components/Item/SaveItemsToRoutineModal/Group';
 
 import { useRoutinesStore, useGroupsStore, useItemsStore } from 'lib/stores';
 
@@ -34,35 +34,18 @@ const SaveItemsToRoutineModal = () => {
     >
       <ol className="max-h-[75vh] flex-1 space-y-3 overflow-y-auto px-4 pb-3">
         {groups.map((group) => (
-          <li key={group.id}>
-            <div className="flex items-center space-x-3">
-              <span className={`max-w-full flex-shrink-0 truncate text-${group.color}-500`}>{group.title}</span>
-
-              <hr className="flex-1" />
-            </div>
-
-            <ol className="mt-1 space-y-1">
-              {items.map((item) => {
-                if (item.groupId !== group.id) return null;
-                return (
-                  <li key={item.id} className="flex h-7 items-center pr-1">
-                    <Checkbox
-                      label={item.title}
-                      name={item.id}
-                      checked={itemIds.includes(item.id)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setItemIds((prev) => [...prev, item.id]);
-                        } else {
-                          setItemIds((prev) => prev.filter((itemId) => itemId !== item.id));
-                        }
-                      }}
-                    />
-                  </li>
-                );
-              })}
-            </ol>
-          </li>
+          <Group
+            key={group.id}
+            group={group}
+            itemIds={itemIds}
+            onItemClick={(isChecked, itemId) => {
+              if (isChecked) {
+                setItemIds((prev) => [...prev, itemId]);
+              } else {
+                setItemIds((prev) => prev.filter((id) => id !== itemId));
+              }
+            }}
+          />
         ))}
       </ol>
 
