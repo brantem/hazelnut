@@ -22,15 +22,20 @@ describe('useItemsStore', async () => {
 
   it('should hide and reset', () => {
     const { result } = renderHook(() => useItemsStore());
-    act(() => result.current.showAdd('group-1'));
+    act(() => {
+      result.current.showAdd('group-1');
+      result.current.setSearch('a');
+    });
     expect(result.current.groupId).toEqual('group-1');
     expect(result.current.isAddOpen).toEqual(true);
+    expect(result.current.search).toEqual('a');
     act(() => {
       result.current.hide();
       result.current.resetAfterHide();
     });
     expect(result.current.groupId).toEqual(null);
     expect(result.current.isAddOpen).toEqual(false);
+    expect(result.current.search).toEqual('');
   });
 
   it('should add item', () => {
@@ -59,5 +64,11 @@ describe('useItemsStore', async () => {
     const { result } = renderHook(() => useItemsStore());
     act(() => result.current.remove('item-1'));
     expect(result.current.items).toEqual([{ id: 'item-2', groupId: 'group-1', title: 'Item 2' }]);
+  });
+
+  it('should set search', () => {
+    const { result } = renderHook(() => useItemsStore());
+    act(() => result.current.setSearch('a'));
+    expect(result.current.search).toEqual('a');
   });
 });

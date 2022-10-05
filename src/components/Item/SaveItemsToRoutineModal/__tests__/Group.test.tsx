@@ -35,6 +35,23 @@ describe('Group', async () => {
     expect(onItemClick).toBeCalledWith(true, 'item-2');
   });
 
+  it("should render empty when group doesn't have items", () => {
+    render(<Group group={{ ...group, id: 'group-3' }} itemIds={[]} onItemClick={() => {}} />);
+
+    expect(screen.queryByTestId('group')).not.toBeInTheDocument();
+  });
+
+  it("should render empty when group doesn't contain searched item", () => {
+    const { result } = renderHook(() => useItemsStore());
+
+    render(<Group group={group} itemIds={[]} onItemClick={() => {}} />);
+
+    expect(screen.getByText('Group 1')).toBeInTheDocument();
+    act(() => result.current.setSearch('a'));
+    expect(screen.queryByText('Group 1')).not.toBeInTheDocument();
+    act(() => result.current.setSearch(''));
+  });
+
   it('should be minimizable', () => {
     render(<Group group={group} itemIds={[]} onItemClick={() => {}} />);
 

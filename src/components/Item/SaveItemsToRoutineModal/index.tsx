@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import BottomSheet from 'components/BottomSheet';
+import Search from 'components/Item/Search';
 import Group from 'components/Item/SaveItemsToRoutineModal/Group';
 
 import { useRoutinesStore, useGroupsStore, useItemsStore } from 'lib/stores';
+import { isMatch } from 'lib/helpers';
 
 const SaveItemsToRoutineModal = () => {
   const { routine, isSaveItemsOpen, hide, resetAfterHide, edit } = useRoutinesStore();
   const { groups } = useGroupsStore();
-  const { items } = useItemsStore();
+  const { items, search } = useItemsStore();
+  const isSearchEmpty = useMemo(() => items.findIndex((item) => isMatch(item.title, search)) === -1, [items, search]);
 
   const [itemIds, setItemIds] = useState<string[]>([]);
 
@@ -47,9 +50,13 @@ const SaveItemsToRoutineModal = () => {
             }}
           />
         ))}
+
+        {isSearchEmpty && <li className="text-neutral-500">No results found</li>}
       </ol>
 
       <div className="bg-neutral-50 px-4 py-3">
+        <Search />
+
         <button
           type="submit"
           className="w-full rounded-md bg-black py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-neutral-500 enabled:hover:bg-neutral-800 disabled:opacity-70"

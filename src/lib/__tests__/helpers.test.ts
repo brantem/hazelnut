@@ -1,4 +1,4 @@
-import { getCurrentDay, getMinutesFromTime } from 'lib/helpers';
+import { getCurrentDay, getMinutesFromTime, isMatch } from 'lib/helpers';
 
 test('getMinutesFromTime', () => {
   expect(getMinutesFromTime('00:00')).toEqual(0);
@@ -10,4 +10,9 @@ test('getCurrentDay', () => {
   const DateMock = vi.fn(() => ({ getDay: vi.fn(() => 0) }));
   vi.stubGlobal('Date', DateMock);
   expect(getCurrentDay()).toEqual('SUNDAY');
+});
+
+test('isMatch', () => {
+  expect(isMatch('A', 'A')).toBeTruthy();
+  expect(isMatch('ab', 'a  b')).toBeTruthy();
 });

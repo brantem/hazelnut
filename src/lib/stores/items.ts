@@ -18,6 +18,9 @@ type ItemsState = {
   add: (groupId: string, item: Omit<Item, 'id' | 'groupId'>) => void;
   edit: (id: string, item: Partial<Omit<Item, 'id'>>) => void;
   remove: (id: string) => void;
+
+  search: string;
+  setSearch: (search: string) => void;
 };
 
 const useStore = create<ItemsState>()(
@@ -30,7 +33,7 @@ const useStore = create<ItemsState>()(
       showAdd: (groupId) => set({ groupId, isAddOpen: true }),
 
       hide: () => set({ isAddOpen: false }),
-      resetAfterHide: () => set({ groupId: null }),
+      resetAfterHide: () => set({ groupId: null, search: '' }),
 
       add: (groupId, item) => {
         set((state) => ({ items: [...state.items, { id: nanoid(), groupId, ...item }] }));
@@ -41,6 +44,9 @@ const useStore = create<ItemsState>()(
       remove: (id) => {
         set((state) => ({ items: state.items.filter((item) => item.id !== id) }));
       },
+
+      search: '',
+      setSearch: (search) => set({ search }),
     }),
     {
       name: 'items',
@@ -63,6 +69,9 @@ const dummy = {
   add: () => {},
   edit: () => {},
   remove: () => {},
+
+  search: '',
+  setSearch: () => {},
 };
 
 // https://github.com/pmndrs/zustand/issues/1145
