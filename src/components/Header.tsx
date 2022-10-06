@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import clsx from 'clsx';
 
 import { Navigation } from 'types/shared';
@@ -20,25 +21,30 @@ const Header = ({ navigations, actions }: HeaderProps) => {
   }, [navigations, router.pathname]);
 
   return (
-    <header className="flex items-center justify-between py-3 px-4">
-      <div className="flex items-center text-2xl font-semibold">
-        <div className="h-6 w-6">{navigation.icon}</div> <h1 className="ml-3">{navigation.text}</h1>
-      </div>
-
-      {actions?.length ? (
-        <div className="flex items-center space-x-1">
-          {actions.map((action, i) => (
-            <button
-              key={i}
-              className={clsx('rounded-md px-3 py-1.5 text-sm hover:bg-neutral-100', action.className)}
-              onClick={action.onClick}
-            >
-              {action.text}
-            </button>
-          ))}
+    <>
+      <Head>
+        <title>{navigation.text} - hazelnut</title>
+      </Head>
+      <header className="flex items-center justify-between py-3 px-4">
+        <div className="flex items-center text-2xl font-semibold">
+          <div className="h-6 w-6">{navigation.icon}</div> <h1 className="ml-3">{navigation.text}</h1>
         </div>
-      ) : null}
-    </header>
+
+        {actions?.length ? (
+          <div className="flex items-center space-x-1">
+            {actions.map((action, i) => (
+              <button
+                key={i}
+                className={clsx('rounded-md px-3 py-1.5 text-sm hover:bg-neutral-100', action.className)}
+                onClick={action.onClick}
+              >
+                {action.text}
+              </button>
+            ))}
+          </div>
+        ) : null}
+      </header>
+    </>
   );
 };
 
