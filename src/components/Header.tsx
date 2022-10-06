@@ -19,11 +19,12 @@ const Header = ({ navigations, actions }: HeaderProps) => {
   const navigation = useMemo(() => {
     return navigations.find((navigation) => navigation.href === router.pathname)!;
   }, [navigations, router.pathname]);
+  const title = `${navigation.text} - hazelnut`;
 
   return (
     <>
       <Head>
-        <title>{navigation.text} - hazelnut</title>
+        <title>{title}</title>
       </Head>
       <header className="flex items-center justify-between py-3 px-4">
         <div className="flex items-center text-2xl font-semibold">
