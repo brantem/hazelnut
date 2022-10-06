@@ -2,7 +2,6 @@ import { useCallback, useReducer } from 'react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
-import { SEARCH_KEY } from 'components/Item/SaveItemsToRoutineModal';
 import Checkbox from 'components/Checkbox';
 
 import { useItemsStore, useSearchStore } from 'lib/stores';
@@ -16,7 +15,7 @@ type GroupProps = {
 };
 
 export const Group = ({ group, itemIds, onItemClick }: GroupProps) => {
-  const { search } = useSearchStore(SEARCH_KEY);
+  const { search } = useSearchStore('save-items-routine-modal');
   const items = useItemsStore(
     useCallback(
       (state) => {

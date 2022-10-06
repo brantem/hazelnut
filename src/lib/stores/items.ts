@@ -20,7 +20,7 @@ export type ItemsState = {
   resetAfterHide: () => void;
 
   add: (groupId: string, item: Omit<Item, 'id' | 'groupId'>) => void;
-  edit: (id: string, item: Partial<Omit<Item, 'id'>>) => void;
+  edit: (id: string, item: Partial<Omit<Item, 'id' | 'groupId'>>) => void;
   remove: (id: string) => void;
 };
 

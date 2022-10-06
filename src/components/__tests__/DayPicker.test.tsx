@@ -1,5 +1,4 @@
 import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
-
 import '@testing-library/jest-dom';
 
 import DayPicker from 'components/DayPicker';

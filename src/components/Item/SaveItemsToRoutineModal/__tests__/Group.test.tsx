@@ -1,7 +1,6 @@
 import { render, screen, act, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { SEARCH_KEY } from 'components/Item/SaveItemsToRoutineModal';
 import Group from 'components/Item/SaveItemsToRoutineModal/Group';
 
 import { Item } from 'types/item';
@@ -43,7 +42,7 @@ describe('Group', async () => {
   });
 
   it("should render empty when group doesn't contain searched item", () => {
-    const search = renderHook(() => useSearchStore(SEARCH_KEY));
+    const search = renderHook(() => useSearchStore('save-items-routine-modal'));
 
     render(<Group group={group} itemIds={[]} onItemClick={() => {}} />);
 

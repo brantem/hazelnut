@@ -1,11 +1,11 @@
 import { act, render, screen, renderHook } from '@testing-library/react';
+import dayjs from 'dayjs';
 import '@testing-library/jest-dom';
 
 import Home from 'pages/index';
 
 import { useRoutinesStore } from 'lib/stores';
 import { getCurrentDay } from 'lib/helpers';
-import dayjs from 'dayjs';
 import { Routine } from 'types/routine';
 import days from 'data/days';
 

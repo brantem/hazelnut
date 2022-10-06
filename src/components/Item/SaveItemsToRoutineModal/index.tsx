@@ -7,12 +7,10 @@ import Group from 'components/Item/SaveItemsToRoutineModal/Group';
 import { useRoutinesStore, useGroupsStore, useItemsStore, useSearchStore } from 'lib/stores';
 import { isMatch } from 'lib/helpers';
 
-export const SEARCH_KEY = 'save-items-routine-modal';
-
 const SaveItemsToRoutineModal = () => {
   const { routine, isSaveItemsOpen, hide, resetAfterHide, edit } = useRoutinesStore();
   const { groups } = useGroupsStore();
-  const { search, setSearch } = useSearchStore(SEARCH_KEY);
+  const { search, setSearch } = useSearchStore('save-items-routine-modal');
   const getItemIdsByIds = useItemsStore((state) => state.getItemIdsByIds);
   const isSearchEmpty = useItemsStore(
     useCallback((state) => state && state.items.findIndex((item) => isMatch(item.title, search)) === -1, [search]),
@@ -60,7 +58,7 @@ const SaveItemsToRoutineModal = () => {
       </ol>
 
       <div className="bg-neutral-50 px-4 py-3">
-        <Search placeholder="Search for item titles" searchKey={SEARCH_KEY} />
+        <Search placeholder="Search for item titles" searchKey={'save-items-routine-modal'} />
 
         <button
           type="submit"
