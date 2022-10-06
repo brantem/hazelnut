@@ -10,10 +10,10 @@ const GroupSettingsModal = () => {
   const itemsLength = useItemsStore(
     useCallback(
       (state) => {
-        if (!group) return 0;
+        if (!group?.id) return 0;
         return state.getItemsByGroupId(group.id).length;
       },
-      [group],
+      [group?.id],
     ),
   );
 

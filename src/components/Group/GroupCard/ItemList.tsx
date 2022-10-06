@@ -12,7 +12,7 @@ type ItemListProps = {
 };
 
 const ItemList = ({ group }: ItemListProps) => {
-  const items = useItemsStore(useCallback((state) => state.getItemsByGroupId(group.id), [group]));
+  const items = useItemsStore(useCallback((state) => state.getItemsByGroupId(group.id), [group.id]));
   const remove = useItemsStore((state) => state.remove);
 
   return (

@@ -22,7 +22,7 @@ export const Group = ({ group, itemIds, onItemClick }: GroupProps) => {
         if (!state.search) return items;
         return items.filter((item) => isMatch(item.title, state.search));
       },
-      [group],
+      [group.id],
     ),
   );
 
