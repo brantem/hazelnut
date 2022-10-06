@@ -43,7 +43,7 @@ describe('Items', () => {
     expect(screen.queryByTestId('search')).not.toBeInTheDocument();
     act(() => screen.getByTestId('items-search').click());
     expect(screen.getByTestId('search')).toBeInTheDocument();
-    fireEvent.change(screen.getByPlaceholderText('Search'), { target: { value: 'a' } });
+    fireEvent.change(screen.getByPlaceholderText('Search for group or item titles'), { target: { value: 'a' } });
     expect(screen.getByText('No results found')).toBeInTheDocument();
     act(() => screen.getByTestId('items-search').click());
     expect(screen.queryByTestId('search')).not.toBeInTheDocument();

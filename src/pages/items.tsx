@@ -54,7 +54,13 @@ const Items: NextPage = () => {
           ],
         }}
       >
-        {isSearching && <Search searchKey="items" className="sticky top-0 bg-white px-4 pt-1 pb-3" />}
+        {isSearching && (
+          <Search
+            placeholder="Search for group or item titles"
+            searchKey="items"
+            className="sticky top-0 bg-white px-4 pt-1 pb-3"
+          />
+        )}
 
         <section className="space-y-3">
           {groups.map((group, i) => (

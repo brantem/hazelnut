@@ -60,7 +60,7 @@ const SaveItemsToRoutineModal = () => {
       </ol>
 
       <div className="bg-neutral-50 px-4 py-3">
-        <Search searchKey={SEARCH_KEY} />
+        <Search placeholder="Search for item titles" searchKey={SEARCH_KEY} />
 
         <button
           type="submit"
