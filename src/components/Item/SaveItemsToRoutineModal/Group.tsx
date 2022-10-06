@@ -2,9 +2,10 @@ import { useCallback, useReducer } from 'react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
+import { SEARCH_KEY } from 'components/Item/SaveItemsToRoutineModal';
 import Checkbox from 'components/Checkbox';
 
-import { useItemsStore } from 'lib/stores';
+import { useItemsStore, useSearchStore } from 'lib/stores';
 import { Group as _Group } from 'types/group';
 import { isMatch } from 'lib/helpers';
 
@@ -15,14 +16,15 @@ type GroupProps = {
 };
 
 export const Group = ({ group, itemIds, onItemClick }: GroupProps) => {
+  const { search } = useSearchStore(SEARCH_KEY);
   const items = useItemsStore(
     useCallback(
       (state) => {
         const items = state.getItemsByGroupId(group.id);
-        if (!state.search) return items;
-        return items.filter((item) => isMatch(item.title, state.search));
+        if (!search) return items;
+        return items.filter((item) => isMatch(item.title, search));
       },
-      [group.id],
+      [group.id, search],
     ),
   );
 

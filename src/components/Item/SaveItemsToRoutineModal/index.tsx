@@ -1,33 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import BottomSheet from 'components/BottomSheet';
-import Search from 'components/Item/Search';
+import Search from 'components/Search';
 import Group from 'components/Item/SaveItemsToRoutineModal/Group';
 
-import { useRoutinesStore, useGroupsStore, useItemsStore, ItemsState } from 'lib/stores';
+import { useRoutinesStore, useGroupsStore, useItemsStore, useSearchStore } from 'lib/stores';
 import { isMatch } from 'lib/helpers';
 
-const itemsSelector = (state: ItemsState) => {
-  if (!state.search) return false;
-  return state.items.findIndex((item) => isMatch(item.title, state.search)) === -1;
-};
+export const SEARCH_KEY = 'save-items-routine-modal';
 
 const SaveItemsToRoutineModal = () => {
   const { routine, isSaveItemsOpen, hide, resetAfterHide, edit } = useRoutinesStore();
   const { groups } = useGroupsStore();
+  const { search, setSearch } = useSearchStore(SEARCH_KEY);
   const getItemIdsByIds = useItemsStore((state) => state.getItemIdsByIds);
-  const isSearchEmpty = useItemsStore(itemsSelector);
+  const isSearchEmpty = useItemsStore(
+    useCallback((state) => state && state.items.findIndex((item) => isMatch(item.title, search)) === -1, [search]),
+  );
 
   const [itemIds, setItemIds] = useState<string[]>([]);
 
   useEffect(() => {
-    if (!routine) {
-      if (itemIds.length) setItemIds([]);
-      return;
-    } else {
-      if (itemIds.length) return;
-      setItemIds(routine.itemIds);
-    }
+    if (!routine) return;
+    setItemIds(routine.itemIds);
   }, [routine, itemIds]);
 
   return (
@@ -40,7 +35,10 @@ const SaveItemsToRoutineModal = () => {
         </>
       }
       data-testid="save-items-to-routine-modal"
-      afterLeave={resetAfterHide}
+      afterLeave={() => {
+        resetAfterHide();
+        setSearch('');
+      }}
     >
       <ol className="max-h-[75vh] flex-1 space-y-3 overflow-y-auto px-4 pb-3">
         {groups.map((group) => (
@@ -49,7 +47,6 @@ const SaveItemsToRoutineModal = () => {
             group={group}
             itemIds={itemIds}
             onItemClick={(isChecked, itemId) => {
-              console.log(isChecked, itemId);
               if (isChecked) {
                 setItemIds((prev) => [...prev, itemId]);
               } else {
@@ -63,7 +60,7 @@ const SaveItemsToRoutineModal = () => {
       </ol>
 
       <div className="bg-neutral-50 px-4 py-3">
-        <Search />
+        <Search searchKey={SEARCH_KEY} />
 
         <button
           type="submit"

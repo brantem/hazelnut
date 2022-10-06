@@ -4,16 +4,29 @@ import clsx from 'clsx';
 
 import DeleteButton from 'components/DeleteButton';
 
-import { useItemsStore } from 'lib/stores';
+import { useItemsStore, useSearchStore } from 'lib/stores';
 import type { Group } from 'types/group';
+import { isMatch } from 'lib/helpers';
 
 type ItemListProps = {
   group: Group;
 };
 
 const ItemList = ({ group }: ItemListProps) => {
-  const items = useItemsStore(useCallback((state) => state.getItemsByGroupId(group.id), [group.id]));
+  const { search } = useSearchStore('items');
   const remove = useItemsStore((state) => state.remove);
+  const items = useItemsStore(
+    useCallback(
+      (state) => {
+        const items = state.getItemsByGroupId(group.id);
+        if (!search) return items;
+        return items.filter((item) => isMatch(item.title, search));
+      },
+      [group.id, search],
+    ),
+  );
+
+  if (!items.length) return null;
 
   return (
     <ol className="space-y-1 pt-2 pb-1" data-testid="group-card-items">

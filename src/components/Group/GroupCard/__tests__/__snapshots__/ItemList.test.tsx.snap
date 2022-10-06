@@ -1,0 +1,41 @@
+// Vitest Snapshot v1
+
+exports[`ItemList > should render successfully 1`] = `
+<div>
+  <ol
+    class="space-y-1 pt-2 pb-1"
+    data-testid="group-card-items"
+  >
+    <li
+      class="flex items-center justify-between space-x-3"
+      data-testid="group-card-items-item"
+    >
+      <span
+        class="truncate"
+      >
+        Item 1
+      </span>
+      <button
+        class="px-4 py-2 text-left hover:bg-neutral-100 rounded-md !p-1 text-sm text-red-500 hover:bg-red-100"
+        data-testid="delete-button"
+      >
+        <svg
+          aria-hidden="true"
+          class="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </li>
+  </ol>
+</div>
+`;

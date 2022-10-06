@@ -1,10 +1,11 @@
+import { useCallback, useMemo } from 'react';
 import { EllipsisHorizontalIcon, PlusIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
-
 import clsx from 'clsx';
 
 import ItemList from 'components/Group/GroupCard/ItemList';
 
-import { useGroupsStore, useItemsStore } from 'lib/stores';
+import { isMatch } from 'lib/helpers';
+import { useGroupsStore, useItemsStore, useSearchStore } from 'lib/stores';
 import type { Group } from 'types/group';
 
 type GroupCardProps = {
@@ -14,6 +15,22 @@ type GroupCardProps = {
 const GroupCard = ({ group }: GroupCardProps) => {
   const { showSettings, edit } = useGroupsStore();
   const { showAdd } = useItemsStore();
+  const { search } = useSearchStore('items');
+  const isGroupMatch = useMemo(() => {
+    if (!search) return true;
+    return isMatch(group.title, search);
+  }, [group.title, search]);
+  const isItemsMatch = useItemsStore(
+    useCallback(
+      (state) => {
+        if (!search) return true;
+        return state.getItemsByGroupId(group.id).findIndex((item) => isMatch(item.title, search)) !== -1;
+      },
+      [group.id, search],
+    ),
+  );
+
+  if (!isGroupMatch && !isItemsMatch) return null;
 
   return (
     <div className={`px-4 py-3 bg-${group.color}-50`} data-testid="group-card">

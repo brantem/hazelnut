@@ -1,11 +1,12 @@
 import { render, screen, act, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
+import { SEARCH_KEY } from 'components/Item/SaveItemsToRoutineModal';
 import Group from 'components/Item/SaveItemsToRoutineModal/Group';
 
 import { Item } from 'types/item';
 import { Group as _Group } from 'types/group';
-import { useItemsStore } from 'lib/stores';
+import { useItemsStore, useSearchStore } from 'lib/stores';
 
 const group: _Group = {
   id: 'group-1',
@@ -42,14 +43,14 @@ describe('Group', async () => {
   });
 
   it("should render empty when group doesn't contain searched item", () => {
-    const { result } = renderHook(() => useItemsStore());
+    const search = renderHook(() => useSearchStore(SEARCH_KEY));
 
     render(<Group group={group} itemIds={[]} onItemClick={() => {}} />);
 
     expect(screen.getByText('Group 1')).toBeInTheDocument();
-    act(() => result.current.setSearch('a'));
+    act(() => search.result.current.setSearch('b'));
     expect(screen.queryByText('Group 1')).not.toBeInTheDocument();
-    act(() => result.current.setSearch(''));
+    act(() => search.result.current.setSearch(''));
   });
 
   it('should be minimizable', () => {

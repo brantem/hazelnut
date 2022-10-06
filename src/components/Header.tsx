@@ -11,6 +11,7 @@ export type HeaderProps = {
     text: React.ReactNode;
     className?: string;
     onClick: () => void;
+    testId?: string;
   }[];
 };
 
@@ -38,6 +39,7 @@ const Header = ({ navigations, actions }: HeaderProps) => {
                 key={i}
                 className={clsx('rounded-md px-3 py-1.5 text-sm hover:bg-neutral-100', action.className)}
                 onClick={action.onClick}
+                data-testid={action.testId}
               >
                 {action.text}
               </button>
