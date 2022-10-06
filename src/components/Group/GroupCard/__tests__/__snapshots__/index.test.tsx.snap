@@ -83,7 +83,7 @@ exports[`GroupCard > should render successfully 1`] = `
           Item 1
         </span>
         <button
-          class="rounded-md p-1 text-sm text-red-500 hover:bg-red-100"
+          class="px-4 py-2 text-left hover:bg-neutral-100 rounded-md !p-1 text-sm text-red-500 hover:bg-red-100"
           data-testid="delete-button"
         >
           <svg

@@ -22,7 +22,7 @@ const ItemList = ({ group }: ItemListProps) => {
           <span className="truncate">{item.title}</span>
 
           <DeleteButton
-            className={(clicked) => clsx(`rounded-md p-1 text-sm text-red-500 hover:bg-red-100`, clicked && 'px-2')}
+            className={(clicked) => clsx(`rounded-md !p-1 text-sm text-red-500 hover:bg-red-100`, clicked && '!px-2')}
             text={<MinusCircleIcon className="h-5 w-5" />}
             onConfirm={() => remove(item.id)}
           />
