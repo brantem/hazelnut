@@ -24,8 +24,10 @@ const SaveItemsToRoutineModal = () => {
     if (!routine) {
       if (itemIds.length) setItemIds([]);
       return;
+    } else {
+      if (itemIds.length) return;
+      setItemIds(routine.itemIds);
     }
-    setItemIds(routine.itemIds);
   }, [routine, itemIds]);
 
   return (
@@ -47,6 +49,7 @@ const SaveItemsToRoutineModal = () => {
             group={group}
             itemIds={itemIds}
             onItemClick={(isChecked, itemId) => {
+              console.log(isChecked, itemId);
               if (isChecked) {
                 setItemIds((prev) => [...prev, itemId]);
               } else {
