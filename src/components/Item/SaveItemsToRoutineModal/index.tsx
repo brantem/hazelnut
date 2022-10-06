@@ -1,27 +1,32 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import BottomSheet from 'components/BottomSheet';
 import Search from 'components/Item/Search';
 import Group from 'components/Item/SaveItemsToRoutineModal/Group';
 
-import { useRoutinesStore, useGroupsStore, useItemsStore } from 'lib/stores';
+import { useRoutinesStore, useGroupsStore, useItemsStore, ItemsState } from 'lib/stores';
 import { isMatch } from 'lib/helpers';
+
+const itemsSelector = (state: ItemsState) => {
+  if (!state.search) return false;
+  return state.items.findIndex((item) => isMatch(item.title, state.search)) === -1;
+};
 
 const SaveItemsToRoutineModal = () => {
   const { routine, isSaveItemsOpen, hide, resetAfterHide, edit } = useRoutinesStore();
   const { groups } = useGroupsStore();
-  const { items, search } = useItemsStore();
-  const isSearchEmpty = useMemo(() => items.findIndex((item) => isMatch(item.title, search)) === -1, [items, search]);
+  const getItemIdsByIds = useItemsStore((state) => state.getItemIdsByIds);
+  const isSearchEmpty = useItemsStore(itemsSelector);
 
   const [itemIds, setItemIds] = useState<string[]>([]);
 
   useEffect(() => {
     if (!routine) {
-      if (itemIds?.length) setItemIds([]);
+      if (itemIds.length) setItemIds([]);
       return;
     }
     setItemIds(routine.itemIds);
-  }, [routine]);
+  }, [routine, itemIds]);
 
   return (
     <BottomSheet
@@ -61,8 +66,7 @@ const SaveItemsToRoutineModal = () => {
           type="submit"
           className="mt-3 w-full rounded-md bg-black py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-neutral-500 enabled:hover:bg-neutral-800 disabled:opacity-70"
           onClick={() => {
-            // TODO: find a better way to remove deleted item ids
-            edit(routine!.id, { itemIds: itemIds.filter((itemId) => items.find((item) => item.id === itemId)) });
+            edit(routine!.id, { itemIds: getItemIdsByIds(itemIds) });
             hide();
           }}
         >

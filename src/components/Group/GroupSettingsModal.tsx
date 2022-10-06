@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import BottomSheet from 'components/BottomSheet';
 import DeleteButton from 'components/DeleteButton';
 
@@ -5,10 +7,15 @@ import { useGroupsStore, useItemsStore } from 'lib/stores';
 
 const GroupSettingsModal = () => {
   const { group, isSaveOpen, showSave, isSettingsOpen, hide, resetAfterHide, remove } = useGroupsStore();
-  const itemsLength = useItemsStore((state) => {
-    if (!group) return 0;
-    return state.items.filter((item) => item.groupId === group?.id).length;
-  });
+  const itemsLength = useItemsStore(
+    useCallback(
+      (state) => {
+        if (!group) return 0;
+        return state.getItemsByGroupId(group.id).length;
+      },
+      [group],
+    ),
+  );
 
   return (
     <BottomSheet
@@ -19,9 +26,7 @@ const GroupSettingsModal = () => {
       afterLeave={() => !isSaveOpen && resetAfterHide()}
     >
       <div className="-mt-2 flex items-center justify-between space-x-3 px-4 text-base font-normal text-neutral-500">
-        <span>
-          {itemsLength} {itemsLength > 1 ? 'Items' : 'Item'}
-        </span>
+        {itemsLength} {itemsLength > 1 ? 'Items' : 'Item'}
       </div>
 
       <div className="flex flex-col py-3">

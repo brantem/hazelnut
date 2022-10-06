@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
@@ -15,13 +15,16 @@ type GroupProps = {
 };
 
 export const Group = ({ group, itemIds, onItemClick }: GroupProps) => {
-  const items = useItemsStore((state) => {
-    return state.items.filter((item) => {
-      if (item.groupId !== group.id) return false;
-      if (state.search && !isMatch(item.title, state.search)) return false;
-      return true;
-    });
-  });
+  const items = useItemsStore(
+    useCallback(
+      (state) => {
+        const items = state.getItemsByGroupId(group.id);
+        if (!state.search) return items;
+        return items.filter((item) => isMatch(item.title, state.search));
+      },
+      [group],
+    ),
+  );
 
   const [minimized, toggle] = useReducer((prev) => !prev, false);
 

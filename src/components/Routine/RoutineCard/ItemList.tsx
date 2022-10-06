@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -69,15 +69,7 @@ type ItemListProps = {
 
 const ItemList = ({ routine, isSortable }: ItemListProps) => {
   const { edit } = useRoutinesStore();
-  const { items: baseItems } = useItemsStore();
-  const items = useMemo(() => {
-    const items = [];
-    for (const itemId of routine.itemIds) {
-      const item = baseItems.find((item) => item.id === itemId);
-      if (item) items.push(item);
-    }
-    return items;
-  }, [routine.itemIds, baseItems]);
+  const items = useItemsStore(useCallback((state) => state.getItemsByIds(routine.itemIds), [routine.itemIds]));
   const sensors = useSensors(
     useSensor(MouseSensor),
     useSensor(TouchSensor),

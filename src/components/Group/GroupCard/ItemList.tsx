@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { MinusCircleIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
@@ -11,8 +12,8 @@ type ItemListProps = {
 };
 
 const ItemList = ({ group }: ItemListProps) => {
-  const items = useItemsStore((state) => state.items.filter((item) => item.groupId === group.id));
-  const { remove } = useItemsStore();
+  const items = useItemsStore(useCallback((state) => state.getItemsByGroupId(group.id), [group]));
+  const remove = useItemsStore((state) => state.remove);
 
   return (
     <ol className="space-y-1 pt-2 pb-1" data-testid="group-card-items">

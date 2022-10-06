@@ -5,9 +5,13 @@ import { nanoid } from 'nanoid';
 
 import { Item } from 'types/item';
 
-type ItemsState = {
+export type ItemsState = {
   items: Item[];
   groupId: string | null;
+
+  getItemsByGroupId: (groupId: string) => Item[];
+  getItemIdsByIds: (itemIds: string[]) => string[];
+  getItemsByIds: (itemIds: string[]) => Item[];
 
   isAddOpen: boolean;
   showAdd: (groupId: string) => void;
@@ -25,9 +29,25 @@ type ItemsState = {
 
 const useStore = create<ItemsState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       items: [],
       groupId: null,
+
+      getItemsByGroupId: (groupId) => get().items.filter((item) => item.groupId === groupId),
+      getItemIdsByIds: (itemIds) => {
+        const items = get().items;
+        return itemIds.reduce((prev, itemId) => {
+          const item = items.find((item) => item.id === itemId);
+          return item ? [...prev, item.id] : prev;
+        }, [] as string[]);
+      },
+      getItemsByIds: (itemIds) => {
+        const items = get().items;
+        return itemIds.reduce((prev, itemId) => {
+          const item = items.find((item) => item.id === itemId);
+          return item ? [...prev, item] : prev;
+        }, [] as Item[]);
+      },
 
       isAddOpen: false,
       showAdd: (groupId) => set({ groupId, isAddOpen: true }),
@@ -59,6 +79,10 @@ const useStore = create<ItemsState>()(
 const dummy = {
   items: [],
   groupId: null,
+
+  getItemsByGroupId: () => [],
+  getItemIdsByIds: () => [],
+  getItemsByIds: () => [],
 
   isAddOpen: false,
   showAdd: () => {},
