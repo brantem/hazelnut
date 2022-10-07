@@ -21,7 +21,7 @@ import { CSS } from '@dnd-kit/utilities';
 
 import Checkbox from 'components/Checkbox';
 
-import { useItemsStore, useRoutinesStore } from 'lib/stores';
+import { useItemsStore, useRoutinesStore, useHistoriesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 import { Item as _Item } from 'types/item';
 
@@ -32,6 +32,8 @@ type ItemProps = {
 };
 
 const Item = ({ routine, item, isSortable }: ItemProps) => {
+  const isDone = useHistoriesStore(useCallback((state) => state.getIsDone(routine.id, item.id), [routine.id, item.id]));
+  const save = useHistoriesStore((state) => state.save);
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition } = useSortable({
     id: item.id,
   });
@@ -57,7 +59,14 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
         </button>
       )}
 
-      <Checkbox label={item.title} name={routine.id + '-' + item.id} color={routine.color} className="h-5 w-5" />
+      <Checkbox
+        label={item.title}
+        name={routine.id + '-' + item.id}
+        color={routine.color}
+        className="h-5 w-5"
+        checked={isDone}
+        onChange={(e) => save(routine.id, item.id, e.target.checked)}
+      />
     </li>
   );
 };

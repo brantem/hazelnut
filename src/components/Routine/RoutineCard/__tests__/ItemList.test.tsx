@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import ItemList from 'components/Routine/RoutineCard/ItemList';
 
 import { Routine } from 'types/routine';
-import { useItemsStore, useRoutinesStore } from 'lib/stores';
+import { useHistoriesStore, useItemsStore, useRoutinesStore } from 'lib/stores';
 
 const routine: Routine = {
   id: 'routine-1',
@@ -51,5 +51,15 @@ describe('ItemList', () => {
     fireEvent.keyDown(handle, { code: 'Space' });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
     await expect(edit).toHaveBeenCalledWith('routine-1', { itemIds: ['item-2', 'item-1'] });
+  });
+
+  it('should save item', async () => {
+    const histories = renderHook(() => useHistoriesStore());
+    const save = vi.spyOn(histories.result.current, 'save').mockImplementation(() => {});
+
+    render(<ItemList routine={routine} isSortable />);
+
+    act(() => screen.getByText('Item 1').click());
+    expect(save).toHaveBeenCalledWith(routine.id, 'item-1', true);
   });
 });
