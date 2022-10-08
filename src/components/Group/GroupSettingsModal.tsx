@@ -6,7 +6,7 @@ import DeleteButton from 'components/DeleteButton';
 import { useGroupsStore, useItemsStore } from 'lib/stores';
 
 const GroupSettingsModal = () => {
-  const { group, isSaveOpen, showSave, isSettingsOpen, hide, resetAfterHide, remove } = useGroupsStore();
+  const { group, showSave, isSettingsOpen, hide, resetAfterHide, remove } = useGroupsStore();
   const itemsLength = useItemsStore(
     useCallback(
       (state) => {
@@ -23,10 +23,10 @@ const GroupSettingsModal = () => {
       onClose={hide}
       title={group?.title}
       data-testid="group-settings-modal"
-      afterLeave={() => !isSaveOpen && resetAfterHide()}
+      afterLeave={resetAfterHide}
     >
       <div className="-mt-2 flex items-center justify-between space-x-3 px-4 text-base font-normal text-neutral-500">
-        {itemsLength} {itemsLength > 1 ? 'Items' : 'Item'}
+        {itemsLength} Item(s)
       </div>
 
       <div className="flex flex-col py-3">

@@ -25,7 +25,7 @@ type GroupsState = {
 
 const useStore = create<GroupsState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       groups: [],
       group: null,
 
@@ -36,7 +36,10 @@ const useStore = create<GroupsState>()(
       showSettings: (group) => set({ group, isSettingsOpen: true }),
 
       hide: () => set({ isSaveOpen: false, isSettingsOpen: false }),
-      resetAfterHide: () => set({ group: null }),
+      resetAfterHide: () => {
+        if (get().isSaveOpen) return;
+        set({ group: null });
+      },
 
       add: (group) => {
         set((state) => ({ groups: [...state.groups, { id: nanoid(), minimized: false, ...group }] }));

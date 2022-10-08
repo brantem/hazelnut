@@ -59,6 +59,15 @@ describe('useGroupsStore', () => {
     expect(result.current.isSettingsOpen).toEqual(false);
   });
 
+  it('should not reset if isSaveOpen is true', () => {
+    const { result } = renderHook(() => useGroupsStore());
+    act(() => {
+      result.current.showSave(group);
+      result.current.resetAfterHide();
+    });
+    expect(result.current.group).toEqual(group);
+  });
+
   it('should add group', () => {
     const { result } = renderHook(() => useGroupsStore());
     expect(result.current.groups).toHaveLength(0);
