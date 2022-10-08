@@ -66,7 +66,7 @@ describe('ItemList', () => {
     render(<ItemList group={group} />);
 
     expect(screen.getByTestId('group-card-items')).toBeInTheDocument();
-    act(() => search.result.current.setSearch('items', 'a'));
+    act(() => search.result.current.setSearch(constants.searches.items, 'a'));
     expect(screen.queryByTestId('group-card-items')).not.toBeInTheDocument();
   });
 });

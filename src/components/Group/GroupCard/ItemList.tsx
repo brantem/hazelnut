@@ -12,7 +12,7 @@ type ItemListProps = {
 };
 
 const ItemList = ({ group }: ItemListProps) => {
-  const search = useSearch('items');
+  const search = useSearch(constants.searches.items);
   const setItem = useItemsStore((state) => state.setItem);
   const settingsModal = useModal(constants.modals.itemSettings);
   const items = useItemsStore(

@@ -19,7 +19,7 @@ const GroupCard = ({ group }: GroupCardProps) => {
   const addItemModal = useModal(constants.modals.addItemToGroup);
   const settingsModal = useModal(constants.modals.groupSettings);
 
-  const search = useSearch('items');
+  const search = useSearch(constants.searches.items);
   const isGroupMatch = useMemo(() => {
     if (!search.value) return true;
     return isMatch(group.title, search.value);

@@ -8,6 +8,7 @@ import { useItemsStore } from 'lib/stores';
 import { Group as _Group } from 'types/group';
 import { isMatch } from 'lib/helpers';
 import { useSearch } from 'lib/hooks';
+import * as constants from 'data/constants';
 
 type GroupProps = {
   group: _Group;
@@ -16,7 +17,7 @@ type GroupProps = {
 };
 
 export const Group = ({ group, itemIds, onItemClick }: GroupProps) => {
-  const search = useSearch('save-items-routine-modal');
+  const search = useSearch(constants.searches.saveItemsToRoutine);
   const items = useItemsStore(
     useCallback(
       (state) => {

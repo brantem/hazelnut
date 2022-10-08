@@ -73,9 +73,9 @@ describe('GroupCard', () => {
     );
 
     expect(screen.getByText('Group 2')).toBeInTheDocument();
-    act(() => search.result.current.setSearch('items', 'b'));
+    act(() => search.result.current.setSearch(constants.searches.items, 'b'));
     expect(screen.queryByText('Group 2')).not.toBeInTheDocument();
-    act(() => search.result.current.setSearch('items', ''));
+    act(() => search.result.current.setSearch(constants.searches.items, ''));
   });
 
   it("should render empty when group doesn't contain search value", () => {
@@ -84,8 +84,8 @@ describe('GroupCard', () => {
     render(<GroupCard group={group} />);
 
     expect(screen.getByText('Group 1')).toBeInTheDocument();
-    act(() => search.result.current.setSearch('items', 'b'));
+    act(() => search.result.current.setSearch(constants.searches.items, 'b'));
     expect(screen.queryByText('Group 1')).not.toBeInTheDocument();
-    act(() => search.result.current.setSearch('items', ''));
+    act(() => search.result.current.setSearch(constants.searches.items, ''));
   });
 });

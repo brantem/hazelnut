@@ -15,7 +15,7 @@ const SaveItemsToRoutineModal = () => {
   const modal = useModal(constants.modals.saveItemsToRoutine);
 
   const getItemIdsByIds = useItemsStore((state) => state.getItemIdsByIds);
-  const search = useSearch('save-items-routine-modal');
+  const search = useSearch(constants.searches.saveItemsToRoutine);
   const isSearchEmpty = useItemsStore(
     useCallback(
       (state) => state && state.items.findIndex((item) => isMatch(item.title, search.value)) === -1,
@@ -62,7 +62,7 @@ const SaveItemsToRoutineModal = () => {
       </ol>
 
       <div className="bg-neutral-50 px-4 py-3">
-        <Search placeholder="Search for item titles" searchKey={'save-items-routine-modal'} />
+        <Search placeholder="Search for item titles" searchKey={constants.searches.saveItemsToRoutine} />
 
         <button
           type="submit"

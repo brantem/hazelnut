@@ -6,6 +6,7 @@ import Group from 'components/Item/SaveItemsToRoutineModal/Group';
 import { Item } from 'types/item';
 import { Group as _Group } from 'types/group';
 import { useItemsStore, useSearchStore } from 'lib/stores';
+import * as constants from 'data/constants';
 
 const group: _Group = {
   id: 'group-1',
@@ -47,9 +48,9 @@ describe('Group', async () => {
     render(<Group group={group} itemIds={[]} onItemClick={() => {}} />);
 
     expect(screen.getByText('Group 1')).toBeInTheDocument();
-    act(() => search.result.current.setSearch('save-items-routine-modal', 'b'));
+    act(() => search.result.current.setSearch(constants.searches.saveItemsToRoutine, 'b'));
     expect(screen.queryByText('Group 1')).not.toBeInTheDocument();
-    act(() => search.result.current.setSearch('save-items-routine-modal', ''));
+    act(() => search.result.current.setSearch(constants.searches.saveItemsToRoutine, ''));
   });
 
   it('should be minimizable', () => {

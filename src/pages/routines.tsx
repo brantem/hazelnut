@@ -19,7 +19,7 @@ const Routines: NextPage = () => {
   const clearRoutine = useRoutinesStore((state) => () => state.routine ? state.setRoutine(null) : void 0);
   const saveRoutineModal = useModal(constants.modals.saveRoutine);
 
-  const search = useSearch('routines');
+  const search = useSearch(constants.searches.routines);
   const routines = useRoutinesStore(
     useCallback(
       (state) => {
@@ -60,7 +60,7 @@ const Routines: NextPage = () => {
         {isSearching && (
           <Search
             placeholder="Search for routine titles"
-            searchKey="routines"
+            searchKey={constants.searches.routines}
             className="sticky top-0 bg-white px-4 pt-1 pb-3"
           />
         )}

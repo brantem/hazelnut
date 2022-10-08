@@ -9,3 +9,9 @@ export const modals = {
   itemSettings: 'item-settings',
   editItem: 'edit-item',
 };
+
+export const searches = {
+  routines: 'routines',
+  saveItemsToRoutine: 'save-items-to-routine',
+  items: 'items',
+};

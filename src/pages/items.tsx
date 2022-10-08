@@ -23,7 +23,7 @@ const Items: NextPage = () => {
   }));
   const saveGroupModal = useModal(constants.modals.saveGroup);
 
-  const search = useSearch('items');
+  const search = useSearch(constants.searches.items);
   const isSearchGroupEmpty = useGroupsStore(
     useCallback(
       (state) => {
@@ -72,7 +72,7 @@ const Items: NextPage = () => {
         {isSearching && (
           <Search
             placeholder="Search for group or item titles"
-            searchKey="items"
+            searchKey={constants.searches.items}
             className="sticky top-0 bg-white px-4 pt-1 pb-3"
           />
         )}
