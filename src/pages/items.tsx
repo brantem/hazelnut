@@ -7,7 +7,9 @@ import Search from 'components/Search';
 import GroupCard from 'components/Group/GroupCard';
 import SaveGroupModal from 'components/Group/SaveGroupModal';
 import AddItemToGroupModal from 'components/Item/AddItemToGroupModal';
+import EditItemModal from 'components/Item/EditItemModal';
 import GroupSettingsModal from 'components/Group/GroupSettingsModal';
+import ItemSettingsModal from 'components/Item/ItemSettingsModal';
 
 import { useGroupsStore, useItemsStore, useSearchStore } from 'lib/stores';
 import { isMatch } from 'lib/helpers';
@@ -76,8 +78,10 @@ const Items: NextPage = () => {
       <SaveGroupModal />
 
       <AddItemToGroupModal />
+      <EditItemModal />
 
       <GroupSettingsModal />
+      <ItemSettingsModal />
     </>
   );
 };

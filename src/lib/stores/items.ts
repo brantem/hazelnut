@@ -7,6 +7,16 @@ import { Item } from 'types/item';
 
 export type ItemsState = {
   items: Item[];
+  item: Item | null;
+
+  isSettingsOpen: boolean;
+  showSettings: (item: Item) => void;
+
+  isEditOpen: boolean;
+  showEdit: (item?: Item | null) => void;
+
+  hide: () => void;
+  resetAfterHide: () => void;
 
   getItemsByGroupId: (groupId: string) => Item[];
   getItemIdsByIds: (itemIds: string[]) => string[];
@@ -21,6 +31,19 @@ const useStore = create<ItemsState>()(
   persist(
     (set, get) => ({
       items: [],
+      item: null,
+
+      isSettingsOpen: false,
+      showSettings: (item) => set({ item, isSettingsOpen: true }),
+
+      isEditOpen: false,
+      showEdit: (item = null) => set((state) => ({ item: item || state.item, isEditOpen: true })),
+
+      hide: () => set({ isSettingsOpen: false, isEditOpen: false }),
+      resetAfterHide: () => {
+        if (get().isEditOpen) return;
+        set({ item: null });
+      },
 
       getItemsByGroupId: (groupId) => get().items.filter((item) => item.groupId === groupId),
       getItemIdsByIds: (itemIds) => {
@@ -58,6 +81,16 @@ const useStore = create<ItemsState>()(
 /* c8 ignore start */
 const dummy = {
   items: [],
+  item: null,
+
+  isSettingsOpen: false,
+  showSettings: () => {},
+
+  isEditOpen: false,
+  showEdit: () => {},
+
+  hide: () => {},
+  resetAfterHide: () => {},
 
   getItemsByGroupId: () => [],
   getItemIdsByIds: () => [],

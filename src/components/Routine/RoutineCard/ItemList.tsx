@@ -41,7 +41,6 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
   return (
     <li
       ref={setNodeRef}
-      data-testid="routine-card-items-item"
       className="flex h-7 w-full items-center justify-between space-x-2 pr-1"
       style={{ transform: CSS.Transform.toString(transform), transition }}
       {...attributes}
@@ -51,7 +50,7 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
           className="-ml-1.5 flex-grow-0 p-1.5"
           ref={setActivatorNodeRef}
           {...listeners}
-          data-testid="routine-card-items-item-handle"
+          data-testid="routine-item-handle"
         >
           <svg viewBox="0 0 20 20" width="12" className="h-4 w-4 text-neutral-500" fill="currentColor">
             <path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z"></path>

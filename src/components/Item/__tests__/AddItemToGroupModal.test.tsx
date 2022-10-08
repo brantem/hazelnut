@@ -26,7 +26,7 @@ describe('AddItemToGroupModal', () => {
     });
   });
 
-  it('should open settings modal', () => {
+  it('should open add item modal', () => {
     const { result } = renderHook(() => useGroupsStore());
 
     render(<AddItemToGroupModal />);

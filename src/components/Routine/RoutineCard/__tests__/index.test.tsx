@@ -31,7 +31,7 @@ describe('RoutineCard', () => {
     const { container } = render(<RoutineCard routine={routine} />);
 
     expect(container).toMatchSnapshot();
-    expect(screen.getAllByTestId('routine-card-items-item')).toHaveLength(1);
+    expect(screen.getByTestId('routine-card-items')).toBeInTheDocument();
   });
 
   it('should show action button', () => {
@@ -53,7 +53,7 @@ describe('RoutineCard', () => {
     const { container } = render(<RoutineCard routine={routine} isItemSortable />);
 
     expect(container).toMatchSnapshot();
-    expect(screen.getByTestId('routine-card-items-item-handle')).toBeInTheDocument();
+    expect(screen.getByTestId('routine-item-handle')).toBeInTheDocument();
   });
 
   it('should be minimizable', () => {

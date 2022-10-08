@@ -30,26 +30,14 @@ describe('ItemList', () => {
     expect(screen.queryByText('Item 2')).not.toBeInTheDocument();
   });
 
-  it('should remove item', () => {
+  it('should open settings modal', () => {
     const { result } = renderHook(() => useItemsStore());
-    const remove = vi.spyOn(result.current, 'remove');
+    const showSettings = vi.spyOn(result.current, 'showSettings');
 
-    render(
-      <ItemList
-        group={{
-          id: 'group-2',
-          title: 'Group 2',
-          color: 'red',
-          minimized: false,
-        }}
-      />,
-    );
+    render(<ItemList group={group} />);
 
-    expect(screen.getByText('Item 2')).toBeInTheDocument();
-    act(() => screen.getByTestId('delete-button').click());
-    act(() => screen.getByTestId('delete-button-confirm').click());
-    expect(remove).toHaveBeenCalledWith('item-2');
-    expect(screen.queryByText('Item 2')).not.toBeInTheDocument();
+    act(() => screen.getByTestId('group-item-settings').click());
+    expect(showSettings).toHaveBeenCalledWith({ groupId: 'group-1', id: 'item-1', title: 'Item 1' });
   });
 
   it('should render empty there is no items', () => {

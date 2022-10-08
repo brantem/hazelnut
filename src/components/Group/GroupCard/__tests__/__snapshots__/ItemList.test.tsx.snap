@@ -7,8 +7,7 @@ exports[`ItemList > should render successfully 1`] = `
     data-testid="group-card-items"
   >
     <li
-      class="flex items-center justify-between space-x-3"
-      data-testid="group-card-items-item"
+      class="flex h-7 items-center justify-between space-x-3"
     >
       <span
         class="truncate"
@@ -16,22 +15,18 @@ exports[`ItemList > should render successfully 1`] = `
         Item 1
       </span>
       <button
-        class="px-4 py-2 text-left hover:bg-neutral-100 rounded-md !p-1 text-sm text-red-500 hover:bg-red-100"
-        data-testid="delete-button"
+        class="rounded-md p-1 hover:bg-red-100"
+        data-testid="group-item-settings"
       >
         <svg
           aria-hidden="true"
-          class="h-5 w-5"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          viewBox="0 0 24 24"
+          class="h-[18px] w-[18px]"
+          fill="currentColor"
+          viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM8.5 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM15.5 8.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
           />
         </svg>
       </button>

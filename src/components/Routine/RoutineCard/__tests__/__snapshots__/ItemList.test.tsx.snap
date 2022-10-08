@@ -11,13 +11,12 @@ exports[`ItemList > should be sortable 1`] = `
       aria-disabled="false"
       aria-roledescription="sortable"
       class="flex h-7 w-full items-center justify-between space-x-2 pr-1"
-      data-testid="routine-card-items-item"
       role="button"
       tabindex="0"
     >
       <button
         class="-ml-1.5 flex-grow-0 p-1.5"
-        data-testid="routine-card-items-item-handle"
+        data-testid="routine-item-handle"
       >
         <svg
           class="h-4 w-4 text-neutral-500"
@@ -53,13 +52,12 @@ exports[`ItemList > should be sortable 1`] = `
       aria-disabled="false"
       aria-roledescription="sortable"
       class="flex h-7 w-full items-center justify-between space-x-2 pr-1"
-      data-testid="routine-card-items-item"
       role="button"
       tabindex="0"
     >
       <button
         class="-ml-1.5 flex-grow-0 p-1.5"
-        data-testid="routine-card-items-item-handle"
+        data-testid="routine-item-handle"
       >
         <svg
           class="h-4 w-4 text-neutral-500"
@@ -122,7 +120,6 @@ exports[`ItemList > should render successfully 1`] = `
       aria-disabled="false"
       aria-roledescription="sortable"
       class="flex h-7 w-full items-center justify-between space-x-2 pr-1"
-      data-testid="routine-card-items-item"
       role="button"
       tabindex="0"
     >

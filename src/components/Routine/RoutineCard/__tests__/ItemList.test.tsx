@@ -31,7 +31,7 @@ describe('ItemList', () => {
     expect(container).toMatchSnapshot();
     expect(screen.getByText('Item 1')).toBeInTheDocument();
     expect(screen.queryByText('Item 2')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('routine-card-items-item-handle')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('routine-item-handle')).not.toBeInTheDocument();
   });
 
   it('should be sortable', async () => {
@@ -43,7 +43,7 @@ describe('ItemList', () => {
 
     expect(container).toMatchSnapshot();
     const item = screen.getByText('Item 2').parentElement!.parentElement!;
-    const handle = within(item).getByTestId('routine-card-items-item-handle');
+    const handle = within(item).getByTestId('routine-item-handle');
     fireEvent.keyDown(handle, { code: 'Space' });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
     fireEvent.keyDown(handle, { code: 'ArrowUp' });

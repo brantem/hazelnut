@@ -33,27 +33,11 @@ describe('GroupCard', () => {
     const { container } = render(<GroupCard group={group} />);
 
     expect(container).toMatchSnapshot();
-    expect(screen.getAllByTestId('group-card-items-item')).toHaveLength(1);
-
     act(() => screen.getByTestId('group-card-add-item').click());
     expect(showAddItem).toHaveBeenCalledWith(group);
 
     act(() => screen.getByTestId('group-card-settings').click());
     expect(showSettings).toHaveBeenCalledWith(group);
-  });
-
-  it('should remove item', () => {
-    const items = renderHook(() => useItemsStore());
-    const remove = vi.spyOn(items.result.current, 'remove');
-
-    const { rerender } = render(<GroupCard group={group} />);
-
-    expect(screen.getByTestId('group-card-items-item')).toBeInTheDocument();
-    act(() => screen.getByTestId('delete-button').click());
-    act(() => screen.getByTestId('delete-button-confirm').click());
-    expect(remove).toHaveBeenCalledWith('item-1');
-    rerender(<GroupCard group={group} />);
-    expect(screen.queryByTestId('group-card-items-item')).not.toBeInTheDocument();
   });
 
   it('should be minimizable', () => {
