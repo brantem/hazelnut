@@ -6,18 +6,15 @@ import { modals } from 'data/constants';
 
 const ItemSettingsModal = () => {
   const { hide } = useModalStore(modals.itemSettings);
-  const { item, showEdit, remove } = useItemsStore((state) => ({
-    item: state.item,
-    showEdit: state.showEdit,
-    remove: state.remove,
-  }));
+  const { show: showEdit } = useModalStore(modals.editItem);
+  const { item, remove } = useItemsStore((state) => ({ item: state.item, remove: state.remove }));
 
   return (
     <SettingsModal
       title={item?.title}
       modalKey={modals.itemSettings}
       actions={[
-        { text: 'Edit', onClick: () => item && showEdit(item) },
+        { text: 'Edit', onClick: () => showEdit() },
         {
           render: () => (
             <DeleteButton

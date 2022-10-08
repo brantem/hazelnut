@@ -4,12 +4,14 @@ import BottomSheet from 'components/BottomSheet';
 import Input from 'components/Input';
 
 import { Item } from 'types/item';
-import { useItemsStore } from 'lib/stores';
+import { useItemsStore, useModalStore } from 'lib/stores';
+import { modals } from 'data/constants';
 
 type Values = Pick<Item, 'title'>;
 
 const EditItemModal = () => {
-  const { item, isEditOpen, hide, resetAfterHide, edit } = useItemsStore();
+  const { item, edit } = useItemsStore((state) => ({ item: state.item, edit: state.edit }));
+  const { isOpen, hide } = useModalStore(modals.editItem);
 
   const formik = useFormik<Values>({
     initialValues: { title: item?.title || '' },
@@ -22,13 +24,7 @@ const EditItemModal = () => {
   });
 
   return (
-    <BottomSheet
-      isOpen={isEditOpen}
-      onClose={hide}
-      title="Edit Item"
-      data-testid="edit-item-modal"
-      afterLeave={resetAfterHide}
-    >
+    <BottomSheet isOpen={isOpen} onClose={hide} title="Edit Item" data-testid="edit-item-modal">
       <form onSubmit={formik.handleSubmit}>
         <div className="px-4 pb-3">
           <Input

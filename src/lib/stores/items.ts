@@ -10,12 +10,6 @@ export type ItemsState = {
   item: Item | null;
   setItem: (item: Item | null) => void;
 
-  isEditOpen: boolean;
-  showEdit: (item: Item) => void;
-
-  hide: () => void;
-  resetAfterHide: () => void;
-
   getItemsByGroupId: (groupId: string) => Item[];
   getItemIdsByIds: (itemIds: string[]) => string[];
   getItemsByIds: (itemIds: string[]) => Item[];
@@ -31,15 +25,6 @@ const useStore = create<ItemsState>()(
       items: [],
       item: null,
       setItem: (item) => set({ item }),
-
-      isEditOpen: false,
-      showEdit: (item) => set({ item, isEditOpen: true }),
-
-      hide: () => set({ isEditOpen: false }),
-      resetAfterHide: () => {
-        if (get().isEditOpen) return;
-        set({ item: null });
-      },
 
       getItemsByGroupId: (groupId) => get().items.filter((item) => item.groupId === groupId),
       getItemIdsByIds: (itemIds) => {
@@ -79,12 +64,6 @@ const dummy = {
   items: [],
   item: null,
   setItem: () => {},
-
-  isEditOpen: false,
-  showEdit: () => {},
-
-  hide: () => {},
-  resetAfterHide: () => {},
 
   getItemsByGroupId: () => [],
   getItemIdsByIds: () => [],

@@ -4,50 +4,7 @@ import '@testing-library/jest-dom';
 import { useItemsStore } from 'lib/stores';
 import { Item } from 'types/item';
 
-const item: Item = {
-  id: 'item-1',
-  groupId: 'group-1',
-  title: 'Item 1',
-};
-
 describe('useItemsStore', async () => {
-  afterEach(() => {
-    const { result } = renderHook(() => useItemsStore());
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
-  });
-
-  it('should open edit modal', () => {
-    const { result } = renderHook(() => useItemsStore());
-    act(() => result.current.showEdit(item));
-    expect(result.current.item).toEqual(item);
-    expect(result.current.isEditOpen).toEqual(true);
-  });
-
-  it('should hide and reset', () => {
-    const { result } = renderHook(() => useItemsStore());
-    act(() => result.current.showEdit(item));
-    expect(result.current.item).toEqual(item);
-    expect(result.current.isEditOpen).toEqual(true);
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
-    expect(result.current.item).toEqual(null);
-    expect(result.current.isEditOpen).toEqual(false);
-  });
-
-  it('should not reset if isEditOpen is true', () => {
-    const { result } = renderHook(() => useItemsStore());
-    act(() => {
-      result.current.showEdit(item);
-      result.current.resetAfterHide();
-    });
-    expect(result.current.item).toEqual(item);
-  });
-
   it('should add item', () => {
     const { result } = renderHook(() => useItemsStore());
     expect(result.current.items).toHaveLength(0);

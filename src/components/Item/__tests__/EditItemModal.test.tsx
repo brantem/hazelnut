@@ -3,8 +3,9 @@ import '@testing-library/jest-dom';
 
 import EditItemModal from 'components/Item/EditItemModal';
 
-import { useItemsStore } from 'lib/stores';
+import { useItemsStore, useModalStore, _useModalStore } from 'lib/stores';
 import { Item } from 'types/item';
+import { modals } from 'data/constants';
 
 const item: Item = {
   id: 'item-1',
@@ -17,34 +18,36 @@ describe('EditItemModal', () => {
     const mockIntersectionObserver = vi.fn();
     mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
     window.IntersectionObserver = mockIntersectionObserver;
-
-    const { result } = renderHook(() => useItemsStore());
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
   });
 
   it('should open edit item modal', () => {
+    const modal = renderHook(() => useModalStore(modals.editItem));
+
     const { result } = renderHook(() => useItemsStore());
 
     render(<EditItemModal />);
 
     expect(screen.queryByTestId('edit-item-modal')).not.toBeInTheDocument();
-    act(() => result.current.showEdit(item));
+    act(() => {
+      result.current.setItem(item);
+      modal.result.current.show();
+    });
     expect(screen.getByTestId('edit-item-modal')).toBeInTheDocument();
   });
 
   it('should edit new item', async () => {
-    const items = renderHook(() => useItemsStore());
-    const edit = vi.spyOn(items.result.current, 'edit');
+    const modal = renderHook(() => _useModalStore());
+    const hide = vi.spyOn(modal.result.current, 'hide');
 
     const { result } = renderHook(() => useItemsStore());
-    const hide = vi.spyOn(result.current, 'hide');
+    const edit = vi.spyOn(result.current, 'edit');
 
     render(<EditItemModal />);
 
-    act(() => result.current.showEdit(item));
+    act(() => {
+      result.current.setItem(item);
+      modal.result.current.show(modals.editItem);
+    });
     act(() => {
       fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Item 1a' } });
       screen.getByText('Save').click();

@@ -20,14 +20,6 @@ describe('ItemSettingsModal', async () => {
     window.IntersectionObserver = mockIntersectionObserver;
   });
 
-  afterEach(() => {
-    const { result } = renderHook(() => useItemsStore());
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
-  });
-
   it('should open settings modal', () => {
     const modal = renderHook(() => useModalStore(modals.itemSettings));
 
@@ -44,19 +36,21 @@ describe('ItemSettingsModal', async () => {
   });
 
   it('should open edit modal', () => {
-    const modal = renderHook(() => useModalStore(modals.itemSettings));
+    const modal = renderHook(() => _useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show');
 
     const { result } = renderHook(() => useItemsStore());
-    const showEdit = vi.spyOn(result.current, 'showEdit');
+    const setItem = vi.spyOn(result.current, 'setItem');
 
     render(<ItemSettingsModal />);
 
     act(() => {
       result.current.setItem(item);
-      modal.result.current.show();
+      modal.result.current.show(modals.itemSettings);
     });
     act(() => screen.getByText('Edit').click());
-    expect(showEdit).toHaveBeenCalledWith(item);
+    expect(setItem).toHaveBeenCalledWith(item);
+    expect(show).toHaveBeenCalledWith(modals.editItem);
     // TODO: check clear
   });
 
