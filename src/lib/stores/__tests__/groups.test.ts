@@ -41,24 +41,16 @@ describe('useGroupsStore', () => {
     expect(result.current.isSaveOpen).toEqual(true);
   });
 
-  it('should show settings modal', () => {
-    const { result } = renderHook(() => useGroupsStore());
-    act(() => result.current.showSettings(group));
-    expect(result.current.group).toEqual(group);
-    expect(result.current.isSettingsOpen).toEqual(true);
-  });
-
   it('should hide and reset', () => {
     const { result } = renderHook(() => useGroupsStore());
     act(() => {
       result.current.showSave(group);
       result.current.showAddItem(group);
-      result.current.showSettings(group);
     });
     expect(result.current.group).toEqual(group);
     expect(result.current.isSaveOpen).toEqual(true);
     expect(result.current.isAddItemOpen).toEqual(true);
-    expect(result.current.isSettingsOpen).toEqual(true);
+
     act(() => {
       result.current.hide();
       result.current.resetAfterHide();
@@ -66,7 +58,6 @@ describe('useGroupsStore', () => {
     expect(result.current.group).toEqual(null);
     expect(result.current.isSaveOpen).toEqual(false);
     expect(result.current.isAddItemOpen).toEqual(false);
-    expect(result.current.isSettingsOpen).toEqual(false);
   });
 
   it('should not reset if isSaveOpen is true', () => {

@@ -8,15 +8,13 @@ import { Group } from 'types/group';
 type GroupsState = {
   groups: Group[];
   group: Group | null;
+  setGroup: (group: Group | null) => void;
 
   isSaveOpen: boolean;
   showSave: (group?: Group | null) => void;
 
   isAddItemOpen: boolean;
   showAddItem: (group: Group) => void;
-
-  isSettingsOpen: boolean;
-  showSettings: (group: Group) => void;
 
   hide: () => void;
   resetAfterHide: () => void;
@@ -31,6 +29,7 @@ const useStore = create<GroupsState>()(
     (set, get) => ({
       groups: [],
       group: null,
+      setGroup: (group) => set({ group }),
 
       isSaveOpen: false,
       showSave: (group = null) => set((state) => ({ group: group || state.group, isSaveOpen: true })),
@@ -38,10 +37,7 @@ const useStore = create<GroupsState>()(
       isAddItemOpen: false,
       showAddItem: (group) => set({ group, isAddItemOpen: true }),
 
-      isSettingsOpen: false,
-      showSettings: (group) => set({ group, isSettingsOpen: true }),
-
-      hide: () => set({ isSaveOpen: false, isAddItemOpen: false, isSettingsOpen: false }),
+      hide: () => set({ isSaveOpen: false, isAddItemOpen: false }),
       resetAfterHide: () => {
         if (get().isSaveOpen) return;
         set({ group: null });
@@ -70,15 +66,13 @@ const useStore = create<GroupsState>()(
 const dummy = {
   groups: [],
   group: null,
+  setGroup: () => {},
 
   isSaveOpen: false,
   showSave: () => {},
 
   isAddItemOpen: false,
   showAddItem: () => {},
-
-  isSettingsOpen: false,
-  showSettings: () => {},
 
   hide: () => {},
   resetAfterHide: () => {},

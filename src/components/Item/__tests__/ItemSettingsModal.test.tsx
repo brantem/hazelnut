@@ -3,8 +3,9 @@ import '@testing-library/jest-dom';
 
 import ItemSettingsModal from 'components/Item/ItemSettingsModal';
 
-import { useItemsStore } from 'lib/stores';
+import { useItemsStore, useModalStore, _useModalStore } from 'lib/stores';
 import { Item } from 'types/item';
+import { modals } from 'data/constants';
 
 const item: Item = {
   id: 'item-1',
@@ -28,35 +29,50 @@ describe('ItemSettingsModal', async () => {
   });
 
   it('should open settings modal', () => {
+    const modal = renderHook(() => useModalStore(modals.itemSettings));
+
     const { result } = renderHook(() => useItemsStore());
 
     render(<ItemSettingsModal />);
 
     expect(screen.queryByTestId('item-settings-modal')).not.toBeInTheDocument();
-    act(() => result.current.showSettings(item));
+    act(() => {
+      result.current.setItem(item);
+      modal.result.current.show();
+    });
     expect(screen.getByTestId('item-settings-modal')).toBeInTheDocument();
   });
 
   it('should open edit modal', () => {
+    const modal = renderHook(() => useModalStore(modals.itemSettings));
+
     const { result } = renderHook(() => useItemsStore());
     const showEdit = vi.spyOn(result.current, 'showEdit');
 
     render(<ItemSettingsModal />);
 
-    act(() => result.current.showSettings(item));
+    act(() => {
+      result.current.setItem(item);
+      modal.result.current.show();
+    });
     act(() => screen.getByText('Edit').click());
-    expect(showEdit).toHaveBeenCalledWith();
+    expect(showEdit).toHaveBeenCalledWith(item);
     // TODO: check clear
   });
 
   it('should delete item', () => {
+    const modal = renderHook(() => _useModalStore());
+    const hide = vi.spyOn(modal.result.current, 'hide');
+
     const { result } = renderHook(() => useItemsStore());
     const remove = vi.spyOn(result.current, 'remove');
-    const hide = vi.spyOn(result.current, 'hide');
 
     render(<ItemSettingsModal />);
 
-    act(() => result.current.showSettings(item));
+    act(() => {
+      result.current.setItem(item);
+      modal.result.current.show(modals.itemSettings);
+    });
     act(() => screen.getByText('Delete').click());
     act(() => screen.getByText('Confirm').click());
     expect(remove).toHaveBeenCalledWith('item-1');

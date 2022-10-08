@@ -3,8 +3,9 @@ import '@testing-library/jest-dom';
 
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
-import { useRoutinesStore } from 'lib/stores';
+import { useModalStore, useRoutinesStore, _useModalStore } from 'lib/stores';
 import { Routine } from 'types/routine';
+import { modals } from 'data/constants';
 
 const routine: Routine = {
   id: 'routine-1',
@@ -32,51 +33,71 @@ describe('RoutineSettingsModal', async () => {
   });
 
   it('should open settings modal', () => {
+    const modal = renderHook(() => useModalStore(modals.routineSettings));
+
     const { result } = renderHook(() => useRoutinesStore());
 
     render(<RoutineSettingsModal />);
 
     expect(screen.queryByTestId('routine-settings-modal')).not.toBeInTheDocument();
-    act(() => result.current.showSettings(routine));
+    act(() => {
+      result.current.setRoutine(routine);
+      modal.result.current.show();
+    });
     expect(screen.getByTestId('routine-settings-modal')).toBeInTheDocument();
   });
 
   it('should open duplicate modal', () => {
+    const modal = renderHook(() => useModalStore(modals.routineSettings));
+
     const { result } = renderHook(() => useRoutinesStore());
     const showDuplicate = vi.spyOn(result.current, 'showDuplicate');
 
     render(<RoutineSettingsModal />);
 
-    act(() => result.current.showSettings(routine));
+    act(() => {
+      result.current.setRoutine(routine);
+      modal.result.current.show();
+    });
     act(() => screen.getByText('Duplicate').click());
     expect(showDuplicate).toHaveBeenCalledWith(routine);
     // TODO: check clear
   });
 
   it('should open edit modal', () => {
+    const modal = renderHook(() => useModalStore(modals.routineSettings));
+
     const { result } = renderHook(() => useRoutinesStore());
     const showSave = vi.spyOn(result.current, 'showSave');
 
     render(<RoutineSettingsModal />);
 
-    act(() => result.current.showSettings(routine));
+    act(() => {
+      result.current.setRoutine(routine);
+      modal.result.current.show();
+    });
     act(() => screen.getByText('Edit').click());
-    expect(showSave).toHaveBeenCalledWith();
+    expect(showSave).toHaveBeenCalledWith(routine);
     // TODO: check clear
   });
 
   it('should delete routine', () => {
+    const modal = renderHook(() => _useModalStore());
+    const hide = vi.spyOn(modal.result.current, 'hide');
+
     const { result } = renderHook(() => useRoutinesStore());
     const remove = vi.spyOn(result.current, 'remove');
-    const hide = vi.spyOn(result.current, 'hide');
 
     render(<RoutineSettingsModal />);
 
-    act(() => result.current.showSettings(routine));
+    act(() => {
+      result.current.setRoutine(routine);
+      modal.result.current.show(modals.routineSettings);
+    });
     act(() => screen.getByText('Delete').click());
     act(() => screen.getByText('Confirm').click());
     expect(remove).toHaveBeenCalledWith('routine-1');
-    expect(hide).toHaveBeenCalled();
+    expect(hide).toHaveBeenCalledWith();
     // TODO: check clear
   });
 });

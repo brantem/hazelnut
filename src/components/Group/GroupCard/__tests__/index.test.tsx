@@ -3,9 +3,10 @@ import '@testing-library/jest-dom';
 
 import GroupCard from 'components/Group/GroupCard';
 
-import { useGroupsStore, useItemsStore, useSearchStore } from 'lib/stores';
+import { useGroupsStore, useItemsStore, _useModalStore, useSearchStore } from 'lib/stores';
 import { Item } from 'types/item';
 import { Group } from 'types/group';
+import { modals } from 'data/constants';
 
 const group: Group = {
   id: 'group-1',
@@ -26,9 +27,12 @@ describe('GroupCard', () => {
   });
 
   it('should render successfully', () => {
+    const modal = renderHook(() => _useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
+
     const { result } = renderHook(() => useGroupsStore());
+    const setGroup = vi.spyOn(result.current, 'setGroup').mockImplementation(() => {});
     const showAddItem = vi.spyOn(result.current, 'showAddItem').mockImplementation(() => {});
-    const showSettings = vi.spyOn(result.current, 'showSettings').mockImplementation(() => {});
 
     const { container } = render(<GroupCard group={group} />);
 
@@ -37,7 +41,8 @@ describe('GroupCard', () => {
     expect(showAddItem).toHaveBeenCalledWith(group);
 
     act(() => screen.getByTestId('group-card-settings').click());
-    expect(showSettings).toHaveBeenCalledWith(group);
+    expect(setGroup).toHaveBeenCalledWith(group);
+    expect(show).toHaveBeenCalledWith(modals.groupSettings);
   });
 
   it('should be minimizable', () => {

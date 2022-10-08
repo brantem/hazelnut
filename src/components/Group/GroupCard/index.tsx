@@ -5,16 +5,22 @@ import clsx from 'clsx';
 import ItemList from 'components/Group/GroupCard/ItemList';
 
 import { isMatch } from 'lib/helpers';
-import { useGroupsStore, useItemsStore, useSearchStore } from 'lib/stores';
+import { useGroupsStore, useItemsStore, useModalStore, useSearchStore } from 'lib/stores';
 import type { Group } from 'types/group';
+import { modals } from 'data/constants';
 
 type GroupCardProps = {
   group: Group;
 };
 
 const GroupCard = ({ group }: GroupCardProps) => {
-  const { showAddItem, showSettings, edit } = useGroupsStore();
+  const { setGroup, showAddItem, edit } = useGroupsStore((state) => ({
+    setGroup: state.setGroup,
+    showAddItem: state.showAddItem,
+    edit: state.edit,
+  }));
   const { search } = useSearchStore('items');
+  const { show } = useModalStore(modals.groupSettings);
   const isGroupMatch = useMemo(() => {
     if (!search) return true;
     return isMatch(group.title, search);
@@ -47,7 +53,10 @@ const GroupCard = ({ group }: GroupCardProps) => {
 
           <button
             className={`rounded-md p-1 hover:bg-${group.color}-100`}
-            onClick={() => showSettings(group)}
+            onClick={() => {
+              setGroup(group);
+              show();
+            }}
             data-testid="group-card-settings"
           >
             <EllipsisHorizontalIcon className="h-5 w-5" />

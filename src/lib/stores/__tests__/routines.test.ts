@@ -44,13 +44,6 @@ describe('useRoutinesStore', () => {
     expect(result.current.isSaveItemsOpen).toEqual(true);
   });
 
-  it('should show settings modal', () => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => result.current.showSettings(routine));
-    expect(result.current.routine).toEqual(routine);
-    expect(result.current.isSettingsOpen).toEqual(true);
-  });
-
   it('should show duplicate modal', () => {
     const { result } = renderHook(() => useRoutinesStore());
     act(() => result.current.showDuplicate(routine));
@@ -63,13 +56,11 @@ describe('useRoutinesStore', () => {
     act(() => {
       result.current.showSave(routine);
       result.current.showSaveItems(routine);
-      result.current.showSettings(routine);
       result.current.showDuplicate(routine);
     });
     expect(result.current.routine).toEqual(routine);
     expect(result.current.isSaveOpen).toEqual(true);
     expect(result.current.isSaveItemsOpen).toEqual(true);
-    expect(result.current.isSettingsOpen).toEqual(true);
     expect(result.current.isDuplicateOpen).toEqual(true);
     act(() => {
       result.current.hide();
@@ -78,7 +69,6 @@ describe('useRoutinesStore', () => {
     expect(result.current.routine).toEqual(null);
     expect(result.current.isSaveOpen).toEqual(false);
     expect(result.current.isSaveItemsOpen).toEqual(false);
-    expect(result.current.isSettingsOpen).toEqual(false);
     expect(result.current.isDuplicateOpen).toEqual(false);
   });
 

@@ -4,7 +4,8 @@ import '@testing-library/jest-dom';
 import ItemList from 'components/Group/GroupCard/ItemList';
 
 import { Group } from 'types/group';
-import { useItemsStore, useSearchStore } from 'lib/stores';
+import { useItemsStore, useSearchStore, _useModalStore } from 'lib/stores';
+import { modals } from 'data/constants';
 
 const group: Group = {
   id: 'group-1',
@@ -31,13 +32,17 @@ describe('ItemList', () => {
   });
 
   it('should open settings modal', () => {
+    const modal = renderHook(() => _useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
+
     const { result } = renderHook(() => useItemsStore());
-    const showSettings = vi.spyOn(result.current, 'showSettings');
+    const setItem = vi.spyOn(result.current, 'setItem').mockImplementation(() => {});
 
     render(<ItemList group={group} />);
 
     act(() => screen.getByTestId('group-item-settings').click());
-    expect(showSettings).toHaveBeenCalledWith({ groupId: 'group-1', id: 'item-1', title: 'Item 1' });
+    expect(setItem).toHaveBeenCalledWith({ groupId: 'group-1', id: 'item-1', title: 'Item 1' });
+    expect(show).toHaveBeenCalledWith(modals.itemSettings);
   });
 
   it('should render empty there is no items', () => {

@@ -8,6 +8,7 @@ import { Routine } from 'types/routine';
 type RoutinesState = {
   routines: Routine[];
   routine: Routine | null;
+  setRoutine: (routine: Routine | null) => void;
 
   isSaveOpen: boolean;
   showSave: (routine?: Routine | null) => void;
@@ -17,9 +18,6 @@ type RoutinesState = {
 
   isSaveItemsOpen: boolean;
   showSaveItems: (routine: Routine) => void;
-
-  isSettingsOpen: boolean;
-  showSettings: (routine: Routine) => void;
 
   hide: () => void;
   resetAfterHide: () => void;
@@ -34,6 +32,7 @@ const useStore = create<RoutinesState>()(
     (set, get) => ({
       routines: [],
       routine: null,
+      setRoutine: (routine) => set({ routine }),
 
       isSaveOpen: false,
       showSave: (routine = null) => set((state) => ({ routine: routine || state.routine, isSaveOpen: true })),
@@ -44,10 +43,7 @@ const useStore = create<RoutinesState>()(
       isSaveItemsOpen: false,
       showSaveItems: (routine) => set({ routine, isSaveItemsOpen: true }),
 
-      isSettingsOpen: false,
-      showSettings: (routine) => set({ routine, isSettingsOpen: true }),
-
-      hide: () => set({ isSaveOpen: false, isSaveItemsOpen: false, isDuplicateOpen: false, isSettingsOpen: false }),
+      hide: () => set({ isSaveOpen: false, isSaveItemsOpen: false, isDuplicateOpen: false }),
       resetAfterHide: () => {
         if (get().isSaveOpen || get().isDuplicateOpen) return;
         set({ routine: null });
@@ -78,6 +74,7 @@ const useStore = create<RoutinesState>()(
 const dummy = {
   routines: [],
   routine: null,
+  setRoutine: () => {},
 
   isSaveOpen: false,
   showSave: () => {},
@@ -87,9 +84,6 @@ const dummy = {
 
   isSaveItemsOpen: false,
   showSaveItems: () => {},
-
-  isSettingsOpen: false,
-  showSettings: () => {},
 
   hide: () => {},
   resetAfterHide: () => {},

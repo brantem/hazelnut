@@ -1,42 +1,45 @@
-import BottomSheet from 'components/BottomSheet';
+import SettingsModal from 'components/modals/SettingsModal';
 import Days from 'components/Days';
 import DeleteButton from 'components/DeleteButton';
 
-import { useRoutinesStore } from 'lib/stores';
+import { useModalStore, useRoutinesStore } from 'lib/stores';
+import { modals } from 'data/constants';
 
 const RoutineSettingsModal = () => {
-  const { routine, showSave, showDuplicate, isSettingsOpen, hide, resetAfterHide, remove } = useRoutinesStore();
+  const { hide } = useModalStore(modals.routineSettings);
+  const { routine, showSave, showDuplicate, remove } = useRoutinesStore((state) => ({
+    routine: state.routine,
+    showSave: state.showSave,
+    showDuplicate: state.showDuplicate,
+    remove: state.remove,
+  }));
 
   return (
-    <BottomSheet
-      isOpen={isSettingsOpen}
-      onClose={hide}
+    <SettingsModal
       title={routine?.title}
+      description={
+        <>
+          <span>{routine?.time}</span>
+          <Days days={routine?.days || []} />
+        </>
+      }
+      modalKey={modals.routineSettings}
+      actions={[
+        { text: 'Edit', onClick: () => showSave(routine) },
+        { text: 'Duplicate', onClick: () => routine && showDuplicate(routine) },
+        {
+          render: () => (
+            <DeleteButton
+              onConfirm={() => {
+                remove(routine!.id);
+                hide();
+              }}
+            />
+          ),
+        },
+      ]}
       data-testid="routine-settings-modal"
-      afterLeave={resetAfterHide}
-    >
-      <div className="-mt-2 flex items-center justify-between space-x-3 px-4 text-base font-normal text-neutral-500">
-        <span>{routine?.time}</span>
-        <Days days={routine?.days || []} />
-      </div>
-
-      <div className="flex flex-col py-3">
-        <button className="px-4 py-2 text-left hover:bg-neutral-100" onClick={() => showSave()}>
-          Edit
-        </button>
-
-        <button className="px-4 py-2 text-left hover:bg-neutral-100" onClick={() => routine && showDuplicate(routine)}>
-          Duplicate
-        </button>
-
-        <DeleteButton
-          onConfirm={() => {
-            remove(routine!.id);
-            hide();
-          }}
-        />
-      </div>
-    </BottomSheet>
+    />
   );
 };
 

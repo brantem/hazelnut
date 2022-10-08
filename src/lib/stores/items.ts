@@ -8,12 +8,10 @@ import { Item } from 'types/item';
 export type ItemsState = {
   items: Item[];
   item: Item | null;
-
-  isSettingsOpen: boolean;
-  showSettings: (item: Item) => void;
+  setItem: (item: Item | null) => void;
 
   isEditOpen: boolean;
-  showEdit: (item?: Item | null) => void;
+  showEdit: (item: Item) => void;
 
   hide: () => void;
   resetAfterHide: () => void;
@@ -32,14 +30,12 @@ const useStore = create<ItemsState>()(
     (set, get) => ({
       items: [],
       item: null,
-
-      isSettingsOpen: false,
-      showSettings: (item) => set({ item, isSettingsOpen: true }),
+      setItem: (item) => set({ item }),
 
       isEditOpen: false,
-      showEdit: (item = null) => set((state) => ({ item: item || state.item, isEditOpen: true })),
+      showEdit: (item) => set({ item, isEditOpen: true }),
 
-      hide: () => set({ isSettingsOpen: false, isEditOpen: false }),
+      hide: () => set({ isEditOpen: false }),
       resetAfterHide: () => {
         if (get().isEditOpen) return;
         set({ item: null });
@@ -82,9 +78,7 @@ const useStore = create<ItemsState>()(
 const dummy = {
   items: [],
   item: null,
-
-  isSettingsOpen: false,
-  showSettings: () => {},
+  setItem: () => {},
 
   isEditOpen: false,
   showEdit: () => {},

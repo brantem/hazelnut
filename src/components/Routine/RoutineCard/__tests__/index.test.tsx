@@ -3,8 +3,9 @@ import '@testing-library/jest-dom';
 
 import RoutineCard from 'components/Routine/RoutineCard';
 
-import { useRoutinesStore, useItemsStore } from 'lib/stores';
+import { useRoutinesStore, useItemsStore, _useModalStore } from 'lib/stores';
 import { Routine } from 'types/routine';
+import { modals } from 'data/constants';
 
 const routine: Routine = {
   id: 'routine-1',
@@ -35,9 +36,12 @@ describe('RoutineCard', () => {
   });
 
   it('should show action button', () => {
+    const modal = renderHook(() => _useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
+
     const { result } = renderHook(() => useRoutinesStore());
+    const setRoutine = vi.spyOn(result.current, 'setRoutine').mockImplementation(() => {});
     const showSaveItems = vi.spyOn(result.current, 'showSaveItems').mockImplementation(() => {});
-    const showSettings = vi.spyOn(result.current, 'showSettings').mockImplementation(() => {});
 
     const { container } = render(<RoutineCard routine={routine} showAction />);
 
@@ -46,7 +50,8 @@ describe('RoutineCard', () => {
     expect(showSaveItems).toHaveBeenCalledWith(routine);
 
     act(() => screen.getByTestId('routine-card-settings').click());
-    expect(showSettings).toHaveBeenCalledWith(routine);
+    expect(setRoutine).toHaveBeenCalledWith(routine);
+    expect(show).toHaveBeenCalledWith(modals.routineSettings);
   });
 
   it('should show sort handle', () => {

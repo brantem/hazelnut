@@ -3,8 +3,9 @@ import clsx from 'clsx';
 
 import ItemList from 'components/Routine/RoutineCard/ItemList';
 
-import { useRoutinesStore } from 'lib/stores';
+import { useRoutinesStore, useModalStore } from 'lib/stores';
 import type { Routine } from 'types/routine';
+import { modals } from 'data/constants';
 
 type RoutineProps = {
   routine: Routine;
@@ -13,7 +14,12 @@ type RoutineProps = {
 };
 
 const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutineProps) => {
-  const { showSaveItems, showSettings, edit } = useRoutinesStore();
+  const { setRoutine, showSaveItems, edit } = useRoutinesStore((state) => ({
+    setRoutine: state.setRoutine,
+    showSaveItems: state.showSaveItems,
+    edit: state.edit,
+  }));
+  const { show } = useModalStore(modals.routineSettings);
 
   return (
     <div className={`px-4 py-3 bg-${routine.color}-50`} data-testid="routine-card">
@@ -39,7 +45,10 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
           {showAction && (
             <button
               className={`rounded-md p-1 hover:bg-${routine.color}-100`}
-              onClick={() => showSettings(routine)}
+              onClick={() => {
+                setRoutine(routine);
+                show();
+              }}
               data-testid="routine-card-settings"
             >
               <EllipsisHorizontalIcon className="h-5 w-5" />

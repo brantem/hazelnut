@@ -1,32 +1,36 @@
-import BottomSheet from 'components/BottomSheet';
+import SettingsModal from 'components/modals/SettingsModal';
 import DeleteButton from 'components/DeleteButton';
 
-import { useItemsStore } from 'lib/stores';
+import { useModalStore, useItemsStore } from 'lib/stores';
+import { modals } from 'data/constants';
 
 const ItemSettingsModal = () => {
-  const { item, showEdit, isSettingsOpen, hide, resetAfterHide, remove } = useItemsStore();
+  const { hide } = useModalStore(modals.itemSettings);
+  const { item, showEdit, remove } = useItemsStore((state) => ({
+    item: state.item,
+    showEdit: state.showEdit,
+    remove: state.remove,
+  }));
 
   return (
-    <BottomSheet
-      isOpen={isSettingsOpen}
-      onClose={hide}
+    <SettingsModal
       title={item?.title}
+      modalKey={modals.itemSettings}
+      actions={[
+        { text: 'Edit', onClick: () => item && showEdit(item) },
+        {
+          render: () => (
+            <DeleteButton
+              onConfirm={() => {
+                remove(item!.id);
+                hide();
+              }}
+            />
+          ),
+        },
+      ]}
       data-testid="item-settings-modal"
-      afterLeave={resetAfterHide}
-    >
-      <div className="flex flex-col pb-3">
-        <button className="px-4 py-2 text-left hover:bg-neutral-100" onClick={() => showEdit()}>
-          Edit
-        </button>
-
-        <DeleteButton
-          onConfirm={() => {
-            remove(item!.id);
-            hide();
-          }}
-        />
-      </div>
-    </BottomSheet>
+    />
   );
 };
 

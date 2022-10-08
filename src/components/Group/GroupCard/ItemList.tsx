@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid';
 
-import { useItemsStore, useSearchStore } from 'lib/stores';
+import { useItemsStore, useModalStore, useSearchStore } from 'lib/stores';
 import type { Group } from 'types/group';
 import { isMatch } from 'lib/helpers';
+import { modals } from 'data/constants';
 
 type ItemListProps = {
   group: Group;
@@ -11,7 +12,8 @@ type ItemListProps = {
 
 const ItemList = ({ group }: ItemListProps) => {
   const { search } = useSearchStore('items');
-  const showSettings = useItemsStore((state) => state.showSettings);
+  const setItem = useItemsStore((state) => state.setItem);
+  const { show } = useModalStore(modals.itemSettings);
   const items = useItemsStore(
     useCallback(
       (state) => {
@@ -33,7 +35,10 @@ const ItemList = ({ group }: ItemListProps) => {
 
           <button
             className={`rounded-md p-1 hover:bg-${group.color}-100`}
-            onClick={() => showSettings(item)}
+            onClick={() => {
+              setItem(item);
+              show();
+            }}
             data-testid="group-item-settings"
           >
             <EllipsisHorizontalIcon className="h-[18px] w-[18px]" />

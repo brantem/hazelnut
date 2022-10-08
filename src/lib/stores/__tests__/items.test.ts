@@ -19,13 +19,6 @@ describe('useItemsStore', async () => {
     });
   });
 
-  it('should show settings modal', () => {
-    const { result } = renderHook(() => useItemsStore());
-    act(() => result.current.showSettings(item));
-    expect(result.current.item).toEqual(item);
-    expect(result.current.isSettingsOpen).toEqual(true);
-  });
-
   it('should open edit modal', () => {
     const { result } = renderHook(() => useItemsStore());
     act(() => result.current.showEdit(item));
@@ -35,19 +28,14 @@ describe('useItemsStore', async () => {
 
   it('should hide and reset', () => {
     const { result } = renderHook(() => useItemsStore());
-    act(() => {
-      result.current.showSettings(item);
-      result.current.showEdit(item);
-    });
+    act(() => result.current.showEdit(item));
     expect(result.current.item).toEqual(item);
-    expect(result.current.isSettingsOpen).toEqual(true);
     expect(result.current.isEditOpen).toEqual(true);
     act(() => {
       result.current.hide();
       result.current.resetAfterHide();
     });
     expect(result.current.item).toEqual(null);
-    expect(result.current.isSettingsOpen).toEqual(false);
     expect(result.current.isEditOpen).toEqual(false);
   });
 

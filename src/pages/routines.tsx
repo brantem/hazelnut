@@ -65,7 +65,6 @@ const Routines: NextPage = () => {
       </Layout>
 
       <SaveRoutineModal />
-
       <DuplicateRoutineModal />
 
       <SaveItemsToRoutineModal />

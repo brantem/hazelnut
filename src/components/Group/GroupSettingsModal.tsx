@@ -1,12 +1,18 @@
 import { useCallback } from 'react';
 
-import BottomSheet from 'components/BottomSheet';
+import SettingsModal from 'components/modals/SettingsModal';
 import DeleteButton from 'components/DeleteButton';
 
-import { useGroupsStore, useItemsStore } from 'lib/stores';
+import { useModalStore, useGroupsStore, useItemsStore } from 'lib/stores';
+import { modals } from 'data/constants';
 
 const GroupSettingsModal = () => {
-  const { group, showSave, isSettingsOpen, hide, resetAfterHide, remove } = useGroupsStore();
+  const { hide } = useModalStore(modals.groupSettings);
+  const { group, showSave, remove } = useGroupsStore((state) => ({
+    group: state.group,
+    showSave: state.showSave,
+    remove: state.remove,
+  }));
   const itemsLength = useItemsStore(
     useCallback(
       (state) => {
@@ -18,30 +24,25 @@ const GroupSettingsModal = () => {
   );
 
   return (
-    <BottomSheet
-      isOpen={isSettingsOpen}
-      onClose={hide}
+    <SettingsModal
       title={group?.title}
+      description={`${itemsLength} Item(s)`}
+      modalKey={modals.groupSettings}
+      actions={[
+        { text: 'Edit', onClick: () => showSave(group) },
+        {
+          render: () => (
+            <DeleteButton
+              onConfirm={() => {
+                remove(group!.id);
+                hide();
+              }}
+            />
+          ),
+        },
+      ]}
       data-testid="group-settings-modal"
-      afterLeave={resetAfterHide}
-    >
-      <div className="-mt-2 flex items-center justify-between space-x-3 px-4 text-base font-normal text-neutral-500">
-        {itemsLength} Item(s)
-      </div>
-
-      <div className="flex flex-col py-3">
-        <button className="px-4 py-2 text-left hover:bg-neutral-100" onClick={() => showSave()}>
-          Edit
-        </button>
-
-        <DeleteButton
-          onConfirm={() => {
-            remove(group!.id);
-            hide();
-          }}
-        />
-      </div>
-    </BottomSheet>
+    />
   );
 };
 
