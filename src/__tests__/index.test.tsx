@@ -37,6 +37,12 @@ describe('Home', () => {
   beforeEach(() => {
     const { result } = renderHook(() => useRoutinesStore());
     act(() => result.current.remove('routine-1'));
+
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should show active routine', async () => {
@@ -59,8 +65,10 @@ describe('Home', () => {
   });
 
   it("shouldn't show past routine", async () => {
+    vi.setSystemTime(dayjs().add(1, 'hour').toDate());
+
     const { result } = renderHook(() => useRoutinesStore());
-    act(() => result.current.add({ ...routine, time: dayjs().subtract(1, 'hour').format('HH:mm') }));
+    act(() => result.current.add(routine));
 
     render(<Home />);
 

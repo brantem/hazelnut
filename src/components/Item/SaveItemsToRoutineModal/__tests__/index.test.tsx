@@ -3,10 +3,11 @@ import '@testing-library/jest-dom';
 
 import SaveItemsToRoutineModal from 'components/Item/SaveItemsToRoutineModal';
 
-import { useGroupsStore, useItemsStore, useRoutinesStore } from 'lib/stores';
+import { useGroupsStore, useItemsStore, useModalStore, useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 import { Group } from 'types/group';
 import { Item } from 'types/item';
+import * as constants from 'data/constants';
 
 const routine: Routine = {
   id: 'routine-1',
@@ -48,22 +49,32 @@ describe('SaveItemsToRoutineModal', () => {
   });
 
   it('should open settings modal', () => {
+    const modal = renderHook(() => useModalStore());
+
     const { result } = renderHook(() => useRoutinesStore());
 
     render(<SaveItemsToRoutineModal />);
 
     expect(screen.queryByTestId('save-items-to-routine-modal')).not.toBeInTheDocument();
-    act(() => result.current.showSaveItems(routine));
+    act(() => {
+      result.current.setRoutine(routine);
+      modal.result.current.show(constants.modals.saveItemsToRoutine);
+    });
     expect(screen.getByTestId('save-items-to-routine-modal')).toBeInTheDocument();
   });
 
   it('should add item to routine', async () => {
+    const modal = renderHook(() => useModalStore());
+    const hide = vi.spyOn(modal.result.current, 'hide');
+
     const { result } = renderHook(() => useRoutinesStore());
     const edit = vi.spyOn(result.current, 'edit').mockImplementation(() => {});
-    const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveItemsToRoutineModal />);
-    act(() => result.current.showSaveItems(routine));
+    act(() => {
+      result.current.setRoutine(routine);
+      modal.result.current.show(constants.modals.saveItemsToRoutine);
+    });
     expect(screen.getByLabelText('Item 1')).toHaveAttribute('aria-checked', 'false');
     act(() => {
       screen.getByText('Item 1').click();
@@ -75,12 +86,17 @@ describe('SaveItemsToRoutineModal', () => {
   });
 
   it('should remove item to routine', async () => {
+    const modal = renderHook(() => useModalStore());
+    const hide = vi.spyOn(modal.result.current, 'hide');
+
     const { result } = renderHook(() => useRoutinesStore());
     const edit = vi.spyOn(result.current, 'edit').mockImplementation(() => {});
-    const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveItemsToRoutineModal />);
-    act(() => result.current.showSaveItems({ ...routine, itemIds: ['item-1'] }));
+    act(() => {
+      result.current.setRoutine({ ...routine, itemIds: ['item-1'] });
+      modal.result.current.show(constants.modals.saveItemsToRoutine);
+    });
     expect(screen.getByLabelText('Item 1')).toHaveAttribute('aria-checked', 'true');
     act(() => {
       screen.getByText('Item 1').click();

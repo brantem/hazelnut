@@ -37,13 +37,6 @@ describe('useRoutinesStore', () => {
     expect(result.current.isSaveOpen).toEqual(true);
   });
 
-  it('should show save items modal', () => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => result.current.showSaveItems(routine));
-    expect(result.current.routine).toEqual(routine);
-    expect(result.current.isSaveItemsOpen).toEqual(true);
-  });
-
   it('should show duplicate modal', () => {
     const { result } = renderHook(() => useRoutinesStore());
     act(() => result.current.showDuplicate(routine));
@@ -55,12 +48,10 @@ describe('useRoutinesStore', () => {
     const { result } = renderHook(() => useRoutinesStore());
     act(() => {
       result.current.showSave(routine);
-      result.current.showSaveItems(routine);
       result.current.showDuplicate(routine);
     });
     expect(result.current.routine).toEqual(routine);
     expect(result.current.isSaveOpen).toEqual(true);
-    expect(result.current.isSaveItemsOpen).toEqual(true);
     expect(result.current.isDuplicateOpen).toEqual(true);
     act(() => {
       result.current.hide();
@@ -68,7 +59,6 @@ describe('useRoutinesStore', () => {
     });
     expect(result.current.routine).toEqual(null);
     expect(result.current.isSaveOpen).toEqual(false);
-    expect(result.current.isSaveItemsOpen).toEqual(false);
     expect(result.current.isDuplicateOpen).toEqual(false);
   });
 

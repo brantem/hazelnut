@@ -6,13 +6,16 @@ import Group from 'components/Item/SaveItemsToRoutineModal/Group';
 
 import { useRoutinesStore, useGroupsStore, useItemsStore } from 'lib/stores';
 import { isMatch } from 'lib/helpers';
-import { useSearch } from 'lib/hooks';
+import { useModal, useSearch } from 'lib/hooks';
+import * as constants from 'data/constants';
 
 const SaveItemsToRoutineModal = () => {
-  const { routine, isSaveItemsOpen, hide, resetAfterHide, edit } = useRoutinesStore();
+  const { routine, edit } = useRoutinesStore((state) => ({ routine: state.routine, edit: state.edit }));
   const groups = useGroupsStore((state) => state.groups);
-  const search = useSearch('save-items-routine-modal');
+  const modal = useModal(constants.modals.saveItemsToRoutine);
+
   const getItemIdsByIds = useItemsStore((state) => state.getItemIdsByIds);
+  const search = useSearch('save-items-routine-modal');
   const isSearchEmpty = useItemsStore(
     useCallback(
       (state) => state && state.items.findIndex((item) => isMatch(item.title, search.value)) === -1,
@@ -29,18 +32,17 @@ const SaveItemsToRoutineModal = () => {
 
   return (
     <BottomSheet
-      isOpen={isSaveItemsOpen}
-      onClose={hide}
+      isOpen={modal.isOpen}
+      onClose={() => {
+        modal.hide();
+        search.change('');
+      }}
       title={
         <>
           Items <span className="ml-1 text-base font-normal text-neutral-500">{itemIds.length}</span>
         </>
       }
       data-testid="save-items-to-routine-modal"
-      afterLeave={() => {
-        resetAfterHide();
-        search.change('');
-      }}
     >
       <ol className="max-h-[75vh] flex-1 space-y-3 overflow-y-auto px-4 pb-3">
         {groups.map((group) => (
@@ -69,7 +71,7 @@ const SaveItemsToRoutineModal = () => {
           className="mt-3 w-full rounded-md bg-black py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-neutral-500 enabled:hover:bg-neutral-800 disabled:opacity-70"
           onClick={() => {
             edit(routine!.id, { itemIds: getItemIdsByIds(itemIds) });
-            hide();
+            modal.hide();
           }}
         >
           Save

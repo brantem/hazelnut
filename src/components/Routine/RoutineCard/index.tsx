@@ -15,11 +15,8 @@ type RoutineProps = {
 };
 
 const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutineProps) => {
-  const { setRoutine, showSaveItems, edit } = useRoutinesStore((state) => ({
-    setRoutine: state.setRoutine,
-    showSaveItems: state.showSaveItems,
-    edit: state.edit,
-  }));
+  const { setRoutine, edit } = useRoutinesStore((state) => ({ setRoutine: state.setRoutine, edit: state.edit }));
+  const saveItemsModal = useModal(constants.modals.saveItemsToRoutine);
   const settingsModal = useModal(constants.modals.routineSettings);
 
   return (
@@ -36,7 +33,10 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
           {showAction && (
             <button
               className={`rounded-md px-2 py-1 text-sm hover:bg-${routine.color}-100 flex-shrink-0`}
-              onClick={() => showSaveItems(routine)}
+              onClick={() => {
+                setRoutine(routine);
+                saveItemsModal.show();
+              }}
               data-testid="routine-card-save-items"
             >
               Items

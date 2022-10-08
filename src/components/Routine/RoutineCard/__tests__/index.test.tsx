@@ -41,13 +41,13 @@ describe('RoutineCard', () => {
 
     const { result } = renderHook(() => useRoutinesStore());
     const setRoutine = vi.spyOn(result.current, 'setRoutine').mockImplementation(() => {});
-    const showSaveItems = vi.spyOn(result.current, 'showSaveItems').mockImplementation(() => {});
 
     const { container } = render(<RoutineCard routine={routine} showAction />);
 
     expect(container).toMatchSnapshot();
     act(() => screen.getByTestId('routine-card-save-items').click());
-    expect(showSaveItems).toHaveBeenCalledWith(routine);
+    expect(setRoutine).toHaveBeenCalledWith(routine);
+    expect(show).toHaveBeenCalledWith(constants.modals.saveItemsToRoutine);
 
     act(() => screen.getByTestId('routine-card-settings').click());
     expect(setRoutine).toHaveBeenCalledWith(routine);
