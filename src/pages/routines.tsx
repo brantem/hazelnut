@@ -12,14 +12,14 @@ import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
 import { useRoutinesStore } from 'lib/stores';
 import { isMatch, getMinutesFromTime } from 'lib/helpers';
-import { useSearch } from 'lib/hooks';
+import { useModal, useSearch } from 'lib/hooks';
+import * as constants from 'data/constants';
 
 const Routines: NextPage = () => {
+  const clearRoutine = useRoutinesStore((state) => () => state.routine ? state.setRoutine(null) : void 0);
+  const saveRoutineModal = useModal(constants.modals.saveRoutine);
+
   const search = useSearch('routines');
-  const { showSave, clearRoutine } = useRoutinesStore((state) => ({
-    showSave: state.showSave,
-    clearRoutine: () => (state.routine ? state.setRoutine(null) : void 0),
-  }));
   const routines = useRoutinesStore(
     useCallback(
       (state) => {
@@ -51,7 +51,7 @@ const Routines: NextPage = () => {
               text: 'Add Routine',
               onClick: () => {
                 clearRoutine();
-                showSave();
+                saveRoutineModal.show();
               },
             },
           ],

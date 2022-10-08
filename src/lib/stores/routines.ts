@@ -10,12 +10,6 @@ type RoutinesState = {
   routine: Routine | null;
   setRoutine: (routine: Routine | null) => void;
 
-  isSaveOpen: boolean;
-  showSave: (routine?: Routine | null) => void;
-
-  hide: () => void;
-  resetAfterHide: () => void;
-
   add: (routine: Omit<Routine, 'id' | 'itemIds' | 'minimized'> & { itemIds?: string[] }) => void;
   edit: (id: string, routine: Partial<Omit<Routine, 'id'>>) => void;
   remove: (id: string) => void;
@@ -23,19 +17,10 @@ type RoutinesState = {
 
 const useStore = create<RoutinesState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       routines: [],
       routine: null,
       setRoutine: (routine) => set({ routine }),
-
-      isSaveOpen: false,
-      showSave: (routine = null) => set((state) => ({ routine: routine || state.routine, isSaveOpen: true })),
-
-      hide: () => set({ isSaveOpen: false }),
-      resetAfterHide: () => {
-        if (get().isSaveOpen) return;
-        set({ routine: null });
-      },
 
       add: (routine) => {
         set((state) => ({
@@ -63,12 +48,6 @@ const dummy = {
   routines: [],
   routine: null,
   setRoutine: () => {},
-
-  isSaveOpen: false,
-  showSave: () => {},
-
-  hide: () => {},
-  resetAfterHide: () => {},
 
   add: () => {},
   edit: () => {},

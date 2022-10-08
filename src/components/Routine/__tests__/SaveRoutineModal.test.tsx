@@ -4,7 +4,8 @@ import '@testing-library/jest-dom';
 import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
 
 import { Routine } from 'types/routine';
-import { useRoutinesStore } from 'lib/stores';
+import { useModalStore, useRoutinesStore } from 'lib/stores';
+import * as constants from 'data/constants';
 
 const routine: Routine = {
   id: 'routine-1',
@@ -23,32 +24,16 @@ describe('SaveRoutineModal', () => {
     window.IntersectionObserver = mockIntersectionObserver;
   });
 
-  afterEach(() => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
-  });
-
-  it('should open save modal', () => {
-    const { result } = renderHook(() => useRoutinesStore());
-
-    render(<SaveRoutineModal />);
-
-    expect(screen.queryByTestId('save-routine-modal')).not.toBeInTheDocument();
-    act(() => result.current.showSave());
-    expect(screen.getByTestId('save-routine-modal')).toBeInTheDocument();
-  });
-
   it('should add new routine', async () => {
+    const modal = renderHook(() => useModalStore());
+    const hide = vi.spyOn(modal.result.current, 'hide');
+
     const { result } = renderHook(() => useRoutinesStore());
     const add = vi.spyOn(result.current, 'add');
-    const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveRoutineModal />);
 
-    act(() => result.current.showSave());
+    act(() => modal.result.current.show(constants.modals.saveRoutine));
     act(() => {
       fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Routine 1' } });
       screen.getByTestId('day-picker-option-monday').click();
@@ -63,13 +48,18 @@ describe('SaveRoutineModal', () => {
   });
 
   it('should edit existing routine', async () => {
+    const modal = renderHook(() => useModalStore());
+    const hide = vi.spyOn(modal.result.current, 'hide');
+
     const { result } = renderHook(() => useRoutinesStore());
     const edit = vi.spyOn(result.current, 'edit');
-    const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveRoutineModal />);
 
-    act(() => result.current.showSave(routine));
+    act(() => {
+      result.current.setRoutine(routine);
+      modal.result.current.show(constants.modals.saveRoutine);
+    });
     act(() => {
       fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Routine 1a' } });
       screen.getByTestId('color-picker-option-amber').click();

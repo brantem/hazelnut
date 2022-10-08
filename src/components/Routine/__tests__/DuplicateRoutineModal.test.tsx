@@ -29,14 +29,6 @@ describe('DuplicateRoutineModal', () => {
     window.IntersectionObserver = mockIntersectionObserver;
   });
 
-  afterEach(() => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
-  });
-
   it('should duplicate routine', async () => {
     const modal = renderHook(() => useModalStore());
     const hide = vi.spyOn(modal.result.current, 'hide');

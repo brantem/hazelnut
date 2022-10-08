@@ -4,61 +4,7 @@ import '@testing-library/jest-dom';
 import { useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 
-const routine: Routine = {
-  id: 'routine-1',
-  title: 'Routine 1',
-  color: 'red',
-  days: ['MONDAY'],
-  time: '00:00',
-  itemIds: ['item-1'],
-  minimized: false,
-};
-
 describe('useRoutinesStore', () => {
-  afterEach(() => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
-  });
-
-  it('should open add modal', () => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => result.current.showSave());
-    expect(result.current.routine).toEqual(null);
-    expect(result.current.isSaveOpen).toEqual(true);
-  });
-
-  it('should open edit modal', () => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => result.current.showSave(routine));
-    expect(result.current.routine).toEqual(routine);
-    expect(result.current.isSaveOpen).toEqual(true);
-  });
-
-  it('should hide and reset', () => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => result.current.showSave(routine));
-    expect(result.current.routine).toEqual(routine);
-    expect(result.current.isSaveOpen).toEqual(true);
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
-    expect(result.current.routine).toEqual(null);
-    expect(result.current.isSaveOpen).toEqual(false);
-  });
-
-  it('should not reset if isSaveOpen is true', () => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => {
-      result.current.showSave(routine);
-      result.current.resetAfterHide();
-    });
-    expect(result.current.routine).toEqual(routine);
-  });
-
   it('should add routine', () => {
     const { result } = renderHook(() => useRoutinesStore());
     expect(result.current.routines).toHaveLength(0);

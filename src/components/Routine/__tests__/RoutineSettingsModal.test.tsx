@@ -24,14 +24,6 @@ describe('RoutineSettingsModal', async () => {
     window.IntersectionObserver = mockIntersectionObserver;
   });
 
-  afterEach(() => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
-  });
-
   it('should open duplicate modal', () => {
     const modal = renderHook(() => useModalStore());
     const show = vi.spyOn(modal.result.current, 'show');
@@ -52,9 +44,10 @@ describe('RoutineSettingsModal', async () => {
 
   it('should open edit modal', () => {
     const modal = renderHook(() => useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show');
 
     const { result } = renderHook(() => useRoutinesStore());
-    const showSave = vi.spyOn(result.current, 'showSave');
+    const setRoutine = vi.spyOn(result.current, 'setRoutine');
 
     render(<RoutineSettingsModal />);
 
@@ -63,7 +56,8 @@ describe('RoutineSettingsModal', async () => {
       modal.result.current.show(constants.modals.routineSettings);
     });
     act(() => screen.getByText('Edit').click());
-    expect(showSave).toHaveBeenCalledWith(routine);
+    expect(setRoutine).toHaveBeenCalledWith(routine);
+    expect(show).toHaveBeenCalledWith(constants.modals.saveRoutine);
   });
 
   it('should delete routine', () => {

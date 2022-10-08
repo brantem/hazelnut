@@ -8,16 +8,24 @@ import DayPicker from 'components/DayPicker';
 import colors from 'data/colors';
 import { useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
+import * as constants from 'data/constants';
+import { useModal } from 'lib/hooks';
 
 type Values = Omit<Routine, 'id' | 'itemIds' | 'minimized'>;
 
 const SaveRoutineModal = () => {
-  const { routines, routine, isSaveOpen, hide, resetAfterHide, add, edit } = useRoutinesStore();
+  const modal = useModal(constants.modals.saveRoutine);
+  const { defaultColor, routine, add, edit } = useRoutinesStore((state) => ({
+    defaultColor: colors[state.routines.length % colors.length],
+    routine: state.routine,
+    add: state.add,
+    edit: state.edit,
+  }));
 
   const formik = useFormik<Values>({
     initialValues: {
       title: routine?.title || '',
-      color: routine?.color || colors[routines.length % colors.length],
+      color: routine?.color || defaultColor,
       days: routine?.days || [],
       time: routine?.time || '',
     },
@@ -29,18 +37,17 @@ const SaveRoutineModal = () => {
       }
 
       resetForm();
-      hide();
+      modal.hide();
     },
     enableReinitialize: true,
   });
 
   return (
     <BottomSheet
-      isOpen={isSaveOpen}
-      onClose={hide}
+      isOpen={modal.isOpen}
+      onClose={modal.hide}
       title={`${routine ? 'Edit' : 'Add'} Routine`}
       data-testid="save-routine-modal"
-      afterLeave={resetAfterHide}
     >
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-6 px-4 pb-3">

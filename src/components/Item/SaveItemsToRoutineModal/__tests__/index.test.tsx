@@ -40,14 +40,6 @@ describe('SaveItemsToRoutineModal', () => {
     });
   });
 
-  beforeEach(() => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
-  });
-
   it('should add item to routine', async () => {
     const modal = renderHook(() => useModalStore());
     const hide = vi.spyOn(modal.result.current, 'hide');
