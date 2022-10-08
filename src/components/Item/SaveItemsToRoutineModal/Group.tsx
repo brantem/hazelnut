@@ -4,9 +4,10 @@ import clsx from 'clsx';
 
 import Checkbox from 'components/Checkbox';
 
-import { useItemsStore, useSearchStore } from 'lib/stores';
+import { useItemsStore } from 'lib/stores';
 import { Group as _Group } from 'types/group';
 import { isMatch } from 'lib/helpers';
+import { useSearch } from 'lib/hooks';
 
 type GroupProps = {
   group: _Group;
@@ -15,15 +16,15 @@ type GroupProps = {
 };
 
 export const Group = ({ group, itemIds, onItemClick }: GroupProps) => {
-  const { search } = useSearchStore('save-items-routine-modal');
+  const search = useSearch('save-items-routine-modal');
   const items = useItemsStore(
     useCallback(
       (state) => {
         const items = state.getItemsByGroupId(group.id);
-        if (!search) return items;
-        return items.filter((item) => isMatch(item.title, search));
+        if (!search.value) return items;
+        return items.filter((item) => isMatch(item.title, search.value));
       },
-      [group.id, search],
+      [group.id, search.value],
     ),
   );
 

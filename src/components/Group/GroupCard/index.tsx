@@ -5,9 +5,10 @@ import clsx from 'clsx';
 import ItemList from 'components/Group/GroupCard/ItemList';
 
 import { isMatch } from 'lib/helpers';
-import { useGroupsStore, useItemsStore, useModalStore, useSearchStore } from 'lib/stores';
+import { useGroupsStore, useItemsStore } from 'lib/stores';
 import type { Group } from 'types/group';
-import { modals } from 'data/constants';
+import * as constants from 'data/constants';
+import { useSearch, useModal } from 'lib/hooks';
 
 type GroupCardProps = {
   group: Group;
@@ -19,19 +20,19 @@ const GroupCard = ({ group }: GroupCardProps) => {
     showAddItem: state.showAddItem,
     edit: state.edit,
   }));
-  const { search } = useSearchStore('items');
-  const { show } = useModalStore(modals.groupSettings);
+  const search = useSearch('items');
+  const settingsModal = useModal(constants.modals.groupSettings);
   const isGroupMatch = useMemo(() => {
-    if (!search) return true;
-    return isMatch(group.title, search);
-  }, [group.title, search]);
+    if (!search.value) return true;
+    return isMatch(group.title, search.value);
+  }, [group.title, search.value]);
   const isItemsMatch = useItemsStore(
     useCallback(
       (state) => {
-        if (!search) return true;
-        return state.getItemsByGroupId(group.id).findIndex((item) => isMatch(item.title, search)) !== -1;
+        if (!search.value) return true;
+        return state.getItemsByGroupId(group.id).findIndex((item) => isMatch(item.title, search.value)) !== -1;
       },
-      [group.id, search],
+      [group.id, search.value],
     ),
   );
 
@@ -55,7 +56,7 @@ const GroupCard = ({ group }: GroupCardProps) => {
             className={`rounded-md p-1 hover:bg-${group.color}-100`}
             onClick={() => {
               setGroup(group);
-              show();
+              settingsModal.show();
             }}
             data-testid="group-card-settings"
           >

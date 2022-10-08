@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 
 import BottomSheet, { BottomSheetProps } from 'components/BottomSheet';
 
-import { useModalStore } from 'lib/stores';
+import { useModal } from 'lib/hooks';
 
 type SettingsModalProps = Pick<BottomSheetProps, 'title'> & {
   modalKey: string;
@@ -11,10 +11,10 @@ type SettingsModalProps = Pick<BottomSheetProps, 'title'> & {
 };
 
 const SettingsModal = ({ modalKey, description, actions, ...props }: SettingsModalProps) => {
-  const { isOpen, hide } = useModalStore(modalKey);
+  const modal = useModal(modalKey);
 
   return (
-    <BottomSheet data-testid="settings-modal" {...props} isOpen={isOpen} onClose={hide}>
+    <BottomSheet data-testid="settings-modal" {...props} isOpen={modal.isOpen} onClose={modal.hide}>
       {description && (
         <div className="-mt-2 mb-3 flex items-center justify-between space-x-3 px-4 text-base font-normal text-neutral-500">
           {description}

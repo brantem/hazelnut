@@ -3,11 +3,12 @@ import { useCallback } from 'react';
 import SettingsModal from 'components/modals/SettingsModal';
 import DeleteButton from 'components/DeleteButton';
 
-import { useModalStore, useGroupsStore, useItemsStore } from 'lib/stores';
-import { modals } from 'data/constants';
+import { useGroupsStore, useItemsStore } from 'lib/stores';
+import { useModal } from 'lib/hooks';
+import * as constants from 'data/constants';
 
 const GroupSettingsModal = () => {
-  const { hide } = useModalStore(modals.groupSettings);
+  const modal = useModal(constants.modals.groupSettings);
   const { group, showSave, remove } = useGroupsStore((state) => ({
     group: state.group,
     showSave: state.showSave,
@@ -27,7 +28,7 @@ const GroupSettingsModal = () => {
     <SettingsModal
       title={group?.title}
       description={`${itemsLength} Item(s)`}
-      modalKey={modals.groupSettings}
+      modalKey={constants.modals.groupSettings}
       actions={[
         { text: 'Edit', onClick: () => showSave(group) },
         {
@@ -35,7 +36,7 @@ const GroupSettingsModal = () => {
             <DeleteButton
               onConfirm={() => {
                 remove(group!.id);
-                hide();
+                modal.hide();
               }}
             />
           ),

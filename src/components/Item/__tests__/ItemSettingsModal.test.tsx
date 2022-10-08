@@ -3,9 +3,9 @@ import '@testing-library/jest-dom';
 
 import ItemSettingsModal from 'components/Item/ItemSettingsModal';
 
-import { useItemsStore, useModalStore, _useModalStore } from 'lib/stores';
+import { useItemsStore, useModalStore } from 'lib/stores';
 import { Item } from 'types/item';
-import { modals } from 'data/constants';
+import * as constants from 'data/constants';
 
 const item: Item = {
   id: 'item-1',
@@ -21,7 +21,7 @@ describe('ItemSettingsModal', async () => {
   });
 
   it('should open settings modal', () => {
-    const modal = renderHook(() => useModalStore(modals.itemSettings));
+    const modal = renderHook(() => useModalStore());
 
     const { result } = renderHook(() => useItemsStore());
 
@@ -30,13 +30,13 @@ describe('ItemSettingsModal', async () => {
     expect(screen.queryByTestId('item-settings-modal')).not.toBeInTheDocument();
     act(() => {
       result.current.setItem(item);
-      modal.result.current.show();
+      modal.result.current.show(constants.modals.itemSettings);
     });
     expect(screen.getByTestId('item-settings-modal')).toBeInTheDocument();
   });
 
   it('should open edit modal', () => {
-    const modal = renderHook(() => _useModalStore());
+    const modal = renderHook(() => useModalStore());
     const show = vi.spyOn(modal.result.current, 'show');
 
     const { result } = renderHook(() => useItemsStore());
@@ -46,16 +46,16 @@ describe('ItemSettingsModal', async () => {
 
     act(() => {
       result.current.setItem(item);
-      modal.result.current.show(modals.itemSettings);
+      modal.result.current.show(constants.modals.itemSettings);
     });
     act(() => screen.getByText('Edit').click());
     expect(setItem).toHaveBeenCalledWith(item);
-    expect(show).toHaveBeenCalledWith(modals.editItem);
+    expect(show).toHaveBeenCalledWith(constants.modals.editItem);
     // TODO: check clear
   });
 
   it('should delete item', () => {
-    const modal = renderHook(() => _useModalStore());
+    const modal = renderHook(() => useModalStore());
     const hide = vi.spyOn(modal.result.current, 'hide');
 
     const { result } = renderHook(() => useItemsStore());
@@ -65,7 +65,7 @@ describe('ItemSettingsModal', async () => {
 
     act(() => {
       result.current.setItem(item);
-      modal.result.current.show(modals.itemSettings);
+      modal.result.current.show(constants.modals.itemSettings);
     });
     act(() => screen.getByText('Delete').click());
     act(() => screen.getByText('Confirm').click());

@@ -1,27 +1,28 @@
 import { useCallback } from 'react';
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid';
 
-import { useItemsStore, useModalStore, useSearchStore } from 'lib/stores';
+import { useItemsStore } from 'lib/stores';
 import type { Group } from 'types/group';
 import { isMatch } from 'lib/helpers';
-import { modals } from 'data/constants';
+import * as constants from 'data/constants';
+import { useSearch, useModal } from 'lib/hooks';
 
 type ItemListProps = {
   group: Group;
 };
 
 const ItemList = ({ group }: ItemListProps) => {
-  const { search } = useSearchStore('items');
+  const search = useSearch('items');
   const setItem = useItemsStore((state) => state.setItem);
-  const { show } = useModalStore(modals.itemSettings);
+  const settingsModal = useModal(constants.modals.itemSettings);
   const items = useItemsStore(
     useCallback(
       (state) => {
         const items = state.getItemsByGroupId(group.id);
-        if (!search) return items;
-        return items.filter((item) => isMatch(item.title, search));
+        if (!search.value) return items;
+        return items.filter((item) => isMatch(item.title, search.value));
       },
-      [group.id, search],
+      [group.id, search.value],
     ),
   );
 
@@ -37,7 +38,7 @@ const ItemList = ({ group }: ItemListProps) => {
             className={`rounded-md p-1 hover:bg-${group.color}-100`}
             onClick={() => {
               setItem(item);
-              show();
+              settingsModal.show();
             }}
             data-testid="group-item-settings"
           >

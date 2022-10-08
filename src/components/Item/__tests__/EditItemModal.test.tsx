@@ -3,9 +3,9 @@ import '@testing-library/jest-dom';
 
 import EditItemModal from 'components/Item/EditItemModal';
 
-import { useItemsStore, useModalStore, _useModalStore } from 'lib/stores';
+import { useItemsStore, useModalStore } from 'lib/stores';
 import { Item } from 'types/item';
-import { modals } from 'data/constants';
+import * as constants from 'data/constants';
 
 const item: Item = {
   id: 'item-1',
@@ -21,7 +21,7 @@ describe('EditItemModal', () => {
   });
 
   it('should open edit item modal', () => {
-    const modal = renderHook(() => useModalStore(modals.editItem));
+    const modal = renderHook(() => useModalStore());
 
     const { result } = renderHook(() => useItemsStore());
 
@@ -30,13 +30,13 @@ describe('EditItemModal', () => {
     expect(screen.queryByTestId('edit-item-modal')).not.toBeInTheDocument();
     act(() => {
       result.current.setItem(item);
-      modal.result.current.show();
+      modal.result.current.show(constants.modals.editItem);
     });
     expect(screen.getByTestId('edit-item-modal')).toBeInTheDocument();
   });
 
   it('should edit new item', async () => {
-    const modal = renderHook(() => _useModalStore());
+    const modal = renderHook(() => useModalStore());
     const hide = vi.spyOn(modal.result.current, 'hide');
 
     const { result } = renderHook(() => useItemsStore());
@@ -46,7 +46,7 @@ describe('EditItemModal', () => {
 
     act(() => {
       result.current.setItem(item);
-      modal.result.current.show(modals.editItem);
+      modal.result.current.show(constants.modals.editItem);
     });
     act(() => {
       fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Item 1a' } });

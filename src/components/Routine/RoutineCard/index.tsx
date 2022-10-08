@@ -3,9 +3,10 @@ import clsx from 'clsx';
 
 import ItemList from 'components/Routine/RoutineCard/ItemList';
 
-import { useRoutinesStore, useModalStore } from 'lib/stores';
+import { useRoutinesStore } from 'lib/stores';
 import type { Routine } from 'types/routine';
-import { modals } from 'data/constants';
+import * as constants from 'data/constants';
+import { useModal } from 'lib/hooks';
 
 type RoutineProps = {
   routine: Routine;
@@ -19,7 +20,7 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
     showSaveItems: state.showSaveItems,
     edit: state.edit,
   }));
-  const { show } = useModalStore(modals.routineSettings);
+  const settingsModal = useModal(constants.modals.routineSettings);
 
   return (
     <div className={`px-4 py-3 bg-${routine.color}-50`} data-testid="routine-card">
@@ -47,7 +48,7 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
               className={`rounded-md p-1 hover:bg-${routine.color}-100`}
               onClick={() => {
                 setRoutine(routine);
-                show();
+                settingsModal.show();
               }}
               data-testid="routine-card-settings"
             >

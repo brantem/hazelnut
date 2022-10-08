@@ -3,9 +3,9 @@ import '@testing-library/jest-dom';
 
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
-import { useModalStore, useRoutinesStore, _useModalStore } from 'lib/stores';
+import { useModalStore, useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
-import { modals } from 'data/constants';
+import * as constants from 'data/constants';
 
 const routine: Routine = {
   id: 'routine-1',
@@ -33,7 +33,7 @@ describe('RoutineSettingsModal', async () => {
   });
 
   it('should open settings modal', () => {
-    const modal = renderHook(() => useModalStore(modals.routineSettings));
+    const modal = renderHook(() => useModalStore());
 
     const { result } = renderHook(() => useRoutinesStore());
 
@@ -42,13 +42,13 @@ describe('RoutineSettingsModal', async () => {
     expect(screen.queryByTestId('routine-settings-modal')).not.toBeInTheDocument();
     act(() => {
       result.current.setRoutine(routine);
-      modal.result.current.show();
+      modal.result.current.show(constants.modals.routineSettings);
     });
     expect(screen.getByTestId('routine-settings-modal')).toBeInTheDocument();
   });
 
   it('should open duplicate modal', () => {
-    const modal = renderHook(() => useModalStore(modals.routineSettings));
+    const modal = renderHook(() => useModalStore());
 
     const { result } = renderHook(() => useRoutinesStore());
     const showDuplicate = vi.spyOn(result.current, 'showDuplicate');
@@ -57,7 +57,7 @@ describe('RoutineSettingsModal', async () => {
 
     act(() => {
       result.current.setRoutine(routine);
-      modal.result.current.show();
+      modal.result.current.show(constants.modals.routineSettings);
     });
     act(() => screen.getByText('Duplicate').click());
     expect(showDuplicate).toHaveBeenCalledWith(routine);
@@ -65,7 +65,7 @@ describe('RoutineSettingsModal', async () => {
   });
 
   it('should open edit modal', () => {
-    const modal = renderHook(() => useModalStore(modals.routineSettings));
+    const modal = renderHook(() => useModalStore());
 
     const { result } = renderHook(() => useRoutinesStore());
     const showSave = vi.spyOn(result.current, 'showSave');
@@ -74,7 +74,7 @@ describe('RoutineSettingsModal', async () => {
 
     act(() => {
       result.current.setRoutine(routine);
-      modal.result.current.show();
+      modal.result.current.show(constants.modals.routineSettings);
     });
     act(() => screen.getByText('Edit').click());
     expect(showSave).toHaveBeenCalledWith(routine);
@@ -82,7 +82,7 @@ describe('RoutineSettingsModal', async () => {
   });
 
   it('should delete routine', () => {
-    const modal = renderHook(() => _useModalStore());
+    const modal = renderHook(() => useModalStore());
     const hide = vi.spyOn(modal.result.current, 'hide');
 
     const { result } = renderHook(() => useRoutinesStore());
@@ -92,7 +92,7 @@ describe('RoutineSettingsModal', async () => {
 
     act(() => {
       result.current.setRoutine(routine);
-      modal.result.current.show(modals.routineSettings);
+      modal.result.current.show(constants.modals.routineSettings);
     });
     act(() => screen.getByText('Delete').click());
     act(() => screen.getByText('Confirm').click());

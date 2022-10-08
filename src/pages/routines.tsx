@@ -10,20 +10,21 @@ import DuplicateRoutineModal from 'components/Routine/DuplicateRoutineModal';
 import SaveItemsToRoutineModal from 'components/Item/SaveItemsToRoutineModal';
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
-import { useRoutinesStore, useSearchStore } from 'lib/stores';
+import { useRoutinesStore } from 'lib/stores';
 import { isMatch, getMinutesFromTime } from 'lib/helpers';
+import { useSearch } from 'lib/hooks';
 
 const Routines: NextPage = () => {
-  const { search, setSearch } = useSearchStore('routines');
+  const search = useSearch('routines');
   const showSave = useRoutinesStore((state) => state.showSave);
   const routines = useRoutinesStore(
     useCallback(
       (state) => {
         const routines = state.routines.sort((a, b) => getMinutesFromTime(a.time) - getMinutesFromTime(b.time));
-        if (!search) return routines;
-        return routines.filter((routine) => isMatch(routine.title, search));
+        if (!search.value) return routines;
+        return routines.filter((routine) => isMatch(routine.title, search.value));
       },
-      [search],
+      [search.value],
     ),
   );
 
@@ -38,7 +39,7 @@ const Routines: NextPage = () => {
               text: <MagnifyingGlassIcon className="h-5 w-5" />,
               className: '!px-1.5',
               onClick: () => {
-                if (isSearching) setSearch('');
+                if (isSearching) search.change('');
                 toggleIsSearching();
               },
               testId: 'routines-search',
@@ -56,11 +57,9 @@ const Routines: NextPage = () => {
         )}
 
         <section className="space-y-3">
-          {routines.length ? (
-            routines.map((routine, i) => <RoutineCard key={i} routine={routine} showAction isItemSortable />)
-          ) : search ? (
-            <p className="mx-4 mt-3 text-center text-neutral-500">No results found</p>
-          ) : null}
+          {routines.length
+            ? routines.map((routine, i) => <RoutineCard key={i} routine={routine} showAction isItemSortable />)
+            : search && <p className="mx-4 mt-3 text-center text-neutral-500">No results found</p>}
         </section>
       </Layout>
 

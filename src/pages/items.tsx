@@ -11,28 +11,29 @@ import EditItemModal from 'components/Item/EditItemModal';
 import GroupSettingsModal from 'components/Group/GroupSettingsModal';
 import ItemSettingsModal from 'components/Item/ItemSettingsModal';
 
-import { useGroupsStore, useItemsStore, useSearchStore } from 'lib/stores';
+import { useGroupsStore, useItemsStore } from 'lib/stores';
 import { isMatch } from 'lib/helpers';
+import { useSearch } from 'lib/hooks';
 
 const Items: NextPage = () => {
   const { groups, showSave } = useGroupsStore((state) => ({ groups: state.groups, showSave: state.showSave }));
-  const { search, setSearch } = useSearchStore('items');
+  const search = useSearch('items');
   const isSearchGroupEmpty = useGroupsStore(
     useCallback(
       (state) => {
-        if (!search) return false;
-        return state.groups.findIndex((group) => isMatch(group.title, search)) === -1;
+        if (!search.value) return false;
+        return state.groups.findIndex((group) => isMatch(group.title, search.value)) === -1;
       },
-      [search],
+      [search.value],
     ),
   );
   const isSearchItemsEmpty = useItemsStore(
     useCallback(
       (state) => {
-        if (!search) return false;
-        return state.items.findIndex((item) => isMatch(item.title, search)) === -1;
+        if (!search.value) return false;
+        return state.items.findIndex((item) => isMatch(item.title, search.value)) === -1;
       },
-      [search],
+      [search.value],
     ),
   );
 
@@ -47,7 +48,7 @@ const Items: NextPage = () => {
               text: <MagnifyingGlassIcon className="h-5 w-5" />,
               className: '!px-1.5',
               onClick: () => {
-                if (isSearching) setSearch('');
+                if (isSearching) search.change('');
                 toggleIsSearching();
               },
               testId: 'items-search',

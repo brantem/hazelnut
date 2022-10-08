@@ -3,10 +3,10 @@ import '@testing-library/jest-dom';
 
 import GroupCard from 'components/Group/GroupCard';
 
-import { useGroupsStore, useItemsStore, _useModalStore, useSearchStore } from 'lib/stores';
+import { useGroupsStore, useItemsStore, useModalStore, useSearchStore } from 'lib/stores';
 import { Item } from 'types/item';
 import { Group } from 'types/group';
-import { modals } from 'data/constants';
+import * as constants from 'data/constants';
 
 const group: Group = {
   id: 'group-1',
@@ -27,7 +27,7 @@ describe('GroupCard', () => {
   });
 
   it('should render successfully', () => {
-    const modal = renderHook(() => _useModalStore());
+    const modal = renderHook(() => useModalStore());
     const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
 
     const { result } = renderHook(() => useGroupsStore());
@@ -42,7 +42,7 @@ describe('GroupCard', () => {
 
     act(() => screen.getByTestId('group-card-settings').click());
     expect(setGroup).toHaveBeenCalledWith(group);
-    expect(show).toHaveBeenCalledWith(modals.groupSettings);
+    expect(show).toHaveBeenCalledWith(constants.modals.groupSettings);
   });
 
   it('should be minimizable', () => {
@@ -59,7 +59,7 @@ describe('GroupCard', () => {
   });
 
   it("should render empty when group title doesn't contain search value", () => {
-    const search = renderHook(() => useSearchStore('items'));
+    const search = renderHook(() => useSearchStore());
 
     render(
       <GroupCard
@@ -73,19 +73,19 @@ describe('GroupCard', () => {
     );
 
     expect(screen.getByText('Group 2')).toBeInTheDocument();
-    act(() => search.result.current.setSearch('b'));
+    act(() => search.result.current.setSearch('items', 'b'));
     expect(screen.queryByText('Group 2')).not.toBeInTheDocument();
-    act(() => search.result.current.setSearch(''));
+    act(() => search.result.current.setSearch('items', ''));
   });
 
   it("should render empty when group doesn't contain search value", () => {
-    const search = renderHook(() => useSearchStore('items'));
+    const search = renderHook(() => useSearchStore());
 
     render(<GroupCard group={group} />);
 
     expect(screen.getByText('Group 1')).toBeInTheDocument();
-    act(() => search.result.current.setSearch('b'));
+    act(() => search.result.current.setSearch('items', 'b'));
     expect(screen.queryByText('Group 1')).not.toBeInTheDocument();
-    act(() => search.result.current.setSearch(''));
+    act(() => search.result.current.setSearch('items', ''));
   });
 });

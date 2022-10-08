@@ -4,8 +4,8 @@ import '@testing-library/jest-dom';
 import ItemList from 'components/Group/GroupCard/ItemList';
 
 import { Group } from 'types/group';
-import { useItemsStore, useSearchStore, _useModalStore } from 'lib/stores';
-import { modals } from 'data/constants';
+import { useItemsStore, useModalStore, useSearchStore } from 'lib/stores';
+import * as constants from 'data/constants';
 
 const group: Group = {
   id: 'group-1',
@@ -32,7 +32,7 @@ describe('ItemList', () => {
   });
 
   it('should open settings modal', () => {
-    const modal = renderHook(() => _useModalStore());
+    const modal = renderHook(() => useModalStore());
     const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
 
     const { result } = renderHook(() => useItemsStore());
@@ -42,7 +42,7 @@ describe('ItemList', () => {
 
     act(() => screen.getByTestId('group-item-settings').click());
     expect(setItem).toHaveBeenCalledWith({ groupId: 'group-1', id: 'item-1', title: 'Item 1' });
-    expect(show).toHaveBeenCalledWith(modals.itemSettings);
+    expect(show).toHaveBeenCalledWith(constants.modals.itemSettings);
   });
 
   it('should render empty there is no items', () => {
@@ -61,12 +61,12 @@ describe('ItemList', () => {
   });
 
   it('should render empty there is no items that contains search value', () => {
-    const search = renderHook(() => useSearchStore('items'));
+    const search = renderHook(() => useSearchStore());
 
     render(<ItemList group={group} />);
 
     expect(screen.getByTestId('group-card-items')).toBeInTheDocument();
-    act(() => search.result.current.setSearch('a'));
+    act(() => search.result.current.setSearch('items', 'a'));
     expect(screen.queryByTestId('group-card-items')).not.toBeInTheDocument();
   });
 });

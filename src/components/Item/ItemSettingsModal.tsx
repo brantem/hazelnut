@@ -1,26 +1,27 @@
 import SettingsModal from 'components/modals/SettingsModal';
 import DeleteButton from 'components/DeleteButton';
 
-import { useModalStore, useItemsStore } from 'lib/stores';
-import { modals } from 'data/constants';
+import { useItemsStore } from 'lib/stores';
+import * as constants from 'data/constants';
+import { useModal } from 'lib/hooks';
 
 const ItemSettingsModal = () => {
-  const { hide } = useModalStore(modals.itemSettings);
-  const { show: showEdit } = useModalStore(modals.editItem);
+  const modal = useModal(constants.modals.itemSettings);
+  const editModal = useModal(constants.modals.editItem);
   const { item, remove } = useItemsStore((state) => ({ item: state.item, remove: state.remove }));
 
   return (
     <SettingsModal
       title={item?.title}
-      modalKey={modals.itemSettings}
+      modalKey={constants.modals.itemSettings}
       actions={[
-        { text: 'Edit', onClick: () => showEdit() },
+        { text: 'Edit', onClick: () => editModal.show() },
         {
           render: () => (
             <DeleteButton
               onConfirm={() => {
                 remove(item!.id);
-                hide();
+                modal.hide();
               }}
             />
           ),

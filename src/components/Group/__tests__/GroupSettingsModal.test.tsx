@@ -3,9 +3,9 @@ import '@testing-library/jest-dom';
 
 import GroupSettingsModal from 'components/Group/GroupSettingsModal';
 
-import { useGroupsStore, useModalStore, _useModalStore } from 'lib/stores';
+import { useGroupsStore, useModalStore } from 'lib/stores';
 import { Group } from 'types/group';
-import { modals } from 'data/constants';
+import * as constants from 'data/constants';
 
 const group: Group = {
   id: 'group-1',
@@ -30,7 +30,7 @@ describe('GroupSettingsModal', async () => {
   });
 
   it('should open settings modal', () => {
-    const modal = renderHook(() => useModalStore(modals.groupSettings));
+    const modal = renderHook(() => useModalStore());
 
     const { result } = renderHook(() => useGroupsStore());
 
@@ -39,13 +39,13 @@ describe('GroupSettingsModal', async () => {
     expect(screen.queryByTestId('group-settings-modal')).not.toBeInTheDocument();
     act(() => {
       result.current.setGroup(group);
-      modal.result.current.show();
+      modal.result.current.show(constants.modals.groupSettings);
     });
     expect(screen.getByTestId('group-settings-modal')).toBeInTheDocument();
   });
 
   it('should open edit modal', () => {
-    const modal = renderHook(() => useModalStore(modals.groupSettings));
+    const modal = renderHook(() => useModalStore());
 
     const { result } = renderHook(() => useGroupsStore());
     const showSave = vi.spyOn(result.current, 'showSave');
@@ -54,7 +54,7 @@ describe('GroupSettingsModal', async () => {
 
     act(() => {
       result.current.setGroup(group);
-      modal.result.current.show();
+      modal.result.current.show(constants.modals.groupSettings);
     });
     act(() => screen.getByText('Edit').click());
     expect(showSave).toHaveBeenCalledWith(group);
@@ -62,7 +62,7 @@ describe('GroupSettingsModal', async () => {
   });
 
   it('should delete group', () => {
-    const modal = renderHook(() => _useModalStore());
+    const modal = renderHook(() => useModalStore());
     const hide = vi.spyOn(modal.result.current, 'hide');
 
     const { result } = renderHook(() => useGroupsStore());
@@ -72,7 +72,7 @@ describe('GroupSettingsModal', async () => {
 
     act(() => {
       result.current.setGroup(group);
-      modal.result.current.show(modals.groupSettings);
+      modal.result.current.show(constants.modals.groupSettings);
     });
     act(() => screen.getByText('Delete').click());
     act(() => screen.getByText('Confirm').click());

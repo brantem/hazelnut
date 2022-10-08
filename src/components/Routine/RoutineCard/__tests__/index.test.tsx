@@ -3,9 +3,9 @@ import '@testing-library/jest-dom';
 
 import RoutineCard from 'components/Routine/RoutineCard';
 
-import { useRoutinesStore, useItemsStore, _useModalStore } from 'lib/stores';
+import { useRoutinesStore, useItemsStore, useModalStore } from 'lib/stores';
 import { Routine } from 'types/routine';
-import { modals } from 'data/constants';
+import * as constants from 'data/constants';
 
 const routine: Routine = {
   id: 'routine-1',
@@ -36,7 +36,7 @@ describe('RoutineCard', () => {
   });
 
   it('should show action button', () => {
-    const modal = renderHook(() => _useModalStore());
+    const modal = renderHook(() => useModalStore());
     const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
 
     const { result } = renderHook(() => useRoutinesStore());
@@ -51,7 +51,7 @@ describe('RoutineCard', () => {
 
     act(() => screen.getByTestId('routine-card-settings').click());
     expect(setRoutine).toHaveBeenCalledWith(routine);
-    expect(show).toHaveBeenCalledWith(modals.routineSettings);
+    expect(show).toHaveBeenCalledWith(constants.modals.routineSettings);
   });
 
   it('should show sort handle', () => {

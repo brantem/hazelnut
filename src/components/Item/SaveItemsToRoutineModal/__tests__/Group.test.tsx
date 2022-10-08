@@ -42,14 +42,14 @@ describe('Group', async () => {
   });
 
   it("should render empty when group doesn't contain searched item", () => {
-    const search = renderHook(() => useSearchStore('save-items-routine-modal'));
+    const search = renderHook(() => useSearchStore());
 
     render(<Group group={group} itemIds={[]} onItemClick={() => {}} />);
 
     expect(screen.getByText('Group 1')).toBeInTheDocument();
-    act(() => search.result.current.setSearch('b'));
+    act(() => search.result.current.setSearch('save-items-routine-modal', 'b'));
     expect(screen.queryByText('Group 1')).not.toBeInTheDocument();
-    act(() => search.result.current.setSearch(''));
+    act(() => search.result.current.setSearch('save-items-routine-modal', ''));
   });
 
   it('should be minimizable', () => {

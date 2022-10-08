@@ -4,16 +4,20 @@ import BottomSheet from 'components/BottomSheet';
 import Search from 'components/Search';
 import Group from 'components/Item/SaveItemsToRoutineModal/Group';
 
-import { useRoutinesStore, useGroupsStore, useItemsStore, useSearchStore } from 'lib/stores';
+import { useRoutinesStore, useGroupsStore, useItemsStore } from 'lib/stores';
 import { isMatch } from 'lib/helpers';
+import { useSearch } from 'lib/hooks';
 
 const SaveItemsToRoutineModal = () => {
   const { routine, isSaveItemsOpen, hide, resetAfterHide, edit } = useRoutinesStore();
   const groups = useGroupsStore((state) => state.groups);
-  const { search, setSearch } = useSearchStore('save-items-routine-modal');
+  const search = useSearch('save-items-routine-modal');
   const getItemIdsByIds = useItemsStore((state) => state.getItemIdsByIds);
   const isSearchEmpty = useItemsStore(
-    useCallback((state) => state && state.items.findIndex((item) => isMatch(item.title, search)) === -1, [search]),
+    useCallback(
+      (state) => state && state.items.findIndex((item) => isMatch(item.title, search.value)) === -1,
+      [search.value],
+    ),
   );
 
   const [itemIds, setItemIds] = useState<string[]>([]);
@@ -35,7 +39,7 @@ const SaveItemsToRoutineModal = () => {
       data-testid="save-items-to-routine-modal"
       afterLeave={() => {
         resetAfterHide();
-        setSearch('');
+        search.change('');
       }}
     >
       <ol className="max-h-[75vh] flex-1 space-y-3 overflow-y-auto px-4 pb-3">

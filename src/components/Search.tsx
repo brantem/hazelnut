@@ -2,7 +2,7 @@ import { HTMLAttributes } from 'react';
 
 import Input from 'components/Input';
 
-import { useSearchStore } from 'lib/stores';
+import { useSearch } from 'lib/hooks';
 
 type SearchProps = React.DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
   searchKey: string;
@@ -10,15 +10,15 @@ type SearchProps = React.DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLD
 };
 
 const Search = ({ searchKey, placeholder = 'Search', ...props }: SearchProps) => {
-  const { search, setSearch } = useSearchStore(searchKey);
+  const search = useSearch(searchKey);
 
   return (
     <div {...props} data-testid="search">
       <Input
         name="search"
         placeholder={placeholder}
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        value={search.value}
+        onChange={(e) => search.change(e.target.value)}
         autoFocus
       />
     </div>
