@@ -1,9 +1,9 @@
-import { render, screen, act, renderHook, waitFor } from '@testing-library/react';
+import { render, screen, act, renderHook, waitFor, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import SaveItemsToRoutineModal from 'components/Item/SaveItemsToRoutineModal';
 
-import { useGroupsStore, useItemsStore, useModalStore, useRoutinesStore } from 'lib/stores';
+import { useGroupsStore, useItemsStore, useModalStore, useRoutinesStore, useSearchStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 import { Group } from 'types/group';
 import { Item } from 'types/item';
@@ -19,12 +19,6 @@ const routine: Routine = {
   minimized: false,
 };
 
-beforeEach(() => {
-  const mockIntersectionObserver = vi.fn();
-  mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
-  window.IntersectionObserver = mockIntersectionObserver;
-});
-
 describe('SaveItemsToRoutineModal', () => {
   beforeAll(() => {
     const groups = renderHook(() => useGroupsStore());
@@ -38,6 +32,12 @@ describe('SaveItemsToRoutineModal', () => {
       items.result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as Item);
       items.result.current.add('group-2', { id: 'item-2', title: 'Item 2' } as Item);
     });
+  });
+
+  beforeEach(() => {
+    const mockIntersectionObserver = vi.fn();
+    mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
+    window.IntersectionObserver = mockIntersectionObserver;
   });
 
   it('should add item to routine', async () => {

@@ -27,16 +27,14 @@ const SaveItemsToRoutineModal = () => {
 
   useEffect(() => {
     if (!routine) return;
+    search.change('');
     setItemIds(routine.itemIds);
   }, [routine]);
 
   return (
     <BottomSheet
       isOpen={modal.isOpen}
-      onClose={() => {
-        modal.hide();
-        search.change('');
-      }}
+      onClose={modal.hide}
       title={
         <>
           Items <span className="ml-1 text-base font-normal text-neutral-500">{itemIds.length}</span>

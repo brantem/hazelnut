@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import Routines from 'pages/routines';
 
 import { useRoutinesStore } from 'lib/stores';
+import { Routine } from 'types/routine';
 
 vi.mock('next/router', () => ({
   useRouter() {
@@ -13,11 +14,15 @@ vi.mock('next/router', () => ({
   },
 }));
 
-beforeEach(() => {
-  const mockIntersectionObserver = vi.fn();
-  mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
-  window.IntersectionObserver = mockIntersectionObserver;
-});
+const routine: Routine = {
+  id: 'routine-1',
+  title: 'Routine 1',
+  color: 'red',
+  days: ['MONDAY'],
+  time: '00:00',
+  itemIds: [],
+  minimized: false,
+};
 
 describe('Routines', () => {
   beforeAll(() => {
@@ -26,6 +31,12 @@ describe('Routines', () => {
       routines.result.current.add({ title: 'Routine 2', color: 'red', days: ['MONDAY'], time: '01:00' });
       routines.result.current.add({ title: 'Routine 1', color: 'red', days: ['MONDAY'], time: '00:00' });
     });
+  });
+
+  beforeEach(() => {
+    const mockIntersectionObserver = vi.fn();
+    mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
+    window.IntersectionObserver = mockIntersectionObserver;
   });
 
   it('should render successfully', async () => {
@@ -50,5 +61,16 @@ describe('Routines', () => {
     expect(screen.getByText('No results found')).toBeInTheDocument();
     act(() => screen.getByTestId('routines-search').click());
     expect(screen.queryByTestId('search')).not.toBeInTheDocument();
+  });
+
+  it('should clear routine', async () => {
+    const routines = renderHook(() => useRoutinesStore());
+    act(() => routines.result.current.setRoutine(routine));
+
+    render(<Routines />);
+
+    expect(routines.result.current.routine).not.toBeNull();
+    act(() => screen.getByText('Add Routine').click());
+    expect(routines.result.current.routine).toBeNull();
   });
 });
