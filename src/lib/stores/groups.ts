@@ -10,12 +10,6 @@ type GroupsState = {
   group: Group | null;
   setGroup: (group: Group | null) => void;
 
-  isSaveOpen: boolean;
-  showSave: (group?: Group | null) => void;
-
-  hide: () => void;
-  resetAfterHide: () => void;
-
   add: (group: Omit<Group, 'id' | 'minimized'>) => void;
   edit: (id: string, group: Partial<Omit<Group, 'id'>>) => void;
   remove: (id: string) => void;
@@ -23,19 +17,10 @@ type GroupsState = {
 
 const useStore = create<GroupsState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       groups: [],
       group: null,
       setGroup: (group) => set({ group }),
-
-      isSaveOpen: false,
-      showSave: (group = null) => set((state) => ({ group: group || state.group, isSaveOpen: true })),
-
-      hide: () => set({ isSaveOpen: false }),
-      resetAfterHide: () => {
-        if (get().isSaveOpen) return;
-        set({ group: null });
-      },
 
       add: (group) => {
         set((state) => ({ groups: [...state.groups, { id: nanoid(), minimized: false, ...group }] }));
@@ -61,12 +46,6 @@ const dummy = {
   groups: [],
   group: null,
   setGroup: () => {},
-
-  isSaveOpen: false,
-  showSave: () => {},
-
-  hide: () => {},
-  resetAfterHide: () => {},
 
   add: () => {},
   edit: () => {},

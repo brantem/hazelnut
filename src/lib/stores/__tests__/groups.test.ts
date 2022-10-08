@@ -4,59 +4,7 @@ import '@testing-library/jest-dom';
 import { useGroupsStore } from 'lib/stores';
 import { Group } from 'types/group';
 
-const group: Group = {
-  id: 'group-1',
-  title: 'Group 1',
-  color: 'red',
-  minimized: false,
-};
-
 describe('useGroupsStore', () => {
-  afterEach(() => {
-    const { result } = renderHook(() => useGroupsStore());
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
-  });
-
-  it('should open add modal', () => {
-    const { result } = renderHook(() => useGroupsStore());
-    act(() => result.current.showSave());
-    expect(result.current.group).toEqual(null);
-    expect(result.current.isSaveOpen).toEqual(true);
-  });
-
-  it('should open edit modal', () => {
-    const { result } = renderHook(() => useGroupsStore());
-    act(() => result.current.showSave(group));
-    expect(result.current.group).toEqual(group);
-    expect(result.current.isSaveOpen).toEqual(true);
-  });
-
-  it('should hide and reset', () => {
-    const { result } = renderHook(() => useGroupsStore());
-    act(() => result.current.showSave(group));
-    expect(result.current.group).toEqual(group);
-    expect(result.current.isSaveOpen).toEqual(true);
-
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
-    expect(result.current.group).toEqual(null);
-    expect(result.current.isSaveOpen).toEqual(false);
-  });
-
-  it('should not reset if isSaveOpen is true', () => {
-    const { result } = renderHook(() => useGroupsStore());
-    act(() => {
-      result.current.showSave(group);
-      result.current.resetAfterHide();
-    });
-    expect(result.current.group).toEqual(group);
-  });
-
   it('should add group', () => {
     const { result } = renderHook(() => useGroupsStore());
     expect(result.current.groups).toHaveLength(0);

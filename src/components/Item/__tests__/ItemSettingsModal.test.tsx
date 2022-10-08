@@ -20,21 +20,6 @@ describe('ItemSettingsModal', async () => {
     window.IntersectionObserver = mockIntersectionObserver;
   });
 
-  it('should open settings modal', () => {
-    const modal = renderHook(() => useModalStore());
-
-    const { result } = renderHook(() => useItemsStore());
-
-    render(<ItemSettingsModal />);
-
-    expect(screen.queryByTestId('item-settings-modal')).not.toBeInTheDocument();
-    act(() => {
-      result.current.setItem(item);
-      modal.result.current.show(constants.modals.itemSettings);
-    });
-    expect(screen.getByTestId('item-settings-modal')).toBeInTheDocument();
-  });
-
   it('should open edit modal', () => {
     const modal = renderHook(() => useModalStore());
     const show = vi.spyOn(modal.result.current, 'show');

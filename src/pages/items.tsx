@@ -13,10 +13,13 @@ import ItemSettingsModal from 'components/Item/ItemSettingsModal';
 
 import { useGroupsStore, useItemsStore } from 'lib/stores';
 import { isMatch } from 'lib/helpers';
-import { useSearch } from 'lib/hooks';
+import { useModal, useSearch } from 'lib/hooks';
+import * as constants from 'data/constants';
 
 const Items: NextPage = () => {
-  const { groups, showSave } = useGroupsStore((state) => ({ groups: state.groups, showSave: state.showSave }));
+  const groups = useGroupsStore((state) => state.groups);
+  const saveGroupModal = useModal(constants.modals.saveGroup);
+
   const search = useSearch('items');
   const isSearchGroupEmpty = useGroupsStore(
     useCallback(
@@ -53,7 +56,7 @@ const Items: NextPage = () => {
               },
               testId: 'items-search',
             },
-            { text: 'Add Group', onClick: () => showSave() },
+            { text: 'Add Group', onClick: saveGroupModal.show },
           ],
         }}
       >

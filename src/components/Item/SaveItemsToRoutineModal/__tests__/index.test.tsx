@@ -48,21 +48,6 @@ describe('SaveItemsToRoutineModal', () => {
     });
   });
 
-  it('should open settings modal', () => {
-    const modal = renderHook(() => useModalStore());
-
-    const { result } = renderHook(() => useRoutinesStore());
-
-    render(<SaveItemsToRoutineModal />);
-
-    expect(screen.queryByTestId('save-items-to-routine-modal')).not.toBeInTheDocument();
-    act(() => {
-      result.current.setRoutine(routine);
-      modal.result.current.show(constants.modals.saveItemsToRoutine);
-    });
-    expect(screen.getByTestId('save-items-to-routine-modal')).toBeInTheDocument();
-  });
-
   it('should add item to routine', async () => {
     const modal = renderHook(() => useModalStore());
     const hide = vi.spyOn(modal.result.current, 'hide');

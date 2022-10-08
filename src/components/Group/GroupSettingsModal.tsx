@@ -9,11 +9,13 @@ import * as constants from 'data/constants';
 
 const GroupSettingsModal = () => {
   const modal = useModal(constants.modals.groupSettings);
-  const { group, showSave, remove } = useGroupsStore((state) => ({
+  const saveGroupModal = useModal(constants.modals.saveGroup);
+  const { group, setGroup, remove } = useGroupsStore((state) => ({
     group: state.group,
-    showSave: state.showSave,
+    setGroup: state.setGroup,
     remove: state.remove,
   }));
+
   const itemsLength = useItemsStore(
     useCallback(
       (state) => {
@@ -30,7 +32,13 @@ const GroupSettingsModal = () => {
       description={`${itemsLength} Item(s)`}
       modalKey={constants.modals.groupSettings}
       actions={[
-        { text: 'Edit', onClick: () => showSave(group) },
+        {
+          text: 'Edit',
+          onClick: () => {
+            setGroup(group);
+            saveGroupModal.show();
+          },
+        },
         {
           render: () => (
             <DeleteButton

@@ -21,34 +21,12 @@ describe('GroupSettingsModal', async () => {
     window.IntersectionObserver = mockIntersectionObserver;
   });
 
-  afterEach(() => {
-    const { result } = renderHook(() => useGroupsStore());
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
-  });
-
-  it('should open settings modal', () => {
-    const modal = renderHook(() => useModalStore());
-
-    const { result } = renderHook(() => useGroupsStore());
-
-    render(<GroupSettingsModal />);
-
-    expect(screen.queryByTestId('group-settings-modal')).not.toBeInTheDocument();
-    act(() => {
-      result.current.setGroup(group);
-      modal.result.current.show(constants.modals.groupSettings);
-    });
-    expect(screen.getByTestId('group-settings-modal')).toBeInTheDocument();
-  });
-
   it('should open edit modal', () => {
     const modal = renderHook(() => useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show');
 
     const { result } = renderHook(() => useGroupsStore());
-    const showSave = vi.spyOn(result.current, 'showSave');
+    const setGroup = vi.spyOn(result.current, 'setGroup');
 
     render(<GroupSettingsModal />);
 
@@ -57,7 +35,8 @@ describe('GroupSettingsModal', async () => {
       modal.result.current.show(constants.modals.groupSettings);
     });
     act(() => screen.getByText('Edit').click());
-    expect(showSave).toHaveBeenCalledWith(group);
+    expect(setGroup).toHaveBeenCalledWith(group);
+    expect(show).toHaveBeenCalledWith(constants.modals.saveGroup);
     // TODO: check clear
   });
 

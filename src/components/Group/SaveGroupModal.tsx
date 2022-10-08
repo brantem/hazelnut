@@ -7,16 +7,25 @@ import ColorPicker from 'components/ColorPicker';
 import colors from 'data/colors';
 import { useGroupsStore } from 'lib/stores';
 import { Group } from 'types/group';
+import * as constants from 'data/constants';
+import { useModal } from 'lib/hooks';
 
 type Values = Pick<Group, 'title' | 'color'>;
 
 const SaveGroupModal = () => {
-  const { groups, group, isSaveOpen, hide, resetAfterHide, add, edit } = useGroupsStore();
+  const { defaultColor, group, setGroup, add, edit } = useGroupsStore((state) => ({
+    defaultColor: colors[state.groups.length % colors.length],
+    group: state.group,
+    setGroup: state.setGroup,
+    add: state.add,
+    edit: state.edit,
+  }));
+  const modal = useModal(constants.modals.saveGroup);
 
   const formik = useFormik<Values>({
     initialValues: {
       title: group?.title || '',
-      color: group?.color || colors[groups.length % colors.length],
+      color: group?.color || defaultColor,
     },
     onSubmit: async (values, { resetForm }) => {
       if (group) {
@@ -26,18 +35,18 @@ const SaveGroupModal = () => {
       }
 
       resetForm();
-      hide();
+      modal.hide();
     },
     enableReinitialize: true,
   });
 
   return (
     <BottomSheet
-      isOpen={isSaveOpen}
-      onClose={hide}
+      isOpen={modal.isOpen}
+      onClose={modal.hide}
       title={`${group ? 'Edit' : 'Add'} Group`}
       data-testid="save-group-modal"
-      afterLeave={resetAfterHide}
+      afterLeave={() => setGroup(null)}
     >
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-6 px-4 pb-3">

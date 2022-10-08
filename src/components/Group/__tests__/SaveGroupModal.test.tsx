@@ -3,8 +3,9 @@ import '@testing-library/jest-dom';
 
 import SaveGroupModal from 'components/Group/SaveGroupModal';
 
-import { useGroupsStore } from 'lib/stores';
+import { useGroupsStore, useModalStore } from 'lib/stores';
 import { Group } from 'types/group';
+import * as constants from 'data/constants';
 
 const group: Group = {
   id: 'group-1',
@@ -20,32 +21,16 @@ describe('SaveGroupModal', () => {
     window.IntersectionObserver = mockIntersectionObserver;
   });
 
-  afterEach(() => {
-    const { result } = renderHook(() => useGroupsStore());
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
-  });
-
-  it('should open save modal', () => {
-    const { result } = renderHook(() => useGroupsStore());
-
-    render(<SaveGroupModal />);
-
-    expect(screen.queryByTestId('save-group-modal')).not.toBeInTheDocument();
-    act(() => result.current.showSave());
-    expect(screen.getByTestId('save-group-modal')).toBeInTheDocument();
-  });
-
   it('should add new group', async () => {
+    const modal = renderHook(() => useModalStore());
+    const hide = vi.spyOn(modal.result.current, 'hide');
+
     const { result } = renderHook(() => useGroupsStore());
     const add = vi.spyOn(result.current, 'add');
-    const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveGroupModal />);
 
-    act(() => result.current.showSave());
+    act(() => modal.result.current.show(constants.modals.saveGroup));
     act(() => {
       fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Group 1' } });
       screen.getByText('Add').click();
@@ -58,13 +43,18 @@ describe('SaveGroupModal', () => {
   });
 
   it('should edit existing group', async () => {
+    const modal = renderHook(() => useModalStore());
+    const hide = vi.spyOn(modal.result.current, 'hide');
+
     const { result } = renderHook(() => useGroupsStore());
     const edit = vi.spyOn(result.current, 'edit');
-    const hide = vi.spyOn(result.current, 'hide');
 
     render(<SaveGroupModal />);
 
-    act(() => result.current.showSave(group));
+    act(() => {
+      result.current.setGroup(group);
+      modal.result.current.show(constants.modals.saveGroup);
+    });
     act(() => {
       fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Group 1a' } });
       screen.getByTestId('color-picker-option-amber').click();

@@ -19,12 +19,6 @@ describe('AddItemToGroupModal', () => {
     const mockIntersectionObserver = vi.fn();
     mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
     window.IntersectionObserver = mockIntersectionObserver;
-
-    const { result } = renderHook(() => useGroupsStore());
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-    });
   });
 
   it('should open add item modal', () => {

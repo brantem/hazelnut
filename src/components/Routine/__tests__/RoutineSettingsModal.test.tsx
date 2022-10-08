@@ -32,21 +32,6 @@ describe('RoutineSettingsModal', async () => {
     });
   });
 
-  it('should open settings modal', () => {
-    const modal = renderHook(() => useModalStore());
-
-    const { result } = renderHook(() => useRoutinesStore());
-
-    render(<RoutineSettingsModal />);
-
-    expect(screen.queryByTestId('routine-settings-modal')).not.toBeInTheDocument();
-    act(() => {
-      result.current.setRoutine(routine);
-      modal.result.current.show(constants.modals.routineSettings);
-    });
-    expect(screen.getByTestId('routine-settings-modal')).toBeInTheDocument();
-  });
-
   it('should open duplicate modal', () => {
     const modal = renderHook(() => useModalStore());
 
