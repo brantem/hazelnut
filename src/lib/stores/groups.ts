@@ -12,6 +12,9 @@ type GroupsState = {
   isSaveOpen: boolean;
   showSave: (group?: Group | null) => void;
 
+  isAddItemOpen: boolean;
+  showAddItem: (group: Group) => void;
+
   isSettingsOpen: boolean;
   showSettings: (group: Group) => void;
 
@@ -32,10 +35,13 @@ const useStore = create<GroupsState>()(
       isSaveOpen: false,
       showSave: (group = null) => set((state) => ({ group: group || state.group, isSaveOpen: true })),
 
+      isAddItemOpen: false,
+      showAddItem: (group) => set({ group, isAddItemOpen: true }),
+
       isSettingsOpen: false,
       showSettings: (group) => set({ group, isSettingsOpen: true }),
 
-      hide: () => set({ isSaveOpen: false, isSettingsOpen: false }),
+      hide: () => set({ isSaveOpen: false, isAddItemOpen: false, isSettingsOpen: false }),
       resetAfterHide: () => {
         if (get().isSaveOpen) return;
         set({ group: null });
@@ -67,6 +73,9 @@ const dummy = {
 
   isSaveOpen: false,
   showSave: () => {},
+
+  isAddItemOpen: false,
+  showAddItem: () => {},
 
   isSettingsOpen: false,
   showSettings: () => {},

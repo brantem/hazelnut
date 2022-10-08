@@ -26,10 +26,8 @@ describe('GroupCard', () => {
   });
 
   it('should render successfully', () => {
-    const items = renderHook(() => useItemsStore());
-    const showAdd = vi.spyOn(items.result.current, 'showAdd').mockImplementation(() => {});
-
     const { result } = renderHook(() => useGroupsStore());
+    const showAddItem = vi.spyOn(result.current, 'showAddItem').mockImplementation(() => {});
     const showSettings = vi.spyOn(result.current, 'showSettings').mockImplementation(() => {});
 
     const { container } = render(<GroupCard group={group} />);
@@ -38,7 +36,7 @@ describe('GroupCard', () => {
     expect(screen.getAllByTestId('group-card-items-item')).toHaveLength(1);
 
     act(() => screen.getByTestId('group-card-add-item').click());
-    expect(showAdd).toHaveBeenCalledWith('group-1');
+    expect(showAddItem).toHaveBeenCalledWith(group);
 
     act(() => screen.getByTestId('group-card-settings').click());
     expect(showSettings).toHaveBeenCalledWith(group);

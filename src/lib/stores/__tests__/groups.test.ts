@@ -27,6 +27,13 @@ describe('useGroupsStore', () => {
     expect(result.current.isSaveOpen).toEqual(true);
   });
 
+  it('should open add item modal', () => {
+    const { result } = renderHook(() => useGroupsStore());
+    act(() => result.current.showAddItem(group));
+    expect(result.current.group).toEqual(group);
+    expect(result.current.isAddItemOpen).toEqual(true);
+  });
+
   it('should open edit modal', () => {
     const { result } = renderHook(() => useGroupsStore());
     act(() => result.current.showSave(group));
@@ -45,10 +52,12 @@ describe('useGroupsStore', () => {
     const { result } = renderHook(() => useGroupsStore());
     act(() => {
       result.current.showSave(group);
+      result.current.showAddItem(group);
       result.current.showSettings(group);
     });
     expect(result.current.group).toEqual(group);
     expect(result.current.isSaveOpen).toEqual(true);
+    expect(result.current.isAddItemOpen).toEqual(true);
     expect(result.current.isSettingsOpen).toEqual(true);
     act(() => {
       result.current.hide();
@@ -56,6 +65,7 @@ describe('useGroupsStore', () => {
     });
     expect(result.current.group).toEqual(null);
     expect(result.current.isSaveOpen).toEqual(false);
+    expect(result.current.isAddItemOpen).toEqual(false);
     expect(result.current.isSettingsOpen).toEqual(false);
   });
 

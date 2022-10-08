@@ -7,17 +7,10 @@ import { Item } from 'types/item';
 
 export type ItemsState = {
   items: Item[];
-  groupId: string | null;
 
   getItemsByGroupId: (groupId: string) => Item[];
   getItemIdsByIds: (itemIds: string[]) => string[];
   getItemsByIds: (itemIds: string[]) => Item[];
-
-  isAddOpen: boolean;
-  showAdd: (groupId: string) => void;
-
-  hide: () => void;
-  resetAfterHide: () => void;
 
   add: (groupId: string, item: Omit<Item, 'id' | 'groupId'>) => void;
   edit: (id: string, item: Partial<Omit<Item, 'id' | 'groupId'>>) => void;
@@ -28,7 +21,6 @@ const useStore = create<ItemsState>()(
   persist(
     (set, get) => ({
       items: [],
-      groupId: null,
 
       getItemsByGroupId: (groupId) => get().items.filter((item) => item.groupId === groupId),
       getItemIdsByIds: (itemIds) => {
@@ -45,12 +37,6 @@ const useStore = create<ItemsState>()(
           return item ? [...prev, item] : prev;
         }, [] as Item[]);
       },
-
-      isAddOpen: false,
-      showAdd: (groupId) => set({ groupId, isAddOpen: true }),
-
-      hide: () => set({ isAddOpen: false }),
-      resetAfterHide: () => set({ groupId: null }),
 
       add: (groupId, item) => {
         set((state) => ({ items: [...state.items, { id: nanoid(), groupId, ...item }] }));
@@ -72,17 +58,10 @@ const useStore = create<ItemsState>()(
 /* c8 ignore start */
 const dummy = {
   items: [],
-  groupId: null,
 
   getItemsByGroupId: () => [],
   getItemIdsByIds: () => [],
   getItemsByIds: () => [],
-
-  isAddOpen: false,
-  showAdd: () => {},
-
-  hide: () => {},
-  resetAfterHide: () => {},
 
   add: () => {},
   edit: () => {},

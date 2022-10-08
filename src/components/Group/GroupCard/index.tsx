@@ -13,8 +13,7 @@ type GroupCardProps = {
 };
 
 const GroupCard = ({ group }: GroupCardProps) => {
-  const { showSettings, edit } = useGroupsStore();
-  const { showAdd } = useItemsStore();
+  const { showAddItem, showSettings, edit } = useGroupsStore();
   const { search } = useSearchStore('items');
   const isGroupMatch = useMemo(() => {
     if (!search) return true;
@@ -40,7 +39,7 @@ const GroupCard = ({ group }: GroupCardProps) => {
         <div className="flex flex-shrink-0 items-center space-x-1">
           <button
             className={`rounded-md p-1 text-sm hover:bg-${group.color}-100 flex-shrink-0`}
-            onClick={() => showAdd(group.id)}
+            onClick={() => showAddItem(group)}
             data-testid="group-card-add-item"
           >
             <PlusIcon className="h-5 w-5" />
