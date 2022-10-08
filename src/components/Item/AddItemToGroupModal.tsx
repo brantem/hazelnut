@@ -5,30 +5,27 @@ import Input from 'components/Input';
 
 import { Item } from 'types/item';
 import { useGroupsStore, useItemsStore } from 'lib/stores';
+import { useModal } from 'lib/hooks';
+import { modals } from 'data/constants';
 
 type Values = Pick<Item, 'title'>;
 
 const AddItemToGroupModal = () => {
-  const { group, isAddItemOpen, hide, resetAfterHide } = useGroupsStore();
+  const group = useGroupsStore((state) => state.group);
   const add = useItemsStore((state) => state.add);
+  const modal = useModal(modals.addItemToGroup);
 
   const formik = useFormik<Values>({
     initialValues: { title: '' },
     onSubmit: async (values, { resetForm }) => {
       await add(group!.id, values);
       resetForm();
-      hide();
+      modal.hide();
     },
   });
 
   return (
-    <BottomSheet
-      isOpen={isAddItemOpen}
-      onClose={hide}
-      title="Add Item"
-      data-testid="add-item-modal"
-      afterLeave={resetAfterHide}
-    >
+    <BottomSheet isOpen={modal.isOpen} onClose={modal.hide} title="Add Item" data-testid="add-item-modal">
       <form onSubmit={formik.handleSubmit}>
         <div className="px-4 pb-3">
           <Input

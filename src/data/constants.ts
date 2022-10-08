@@ -3,4 +3,5 @@ export const modals = {
   groupSettings: 'group-settings',
   itemSettings: 'item-settings',
   editItem: 'edit-item',
+  addItemToGroup: 'add-item-to-group',
 };
