@@ -21,7 +21,7 @@ const SaveItemsToRoutineModal = () => {
   useEffect(() => {
     if (!routine) return;
     setItemIds(routine.itemIds);
-  }, [routine, itemIds]);
+  }, [routine]);
 
   return (
     <BottomSheet
