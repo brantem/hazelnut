@@ -7,16 +7,23 @@ import ColorPicker from 'components/ColorPicker';
 import colors from 'data/colors';
 import { useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
+import * as constants from 'data/constants';
+import { useModal } from 'lib/hooks';
 
 type Values = Pick<Routine, 'title' | 'color' | 'time'>;
 
 const DuplicateRoutineModal = () => {
-  const { routines, routine, isDuplicateOpen, hide, resetAfterHide, add } = useRoutinesStore();
+  const modal = useModal(constants.modals.duplicateRoutine);
+  const { defaultColor, routine, add } = useRoutinesStore((state) => ({
+    defaultColor: colors[state.routines.length % colors.length],
+    routine: state.routine,
+    add: state.add,
+  }));
 
   const formik = useFormik<Values>({
     initialValues: {
       title: (routine?.title || '') + ' - Copy',
-      color: colors[routines.length % colors.length],
+      color: defaultColor,
       time: routine?.time || '',
     },
     onSubmit: async (values, { resetForm }) => {
@@ -29,18 +36,17 @@ const DuplicateRoutineModal = () => {
       });
 
       resetForm();
-      hide();
+      modal.hide();
     },
     enableReinitialize: true,
   });
 
   return (
     <BottomSheet
-      isOpen={isDuplicateOpen}
-      onClose={hide}
+      isOpen={modal.isOpen}
+      onClose={modal.hide}
       title="Duplicate Routine"
       data-testid="duplicate-routine-modal"
-      afterLeave={resetAfterHide}
     >
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-6 px-4 pb-3">

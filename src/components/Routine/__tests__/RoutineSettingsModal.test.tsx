@@ -34,9 +34,10 @@ describe('RoutineSettingsModal', async () => {
 
   it('should open duplicate modal', () => {
     const modal = renderHook(() => useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show');
 
     const { result } = renderHook(() => useRoutinesStore());
-    const showDuplicate = vi.spyOn(result.current, 'showDuplicate');
+    const setRoutine = vi.spyOn(result.current, 'setRoutine');
 
     render(<RoutineSettingsModal />);
 
@@ -45,8 +46,8 @@ describe('RoutineSettingsModal', async () => {
       modal.result.current.show(constants.modals.routineSettings);
     });
     act(() => screen.getByText('Duplicate').click());
-    expect(showDuplicate).toHaveBeenCalledWith(routine);
-    // TODO: check clear
+    expect(setRoutine).toHaveBeenCalledWith(routine);
+    expect(show).toHaveBeenCalledWith(constants.modals.duplicateRoutine);
   });
 
   it('should open edit modal', () => {
@@ -63,7 +64,6 @@ describe('RoutineSettingsModal', async () => {
     });
     act(() => screen.getByText('Edit').click());
     expect(showSave).toHaveBeenCalledWith(routine);
-    // TODO: check clear
   });
 
   it('should delete routine', () => {
@@ -83,6 +83,5 @@ describe('RoutineSettingsModal', async () => {
     act(() => screen.getByText('Confirm').click());
     expect(remove).toHaveBeenCalledWith('routine-1');
     expect(hide).toHaveBeenCalledWith();
-    // TODO: check clear
   });
 });

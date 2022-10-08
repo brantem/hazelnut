@@ -4,7 +4,8 @@ import '@testing-library/jest-dom';
 import DuplicateRoutineModal from 'components/Routine/DuplicateRoutineModal';
 
 import { Routine } from 'types/routine';
-import { useRoutinesStore } from 'lib/stores';
+import { useModalStore, useRoutinesStore } from 'lib/stores';
+import * as constants from 'data/constants';
 
 const routine: Routine = {
   id: 'routine-1',
@@ -36,24 +37,19 @@ describe('DuplicateRoutineModal', () => {
     });
   });
 
-  it('should open duplicate modal', () => {
-    const { result } = renderHook(() => useRoutinesStore());
-
-    render(<DuplicateRoutineModal />);
-
-    expect(screen.queryByTestId('duplicate-routine-modal')).not.toBeInTheDocument();
-    act(() => result.current.showDuplicate(routine));
-    expect(screen.getByTestId('duplicate-routine-modal')).toBeInTheDocument();
-  });
-
   it('should duplicate routine', async () => {
+    const modal = renderHook(() => useModalStore());
+    const hide = vi.spyOn(modal.result.current, 'hide');
+
     const { result } = renderHook(() => useRoutinesStore());
     const add = vi.spyOn(result.current, 'add');
-    const hide = vi.spyOn(result.current, 'hide');
 
     render(<DuplicateRoutineModal />);
 
-    act(() => result.current.showDuplicate(routine));
+    act(() => {
+      result.current.setRoutine(routine);
+      modal.result.current.show(constants.modals.duplicateRoutine);
+    });
     act(() => {
       screen.getByTestId('color-picker-option-amber').click();
       screen.getByText('Duplicate').click();

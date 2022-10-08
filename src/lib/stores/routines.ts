@@ -13,9 +13,6 @@ type RoutinesState = {
   isSaveOpen: boolean;
   showSave: (routine?: Routine | null) => void;
 
-  isDuplicateOpen: boolean;
-  showDuplicate: (routine: Routine) => void;
-
   hide: () => void;
   resetAfterHide: () => void;
 
@@ -34,12 +31,9 @@ const useStore = create<RoutinesState>()(
       isSaveOpen: false,
       showSave: (routine = null) => set((state) => ({ routine: routine || state.routine, isSaveOpen: true })),
 
-      isDuplicateOpen: false,
-      showDuplicate: (routine) => set({ routine, isDuplicateOpen: true }),
-
-      hide: () => set({ isSaveOpen: false, isDuplicateOpen: false }),
+      hide: () => set({ isSaveOpen: false }),
       resetAfterHide: () => {
-        if (get().isSaveOpen || get().isDuplicateOpen) return;
+        if (get().isSaveOpen) return;
         set({ routine: null });
       },
 
@@ -72,9 +66,6 @@ const dummy = {
 
   isSaveOpen: false,
   showSave: () => {},
-
-  isDuplicateOpen: false,
-  showDuplicate: () => {},
 
   hide: () => {},
   resetAfterHide: () => {},

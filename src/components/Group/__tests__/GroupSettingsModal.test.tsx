@@ -37,7 +37,6 @@ describe('GroupSettingsModal', async () => {
     act(() => screen.getByText('Edit').click());
     expect(setGroup).toHaveBeenCalledWith(group);
     expect(show).toHaveBeenCalledWith(constants.modals.saveGroup);
-    // TODO: check clear
   });
 
   it('should delete group', () => {
@@ -57,6 +56,5 @@ describe('GroupSettingsModal', async () => {
     act(() => screen.getByText('Confirm').click());
     expect(remove).toHaveBeenCalledWith('group-1');
     expect(hide).toHaveBeenCalled();
-    // TODO: check clear
   });
 });

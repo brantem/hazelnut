@@ -1,5 +1,6 @@
 export const modals = {
   routineSettings: 'routine-settings',
+  duplicateRoutine: 'duplicate-routine',
   saveItemsToRoutine: 'save-items-to-routine',
   groupSettings: 'group-settings',
   saveGroup: 'save-group',

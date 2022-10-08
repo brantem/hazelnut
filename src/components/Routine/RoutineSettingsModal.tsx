@@ -8,10 +8,11 @@ import { useModal } from 'lib/hooks';
 
 const RoutineSettingsModal = () => {
   const modal = useModal(constants.modals.routineSettings);
-  const { routine, showSave, showDuplicate, remove } = useRoutinesStore((state) => ({
+  const duplicateModal = useModal(constants.modals.duplicateRoutine);
+  const { routine, setRoutine, showSave, remove } = useRoutinesStore((state) => ({
     routine: state.routine,
+    setRoutine: state.setRoutine,
     showSave: state.showSave,
-    showDuplicate: state.showDuplicate,
     remove: state.remove,
   }));
 
@@ -27,7 +28,13 @@ const RoutineSettingsModal = () => {
       modalKey={constants.modals.routineSettings}
       actions={[
         { text: 'Edit', onClick: () => showSave(routine) },
-        { text: 'Duplicate', onClick: () => routine && showDuplicate(routine) },
+        {
+          text: 'Duplicate',
+          onClick: () => {
+            setRoutine(routine);
+            duplicateModal.show();
+          },
+        },
         {
           render: () => (
             <DeleteButton

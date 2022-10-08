@@ -16,7 +16,10 @@ import { useSearch } from 'lib/hooks';
 
 const Routines: NextPage = () => {
   const search = useSearch('routines');
-  const showSave = useRoutinesStore((state) => state.showSave);
+  const { showSave, clearRoutine } = useRoutinesStore((state) => ({
+    showSave: state.showSave,
+    clearRoutine: () => (state.routine ? state.setRoutine(null) : void 0),
+  }));
   const routines = useRoutinesStore(
     useCallback(
       (state) => {
@@ -44,7 +47,13 @@ const Routines: NextPage = () => {
               },
               testId: 'routines-search',
             },
-            { text: 'Add Routine', onClick: () => showSave() },
+            {
+              text: 'Add Routine',
+              onClick: () => {
+                clearRoutine();
+                showSave();
+              },
+            },
           ],
         }}
       >

@@ -13,14 +13,13 @@ import { useModal } from 'lib/hooks';
 type Values = Pick<Group, 'title' | 'color'>;
 
 const SaveGroupModal = () => {
-  const { defaultColor, group, setGroup, add, edit } = useGroupsStore((state) => ({
+  const modal = useModal(constants.modals.saveGroup);
+  const { defaultColor, group, add, edit } = useGroupsStore((state) => ({
     defaultColor: colors[state.groups.length % colors.length],
     group: state.group,
-    setGroup: state.setGroup,
     add: state.add,
     edit: state.edit,
   }));
-  const modal = useModal(constants.modals.saveGroup);
 
   const formik = useFormik<Values>({
     initialValues: {
@@ -46,7 +45,6 @@ const SaveGroupModal = () => {
       onClose={modal.hide}
       title={`${group ? 'Edit' : 'Add'} Group`}
       data-testid="save-group-modal"
-      afterLeave={() => setGroup(null)}
     >
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-6 px-4 pb-3">

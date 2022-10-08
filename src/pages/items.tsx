@@ -17,7 +17,10 @@ import { useModal, useSearch } from 'lib/hooks';
 import * as constants from 'data/constants';
 
 const Items: NextPage = () => {
-  const groups = useGroupsStore((state) => state.groups);
+  const { groups, clearGroup } = useGroupsStore((state) => ({
+    groups: state.groups,
+    clearGroup: () => (state.group ? state.setGroup(null) : void 0),
+  }));
   const saveGroupModal = useModal(constants.modals.saveGroup);
 
   const search = useSearch('items');
@@ -56,7 +59,13 @@ const Items: NextPage = () => {
               },
               testId: 'items-search',
             },
-            { text: 'Add Group', onClick: saveGroupModal.show },
+            {
+              text: 'Add Group',
+              onClick: () => {
+                clearGroup();
+                saveGroupModal.show();
+              },
+            },
           ],
         }}
       >

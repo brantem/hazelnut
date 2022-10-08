@@ -37,43 +37,23 @@ describe('useRoutinesStore', () => {
     expect(result.current.isSaveOpen).toEqual(true);
   });
 
-  it('should show duplicate modal', () => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => result.current.showDuplicate(routine));
-    expect(result.current.routine).toEqual(routine);
-    expect(result.current.isDuplicateOpen).toEqual(true);
-  });
-
   it('should hide and reset', () => {
     const { result } = renderHook(() => useRoutinesStore());
-    act(() => {
-      result.current.showSave(routine);
-      result.current.showDuplicate(routine);
-    });
+    act(() => result.current.showSave(routine));
     expect(result.current.routine).toEqual(routine);
     expect(result.current.isSaveOpen).toEqual(true);
-    expect(result.current.isDuplicateOpen).toEqual(true);
     act(() => {
       result.current.hide();
       result.current.resetAfterHide();
     });
     expect(result.current.routine).toEqual(null);
     expect(result.current.isSaveOpen).toEqual(false);
-    expect(result.current.isDuplicateOpen).toEqual(false);
   });
 
-  it('should not reset if isSaveOpen or isDuplicateOpen is true', () => {
+  it('should not reset if isSaveOpen is true', () => {
     const { result } = renderHook(() => useRoutinesStore());
     act(() => {
       result.current.showSave(routine);
-      result.current.resetAfterHide();
-    });
-    expect(result.current.routine).toEqual(routine);
-
-    act(() => {
-      result.current.hide();
-      result.current.resetAfterHide();
-      result.current.showDuplicate(routine);
       result.current.resetAfterHide();
     });
     expect(result.current.routine).toEqual(routine);
