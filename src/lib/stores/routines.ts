@@ -12,6 +12,9 @@ type RoutinesState = {
   isSaveOpen: boolean;
   showSave: (routine?: Routine | null) => void;
 
+  isDuplicateOpen: boolean;
+  showDuplicate: (routine: Routine) => void;
+
   isSaveItemsOpen: boolean;
   showSaveItems: (routine: Routine) => void;
 
@@ -21,19 +24,22 @@ type RoutinesState = {
   hide: () => void;
   resetAfterHide: () => void;
 
-  add: (routine: Omit<Routine, 'id' | 'itemIds' | 'minimized'>) => void;
+  add: (routine: Omit<Routine, 'id' | 'itemIds' | 'minimized'> & { itemIds?: string[] }) => void;
   edit: (id: string, routine: Partial<Omit<Routine, 'id'>>) => void;
   remove: (id: string) => void;
 };
 
 const useStore = create<RoutinesState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       routines: [],
       routine: null,
 
       isSaveOpen: false,
       showSave: (routine = null) => set((state) => ({ routine: routine || state.routine, isSaveOpen: true })),
+
+      isDuplicateOpen: false,
+      showDuplicate: (routine) => set({ routine, isDuplicateOpen: true }),
 
       isSaveItemsOpen: false,
       showSaveItems: (routine) => set({ routine, isSaveItemsOpen: true }),
@@ -41,12 +47,15 @@ const useStore = create<RoutinesState>()(
       isSettingsOpen: false,
       showSettings: (routine) => set({ routine, isSettingsOpen: true }),
 
-      hide: () => set({ isSaveOpen: false, isSaveItemsOpen: false, isSettingsOpen: false }),
-      resetAfterHide: () => set({ routine: null }),
+      hide: () => set({ isSaveOpen: false, isSaveItemsOpen: false, isDuplicateOpen: false, isSettingsOpen: false }),
+      resetAfterHide: () => {
+        if (get().isSaveOpen || get().isDuplicateOpen) return;
+        set({ routine: null });
+      },
 
       add: (routine) => {
         set((state) => ({
-          routines: [...state.routines, { id: nanoid(), itemIds: [], minimized: false, ...routine }],
+          routines: [...state.routines, { id: nanoid(), minimized: false, ...routine, itemIds: routine.itemIds || [] }],
         }));
       },
       edit: (id, routine) => {
@@ -72,6 +81,9 @@ const dummy = {
 
   isSaveOpen: false,
   showSave: () => {},
+
+  isDuplicateOpen: false,
+  showDuplicate: () => {},
 
   isSaveItemsOpen: false,
   showSaveItems: () => {},

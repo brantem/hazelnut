@@ -41,6 +41,18 @@ describe('RoutineSettingsModal', async () => {
     expect(screen.getByTestId('routine-settings-modal')).toBeInTheDocument();
   });
 
+  it('should open duplicate modal', () => {
+    const { result } = renderHook(() => useRoutinesStore());
+    const showDuplicate = vi.spyOn(result.current, 'showDuplicate');
+
+    render(<RoutineSettingsModal />);
+
+    act(() => result.current.showSettings(routine));
+    act(() => screen.getByText('Duplicate').click());
+    expect(showDuplicate).toHaveBeenCalledWith(routine);
+    // TODO: check clear
+  });
+
   it('should open edit modal', () => {
     const { result } = renderHook(() => useRoutinesStore());
     const showSave = vi.spyOn(result.current, 'showSave');

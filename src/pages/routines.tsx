@@ -6,6 +6,7 @@ import Layout from 'components/Layout';
 import Search from 'components/Search';
 import RoutineCard from 'components/Routine/RoutineCard';
 import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
+import DuplicateRoutineModal from 'components/Routine/DuplicateRoutineModal';
 import SaveItemsToRoutineModal from 'components/Item/SaveItemsToRoutineModal';
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
@@ -64,6 +65,8 @@ const Routines: NextPage = () => {
       </Layout>
 
       <SaveRoutineModal />
+
+      <DuplicateRoutineModal />
 
       <SaveItemsToRoutineModal />
 

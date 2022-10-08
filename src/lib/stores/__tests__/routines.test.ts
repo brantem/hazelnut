@@ -51,17 +51,26 @@ describe('useRoutinesStore', () => {
     expect(result.current.isSettingsOpen).toEqual(true);
   });
 
+  it('should show duplicate modal', () => {
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => result.current.showDuplicate(routine));
+    expect(result.current.routine).toEqual(routine);
+    expect(result.current.isDuplicateOpen).toEqual(true);
+  });
+
   it('should hide and reset', () => {
     const { result } = renderHook(() => useRoutinesStore());
     act(() => {
       result.current.showSave(routine);
       result.current.showSaveItems(routine);
       result.current.showSettings(routine);
+      result.current.showDuplicate(routine);
     });
     expect(result.current.routine).toEqual(routine);
     expect(result.current.isSaveOpen).toEqual(true);
     expect(result.current.isSaveItemsOpen).toEqual(true);
     expect(result.current.isSettingsOpen).toEqual(true);
+    expect(result.current.isDuplicateOpen).toEqual(true);
     act(() => {
       result.current.hide();
       result.current.resetAfterHide();
@@ -70,6 +79,24 @@ describe('useRoutinesStore', () => {
     expect(result.current.isSaveOpen).toEqual(false);
     expect(result.current.isSaveItemsOpen).toEqual(false);
     expect(result.current.isSettingsOpen).toEqual(false);
+    expect(result.current.isDuplicateOpen).toEqual(false);
+  });
+
+  it('should not reset if isSaveOpen or isDuplicateOpen is true', () => {
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => {
+      result.current.showSave(routine);
+      result.current.resetAfterHide();
+    });
+    expect(result.current.routine).toEqual(routine);
+
+    act(() => {
+      result.current.hide();
+      result.current.resetAfterHide();
+      result.current.showDuplicate(routine);
+      result.current.resetAfterHide();
+    });
+    expect(result.current.routine).toEqual(routine);
   });
 
   it('should add routine', () => {
