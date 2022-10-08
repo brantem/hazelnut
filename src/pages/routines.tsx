@@ -15,7 +15,7 @@ import { isMatch, getMinutesFromTime } from 'lib/helpers';
 
 const Routines: NextPage = () => {
   const { search, setSearch } = useSearchStore('routines');
-  const { showSave } = useRoutinesStore();
+  const showSave = useRoutinesStore((state) => state.showSave);
   const routines = useRoutinesStore(
     useCallback(
       (state) => {

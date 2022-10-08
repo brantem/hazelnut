@@ -13,7 +13,7 @@ import { useGroupsStore, useItemsStore, useSearchStore } from 'lib/stores';
 import { isMatch } from 'lib/helpers';
 
 const Items: NextPage = () => {
-  const { groups, showSave } = useGroupsStore();
+  const { groups, showSave } = useGroupsStore((state) => ({ groups: state.groups, showSave: state.showSave }));
   const { search, setSearch } = useSearchStore('items');
   const isSearchGroupEmpty = useGroupsStore(
     useCallback(

@@ -11,6 +11,7 @@ const useStore = create<SearchState>()((set) => ({
 }));
 
 export const useSearchStore = (key: string) => {
-  const { search, setSearch } = useStore();
-  return { search: search[key] || '', setSearch: (value: string) => setSearch(key, value) };
+  const search = useStore((state) => state.search[key] || '');
+  const setSearch = useStore((state) => state.setSearch.bind(null, key));
+  return { search, setSearch };
 };

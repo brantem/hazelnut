@@ -9,7 +9,7 @@ import { isMatch } from 'lib/helpers';
 
 const SaveItemsToRoutineModal = () => {
   const { routine, isSaveItemsOpen, hide, resetAfterHide, edit } = useRoutinesStore();
-  const { groups } = useGroupsStore();
+  const groups = useGroupsStore((state) => state.groups);
   const { search, setSearch } = useSearchStore('save-items-routine-modal');
   const getItemIdsByIds = useItemsStore((state) => state.getItemIdsByIds);
   const isSearchEmpty = useItemsStore(

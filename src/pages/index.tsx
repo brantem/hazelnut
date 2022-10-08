@@ -9,7 +9,7 @@ import { useRoutinesStore } from 'lib/stores';
 import { getCurrentDay } from 'lib/helpers';
 
 const Home: NextPage = () => {
-  const { routines } = useRoutinesStore();
+  const routines = useRoutinesStore((state) => state.routines);
 
   const routine = useMemo(() => {
     if (!routines.length) return;

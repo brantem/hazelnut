@@ -10,7 +10,7 @@ type Values = Pick<Item, 'title'>;
 
 const AddItemToGroupModal = () => {
   const { group, isAddItemOpen, hide, resetAfterHide } = useGroupsStore();
-  const { add } = useItemsStore();
+  const add = useItemsStore((state) => state.add);
 
   const formik = useFormik<Values>({
     initialValues: { title: '' },

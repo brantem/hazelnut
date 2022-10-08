@@ -77,7 +77,7 @@ type ItemListProps = {
 };
 
 const ItemList = ({ routine, isSortable }: ItemListProps) => {
-  const { edit } = useRoutinesStore();
+  const edit = useRoutinesStore((state) => state.edit);
   const items = useItemsStore(useCallback((state) => state.getItemsByIds(routine.itemIds), [routine.itemIds]));
   const sensors = useSensors(
     useSensor(MouseSensor),
