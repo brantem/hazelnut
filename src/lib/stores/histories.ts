@@ -7,14 +7,21 @@ import { History } from 'types/history';
 
 export type HistoriesState = {
   histories: History[];
+  selectedDate: string | null;
+  setSelectedDate: (selectedDate: string) => void;
+
   getIsDone: (routineId: string, itemId: string) => boolean;
   save: (routineId: string, itemId: string, done: boolean) => void;
+  remove: (routineId: string, date: string) => void;
 };
 
 const useStore = create<HistoriesState>()(
   persist(
     (set, get) => ({
       histories: [],
+      selectedDate: null,
+      setSelectedDate: (selectedDate) => set({ selectedDate }),
+
       getIsDone: (routineId, itemId) => {
         const date = dayjs().startOf('day').toISOString();
         const history = get().histories.find((history) => history.routineId === routineId && history.date === date);
@@ -37,10 +44,22 @@ const useStore = create<HistoriesState>()(
           set({ histories });
         }
       },
+      remove: (routineId, date) => {
+        const histories = get().histories;
+        set({
+          histories: histories.filter((history) => {
+            if (history.routineId === routineId && history.date === date) return false;
+            return true;
+          }),
+        });
+      },
     }),
     {
       name: 'histories',
-      partialize: (state) => ({ histories: state.histories }),
+      partialize: (state) => ({
+        histories: state.histories,
+        selectedDate: state.selectedDate,
+      }),
     },
   ),
 );
@@ -48,8 +67,12 @@ const useStore = create<HistoriesState>()(
 /* c8 ignore start */
 const dummy = {
   histories: [],
+  selectedDate: null,
+  setSelectedDate: () => {},
+
   getIsDone: () => false,
   save: () => {},
+  remove: () => {},
 };
 
 // https://github.com/pmndrs/zustand/issues/1145
