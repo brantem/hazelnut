@@ -30,7 +30,6 @@ describe('Dates', () => {
 
     render(<Dates />);
 
-    screen.debug();
     const items = screen.getAllByTestId('dates-item');
     expect(items).toHaveLength(3);
     expect(result.current.selectedDate).toBeNull();

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import dayjs from 'dayjs';
 
 import { useHistoriesStore } from 'lib/stores';
-import days from 'data/days';
+import { daysFromSunday } from 'data/days';
 
 type DateProps = {
   date: string;
@@ -13,7 +13,7 @@ type DateProps = {
 
 const Date = ({ date, isSelected }: DateProps) => {
   const setSelectedDate = useHistoriesStore((state) => state.setSelectedDate);
-  const day = days[dayjs(date).day()]
+  const day = daysFromSunday[dayjs(date).day()]
     .slice(0, 3)
     .toLowerCase()
     .replace(/^(\w{1})/, (match) => match.toUpperCase());
