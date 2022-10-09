@@ -42,12 +42,12 @@ const Date = ({ date, isSelected }: DateProps) => {
 };
 
 const Dates = () => {
-  const { dates, selectedDate } = useHistoriesStore((state) => {
+  const { dates, selectedDate, hasHydrated } = useHistoriesStore((state) => {
     const dates = state.histories.reduce((dates, history) => {
       const date = dayjs(history.date).startOf('day').toISOString();
       return dates.indexOf(date) === -1 ? [...dates, date] : dates;
     }, [] as string[]);
-    return { dates, selectedDate: state.selectedDate };
+    return { dates, selectedDate: state.selectedDate, hasHydrated: state.hasHydrated };
   });
 
   const currentDate = useMemo(() => dayjs().startOf('day').toISOString(), []);
@@ -55,12 +55,13 @@ const Dates = () => {
   return (
     <section className="px-4 pb-3" data-testid="dates">
       <ol className="flex overflow-x-auto">
-        {dates.map((date) => (
-          <Date key={date} date={date} isSelected={selectedDate ? selectedDate === date : currentDate === date} />
-        ))}
+        {dates.map((date) => {
+          const isSelected = hasHydrated && (selectedDate ? selectedDate === date : currentDate === date);
+          return <Date key={date} date={date} isSelected={isSelected} />;
+        })}
 
         {dates.indexOf(currentDate) === -1 && (
-          <Date date={currentDate} isSelected={!selectedDate || selectedDate === currentDate} />
+          <Date date={currentDate} isSelected={hasHydrated && (!selectedDate || selectedDate === currentDate)} />
         )}
       </ol>
     </section>

@@ -13,6 +13,8 @@ export type HistoriesState = {
   getIsDone: (routineId: string, itemId: string) => boolean;
   save: (routineId: string, itemId: string, done: boolean) => void;
   remove: (routineId: string, date: string) => void;
+
+  hasHydrated: boolean;
 };
 
 const useStore = create<HistoriesState>()(
@@ -53,6 +55,8 @@ const useStore = create<HistoriesState>()(
           }),
         });
       },
+
+      hasHydrated: true,
     }),
     {
       name: 'histories',
@@ -73,6 +77,8 @@ const dummy = {
   getIsDone: () => false,
   save: () => {},
   remove: () => {},
+
+  hasHydrated: false,
 };
 
 // https://github.com/pmndrs/zustand/issues/1145

@@ -71,7 +71,7 @@ const Routines: NextPage = () => {
         <section className="space-y-3">
           {routines.length
             ? routines.map((routine, i) => <RoutineCard key={i} routine={routine} showAction isItemSortable />)
-            : search && <p className="mx-4 mt-3 text-center text-neutral-500">No results found</p>}
+            : search.value && <p className="mx-4 mt-3 text-center text-neutral-500">No results found</p>}
         </section>
       </Layout>
 

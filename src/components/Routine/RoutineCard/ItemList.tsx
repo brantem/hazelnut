@@ -18,6 +18,7 @@ import {
 } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis, restrictToParentElement } from '@dnd-kit/modifiers';
 import { CSS } from '@dnd-kit/utilities';
+import clsx from 'clsx';
 
 import Checkbox from 'components/Checkbox';
 
@@ -58,7 +59,7 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
         </button>
       )}
 
-      <div className="w-full max-w-[calc(100%-theme(spacing.8))]">
+      <div className={clsx('w-full', isSortable && 'max-w-[calc(100%-theme(spacing.8))]')}>
         <Checkbox
           label={item.title}
           name={routine.id + '-' + item.id}

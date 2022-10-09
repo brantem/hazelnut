@@ -132,7 +132,7 @@ exports[`ItemList > should render successfully 1`] = `
       tabindex="0"
     >
       <div
-        class="w-full max-w-[calc(100%-theme(spacing.8))]"
+        class="w-full"
       >
         <div
           class="flex w-full items-center justify-between space-x-3"
