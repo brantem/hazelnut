@@ -22,6 +22,7 @@ const RoutineSettingsModal = () => {
       description={
         <>
           <span>{routine?.time}</span>
+          <span>{routine?.itemIds.length} Item(s)</span>
           <Days days={routine?.days || []} />
         </>
       }

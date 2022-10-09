@@ -55,6 +55,8 @@ describe('Home', () => {
   });
 
   it("shouldn't show different day routine routine", async () => {
+    vi.setSystemTime(dayjs().subtract(1, 'hour').toDate());
+
     const { result } = renderHook(() => useRoutinesStore());
     const day = new Date().getDay() + 1;
     act(() => result.current.add({ ...routine, days: [days[day === days.length ? 0 : day]] }));
