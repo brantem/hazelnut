@@ -58,14 +58,15 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
         </button>
       )}
 
-      <Checkbox
-        label={item.title}
-        name={routine.id + '-' + item.id}
-        color={routine.color}
-        className="h-5 w-5"
-        checked={isDone}
-        onChange={(e) => save(routine.id, item.id, e.target.checked)}
-      />
+      <div className="w-full max-w-[calc(100%-theme(spacing.8))]">
+        <Checkbox
+          label={item.title}
+          name={routine.id + '-' + item.id}
+          color={routine.color}
+          checked={isDone}
+          onChange={(e) => save(routine.id, item.id, e.target.checked)}
+        />
+      </div>
     </li>
   );
 };
