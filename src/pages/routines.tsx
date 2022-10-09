@@ -4,6 +4,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 
 import Layout from 'components/Layout';
 import Search from 'components/Search';
+import Dates from 'components/Routine/Dates';
 import RoutineCard from 'components/Routine/RoutineCard';
 import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
 import DuplicateRoutineModal from 'components/Routine/DuplicateRoutineModal';
@@ -64,6 +65,8 @@ const Routines: NextPage = () => {
             className="sticky top-0 bg-white px-4 pt-1 pb-3"
           />
         )}
+
+        <Dates />
 
         <section className="space-y-3">
           {routines.length

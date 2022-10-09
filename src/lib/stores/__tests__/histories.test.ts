@@ -15,6 +15,11 @@ describe('useHistoriesStore', async () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    const { result } = renderHook(() => useHistoriesStore());
+    act(() => {
+      result.current.setSelectedDate(null);
+      result.current.remove(routineId, date);
+    });
   });
 
   it('should be able to set selected date', () => {
@@ -35,6 +40,21 @@ describe('useHistoriesStore', async () => {
     ]);
     act(() => result.current.save(routineId, itemId, false));
     expect(result.current.histories).toEqual([{ routineId, date, items: [] }]);
+    act(() => result.current.save(routineId, itemId, true));
+  });
+
+  it('should be able to add and remove item from past routine', () => {
+    const { result } = renderHook(() => useHistoriesStore());
+    const _date = dayjs().subtract(5, 'day').toISOString();
+    act(() => result.current.setSelectedDate(_date));
+    expect(result.current.histories).toEqual([]);
+    act(() => result.current.save(routineId, itemId, true));
+    expect(result.current.histories).toEqual([
+      { routineId, date: _date, items: [{ itemId, date: new Date().toISOString() }] },
+    ]);
+    act(() => result.current.save(routineId, itemId, false));
+    expect(result.current.histories).toEqual([{ routineId, date: _date, items: [] }]);
+    act(() => result.current.remove(routineId, _date)); // reset
   });
 
   it('should be able to check whether an item has been completed or not', () => {
@@ -43,6 +63,17 @@ describe('useHistoriesStore', async () => {
     expect(result.current.getIsDone(routineId, itemId)).toBeFalsy();
     act(() => result.current.save(routineId, itemId, true));
     expect(result.current.getIsDone(routineId, itemId)).toBeTruthy();
+  });
+
+  it('should be able to check whether an item from past routine has been completed or not', () => {
+    vi.setSystemTime(dayjs().startOf('hour').toDate());
+    const { result } = renderHook(() => useHistoriesStore());
+    const _date = dayjs().subtract(5, 'day').toISOString();
+    act(() => result.current.setSelectedDate(_date));
+    expect(result.current.getIsDone(routineId, itemId)).toBeFalsy();
+    act(() => result.current.save(routineId, itemId, true));
+    expect(result.current.getIsDone(routineId, itemId)).toBeTruthy();
+    act(() => result.current.remove(routineId, _date)); // reset
   });
 
   it('should be able to remove history', () => {

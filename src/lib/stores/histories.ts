@@ -8,7 +8,7 @@ import { History } from 'types/history';
 export type HistoriesState = {
   histories: History[];
   selectedDate: string | null;
-  setSelectedDate: (selectedDate: string) => void;
+  setSelectedDate: (selectedDate: string | null) => void;
 
   getIsDone: (routineId: string, itemId: string) => boolean;
   save: (routineId: string, itemId: string, done: boolean) => void;
@@ -23,14 +23,14 @@ const useStore = create<HistoriesState>()(
       setSelectedDate: (selectedDate) => set({ selectedDate }),
 
       getIsDone: (routineId, itemId) => {
-        const date = dayjs().startOf('day').toISOString();
+        const date = get().selectedDate || dayjs().startOf('day').toISOString();
         const history = get().histories.find((history) => history.routineId === routineId && history.date === date);
         if (!history) return false;
         return history.items.findIndex((item) => item.itemId === itemId) !== -1;
       },
       save: (routineId, itemId, done) => {
         const histories = get().histories.slice();
-        const date = dayjs().startOf('day').toISOString();
+        const date = get().selectedDate || dayjs().startOf('day').toISOString();
 
         const index = histories.findIndex((history) => history.routineId === routineId && history.date === date);
         if (index === -1) {
