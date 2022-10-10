@@ -7,7 +7,6 @@ import Home from 'pages/index';
 import { useRoutinesStore } from 'lib/stores';
 import { getCurrentDay } from 'lib/helpers';
 import { Routine } from 'types/routine';
-import days from 'data/days';
 
 vi.mock('next/router', () => ({
   useRouter() {
@@ -23,57 +22,31 @@ beforeEach(() => {
   window.IntersectionObserver = mockIntersectionObserver;
 });
 
-const routine: Routine = {
-  id: 'routine-1',
-  title: 'Routine 1',
+const generateRoutine = (i: number, days: Routine['days'] = []): Routine => ({
+  id: `routine-${i}`,
+  title: `Routine ${i}`,
   color: 'red',
-  days: [getCurrentDay()],
+  days,
   time: dayjs().format('HH:mm'),
   itemIds: [],
   minimized: false,
-};
+});
 
 describe('Home', () => {
-  beforeEach(() => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => result.current.remove('routine-1'));
+  beforeAll(() => {
+    vi.fn(getCurrentDay).mockImplementation(() => 'MONDAY');
 
-    vi.useFakeTimers();
+    const { result } = renderHook(() => useRoutinesStore());
+    act(() => {
+      result.current.add(generateRoutine(1, ['MONDAY']));
+      result.current.add(generateRoutine(2, ['TUESDAY']));
+    });
   });
 
-  afterEach(() => {
-    vi.useRealTimers();
-  });
-
-  it('should show active routine', async () => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => result.current.add(routine));
-
+  it("should show today's routine", async () => {
     render(<Home />);
 
-    expect(screen.getByTestId('routine-card')).toBeInTheDocument();
-  });
-
-  it("shouldn't show different day routine routine", async () => {
-    vi.setSystemTime(dayjs().subtract(1, 'hour').toDate());
-
-    const { result } = renderHook(() => useRoutinesStore());
-    const day = new Date().getDay() + 1;
-    act(() => result.current.add({ ...routine, days: [days[day === days.length ? 0 : day]] }));
-
-    render(<Home />);
-
-    expect(screen.queryByTestId('routine-card')).not.toBeInTheDocument();
-  });
-
-  it("shouldn't show past routine", async () => {
-    vi.setSystemTime(dayjs().add(1, 'hour').toDate());
-
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => result.current.add(routine));
-
-    render(<Home />);
-
-    expect(screen.queryByTestId('routine-card')).not.toBeInTheDocument();
+    expect(screen.getByText('Routine 1')).toBeInTheDocument();
+    expect(screen.queryByText('Routine 2')).not.toBeInTheDocument();
   });
 });
