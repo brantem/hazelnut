@@ -72,14 +72,7 @@ const SaveRoutineModal = () => {
             isDisabled={formik.isSubmitting}
           />
 
-          <Input
-            label="Time"
-            name="time"
-            type="time"
-            required
-            value={formik.values.time}
-            onChange={formik.handleChange}
-          />
+          <Input label="Time" name="time" type="time" value={formik.values.time || ''} onChange={formik.handleChange} />
         </div>
 
         <div className="bg-neutral-50 px-4 py-3">

@@ -5,7 +5,7 @@ export type Routine = {
   title: string;
   color: string;
   days: Day[];
-  time: string;
+  time: string | null;
   itemIds: string[];
   minimized: boolean;
 };

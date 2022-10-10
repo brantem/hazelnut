@@ -12,7 +12,7 @@ import SaveItemsToRoutineModal from 'components/Item/SaveItemsToRoutineModal';
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
 import { useRoutinesStore } from 'lib/stores';
-import { isMatch, getMinutesFromTime } from 'lib/helpers';
+import { isMatch, sortRoutines } from 'lib/helpers';
 import { useModal, useSearch } from 'lib/hooks';
 import * as constants from 'data/constants';
 
@@ -24,7 +24,7 @@ const Routines: NextPage = () => {
   const routines = useRoutinesStore(
     useCallback(
       (state) => {
-        const routines = state.routines.sort((a, b) => getMinutesFromTime(a.time) - getMinutesFromTime(b.time));
+        const routines = sortRoutines(state.routines);
         if (!search.value) return routines;
         return routines.filter((routine) => isMatch(routine.title, search.value));
       },
