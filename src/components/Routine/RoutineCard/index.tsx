@@ -24,9 +24,11 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
       <div className="flex h-7 items-center justify-between space-x-3">
         <div className="flex max-w-[440px] items-center space-x-3">
           <h3 className={`text-sm font-semibold uppercase text-${routine.color}-600 truncate`}>{routine.title} </h3>
-          <span className={`text-sm font-medium text-${routine.color}-400 ml-2 flex-shrink-0 tabular-nums`}>
-            {routine.time || 'All day'}
-          </span>
+          {routine.time && (
+            <span className={`text-sm font-medium text-${routine.color}-400 ml-2 flex-shrink-0 tabular-nums`}>
+              {routine.time}
+            </span>
+          )}
         </div>
 
         <div className="flex flex-shrink-0 items-center space-x-1">

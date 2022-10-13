@@ -29,7 +29,6 @@ const generateRoutine = (i: number, time: Routine['time']): Routine => ({
 });
 
 test('sortRoutines', () => {
-  console.log(sortRoutines([generateRoutine(1, '01:00'), generateRoutine(2, null)]));
   expect(sortRoutines([generateRoutine(1, '01:00'), generateRoutine(2, null)])).toEqual([
     generateRoutine(2, null),
     generateRoutine(1, '01:00'),

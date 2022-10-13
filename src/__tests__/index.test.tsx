@@ -5,8 +5,8 @@ import '@testing-library/jest-dom';
 import Home from 'pages/index';
 
 import { useRoutinesStore } from 'lib/stores';
-import { getCurrentDay } from 'lib/helpers';
 import { Routine } from 'types/routine';
+import { getCurrentDay } from 'lib/helpers';
 
 vi.mock('next/router', () => ({
   useRouter() {
@@ -34,11 +34,9 @@ const generateRoutine = (i: number, days: Routine['days'] = []): Routine => ({
 
 describe('Home', () => {
   beforeAll(() => {
-    vi.fn(getCurrentDay).mockImplementation(() => 'MONDAY');
-
     const { result } = renderHook(() => useRoutinesStore());
     act(() => {
-      result.current.add(generateRoutine(1, ['MONDAY']));
+      result.current.add(generateRoutine(1, [getCurrentDay()]));
       result.current.add(generateRoutine(2, ['TUESDAY']));
     });
   });
