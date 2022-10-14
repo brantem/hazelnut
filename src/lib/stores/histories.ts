@@ -102,7 +102,7 @@ const useStore = create<HistoriesState>()(
       /* c8 ignore start */
       migrate: (persistedState: any, version) => {
         switch (version) {
-          case 1:
+          case 0:
             return _migrateRoutinesV0ToV1(persistedState);
           default:
             return persistedState;
