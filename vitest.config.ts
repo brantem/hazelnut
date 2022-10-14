@@ -18,6 +18,7 @@ export default defineConfig({
       skipFull: true,
       all: true,
     },
+    logHeapUsage: true,
   },
   resolve: {
     alias: {

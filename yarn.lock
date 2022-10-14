@@ -2673,6 +2673,11 @@ json5@^2.2.1:
     array-includes "^3.1.5"
     object.assign "^4.1.3"
 
+just-pick@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/just-pick/-/just-pick-4.1.1.tgz#2afabce85f40e74b854136323a8e3fa82cd6c995"
+  integrity sha512-pR6Sl3F0SbaBsp/F3jzwB/2soeAvUB3l5KzJYiMh2h0vl7qbkKW9cP6rh6A2SS2QuzKiXYL+nvaHzeNH2pnScg==
+
 language-subtag-registry@~0.3.2:
   version "0.3.22"
   resolved "https://registry.yarnpkg.com/language-subtag-registry/-/language-subtag-registry-0.3.22.tgz#2e1500861b2e457eba7e7ae86877cbd08fa1fd1d"

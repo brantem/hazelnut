@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import create from 'zustand';
+import createVanilla from 'zustand/vanilla';
 import { persist } from 'zustand/middleware';
 import { nanoid } from 'nanoid';
 
@@ -19,7 +20,7 @@ export type ItemsState = {
   remove: (id: string) => void;
 };
 
-const useStore = create<ItemsState>()(
+export const itemsStore = createVanilla<ItemsState>()(
   persist(
     (set, get) => ({
       items: [],
@@ -58,6 +59,8 @@ const useStore = create<ItemsState>()(
     },
   ),
 );
+
+const useStore = create(itemsStore);
 
 /* c8 ignore start */
 const dummy = {

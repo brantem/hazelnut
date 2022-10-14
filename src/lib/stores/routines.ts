@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import create from 'zustand';
+import createVanilla from 'zustand/vanilla';
 import { persist } from 'zustand/middleware';
 import { nanoid } from 'nanoid';
 
@@ -15,7 +16,7 @@ type RoutinesState = {
   remove: (id: string) => void;
 };
 
-const useStore = create<RoutinesState>()(
+export const routinesStore = createVanilla<RoutinesState>()(
   persist(
     (set) => ({
       routines: [],
@@ -42,6 +43,8 @@ const useStore = create<RoutinesState>()(
     },
   ),
 );
+
+const useStore = create(routinesStore);
 
 /* c8 ignore start */
 const dummy = {

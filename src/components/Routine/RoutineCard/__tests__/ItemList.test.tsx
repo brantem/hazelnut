@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import ItemList from 'components/Routine/RoutineCard/ItemList';
 
 import { Routine } from 'types/routine';
+import { Item } from 'types/item';
 import { useHistoriesStore, useItemsStore, useRoutinesStore } from 'lib/stores';
 
 const routine: Routine = {
@@ -14,6 +15,12 @@ const routine: Routine = {
   time: '00:00',
   itemIds: ['item-1'],
   minimized: false,
+};
+
+const item: Item = {
+  id: 'item-1',
+  groupId: 'group-1',
+  title: 'Item 1',
 };
 
 describe('ItemList', () => {
@@ -60,6 +67,6 @@ describe('ItemList', () => {
     render(<ItemList routine={routine} isSortable />);
 
     act(() => screen.getByText('Item 1').click());
-    expect(save).toHaveBeenCalledWith(routine.id, 'item-1', true);
+    expect(save).toHaveBeenCalledWith(routine, item, true);
   });
 });

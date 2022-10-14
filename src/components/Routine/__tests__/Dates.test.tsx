@@ -5,6 +5,24 @@ import '@testing-library/jest-dom';
 import Dates from 'components/Routine/Dates';
 
 import { useHistoriesStore } from 'lib/stores';
+import { Routine } from 'types/routine';
+import { Item } from 'types/item';
+
+const routine: Routine = {
+  id: 'routine-1',
+  title: 'Routine 1',
+  color: 'red',
+  itemIds: [],
+  time: null,
+  days: ['MONDAY'],
+  minimized: false,
+};
+
+const item: Item = {
+  id: 'item-1',
+  groupId: 'group-1',
+  title: 'Item 1',
+};
 
 describe('Dates', () => {
   beforeAll(() => {
@@ -12,10 +30,14 @@ describe('Dates', () => {
     const { result } = renderHook(() => useHistoriesStore());
     act(() => {
       vi.setSystemTime(dayjs().subtract(2, 'day').toDate());
-      result.current.save('routine-1', 'item-1', true);
-      result.current.save('routine-2', 'item-2', true);
+      result.current.save(routine, item, true);
+      result.current.save(
+        { ...routine, id: 'routine-2', title: 'Routine 2' },
+        { ...item, id: 'item-2', title: 'Item 2' },
+        true,
+      );
       vi.setSystemTime(dayjs().subtract(1, 'day').toDate());
-      result.current.save('routine-1', 'item-1', true);
+      result.current.save(routine, item, true);
     });
     vi.useRealTimers();
   });

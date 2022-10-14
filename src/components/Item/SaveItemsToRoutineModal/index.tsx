@@ -29,6 +29,7 @@ const SaveItemsToRoutineModal = () => {
     if (!routine) return;
     search.change('');
     setItemIds(routine.itemIds);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routine]);
 
   return (

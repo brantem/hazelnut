@@ -1,9 +1,9 @@
-import { render, screen, act, renderHook, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, act, renderHook, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import SaveItemsToRoutineModal from 'components/Item/SaveItemsToRoutineModal';
 
-import { useGroupsStore, useItemsStore, useModalStore, useRoutinesStore, useSearchStore } from 'lib/stores';
+import { useGroupsStore, useItemsStore, useModalStore, useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 import { Group } from 'types/group';
 import { Item } from 'types/item';
