@@ -98,13 +98,6 @@ const useStore = create<HistoriesState>()(
         histories: state.histories,
         selectedDate: state.selectedDate,
       }),
-      version: 1,
-      /* c8 ignore start */
-      migrate: (persistedState: any, version) => {
-        if (version === 0) return _migrateRoutinesV0ToV1(persistedState);
-        return persistedState;
-      },
-      /* c8 ignore stop */
     },
   ),
 );
@@ -147,11 +140,38 @@ const dummy = {
   hasHydrated: false,
 };
 
+const VERSION = 1;
+let migrated = false;
+
 // https://github.com/pmndrs/zustand/issues/1145
 export const useHistoriesStore = ((selector, equals) => {
   const store = useStore(selector, equals);
+
   const [isHydrated, setHydrated] = useState(false);
-  useEffect(() => setHydrated(true), []);
+  useEffect(() => {
+    const value = localStorage.getItem('histories');
+    if (!migrated && value) {
+      const histories = JSON.parse(value) as { state: any; version: number; _version?: number };
+      const version = histories._version || histories.version || 0;
+      if (VERSION > version) {
+        for (let i = version; i <= VERSION; i++) {
+          switch (i) {
+            case 0:
+              histories.state = _migrateRoutinesV0ToV1(histories.state);
+              break;
+          }
+        }
+
+        // _version is used to avoid `State loaded from storage couldn't be migrated since no migrate function was provided` error
+        localStorage.setItem('histories', JSON.stringify({ ...histories, _version: VERSION }));
+        migrated = true;
+      }
+    }
+
+    setHydrated(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return isHydrated ? store : selector ? selector(dummy) : dummy;
 }) as typeof useStore;
 /* c8 ignore stop */
