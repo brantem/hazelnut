@@ -80,16 +80,18 @@ describe('Routines', () => {
     expect(routines.result.current.routine).toBeNull();
   });
 
-  it('should hide search if selectedDate !== currentDate', async () => {
+  it('should show <HistoryList /> and hide search if selectedDate !== currentDate', async () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
     const histories = renderHook(() => useHistoriesStore());
 
     const { rerender } = render(<Routines />);
 
+    expect(screen.getByTestId('routine-list')).toBeInTheDocument();
     act(() => screen.getByTestId('routines-search').click());
     expect(screen.getByTestId('search')).toBeInTheDocument();
     act(() => histories.result.current.setSelectedDate(dayjs().subtract(1, 'day').startOf('day').toISOString()));
     rerender(<Routines />);
+    expect(screen.getByTestId('history-list')).toBeInTheDocument();
     expect(screen.queryByTestId('routines-search')).not.toBeInTheDocument();
     expect(screen.queryByTestId('search')).not.toBeInTheDocument();
   });

@@ -7,6 +7,7 @@ import Layout from 'components/Layout';
 import Search from 'components/Search';
 import Dates from 'components/Routine/Dates';
 import RoutineList from 'components/Routine/RoutineList';
+import HistoryList from 'components/History/HistoryList';
 import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
 import DuplicateRoutineModal from 'components/Routine/DuplicateRoutineModal';
 import SaveItemsToRoutineModal from 'components/Item/SaveItemsToRoutineModal';
@@ -67,7 +68,7 @@ const Routines: NextPage = () => {
 
         <Dates />
 
-        <RoutineList />
+        {isTodaySelected ? <RoutineList /> : <HistoryList />}
       </Layout>
 
       <SaveRoutineModal />

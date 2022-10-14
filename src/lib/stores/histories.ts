@@ -4,8 +4,7 @@ import { persist } from 'zustand/middleware';
 import dayjs from 'dayjs';
 import pick from 'just-pick';
 
-import { HistoryV0, History } from 'types/history';
-import { Item } from 'types/item';
+import { HistoryV0, History, HistoryItem } from 'types/history';
 import { Routine } from 'types/routine';
 import { itemsStore, routinesStore } from 'lib/stores';
 
@@ -15,7 +14,11 @@ export type HistoriesState = {
   setSelectedDate: (selectedDate: string | null) => void;
 
   getIsDone: (routineId: string, itemId: string) => boolean;
-  save: (routine: Routine, item: Item, done: boolean) => void;
+  save: (
+    routine: History['routine'] & { itemIds?: Routine['itemIds'] },
+    item: HistoryItem['item'],
+    done: boolean,
+  ) => void;
   remove: (routineId: string, date: string) => void;
 
   hasHydrated: boolean;
@@ -49,7 +52,7 @@ const useStore = create<HistoriesState>()(
                 routine: pick(routine, ['id', 'title', 'color', 'time']),
                 date,
                 items: _items.reduce((items, _item) => {
-                  if (!routine.itemIds.includes(_item.id)) return items;
+                  if (!routine.itemIds?.includes(_item.id)) return items;
                   return [
                     ...items,
                     { item: pick(_item, ['id', 'title']), completedAt: _item.id === item.id ? Date.now() : null },

@@ -1,7 +1,7 @@
 import { Routine } from 'types/routine';
 import { Item } from 'types/item';
 
-type HistoryItem = {
+export type HistoryItem = {
   item: Pick<Item, 'id' | 'title'>;
   completedAt: number | null;
 };
