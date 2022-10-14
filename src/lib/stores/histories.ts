@@ -101,39 +101,13 @@ const useStore = create<HistoriesState>()(
       version: 1,
       /* c8 ignore start */
       migrate: (persistedState: any, version) => {
-        switch (version) {
-          case 0:
-            return _migrateRoutinesV0ToV1(persistedState);
-          default:
-            return persistedState;
-        }
+        if (version === 0) return _migrateRoutinesV0ToV1(persistedState);
+        return persistedState;
       },
       /* c8 ignore stop */
     },
   ),
 );
-
-/* c8 ignore start */
-const dummy = {
-  histories: [],
-  selectedDate: null,
-  setSelectedDate: () => {},
-
-  getIsDone: () => false,
-  save: () => {},
-  remove: () => {},
-
-  hasHydrated: false,
-};
-
-// https://github.com/pmndrs/zustand/issues/1145
-export const useHistoriesStore = ((selector, equals) => {
-  const store = useStore(selector, equals);
-  const [isHydrated, setHydrated] = useState(false);
-  useEffect(() => setHydrated(true), []);
-  return isHydrated ? store : selector ? selector(dummy) : dummy;
-}) as typeof useStore;
-/* c8 ignore stop */
 
 export const _migrateRoutinesV0ToV1 = (state: { histories: HistoryV0[] } & Pick<HistoriesState, 'selectedDate'>) => {
   const _routines = routinesStore.getState().routines;
@@ -159,3 +133,25 @@ export const _migrateRoutinesV0ToV1 = (state: { histories: HistoryV0[] } & Pick<
     selectedDate: state.selectedDate,
   };
 };
+
+/* c8 ignore start */
+const dummy = {
+  histories: [],
+  selectedDate: null,
+  setSelectedDate: () => {},
+
+  getIsDone: () => false,
+  save: () => {},
+  remove: () => {},
+
+  hasHydrated: false,
+};
+
+// https://github.com/pmndrs/zustand/issues/1145
+export const useHistoriesStore = ((selector, equals) => {
+  const store = useStore(selector, equals);
+  const [isHydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  return isHydrated ? store : selector ? selector(dummy) : dummy;
+}) as typeof useStore;
+/* c8 ignore stop */
