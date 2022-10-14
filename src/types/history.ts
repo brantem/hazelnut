@@ -1,13 +1,11 @@
 import { Routine } from 'types/routine';
 import { Item } from 'types/item';
 
-export type HistoryItem = {
-  item: Pick<Item, 'id' | 'title'>;
+export type HistoryItem = Pick<Item, 'id' | 'title'> & {
   completedAt: number | null;
 };
 
-export type History = {
-  routine: Pick<Routine, 'id' | 'title' | 'color' | 'time'>;
+export type History = Pick<Routine, 'id' | 'title' | 'color' | 'time'> & {
   date: string;
   items: HistoryItem[];
 };

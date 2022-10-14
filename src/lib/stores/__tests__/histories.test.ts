@@ -76,11 +76,11 @@ describe('useHistoriesStore', async () => {
     act(() => result.current.save(routine, item, true));
     expect(result.current.histories).toEqual([
       {
-        routine: simpleRoutine,
+        ...simpleRoutine,
         date,
         items: [
-          { item: simpleItem, completedAt: Date.now() },
-          { item: { id: 'item-2', title: 'Item 2' }, completedAt: null },
+          { ...simpleItem, completedAt: Date.now() },
+          { id: 'item-2', title: 'Item 2', completedAt: null },
         ],
       },
     ]);
@@ -92,12 +92,12 @@ describe('useHistoriesStore', async () => {
     });
     expect(result.current.histories).toEqual([
       {
-        routine: simpleRoutine,
+        ...simpleRoutine,
         date,
         items: [
-          { item: simpleItem, completedAt: Date.now() },
-          { item: { id: 'item-2', title: 'Item 2' }, completedAt: null },
-          { item: { id: 'item-3', title: 'Item 3' }, completedAt: Date.now() },
+          { ...simpleItem, completedAt: Date.now() },
+          { id: 'item-2', title: 'Item 2', completedAt: null },
+          { id: 'item-3', title: 'Item 3', completedAt: Date.now() },
         ],
       },
     ]);
@@ -106,12 +106,12 @@ describe('useHistoriesStore', async () => {
     act(() => result.current.save(routine, item, false));
     expect(result.current.histories).toEqual([
       {
-        routine: simpleRoutine,
+        ...simpleRoutine,
         date,
         items: [
-          { item: simpleItem, completedAt: null },
-          { item: { id: 'item-2', title: 'Item 2' }, completedAt: null },
-          { item: { id: 'item-3', title: 'Item 3' }, completedAt: Date.now() },
+          { ...simpleItem, completedAt: null },
+          { id: 'item-2', title: 'Item 2', completedAt: null },
+          { id: 'item-3', title: 'Item 3', completedAt: Date.now() },
         ],
       },
     ]);
@@ -134,11 +134,11 @@ describe('useHistoriesStore', async () => {
     act(() => result.current.save(routine, item, true));
     expect(result.current.histories).toEqual([
       {
-        routine: simpleRoutine,
+        ...simpleRoutine,
         date: _date,
         items: [
-          { item: simpleItem, completedAt: Date.now() },
-          { item: { id: 'item-2', title: 'Item 2' }, completedAt: null },
+          { ...simpleItem, completedAt: Date.now() },
+          { id: 'item-2', title: 'Item 2', completedAt: null },
         ],
       },
     ]);
@@ -147,11 +147,11 @@ describe('useHistoriesStore', async () => {
     act(() => result.current.save(routine, item, false));
     expect(result.current.histories).toEqual([
       {
-        routine: simpleRoutine,
+        ...simpleRoutine,
         date: _date,
         items: [
-          { item: simpleItem, completedAt: null },
-          { item: { id: 'item-2', title: 'Item 2' }, completedAt: null },
+          { ...simpleItem, completedAt: null },
+          { id: 'item-2', title: 'Item 2', completedAt: null },
         ],
       },
     ]);
@@ -223,11 +223,11 @@ describe('migrateV0ToV1', async () => {
     expect(_migrateRoutinesV0ToV1(state)).toEqual({
       histories: [
         {
-          routine: simpleRoutine,
+          ...simpleRoutine,
           date,
           items: [
-            { item: simpleItem, completedAt: new Date(date).getTime() },
-            { item: { id: 'item-2', title: 'Item 2' }, completedAt: null },
+            { ...simpleItem, completedAt: new Date(date).getTime() },
+            { id: 'item-2', title: 'Item 2', completedAt: null },
           ],
         },
       ],

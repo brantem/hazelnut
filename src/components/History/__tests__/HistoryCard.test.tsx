@@ -8,19 +8,15 @@ import { History } from 'types/history';
 import dayjs from 'dayjs';
 
 const history: History = {
-  routine: {
-    id: 'routine-1',
-    title: 'Routine 1',
-    color: 'red',
-    time: '00:00',
-  },
+  id: 'routine-1',
+  title: 'Routine 1',
+  color: 'red',
+  time: '00:00',
   date: dayjs().startOf('day').toISOString(),
   items: [
     {
-      item: {
-        id: 'item-1',
-        title: 'Item 1',
-      },
+      id: 'item-1',
+      title: 'Item 1',
       completedAt: null,
     },
   ],
@@ -43,6 +39,6 @@ describe('HistoryCard', () => {
     render(<HistoryCard history={history} />);
 
     act(() => screen.getByText('Item 1').click());
-    expect(save).toHaveBeenCalledWith(history.routine, history.items[0].item, true);
+    expect(save).toHaveBeenCalledWith(history, history.items[0], true);
   });
 });

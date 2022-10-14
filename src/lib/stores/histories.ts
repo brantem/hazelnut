@@ -15,8 +15,8 @@ export type HistoriesState = {
 
   getIsDone: (routineId: string, itemId: string) => boolean;
   save: (
-    routine: History['routine'] & { itemIds?: Routine['itemIds'] },
-    item: HistoryItem['item'],
+    routine: Omit<History, 'date' | 'items'> & { itemIds?: Routine['itemIds'] },
+    item: Omit<HistoryItem, 'completedAt'>,
     done: boolean,
   ) => void;
   remove: (routineId: string, date: string) => void;
@@ -33,15 +33,15 @@ const useStore = create<HistoriesState>()(
 
       getIsDone: (routineId, itemId) => {
         const date = get().selectedDate || dayjs().startOf('day').toISOString();
-        const history = get().histories.find((history) => history.routine.id === routineId && history.date === date);
+        const history = get().histories.find((history) => history.id === routineId && history.date === date);
         if (!history) return false;
-        return !!history.items.find(({ item }) => item.id === itemId)?.completedAt;
+        return !!history.items.find((item) => item.id === itemId)?.completedAt;
       },
       save: (routine, item, done) => {
         const date = get().selectedDate || dayjs().startOf('day').toISOString();
 
         const index = get().histories.findIndex((history) => {
-          return history.routine.id === routine.id && history.date === date;
+          return history.id === routine.id && history.date === date;
         });
         if (index === -1) {
           const _items = itemsStore.getState().items;
@@ -49,13 +49,16 @@ const useStore = create<HistoriesState>()(
             histories: [
               ...state.histories,
               {
-                routine: pick(routine, ['id', 'title', 'color', 'time']),
+                ...pick(routine, ['id', 'title', 'color', 'time']),
                 date,
                 items: _items.reduce((items, _item) => {
                   if (!routine.itemIds?.includes(_item.id)) return items;
                   return [
                     ...items,
-                    { item: pick(_item, ['id', 'title']), completedAt: _item.id === item.id ? Date.now() : null },
+                    {
+                      ...pick(_item, ['id', 'title']),
+                      completedAt: _item.id === item.id ? Date.now() : null,
+                    },
                   ];
                 }, [] as History['items']),
               },
@@ -63,15 +66,15 @@ const useStore = create<HistoriesState>()(
           }));
         } else {
           const histories = get().histories.slice();
-          const itemIndex = histories[index].items.findIndex((_item) => _item.item.id === item.id);
+          const itemIndex = histories[index].items.findIndex((_item) => _item.id === item.id);
           if (itemIndex === -1) {
             histories[index].items.push({
-              item: pick(item, ['id', 'title']),
+              ...pick(item, ['id', 'title']),
               completedAt: Date.now(),
             });
           } else {
             histories[index].items = histories[index].items.map((_item) => {
-              if (_item.item.id !== item.id) return _item;
+              if (_item.id !== item.id) return _item;
               return { ..._item, completedAt: done ? Date.now() : null };
             });
           }
@@ -81,7 +84,7 @@ const useStore = create<HistoriesState>()(
       remove: (routineId, date) => {
         set({
           histories: get().histories.filter((history) => {
-            if (history.routine.id === routineId && history.date === date) return false;
+            if (history.id === routineId && history.date === date) return false;
             return true;
           }),
         });
@@ -143,12 +146,12 @@ export const _migrateRoutinesV0ToV1 = (state: { histories: HistoryV0[] } & Pick<
       return [
         ...histories,
         {
-          routine: pick(routine, ['id', 'title', 'color', 'time']),
+          ...pick(routine, ['id', 'title', 'color', 'time']),
           date: history.date,
           items: items.reduce((items, item) => {
             const oldItem = history.items.find((oldItem) => oldItem.itemId === item.id);
-            if (!oldItem) return [...items, { item: pick(item, ['id', 'title']), completedAt: null }];
-            return [...items, { item: pick(item, ['id', 'title']), completedAt: new Date(oldItem.date).getTime() }];
+            if (!oldItem) return [...items, { ...pick(item, ['id', 'title']), completedAt: null }];
+            return [...items, { ...pick(item, ['id', 'title']), completedAt: new Date(oldItem.date).getTime() }];
           }, [] as History['items']),
         },
       ];
