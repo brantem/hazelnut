@@ -1,38 +1,34 @@
-import { useCallback, useReducer } from 'react';
+import { useReducer, useMemo } from 'react';
 import type { NextPage } from 'next';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import dayjs from 'dayjs';
 
 import Layout from 'components/Layout';
 import Search from 'components/Search';
 import Dates from 'components/Routine/Dates';
-import RoutineCard from 'components/Routine/RoutineCard';
+import RoutineList from 'components/Routine/RoutineList';
 import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
 import DuplicateRoutineModal from 'components/Routine/DuplicateRoutineModal';
 import SaveItemsToRoutineModal from 'components/Item/SaveItemsToRoutineModal';
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
-import { useRoutinesStore } from 'lib/stores';
-import { isMatch, sortRoutines } from 'lib/helpers';
+import { useHistoriesStore, useRoutinesStore } from 'lib/stores';
 import { useModal, useSearch } from 'lib/hooks';
 import * as constants from 'data/constants';
 
 const Routines: NextPage = () => {
+  const { selectedDate, setSelectedDate } = useHistoriesStore((state) => ({
+    selectedDate: state.selectedDate,
+    setSelectedDate: state.setSelectedDate,
+  }));
   const clearRoutine = useRoutinesStore((state) => () => state.routine ? state.setRoutine(null) : void 0);
   const saveRoutineModal = useModal(constants.modals.saveRoutine);
-
   const search = useSearch(constants.searches.routines);
-  const routines = useRoutinesStore(
-    useCallback(
-      (state) => {
-        const routines = sortRoutines(state.routines);
-        if (!search.value) return routines;
-        return routines.filter((routine) => isMatch(routine.title, search.value));
-      },
-      [search.value],
-    ),
-  );
 
   const [isSearching, toggleIsSearching] = useReducer((prev) => !prev, false);
+
+  const currentDate = useMemo(() => dayjs().startOf('day').toISOString(), []);
+  const isTodaySelected = !selectedDate || selectedDate === currentDate;
 
   return (
     <>
@@ -47,18 +43,21 @@ const Routines: NextPage = () => {
                 toggleIsSearching();
               },
               testId: 'routines-search',
+              skip: !isTodaySelected,
             },
             {
               text: 'Add Routine',
               onClick: () => {
                 clearRoutine();
+                if (!isTodaySelected) setSelectedDate(null);
                 saveRoutineModal.show();
               },
+              testId: 'routines-add',
             },
           ],
         }}
       >
-        {isSearching && (
+        {isTodaySelected && isSearching && (
           <Search
             placeholder="Search for routine titles"
             searchKey={constants.searches.routines}
@@ -68,11 +67,7 @@ const Routines: NextPage = () => {
 
         <Dates />
 
-        <section className="space-y-3">
-          {routines.length
-            ? routines.map((routine, i) => <RoutineCard key={i} routine={routine} showAction isItemSortable />)
-            : search.value && <p className="mx-4 mt-3 text-center text-neutral-500">No results found</p>}
-        </section>
+        <RoutineList />
       </Layout>
 
       <SaveRoutineModal />

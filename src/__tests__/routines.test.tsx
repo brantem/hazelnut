@@ -1,9 +1,10 @@
 import { act, render, screen, renderHook, fireEvent } from '@testing-library/react';
+import dayjs from 'dayjs';
 import '@testing-library/jest-dom';
 
 import Routines from 'pages/routines';
 
-import { useRoutinesStore } from 'lib/stores';
+import { useRoutinesStore, useHistoriesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 
 vi.mock('next/router', () => ({
@@ -34,9 +35,14 @@ describe('Routines', () => {
   });
 
   beforeEach(() => {
+    vi.useFakeTimers();
     const mockIntersectionObserver = vi.fn();
     mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
     window.IntersectionObserver = mockIntersectionObserver;
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should render successfully', async () => {
@@ -72,5 +78,30 @@ describe('Routines', () => {
     expect(routines.result.current.routine).not.toBeNull();
     act(() => screen.getByText('Add Routine').click());
     expect(routines.result.current.routine).toBeNull();
+  });
+
+  it('should hide search if selectedDate !== currentDate', async () => {
+    vi.setSystemTime(dayjs().startOf('hour').toDate());
+    const histories = renderHook(() => useHistoriesStore());
+
+    const { rerender } = render(<Routines />);
+
+    act(() => screen.getByTestId('routines-search').click());
+    expect(screen.getByTestId('search')).toBeInTheDocument();
+    act(() => histories.result.current.setSelectedDate(dayjs().subtract(1, 'day').startOf('day').toISOString()));
+    rerender(<Routines />);
+    expect(screen.queryByTestId('routines-search')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('search')).not.toBeInTheDocument();
+  });
+
+  it('should move to today when clicking "Add Routine" when selectedDate !== currentDate', async () => {
+    vi.setSystemTime(dayjs().startOf('hour').toDate());
+    const histories = renderHook(() => useHistoriesStore());
+
+    const { rerender } = render(<Routines />);
+
+    act(() => screen.getByTestId('routines-add').click());
+    expect(histories.result.current.selectedDate).toBeNull();
+    rerender(<Routines />);
   });
 });

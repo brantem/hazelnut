@@ -22,7 +22,12 @@ test('Header', () => {
       actions={[
         {
           onClick: onActionClick,
-          text: 'Action',
+          text: 'Action 1',
+        },
+        {
+          onClick: () => {},
+          text: 'Action 2',
+          skip: true,
         },
       ]}
     />,
@@ -33,6 +38,7 @@ test('Header', () => {
   expect(screen.getByText('A')).toBeInTheDocument();
   expect(screen.queryByText('B')).not.toBeInTheDocument();
 
-  screen.getByText('Action').click();
+  screen.getByText('Action 1').click();
   expect(onActionClick).toHaveBeenCalled();
+  expect(screen.queryByText('Action 2')).not.toBeInTheDocument();
 });

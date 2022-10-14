@@ -12,6 +12,7 @@ export type HeaderProps = {
     className?: string;
     onClick: () => void;
     testId?: string;
+    skip?: boolean;
   }[];
 };
 
@@ -34,16 +35,19 @@ const Header = ({ navigations, actions }: HeaderProps) => {
 
         {actions?.length ? (
           <div className="flex items-center space-x-1">
-            {actions.map((action, i) => (
-              <button
-                key={i}
-                className={clsx('rounded-md px-3 py-1.5 text-sm hover:bg-neutral-100', action.className)}
-                onClick={action.onClick}
-                data-testid={action.testId}
-              >
-                {action.text}
-              </button>
-            ))}
+            {actions.map((action, i) => {
+              if (action.skip) return null;
+              return (
+                <button
+                  key={i}
+                  className={clsx('rounded-md px-3 py-1.5 text-sm hover:bg-neutral-100', action.className)}
+                  onClick={action.onClick}
+                  data-testid={action.testId}
+                >
+                  {action.text}
+                </button>
+              );
+            })}
           </div>
         ) : null}
       </header>
