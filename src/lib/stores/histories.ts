@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import create from 'zustand';
+import createVanilla from 'zustand/vanilla';
 import { persist } from 'zustand/middleware';
 import dayjs from 'dayjs';
 import pick from 'just-pick';
@@ -24,7 +25,7 @@ export type HistoriesState = {
   hasHydrated: boolean;
 };
 
-const useStore = create<HistoriesState>()(
+const historiesStore = createVanilla<HistoriesState>()(
   persist(
     (set, get) => ({
       histories: [],
@@ -102,6 +103,8 @@ const useStore = create<HistoriesState>()(
   ),
 );
 
+const useStore = create(historiesStore);
+
 export const _migrateRoutinesV0ToV1 = (state: { histories: HistoryV0[] } & Pick<HistoriesState, 'selectedDate'>) => {
   const _routines = routinesStore.getState().routines;
   const _items = itemsStore.getState().items;
@@ -149,28 +152,33 @@ export const useHistoriesStore = ((selector, equals) => {
 
   const [isHydrated, setHydrated] = useState(false);
   useEffect(() => {
-    const value = localStorage.getItem('histories');
-    if (!migrated && value) {
-      const histories = JSON.parse(value) as { state: any; version: number; _version?: number };
-      const version = histories._version || histories.version || 0;
-      if (VERSION > version) {
-        for (let i = version; i <= VERSION; i++) {
-          switch (i) {
-            case 0:
-              histories.state = _migrateRoutinesV0ToV1(histories.state);
-              break;
-          }
-        }
-
-        // _version is used to avoid `State loaded from storage couldn't be migrated since no migrate function was provided` error
-        localStorage.setItem('histories', JSON.stringify({ ...histories, _version: VERSION }));
-        migrated = true;
-      }
-    }
-
     setHydrated(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!isHydrated || migrated) return;
+    const version = parseInt(localStorage.getItem('histories_version') || '0');
+    if (VERSION > version) {
+      const histories = {
+        state: pick(historiesStore.getState(), ['histories', 'selectedDate']) as any,
+        version: historiesStore.persist.getOptions().version,
+      };
+
+      for (let i = version; i <= VERSION; i++) {
+        switch (i) {
+          case 0:
+            histories.state = _migrateRoutinesV0ToV1(histories.state);
+            break;
+        }
+      }
+
+      localStorage.setItem('histories', JSON.stringify(histories));
+      localStorage.setItem('histories_version', VERSION.toString());
+      migrated = true;
+      historiesStore.persist.rehydrate();
+    }
+  }, [isHydrated]);
 
   return isHydrated ? store : selector ? selector(dummy) : dummy;
 }) as typeof useStore;
