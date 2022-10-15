@@ -42,7 +42,7 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
   return (
     <li
       ref={setNodeRef}
-      className="flex h-7 w-full items-center justify-between space-x-2 pr-1"
+      className="flex h-8 w-full items-center justify-between space-x-2 pr-1"
       style={{ transform: CSS.Transform.toString(transform), transition }}
       {...attributes}
     >
@@ -107,7 +107,7 @@ const ItemList = ({ routine, isSortable }: ItemListProps) => {
       modifiers={[restrictToVerticalAxis, restrictToParentElement]}
     >
       <SortableContext items={items} strategy={verticalListSortingStrategy}>
-        <ol className="space-y-1 pt-2 pb-1" data-testid="routine-card-items">
+        <ol className="space-y-1 pt-1" data-testid="routine-card-items">
           {items.map((item) => (
             <Item key={item.id} routine={routine} item={item} isSortable={isSortable} />
           ))}

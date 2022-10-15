@@ -7,7 +7,7 @@ exports[`RoutineCard > should render successfully 1`] = `
     data-testid="routine-card"
   >
     <div
-      class="flex h-7 items-center justify-between space-x-3"
+      class="flex h-8 items-center justify-between space-x-3"
     >
       <div
         class="flex max-w-[440px] items-center space-x-3"
@@ -25,7 +25,7 @@ exports[`RoutineCard > should render successfully 1`] = `
         </span>
       </div>
       <div
-        class="flex flex-shrink-0 items-center space-x-1"
+        class="flex flex-shrink-0 items-center space-x-2"
       >
         <button
           class="rounded-md p-1 hover:bg-red-100"
@@ -48,14 +48,14 @@ exports[`RoutineCard > should render successfully 1`] = `
       </div>
     </div>
     <ol
-      class="space-y-1 pt-2 pb-1"
+      class="space-y-1 pt-1"
       data-testid="routine-card-items"
     >
       <li
         aria-describedby="DndDescribedBy-0"
         aria-disabled="false"
         aria-roledescription="sortable"
-        class="flex h-7 w-full items-center justify-between space-x-2 pr-1"
+        class="flex h-8 w-full items-center justify-between space-x-2 pr-1"
         role="button"
         tabindex="0"
       >
@@ -110,7 +110,7 @@ exports[`RoutineCard > should show action button 1`] = `
     data-testid="routine-card"
   >
     <div
-      class="flex h-7 items-center justify-between space-x-3"
+      class="flex h-8 items-center justify-between space-x-3"
     >
       <div
         class="flex max-w-[440px] items-center space-x-3"
@@ -128,7 +128,7 @@ exports[`RoutineCard > should show action button 1`] = `
         </span>
       </div>
       <div
-        class="flex flex-shrink-0 items-center space-x-1"
+        class="flex flex-shrink-0 items-center space-x-2"
       >
         <button
           class="rounded-md px-2 py-1 text-sm hover:bg-red-100 flex-shrink-0"
@@ -173,14 +173,14 @@ exports[`RoutineCard > should show action button 1`] = `
       </div>
     </div>
     <ol
-      class="space-y-1 pt-2 pb-1"
+      class="space-y-1 pt-1"
       data-testid="routine-card-items"
     >
       <li
         aria-describedby="DndDescribedBy-1"
         aria-disabled="false"
         aria-roledescription="sortable"
-        class="flex h-7 w-full items-center justify-between space-x-2 pr-1"
+        class="flex h-8 w-full items-center justify-between space-x-2 pr-1"
         role="button"
         tabindex="0"
       >
@@ -235,7 +235,7 @@ exports[`RoutineCard > should show sort handle 1`] = `
     data-testid="routine-card"
   >
     <div
-      class="flex h-7 items-center justify-between space-x-3"
+      class="flex h-8 items-center justify-between space-x-3"
     >
       <div
         class="flex max-w-[440px] items-center space-x-3"
@@ -253,7 +253,7 @@ exports[`RoutineCard > should show sort handle 1`] = `
         </span>
       </div>
       <div
-        class="flex flex-shrink-0 items-center space-x-1"
+        class="flex flex-shrink-0 items-center space-x-2"
       >
         <button
           class="rounded-md p-1 hover:bg-red-100"
@@ -276,14 +276,14 @@ exports[`RoutineCard > should show sort handle 1`] = `
       </div>
     </div>
     <ol
-      class="space-y-1 pt-2 pb-1"
+      class="space-y-1 pt-1"
       data-testid="routine-card-items"
     >
       <li
         aria-describedby="DndDescribedBy-2"
         aria-disabled="false"
         aria-roledescription="sortable"
-        class="flex h-7 w-full items-center justify-between space-x-2 pr-1"
+        class="flex h-8 w-full items-center justify-between space-x-2 pr-1"
         role="button"
         tabindex="0"
       >

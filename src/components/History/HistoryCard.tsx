@@ -17,7 +17,7 @@ const ItemList = ({ history }: ItemListProps) => {
   return (
     <ol className="space-y-1 pt-2 pb-1" data-testid="history-card-items">
       {history.items.map((item) => (
-        <li key={history.id + '-' + item.id} className="flex h-7 w-full items-center justify-between space-x-2 pr-1">
+        <li key={history.id + '-' + item.id} className="flex h-8 w-full items-center justify-between space-x-2 pr-1">
           <div className="w-full">
             <Checkbox
               label={item.title}
@@ -42,7 +42,7 @@ const HistoryCard = ({ history }: HistoryProps) => {
 
   return (
     <div className={`px-4 py-3 bg-${history.color}-50`} data-testid="history-card">
-      <div className="flex h-7 items-center justify-between space-x-3">
+      <div className="flex h-8 items-center justify-between space-x-3">
         <div className="flex max-w-[440px] items-center space-x-3">
           <h3 className={`text-sm font-semibold uppercase text-${history.color}-600 truncate`}>{history.title} </h3>
           {history.time && (
@@ -52,7 +52,7 @@ const HistoryCard = ({ history }: HistoryProps) => {
           )}
         </div>
 
-        <div className="flex flex-shrink-0 items-center space-x-1">
+        <div className="flex flex-shrink-0 items-center space-x-2">
           <button
             className={clsx(`rounded-md p-1 hover:bg-${history.color}-100`, minimized && 'rotate-180')}
             onClick={toggleMinimized}

@@ -21,7 +21,7 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
 
   return (
     <div className={`px-4 py-3 bg-${routine.color}-50`} data-testid="routine-card">
-      <div className="flex h-7 items-center justify-between space-x-3">
+      <div className="flex h-8 items-center justify-between space-x-3">
         <div className="flex max-w-[440px] items-center space-x-3">
           <h3 className={`text-sm font-semibold uppercase text-${routine.color}-600 truncate`}>{routine.title} </h3>
           {routine.time && (
@@ -31,7 +31,7 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
           )}
         </div>
 
-        <div className="flex flex-shrink-0 items-center space-x-1">
+        <div className="flex flex-shrink-0 items-center space-x-2">
           {showAction && (
             <button
               className={`rounded-md px-2 py-1 text-sm hover:bg-${routine.color}-100 flex-shrink-0`}

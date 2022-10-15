@@ -38,10 +38,10 @@ const GroupCard = ({ group }: GroupCardProps) => {
 
   return (
     <div className={`px-4 py-3 bg-${group.color}-50`} data-testid="group-card">
-      <div className="flex items-center justify-between space-x-3">
+      <div className="flex h-8 items-center justify-between space-x-3">
         <h3 className={`text-sm font-semibold uppercase text-${group.color}-600 truncate`}>{group.title}</h3>
 
-        <div className="flex flex-shrink-0 items-center space-x-1">
+        <div className="flex flex-shrink-0 items-center space-x-2">
           <button
             className={`rounded-md p-1 text-sm hover:bg-${group.color}-100 flex-shrink-0`}
             onClick={() => {

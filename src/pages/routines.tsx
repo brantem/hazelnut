@@ -2,6 +2,7 @@ import { useReducer, useMemo } from 'react';
 import type { NextPage } from 'next';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import dayjs from 'dayjs';
+import clsx from 'clsx';
 
 import Layout from 'components/Layout';
 import Search from 'components/Search';
@@ -38,7 +39,7 @@ const Routines: NextPage = () => {
           actions: [
             {
               text: <MagnifyingGlassIcon className="h-5 w-5" />,
-              className: '!px-1.5',
+              className: clsx('!px-1.5', isSearching && 'bg-neutral-100'),
               onClick: () => {
                 if (isSearching) search.change('');
                 toggleIsSearching();

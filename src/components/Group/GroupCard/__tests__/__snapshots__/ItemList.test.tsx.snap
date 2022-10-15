@@ -3,11 +3,11 @@
 exports[`ItemList > should render successfully 1`] = `
 <div>
   <ol
-    class="space-y-1 pt-2 pb-1"
+    class="space-y-1 pt-1"
     data-testid="group-card-items"
   >
     <li
-      class="flex h-7 items-center justify-between space-x-3"
+      class="flex h-8 items-center justify-between space-x-3"
     >
       <span
         class="truncate"

@@ -48,7 +48,7 @@ export const Group = ({ group, itemIds, onItemClick }: GroupProps) => {
       {!minimized && (
         <ol className="mt-1 space-y-1" data-testid="group-items">
           {items.map((item) => (
-            <li key={item.id} className="flex h-7 items-center pr-1">
+            <li key={item.id} className="flex h-8 items-center pr-1">
               <Checkbox
                 label={item.title}
                 name={item.id}

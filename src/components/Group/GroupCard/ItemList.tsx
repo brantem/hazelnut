@@ -29,9 +29,9 @@ const ItemList = ({ group }: ItemListProps) => {
   if (!items.length) return null;
 
   return (
-    <ol className="space-y-1 pt-2 pb-1" data-testid="group-card-items">
+    <ol className="space-y-1 pt-1" data-testid="group-card-items">
       {items.map((item) => (
-        <li key={item.id} className="flex h-7 items-center justify-between space-x-3">
+        <li key={item.id} className="flex h-8 items-center justify-between space-x-3">
           <span className="truncate">{item.title}</span>
 
           <button

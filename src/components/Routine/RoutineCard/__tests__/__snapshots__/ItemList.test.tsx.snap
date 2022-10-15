@@ -3,14 +3,14 @@
 exports[`ItemList > should be sortable 1`] = `
 <div>
   <ol
-    class="space-y-1 pt-2 pb-1"
+    class="space-y-1 pt-1"
     data-testid="routine-card-items"
   >
     <li
       aria-describedby="DndDescribedBy-1"
       aria-disabled="false"
       aria-roledescription="sortable"
-      class="flex h-7 w-full items-center justify-between space-x-2 pr-1"
+      class="flex h-8 w-full items-center justify-between space-x-2 pr-1"
       role="button"
       tabindex="0"
     >
@@ -55,7 +55,7 @@ exports[`ItemList > should be sortable 1`] = `
       aria-describedby="DndDescribedBy-1"
       aria-disabled="false"
       aria-roledescription="sortable"
-      class="flex h-7 w-full items-center justify-between space-x-2 pr-1"
+      class="flex h-8 w-full items-center justify-between space-x-2 pr-1"
       role="button"
       tabindex="0"
     >
@@ -120,14 +120,14 @@ exports[`ItemList > should be sortable 1`] = `
 exports[`ItemList > should render successfully 1`] = `
 <div>
   <ol
-    class="space-y-1 pt-2 pb-1"
+    class="space-y-1 pt-1"
     data-testid="routine-card-items"
   >
     <li
       aria-describedby="DndDescribedBy-0"
       aria-disabled="false"
       aria-roledescription="sortable"
-      class="flex h-7 w-full items-center justify-between space-x-2 pr-1"
+      class="flex h-8 w-full items-center justify-between space-x-2 pr-1"
       role="button"
       tabindex="0"
     >
