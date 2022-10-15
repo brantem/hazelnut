@@ -8,4 +8,5 @@ export type Routine = {
   time: string | null;
   itemIds: string[];
   minimized: boolean;
+  createdAt: number;
 };

@@ -3,4 +3,5 @@ export type Group = {
   title: string;
   color: string;
   minimized: boolean;
+  createdAt: number;
 };

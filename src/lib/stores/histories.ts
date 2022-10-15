@@ -5,9 +5,10 @@ import { persist } from 'zustand/middleware';
 import dayjs from 'dayjs';
 import pick from 'just-pick';
 
-import { HistoryV0, History, HistoryItem } from 'types/history';
+import { History, HistoryItem } from 'types/history';
 import { Routine } from 'types/routine';
-import { itemsStore, routinesStore } from 'lib/stores';
+import { itemsStore } from 'lib/stores';
+import storage, { getZustandStorage } from 'lib/stores/storage';
 
 export type HistoriesState = {
   histories: History[];
@@ -25,12 +26,19 @@ export type HistoriesState = {
   hasHydrated: boolean;
 };
 
-const historiesStore = createVanilla<HistoriesState>()(
+export const historiesStore = createVanilla<HistoriesState>()(
   persist(
     (set, get) => ({
       histories: [],
       selectedDate: null,
-      setSelectedDate: (selectedDate) => set({ selectedDate }),
+      setSelectedDate: (selectedDate) => {
+        set({ selectedDate });
+        if (selectedDate) {
+          localStorage.setItem('historySelectedDate', selectedDate);
+        } else {
+          localStorage.removeItem('historySelectedDate');
+        }
+      },
 
       getIsDone: (routineId, itemId) => {
         const date = get().selectedDate || dayjs().startOf('day').toISOString();
@@ -38,35 +46,32 @@ const historiesStore = createVanilla<HistoriesState>()(
         if (!history) return false;
         return !!history.items.find((item) => item.id === itemId)?.completedAt;
       },
-      save: (routine, item, done) => {
+      save: async (routine, item, done) => {
         const date = get().selectedDate || dayjs().startOf('day').toISOString();
 
-        const index = get().histories.findIndex((history) => {
-          return history.id === routine.id && history.date === date;
-        });
+        const index = get().histories.findIndex((history) => history.id === routine.id && history.date === date);
         if (index === -1) {
           const _items = itemsStore.getState().items;
-          set((state) => ({
-            histories: [
-              ...state.histories,
-              {
-                ...pick(routine, ['id', 'title', 'color', 'time']),
-                date,
-                items: _items.reduce((items, _item) => {
-                  if (!routine.itemIds?.includes(_item.id)) return items;
-                  return [
-                    ...items,
-                    {
-                      ...pick(_item, ['id', 'title']),
-                      completedAt: _item.id === item.id ? Date.now() : null,
-                    },
-                  ];
-                }, [] as History['items']),
-              },
-            ],
-          }));
+          const history = {
+            ...pick(routine, ['id', 'title', 'color', 'time']),
+            date,
+            items: _items.reduce((items, _item) => {
+              if (!routine.itemIds?.includes(_item.id)) return items;
+              return [
+                ...items,
+                {
+                  ...pick(_item, ['id', 'title']),
+                  completedAt: _item.id === item.id ? Date.now() : null,
+                },
+              ];
+            }, [] as History['items']),
+            createdAt: Date.now(),
+          };
+          set((state) => ({ histories: [...state.histories, history] }));
+          await storage.add('histories', history);
         } else {
           const histories = get().histories.slice();
+          histories[index] = { ...histories[index], ...pick(routine, ['id', 'title', 'color', 'time']) };
           const itemIndex = histories[index].items.findIndex((_item) => _item.id === item.id);
           if (itemIndex === -1) {
             histories[index].items.push({
@@ -76,19 +81,21 @@ const historiesStore = createVanilla<HistoriesState>()(
           } else {
             histories[index].items = histories[index].items.map((_item) => {
               if (_item.id !== item.id) return _item;
-              return { ..._item, completedAt: done ? Date.now() : null };
+              return { ..._item, ...pick(item, ['id', 'title']), completedAt: done ? Date.now() : null };
             });
           }
           set({ histories });
+          await storage.put('histories', histories[index]);
         }
       },
-      remove: (routineId, date) => {
+      remove: async (routineId, date) => {
         set({
           histories: get().histories.filter((history) => {
             if (history.id === routineId && history.date === date) return false;
             return true;
           }),
         });
+        await storage.delete('histories', [routineId, date]);
       },
 
       hasHydrated: true,
@@ -99,36 +106,16 @@ const historiesStore = createVanilla<HistoriesState>()(
         histories: state.histories,
         selectedDate: state.selectedDate,
       }),
+      getStorage: () => {
+        return getZustandStorage('histories', false, {
+          getItem: () => ({ selectedDate: localStorage.getItem('historySelectedDate') }),
+        });
+      },
     },
   ),
 );
 
 const useStore = create(historiesStore);
-
-export const _migrateRoutinesV0ToV1 = (state: { histories: HistoryV0[] } & Pick<HistoriesState, 'selectedDate'>) => {
-  const _routines = routinesStore.getState().routines;
-  const _items = itemsStore.getState().items;
-  return {
-    histories: state.histories.reduce((histories, history) => {
-      const routine = _routines.find((routine) => routine.id === history.routineId);
-      if (!routine) return histories;
-      const items = _items.filter((item) => routine.itemIds.includes(item.id));
-      return [
-        ...histories,
-        {
-          ...pick(routine, ['id', 'title', 'color', 'time']),
-          date: history.date,
-          items: items.reduce((items, item) => {
-            const oldItem = history.items.find((oldItem) => oldItem.itemId === item.id);
-            if (!oldItem) return [...items, { ...pick(item, ['id', 'title']), completedAt: null }];
-            return [...items, { ...pick(item, ['id', 'title']), completedAt: new Date(oldItem.date).getTime() }];
-          }, [] as History['items']),
-        },
-      ];
-    }, [] as History[]),
-    selectedDate: state.selectedDate,
-  };
-};
 
 /* c8 ignore start */
 const dummy = {
@@ -143,43 +130,11 @@ const dummy = {
   hasHydrated: false,
 };
 
-const VERSION = 1;
-let migrated = false;
-
 // https://github.com/pmndrs/zustand/issues/1145
 export const useHistoriesStore = ((selector, equals) => {
   const store = useStore(selector, equals);
-
   const [isHydrated, setHydrated] = useState(false);
-  useEffect(() => {
-    setHydrated(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (!isHydrated || migrated) return;
-    const version = parseInt(localStorage.getItem('histories_version') || '0');
-    if (VERSION > version) {
-      const histories = {
-        state: pick(historiesStore.getState(), ['histories', 'selectedDate']) as any,
-        version: historiesStore.persist.getOptions().version,
-      };
-
-      for (let i = version; i <= VERSION; i++) {
-        switch (i) {
-          case 0:
-            histories.state = _migrateRoutinesV0ToV1(histories.state);
-            break;
-        }
-      }
-
-      localStorage.setItem('histories', JSON.stringify(histories));
-      localStorage.setItem('histories_version', VERSION.toString());
-      migrated = true;
-      historiesStore.persist.rehydrate();
-    }
-  }, [isHydrated]);
-
+  useEffect(() => setHydrated(true), []);
   return isHydrated ? store : selector ? selector(dummy) : dummy;
 }) as typeof useStore;
 /* c8 ignore stop */

@@ -11,7 +11,7 @@ import { Routine } from 'types/routine';
 import * as constants from 'data/constants';
 import { useModal } from 'lib/hooks';
 
-type Values = Omit<Routine, 'id' | 'itemIds' | 'minimized'>;
+type Values = Omit<Routine, 'id' | 'itemIds' | 'minimized' | 'createdAt'>;
 
 const SaveRoutineModal = () => {
   const modal = useModal(constants.modals.saveRoutine);
