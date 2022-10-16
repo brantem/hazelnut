@@ -58,10 +58,11 @@ describe('historiesStore', async () => {
 
   it('should be able to set selected date', () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
-    expect(historiesStore.getState().selectedDate).toBeNull();
     const date = dayjs().toISOString();
     act(() => historiesStore.getState().setSelectedDate(date));
     expect(historiesStore.getState().selectedDate).toEqual(date);
+    act(() => historiesStore.getState().setSelectedDate(null));
+    expect(historiesStore.getState().selectedDate).toBeNull();
   });
 
   it('should be able to add and remove item', async () => {

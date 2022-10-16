@@ -51,6 +51,7 @@ describe('Dates', () => {
 
   it('should render successfully', async () => {
     const { result } = renderHook(() => useHistoriesStore());
+    act(() => result.current.setSelectedDate(null));
 
     render(<Dates />);
 

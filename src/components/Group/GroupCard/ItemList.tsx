@@ -42,7 +42,7 @@ const ItemList = ({ group }: ItemListProps) => {
             }}
             data-testid="group-item-settings"
           >
-            <EllipsisHorizontalIcon className="h-[18px] w-[18px]" />
+            <EllipsisHorizontalIcon className="h-5 w-5" />
           </button>
         </li>
       ))}

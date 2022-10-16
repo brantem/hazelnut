@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
 import create from 'zustand';
 import createVanilla from 'zustand/vanilla';
-import { persist } from 'zustand/middleware';
 import { nanoid } from 'nanoid';
 
 import { Routine } from 'types/routine';
-import storage, { getZustandStorage } from 'lib/stores/storage';
+import storage from 'lib/stores/storage';
 
 type RoutinesState = {
   routines: Routine[];
@@ -17,57 +15,28 @@ type RoutinesState = {
   remove: (id: string) => void;
 };
 
-export const routinesStore = createVanilla<RoutinesState>()(
-  persist(
-    (set, get) => ({
-      routines: [],
-      routine: null,
-      setRoutine: (routine) => set({ routine }),
-
-      add: async (data) => {
-        const routine = { id: nanoid(), minimized: false, createdAt: Date.now(), ...data, itemIds: data.itemIds || [] };
-        set((state) => ({ routines: [...state.routines, routine] }));
-        await storage.add('routines', routine);
-      },
-      edit: async (id, data) => {
-        const routines = get().routines.slice();
-        const index = routines.findIndex((routine) => routine.id === id);
-        if (index === -1) return;
-        routines[index] = { ...routines[index], ...data };
-        set({ routines });
-        await storage.put('routines', routines[index]);
-      },
-      remove: async (id) => {
-        set((state) => ({ routines: state.routines.filter((routine) => routine.id !== id) }));
-        await storage.delete('routines', id);
-      },
-    }),
-    {
-      name: 'routines',
-      partialize: (state) => ({ routines: state.routines }),
-      getStorage: () => getZustandStorage('routines', false),
-    },
-  ),
-);
-
-const useStore = create(routinesStore);
-
-/* c8 ignore start */
-const dummy = {
+export const routinesStore = createVanilla<RoutinesState>()((set, get) => ({
   routines: [],
   routine: null,
-  setRoutine: () => {},
+  setRoutine: (routine) => set({ routine }),
 
-  add: () => {},
-  edit: () => {},
-  remove: () => {},
-};
+  add: async (data) => {
+    const routine = { id: nanoid(), minimized: false, createdAt: Date.now(), ...data, itemIds: data.itemIds || [] };
+    set((state) => ({ routines: [...state.routines, routine] }));
+    await storage.add('routines', routine);
+  },
+  edit: async (id, data) => {
+    const routines = get().routines.slice();
+    const index = routines.findIndex((routine) => routine.id === id);
+    if (index === -1) return;
+    routines[index] = { ...routines[index], ...data };
+    set({ routines });
+    await storage.put('routines', routines[index]);
+  },
+  remove: async (id) => {
+    set((state) => ({ routines: state.routines.filter((routine) => routine.id !== id) }));
+    await storage.delete('routines', id);
+  },
+}));
 
-// https://github.com/pmndrs/zustand/issues/1145
-export const useRoutinesStore = ((selector, equals) => {
-  const store = useStore(selector, equals);
-  const [isHydrated, setHydrated] = useState(false);
-  useEffect(() => setHydrated(true), []);
-  return isHydrated ? store : selector ? selector(dummy) : dummy;
-}) as typeof useStore;
-/* c8 ignore stop */
+export const useRoutinesStore = create(routinesStore);

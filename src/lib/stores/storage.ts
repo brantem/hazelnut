@@ -106,17 +106,3 @@ const dummy = {
 // TODO: test this once i find a way to mock window.indexedDB
 const storage = typeof window !== 'undefined' && 'indexedDB' in window ? new Storage() : dummy;
 export default storage;
-
-export const getZustandStorage = <Name extends StoreNames<Schema>>(
-  name: Name,
-  sort = true,
-  { getItem } = { getItem: () => ({}) },
-) => ({
-  getItem: async () => {
-    let items = await storage.getAll(name);
-    if (sort) items = items.sort((a, b) => a.createdAt - b.createdAt);
-    return JSON.stringify({ state: { [name]: items, ...getItem() } });
-  },
-  setItem: () => {},
-  removeItem: () => {},
-});
