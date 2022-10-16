@@ -33,7 +33,9 @@ type ItemProps = {
 };
 
 const Item = ({ routine, item, isSortable }: ItemProps) => {
-  const isDone = useHistoriesStore(useCallback((state) => state.getIsDone(routine.id, item.id), [routine.id, item.id]));
+  const isDone = useHistoriesStore(
+    useCallback((state) => state.getIsDone(routine.id, item.id, true), [routine.id, item.id]),
+  );
   const save = useHistoriesStore((state) => state.save);
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition } = useSortable({
     id: item.id,

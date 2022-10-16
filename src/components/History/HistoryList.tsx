@@ -3,12 +3,13 @@ import { useCallback } from 'react';
 import HistoryCard from 'components/History/HistoryCard';
 
 import { useHistoriesStore } from 'lib/stores';
+import { sortRoutines } from 'lib/helpers';
 
 const HistoryList = () => {
   const histories = useHistoriesStore(
     useCallback((state) => {
       if (!state.selectedDate) return [];
-      return state.histories.filter((history) => history.date === state.selectedDate);
+      return sortRoutines(state.histories.filter((history) => history.date === state.selectedDate));
     }, []),
   );
 

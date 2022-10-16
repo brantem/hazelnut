@@ -38,6 +38,7 @@ export const migrateFromLocalStorage = <Name extends StoreNames<Schema>>(
   }
 };
 
+/* c8 ignore start */
 class Storage {
   db: Promise<IDBPDatabase<Schema>>;
 
@@ -92,6 +93,7 @@ class Storage {
     return db.delete(name, key);
   }
 }
+/* c8 ignore stop */
 
 /* c8 ignore start */
 const dummy = {

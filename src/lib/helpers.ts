@@ -1,5 +1,4 @@
 import days from 'data/days';
-import { Routine } from 'types/routine';
 import { Day } from 'types/shared';
 
 export const getMinutesFromTime = (time: string) => {
@@ -16,11 +15,11 @@ export const isMatch = (s1: string, s2: string) => {
   return s2.split(/\s*/).every((s) => s1.includes(s));
 };
 
-export const sortRoutines = (routines: Routine[]) => {
+export const sortRoutines = <T extends { time: string | null }>(routines: T[]) => {
   if (!routines.length) return [];
 
-  const withTime: Routine[] = [];
-  const withoutTime: Routine[] = [];
+  const withTime: T[] = [];
+  const withoutTime: T[] = [];
   for (let i = 0; i < routines.length; i++) {
     if (routines[i].time) {
       withTime.push(routines[i]);
