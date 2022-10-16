@@ -11,7 +11,7 @@ type DateProps = {
   isSelected: boolean;
 };
 
-const Date = ({ date, isSelected }: DateProps) => {
+const DatesItem = ({ date, isSelected }: DateProps) => {
   const setSelectedDate = useHistoriesStore((state) => state.setSelectedDate);
   const day = daysFromSunday[dayjs(date).day()]
     .slice(0, 3)
@@ -43,10 +43,12 @@ const Date = ({ date, isSelected }: DateProps) => {
 
 const Dates = () => {
   const { dates, selectedDate } = useHistoriesStore((state) => {
-    const dates = state.histories.reduce((dates, history) => {
-      const date = dayjs(history.date).startOf('day').toISOString();
-      return dates.indexOf(date) === -1 ? [...dates, date] : dates;
-    }, [] as string[]);
+    const dates = state.histories
+      .reduce((dates, history) => {
+        const date = dayjs(history.date).startOf('day').toISOString();
+        return dates.indexOf(date) === -1 ? [...dates, date] : dates;
+      }, [] as string[])
+      .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
     return { dates, selectedDate: state.selectedDate };
   });
 
@@ -55,16 +57,20 @@ const Dates = () => {
 
   return (
     <section className="px-4 pb-3" data-testid="dates">
-      <ol className="flex overflow-x-auto">
-        {dates.map((date) => {
-          const isSelected = isReady && (selectedDate ? selectedDate === date : currentDate === date);
-          return <Date key={date} date={date} isSelected={isSelected} />;
-        })}
+      {!isReady ? (
+        <div className="h-16" />
+      ) : (
+        <ol className="flex overflow-x-auto">
+          {dates.map((date) => {
+            const isSelected = selectedDate ? selectedDate === date : currentDate === date;
+            return <DatesItem key={date} date={date} isSelected={isSelected} />;
+          })}
 
-        {dates.indexOf(currentDate) === -1 && (
-          <Date date={currentDate} isSelected={isReady && (!selectedDate || selectedDate === currentDate)} />
-        )}
-      </ol>
+          {dates.indexOf(currentDate) === -1 && (
+            <DatesItem date={currentDate} isSelected={!selectedDate || selectedDate === currentDate} />
+          )}
+        </ol>
+      )}
     </section>
   );
 };
