@@ -1,3 +1,5 @@
+import _pick from 'just-pick';
+
 import days from 'data/days';
 import { Day } from 'types/shared';
 
@@ -30,3 +32,14 @@ export const sortRoutines = <T extends { time: string | null }>(routines: T[]) =
 
   return withoutTime.concat(withTime.sort((a, b) => getMinutesFromTime(a.time!) - getMinutesFromTime(b.time!)));
 };
+
+// export const pick = <T, U extends keyof T>(obj: T, select: U[]) => {
+//   const result = {} as Pick<T, U>;
+//   for (let i = 0; i < select.length; i++) {
+//     const key = select[i];
+//     if (key in obj) result[key] = obj[key];
+//   }
+//   return result;
+// };
+
+export const pick = _pick;

@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
-import pick from 'just-pick';
 import { act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { routinesStore, itemsStore, historiesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 import { Item } from 'types/item';
+import { pick } from 'lib/helpers';
 
 const routineId = 'routine-1';
 const itemId = 'item-1';

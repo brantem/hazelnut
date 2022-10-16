@@ -1,12 +1,12 @@
 import create from 'zustand';
 import createVanilla from 'zustand/vanilla';
 import dayjs from 'dayjs';
-import pick from 'just-pick';
 
 import { History, HistoryItem } from 'types/history';
 import { Routine } from 'types/routine';
 import { itemsStore } from 'lib/stores';
 import storage from 'lib/stores/storage';
+import { pick } from 'lib/helpers';
 
 export type HistoriesState = {
   histories: History[];
