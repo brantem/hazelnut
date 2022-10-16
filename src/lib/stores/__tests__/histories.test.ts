@@ -1,10 +1,9 @@
 import dayjs from 'dayjs';
 import pick from 'just-pick';
-import { renderHook, act } from '@testing-library/react';
+import { act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import { useRoutinesStore, useItemsStore, useHistoriesStore, HistoriesState, _migrateRoutinesV0ToV1 } from 'lib/stores';
-import { HistoryV0 } from 'types/history';
+import { routinesStore, itemsStore, historiesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 import { Item } from 'types/item';
 
@@ -20,6 +19,7 @@ const routine: Routine = {
   time: null,
   days: ['MONDAY'],
   minimized: false,
+  createdAt: 0,
 };
 const simpleRoutine = pick(routine, ['id', 'title', 'color', 'time']);
 
@@ -27,54 +27,51 @@ const item: Item = {
   id: 'item-1',
   groupId: 'group-1',
   title: 'Item 1',
+  createdAt: 0,
 };
 const simpleItem = pick(item, ['id', 'title']);
 
-beforeAll(() => {
-  const items = renderHook(() => useItemsStore());
-  act(() => {
-    items.result.current.add('group-1', pick(item, ['id', 'title']));
-    items.result.current.add('group-1', { id: 'item-2', title: 'Item 2' } as Item);
-    items.result.current.add('group-1', { id: 'item-3', title: 'Item 3' } as Item);
+// TODO: for some reason use*Store is not working
+
+describe('historiesStore', async () => {
+  beforeAll(() => {
+    act(() => {
+      itemsStore.getState().add('group-1', pick(item, ['id', 'title']));
+      itemsStore.getState().add('group-1', { id: 'item-2', title: 'Item 2' } as Item);
+      itemsStore.getState().add('group-1', { id: 'item-3', title: 'Item 3' } as Item);
+    });
+
+    act(() => routinesStore.getState().add(pick(routine, ['id', 'title', 'color', 'days', 'time', 'itemIds'])));
   });
 
-  const routines = renderHook(() => useRoutinesStore());
-  act(() => routines.result.current.add(pick(routine, ['id', 'title', 'color', 'days', 'time', 'itemIds'])));
-});
-
-describe('useHistoriesStore', async () => {
   beforeEach(() => {
     vi.useFakeTimers();
   });
 
   afterEach(() => {
     vi.useRealTimers();
-    const { result } = renderHook(() => useHistoriesStore());
     act(() => {
-      result.current.setSelectedDate(null);
-      result.current.remove(routineId, date);
+      historiesStore.getState().setSelectedDate(null);
+      historiesStore.getState().remove(routineId, date);
     });
   });
 
   it('should be able to set selected date', () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
-    const { result } = renderHook(() => useHistoriesStore());
-    expect(result.current.selectedDate).toBeNull();
+    expect(historiesStore.getState().selectedDate).toBeNull();
     const date = dayjs().toISOString();
-    act(() => result.current.setSelectedDate(date));
-    expect(result.current.selectedDate).toEqual(date);
+    act(() => historiesStore.getState().setSelectedDate(date));
+    expect(historiesStore.getState().selectedDate).toEqual(date);
   });
 
-  it('should be able to add and remove item', () => {
+  it('should be able to add and remove item', async () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
-    const routines = renderHook(() => useRoutinesStore());
 
-    const { result } = renderHook(() => useHistoriesStore());
-    expect(result.current.histories).toEqual([]);
+    expect(historiesStore.getState().histories).toEqual([]);
 
     // check
-    act(() => result.current.save(routine, item, true));
-    expect(result.current.histories).toEqual([
+    act(() => historiesStore.getState().save(routine, item, true));
+    expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
         date,
@@ -82,15 +79,14 @@ describe('useHistoriesStore', async () => {
           { ...simpleItem, completedAt: Date.now() },
           { id: 'item-2', title: 'Item 2', completedAt: null },
         ],
+        createdAt: Date.now(),
       },
     ]);
 
     // check new item
-    act(() => {
-      routines.result.current.edit(routine.id, { itemIds: ['item-1', 'item-2', 'item-3'] });
-      result.current.save(routine, { ...item, id: 'item-3', title: 'Item 3' }, false);
-    });
-    expect(result.current.histories).toEqual([
+    await act(() => routinesStore.getState().edit(routine.id, { itemIds: ['item-1', 'item-2', 'item-3'] }));
+    act(() => historiesStore.getState().save(routine, { ...item, id: 'item-3', title: 'Item 3' }, false));
+    expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
         date,
@@ -99,12 +95,13 @@ describe('useHistoriesStore', async () => {
           { id: 'item-2', title: 'Item 2', completedAt: null },
           { id: 'item-3', title: 'Item 3', completedAt: Date.now() },
         ],
+        createdAt: Date.now(),
       },
     ]);
 
     // uncheck
-    act(() => result.current.save(routine, item, false));
-    expect(result.current.histories).toEqual([
+    act(() => historiesStore.getState().save(routine, item, false));
+    expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
         date,
@@ -113,26 +110,26 @@ describe('useHistoriesStore', async () => {
           { id: 'item-2', title: 'Item 2', completedAt: null },
           { id: 'item-3', title: 'Item 3', completedAt: Date.now() },
         ],
+        createdAt: Date.now(),
       },
     ]);
 
     // reset
-    act(() => {
-      result.current.save(routine, item, true);
-      routines.result.current.edit(routine.id, { itemIds: ['item-1', 'item-2'] });
+    await act(async () => {
+      await historiesStore.getState().save(routine, item, true);
+      await routinesStore.getState().edit(routine.id, { itemIds: ['item-1', 'item-2'] });
     });
   });
 
   it('should be able to add and remove item from past routine', () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
-    const { result } = renderHook(() => useHistoriesStore());
     const _date = dayjs().subtract(5, 'day').toISOString();
-    act(() => result.current.setSelectedDate(_date));
-    expect(result.current.histories).toEqual([]);
+    act(() => historiesStore.getState().setSelectedDate(_date));
+    expect(historiesStore.getState().histories).toEqual([]);
 
     // check
-    act(() => result.current.save(routine, item, true));
-    expect(result.current.histories).toEqual([
+    act(() => historiesStore.getState().save(routine, item, true));
+    expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
         date: _date,
@@ -140,12 +137,13 @@ describe('useHistoriesStore', async () => {
           { ...simpleItem, completedAt: Date.now() },
           { id: 'item-2', title: 'Item 2', completedAt: null },
         ],
+        createdAt: Date.now(),
       },
     ]);
 
     // uncheck
-    act(() => result.current.save(routine, item, false));
-    expect(result.current.histories).toEqual([
+    act(() => historiesStore.getState().save(routine, item, false));
+    expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
         date: _date,
@@ -153,85 +151,40 @@ describe('useHistoriesStore', async () => {
           { ...simpleItem, completedAt: null },
           { id: 'item-2', title: 'Item 2', completedAt: null },
         ],
+        createdAt: Date.now(),
       },
     ]);
 
     // reset
-    act(() => result.current.remove(routineId, _date));
+    act(() => historiesStore.getState().remove(routineId, _date));
   });
 
   it('should be able to check whether an item has been completed or not', () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
-    const { result } = renderHook(() => useHistoriesStore());
-    expect(result.current.getIsDone(routineId, itemId)).toBeFalsy();
-    act(() => result.current.save(routine, item, true));
-    expect(result.current.getIsDone(routineId, itemId)).toBeTruthy();
+    expect(historiesStore.getState().getIsDone(routineId, itemId)).toBeFalsy();
+    act(() => historiesStore.getState().save(routine, item, true));
+    expect(historiesStore.getState().getIsDone(routineId, itemId)).toBeTruthy();
   });
 
   it('should be able to check whether an item from past routine has been completed or not', () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
-    const { result } = renderHook(() => useHistoriesStore());
     const _date = dayjs().subtract(5, 'day').toISOString();
-    act(() => result.current.setSelectedDate(_date));
-    expect(result.current.getIsDone(routineId, itemId)).toBeFalsy();
-    act(() => result.current.save(routine, item, true));
-    expect(result.current.getIsDone(routineId, itemId)).toBeTruthy();
-    act(() => result.current.remove(routineId, _date)); // reset
+    act(() => historiesStore.getState().setSelectedDate(_date));
+    expect(historiesStore.getState().getIsDone(routineId, itemId)).toBeFalsy();
+    act(() => historiesStore.getState().save(routine, item, true));
+    expect(historiesStore.getState().getIsDone(routineId, itemId)).toBeTruthy();
+    act(() => historiesStore.getState().remove(routineId, _date)); // reset
   });
 
   it('should be able to remove history', () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
-    const { result } = renderHook(() => useHistoriesStore());
     act(() => {
-      result.current.save(routine, item, true);
-      result.current.save({ ...routine, id: 'routine-2', title: 'Routine-2' }, item, true);
+      historiesStore.getState().save(routine, item, true);
+      historiesStore.getState().save({ ...routine, id: 'routine-2', title: 'Routine-2' }, item, true);
     });
 
-    expect(result.current.histories).toHaveLength(2);
-    act(() => result.current.remove(routineId, dayjs().startOf('day').toISOString()));
-    expect(result.current.histories).toHaveLength(1);
-  });
-});
-
-describe('migrateV0ToV1', async () => {
-  beforeEach(() => {
-    vi.useFakeTimers();
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
-  });
-
-  it('should run migrate from version 0 to version 1', () => {
-    vi.setSystemTime(dayjs().startOf('hour').toDate());
-    const date = dayjs().startOf('day').toISOString();
-    const state = {
-      histories: [
-        {
-          routineId: 'routine-1',
-          date,
-          items: [{ itemId: 'item-1', date }],
-        },
-        {
-          routineId: 'routine-2',
-          date,
-          items: [],
-        },
-      ],
-      selectedDate: null,
-    } as { histories: HistoryV0[] } & Pick<HistoriesState, 'selectedDate'>;
-    expect(_migrateRoutinesV0ToV1(state)).toEqual({
-      histories: [
-        {
-          ...simpleRoutine,
-          date,
-          items: [
-            { ...simpleItem, completedAt: new Date(date).getTime() },
-            { id: 'item-2', title: 'Item 2', completedAt: null },
-          ],
-        },
-      ],
-      selectedDate: null,
-    } as Pick<HistoriesState, 'histories' | 'selectedDate'>);
+    expect(historiesStore.getState().histories).toHaveLength(2);
+    act(() => historiesStore.getState().remove(routineId, dayjs().startOf('day').toISOString()));
+    expect(historiesStore.getState().histories).toHaveLength(1);
   });
 });

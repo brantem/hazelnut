@@ -19,15 +19,16 @@ const group: Group = {
   title: 'Group 1',
   color: 'red',
   minimized: false,
+  createdAt: 0,
 };
 
 describe('Items', () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     const items = renderHook(() => useItemsStore());
-    act(() => items.result.current.add('group-1', { title: 'Item 1' }));
+    await act(() => items.result.current.add('group-1', { title: 'Item 1' }));
 
     const groups = renderHook(() => useGroupsStore());
-    act(() => groups.result.current.add(group));
+    await act(() => groups.result.current.add(group));
   });
 
   beforeEach(() => {

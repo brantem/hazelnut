@@ -11,6 +11,7 @@ const item: Item = {
   id: 'item-1',
   groupId: 'group-1',
   title: 'Item 1',
+  createdAt: 0,
 };
 
 describe('EditItemModal', () => {

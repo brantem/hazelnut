@@ -20,6 +20,7 @@ const history: History = {
       completedAt: null,
     },
   ],
+  createdAt: 0,
 };
 
 describe('HistoryCard', () => {

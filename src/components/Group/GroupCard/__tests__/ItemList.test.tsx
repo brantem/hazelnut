@@ -12,14 +12,15 @@ const group: Group = {
   title: 'Group 1',
   color: 'red',
   minimized: false,
+  createdAt: 0,
 };
 
 describe('ItemList', () => {
   beforeAll(() => {
     const items = renderHook(() => useItemsStore());
     act(() => {
-      items.result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as Group);
-      items.result.current.add('group-2', { id: 'item-2', title: 'Item 2' } as Group);
+      items.result.current.add('group-1', { id: 'item-1', title: 'Item 1', createdAt: 0 } as Group);
+      items.result.current.add('group-2', { id: 'item-2', title: 'Item 2', createdAt: 0 } as Group);
     });
   });
 
@@ -41,7 +42,7 @@ describe('ItemList', () => {
     render(<ItemList group={group} />);
 
     act(() => screen.getByTestId('group-item-settings').click());
-    expect(setItem).toHaveBeenCalledWith({ groupId: 'group-1', id: 'item-1', title: 'Item 1' });
+    expect(setItem).toHaveBeenCalledWith({ groupId: 'group-1', id: 'item-1', title: 'Item 1', createdAt: 0 });
     expect(show).toHaveBeenCalledWith(constants.modals.itemSettings);
   });
 
@@ -53,6 +54,7 @@ describe('ItemList', () => {
           title: 'Group 3',
           color: 'red',
           minimized: false,
+          createdAt: 0,
         }}
       />,
     );

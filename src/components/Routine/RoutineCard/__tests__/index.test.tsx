@@ -15,17 +15,18 @@ const routine: Routine = {
   time: '00:00',
   itemIds: ['item-1'],
   minimized: false,
+  createdAt: 0,
 };
 
 describe('RoutineCard', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     const items = renderHook(() => useItemsStore());
-    act(() => items.result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as Routine));
+    await act(() => items.result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as Routine));
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     const items = renderHook(() => useItemsStore());
-    act(() => items.result.current.remove('item-1'));
+    await act(() => items.result.current.remove('item-1'));
   });
 
   it('should render successfully', () => {

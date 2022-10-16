@@ -1,5 +1,15 @@
 import { sortRoutines, getCurrentDay, getMinutesFromTime, isMatch } from 'lib/helpers';
+import dayjs from 'dayjs';
 import { Routine } from 'types/routine';
+
+beforeEach(() => {
+  vi.useFakeTimers();
+  vi.setSystemTime(dayjs().startOf('hour').toDate());
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
 
 test('getMinutesFromTime', () => {
   expect(getMinutesFromTime('00:00')).toEqual(0);
@@ -8,9 +18,11 @@ test('getMinutesFromTime', () => {
 });
 
 test('getCurrentDay', () => {
+  const _Date = Date;
   const DateMock = vi.fn(() => ({ getDay: vi.fn(() => 0) }));
   vi.stubGlobal('Date', DateMock);
   expect(getCurrentDay()).toEqual('SUNDAY');
+  vi.stubGlobal('Date', _Date);
 });
 
 test('isMatch', () => {
@@ -26,6 +38,7 @@ const generateRoutine = (i: number, time: Routine['time']): Routine => ({
   time,
   itemIds: [],
   minimized: false,
+  createdAt: 0,
 });
 
 test('sortRoutines', () => {

@@ -16,34 +16,36 @@ const routine: Routine = {
   time: null,
   days: ['MONDAY'],
   minimized: false,
+  createdAt: 0,
 };
 
 const item: Item = {
   id: 'item-1',
   groupId: 'group-1',
   title: 'Item 1',
+  createdAt: 0,
 };
 
 describe('HistoryList', () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     const { result } = renderHook(() => useHistoriesStore());
-    act(() => result.current.save(routine, item, true));
+    await act(() => result.current.save(routine, item, true));
   });
 
   beforeEach(() => {
     vi.useFakeTimers();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     vi.useRealTimers();
     const { result } = renderHook(() => useHistoriesStore());
-    act(() => result.current.setSelectedDate(null));
+    await act(() => result.current.setSelectedDate(null));
   });
 
   it('should render successfully', async () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
     const { result } = renderHook(() => useHistoriesStore());
-    act(() => result.current.setSelectedDate(dayjs().startOf('day').toISOString()));
+    await act(() => result.current.setSelectedDate(dayjs().startOf('day').toISOString()));
 
     render(<HistoryList />);
 

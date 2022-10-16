@@ -15,14 +15,10 @@ const routine: Routine = {
   time: '00:00',
   itemIds: [],
   minimized: false,
+  createdAt: 0,
 };
 
 describe('DuplicateRoutineModal', () => {
-  beforeAll(() => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => result.current.add(routine));
-  });
-
   beforeEach(() => {
     const mockIntersectionObserver = vi.fn();
     mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
@@ -56,6 +52,5 @@ describe('DuplicateRoutineModal', () => {
     };
     expect(add).toHaveBeenCalledWith(values);
     expect(hide).toHaveBeenCalled();
-    // TODO: check clear
   });
 });

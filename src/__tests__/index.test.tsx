@@ -30,6 +30,7 @@ const generateRoutine = (i: number, days: Routine['days'] = []): Routine => ({
   time: dayjs().format('HH:mm'),
   itemIds: [],
   minimized: false,
+  createdAt: 0,
 });
 
 describe('Home', () => {

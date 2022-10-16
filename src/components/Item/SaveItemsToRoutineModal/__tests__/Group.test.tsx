@@ -13,6 +13,7 @@ const group: _Group = {
   title: 'Group 1',
   color: 'red',
   minimized: false,
+  createdAt: 0,
 };
 
 describe('Group', async () => {

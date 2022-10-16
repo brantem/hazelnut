@@ -24,15 +24,18 @@ interface Schema extends DBSchema {
   };
 }
 
-const migrateFromLocalStorage = <Name extends StoreNames<Schema>>(
+export const migrateFromLocalStorage = <Name extends StoreNames<Schema>>(
   store: IDBPObjectStore<Schema, ArrayLike<StoreNames<Schema>>, Name, 'versionchange'>,
   name: Name,
 ) => {
-  const items = JSON.parse(localStorage.getItem(name) || `{state:{${name}:[]}}`).state[name];
-  for (let i = 0; i < items.length; i++) {
-    store.add({ ...items[i], createdAt: Date.now() + i });
+  const value = localStorage.getItem(name);
+  if (value) {
+    const items = JSON.parse(value).state[name];
+    for (let i = 0; i < items.length; i++) {
+      store.add({ ...items[i], createdAt: Date.now() + i });
+    }
+    // localStorage.removeItem(name);
   }
-  localStorage.removeItem(name);
 };
 
 class Storage {
@@ -90,6 +93,7 @@ class Storage {
   }
 }
 
+/* c8 ignore start */
 const dummy = {
   add: () => {},
   get: () => {},
@@ -97,7 +101,9 @@ const dummy = {
   put: () => {},
   delete: () => {},
 };
+/* c8 ignore stop */
 
+// TODO: test this once i find a way to mock window.indexedDB
 const storage = typeof window !== 'undefined' && 'indexedDB' in window ? new Storage() : dummy;
 export default storage;
 

@@ -2,55 +2,89 @@ import { renderHook, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { useItemsStore } from 'lib/stores';
-import { Item } from 'types/item';
+import storage from 'lib/stores/storage';
 
-describe('useItemsStore', async () => {
-  it('should add item', () => {
+const generateItem = (i: number, groupId = 'group-1') => {
+  const item: any = {
+    id: 'item-' + i,
+    title: 'Item ' + i,
+    createdAt: 0,
+  };
+  if (groupId) item.groupId = groupId;
+  return item;
+};
+
+describe('useItemsStore', () => {
+  it('should set item', async () => {
+    const { result } = renderHook(() => useItemsStore());
+    await act(() => result.current.setItem(generateItem(1)));
+    expect(result.current.item).toEqual(generateItem(1));
+    await act(() => result.current.setItem(null));
+    expect(result.current.item).toBeNull();
+  });
+
+  it('should add item', async () => {
+    const add = vi.spyOn(storage, 'add');
+
     const { result } = renderHook(() => useItemsStore());
     expect(result.current.items).toHaveLength(0);
-    act(() => {
-      result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as Item);
-      result.current.add('group-1', { id: 'item-2', title: 'Item 2' } as Item);
-      result.current.add('group-2', { id: 'item-3', title: 'Item 3' } as Item);
+    await act(() => {
+      result.current.add('group-1', generateItem(1, ''));
+      result.current.add('group-1', generateItem(2, ''));
+      result.current.add('group-2', generateItem(3, ''));
     });
     expect(result.current.items).toEqual([
-      { id: 'item-1', groupId: 'group-1', title: 'Item 1' },
-      { id: 'item-2', groupId: 'group-1', title: 'Item 2' },
-      { id: 'item-3', groupId: 'group-2', title: 'Item 3' },
+      generateItem(1, 'group-1'),
+      generateItem(2, 'group-1'),
+      generateItem(3, 'group-2'),
     ]);
+    expect(add).toHaveBeenCalledWith('items', generateItem(1, 'group-1'));
+    expect(add).toHaveBeenCalledWith('items', generateItem(2, 'group-1'));
+    expect(add).toHaveBeenCalledWith('items', generateItem(3, 'group-2'));
   });
 
-  it('should edit item', () => {
+  it(`should cancel when trying to update item that doesn't exist`, async () => {
+    const put = vi.spyOn(storage, 'put');
+
     const { result } = renderHook(() => useItemsStore());
-    act(() => result.current.edit('item-1', { title: 'Item 1a' }));
+    const values = { title: 'Item 1a' };
+    await act(() => result.current.edit('item-1a', values));
     expect(result.current.items).toEqual([
-      { id: 'item-1', groupId: 'group-1', title: 'Item 1a' },
-      { id: 'item-2', groupId: 'group-1', title: 'Item 2' },
-      { id: 'item-3', groupId: 'group-2', title: 'Item 3' },
+      generateItem(1, 'group-1'),
+      generateItem(2, 'group-1'),
+      generateItem(3, 'group-2'),
     ]);
+    expect(put).not.toHaveBeenCalled();
   });
 
-  it('should remove item', () => {
+  it('should edit item', async () => {
+    const put = vi.spyOn(storage, 'put');
+
     const { result } = renderHook(() => useItemsStore());
-    act(() => result.current.remove('item-1'));
+    const values = { title: 'Item 1a' };
+    await act(() => result.current.edit('item-1', values));
     expect(result.current.items).toEqual([
-      { id: 'item-2', groupId: 'group-1', title: 'Item 2' },
-      { id: 'item-3', groupId: 'group-2', title: 'Item 3' },
+      { ...generateItem(1, 'group-1'), ...values },
+      generateItem(2, 'group-1'),
+      generateItem(3, 'group-2'),
     ]);
+    expect(put).toHaveBeenCalledWith('items', { ...generateItem(1, 'group-1'), ...values });
+  });
+
+  it('should remove item', async () => {
+    const { result } = renderHook(() => useItemsStore());
+    await act(() => result.current.remove('item-1'));
+    expect(result.current.items).toEqual([generateItem(2, 'group-1'), generateItem(3, 'group-2')]);
   });
 
   it('should return all items that match groupId', () => {
     const { result } = renderHook(() => useItemsStore());
-    expect(result.current.getItemsByGroupId('group-2')).toEqual([
-      { id: 'item-3', groupId: 'group-2', title: 'Item 3' },
-    ]);
+    expect(result.current.getItemsByGroupId('group-2')).toEqual([generateItem(3, 'group-2')]);
   });
 
   it('should return all items that match the input', () => {
     const { result } = renderHook(() => useItemsStore());
-    expect(result.current.getItemsByIds(['item-3', 'item-4'])).toEqual([
-      { id: 'item-3', groupId: 'group-2', title: 'Item 3' },
-    ]);
+    expect(result.current.getItemsByIds(['item-3', 'item-4'])).toEqual([generateItem(3, 'group-2')]);
   });
 
   it('should return all ids that match the input', () => {

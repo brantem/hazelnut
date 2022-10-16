@@ -23,6 +23,7 @@ const routine: Routine = {
   time: '00:00',
   itemIds: [],
   minimized: false,
+  createdAt: 0,
 };
 
 describe('Routines', () => {

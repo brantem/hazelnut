@@ -12,6 +12,7 @@ const group: Group = {
   title: 'Group 1',
   color: 'red',
   minimized: false,
+  createdAt: 0,
 };
 
 describe('SaveGroupModal', () => {
@@ -39,7 +40,6 @@ describe('SaveGroupModal', () => {
     const values = { title: 'Group 1', color: 'red' };
     expect(add).toHaveBeenCalledWith(values);
     expect(hide).toHaveBeenCalled();
-    // TODO: check clear
   });
 
   it('should edit existing group', async () => {
@@ -64,6 +64,5 @@ describe('SaveGroupModal', () => {
     const values = { title: 'Group 1a', color: 'amber' };
     expect(edit).toHaveBeenCalledWith(group.id, values);
     expect(hide).toHaveBeenCalled();
-    // TODO: check clear
   });
 });

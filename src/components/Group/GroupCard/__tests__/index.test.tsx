@@ -13,17 +13,18 @@ const group: Group = {
   title: 'Group 1',
   color: 'red',
   minimized: false,
+  createdAt: 0,
 };
 
 describe('GroupCard', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     const items = renderHook(() => useItemsStore());
-    act(() => items.result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as Item));
+    await act(() => items.result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as Item));
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     const items = renderHook(() => useItemsStore());
-    act(() => items.result.current.remove('item-1'));
+    await act(() => items.result.current.remove('item-1'));
   });
 
   it('should render successfully', () => {
@@ -68,6 +69,7 @@ describe('GroupCard', () => {
           title: 'Group 2',
           color: 'red',
           minimized: false,
+          createdAt: 0,
         }}
       />,
     );

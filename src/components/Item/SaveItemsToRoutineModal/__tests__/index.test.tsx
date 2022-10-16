@@ -17,6 +17,7 @@ const routine: Routine = {
   time: '00:00',
   itemIds: ['item-0'],
   minimized: false,
+  createdAt: 0,
 };
 
 describe('SaveItemsToRoutineModal', () => {

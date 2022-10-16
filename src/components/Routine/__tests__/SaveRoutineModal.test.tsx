@@ -15,6 +15,7 @@ const routine: Routine = {
   time: '00:00',
   itemIds: [],
   minimized: false,
+  createdAt: 0,
 };
 
 describe('SaveRoutineModal', () => {
@@ -44,7 +45,6 @@ describe('SaveRoutineModal', () => {
     const values = { title: 'Routine 1', color: 'red', days: ['MONDAY'], time: '00:00' };
     expect(add).toHaveBeenCalledWith(values);
     expect(hide).toHaveBeenCalled();
-    // TODO: check clear
   });
 
   it('should edit existing routine', async () => {
@@ -71,6 +71,5 @@ describe('SaveRoutineModal', () => {
     const values = { title: 'Routine 1a', color: 'amber', days: ['MONDAY', 'TUESDAY'], time: '01:00' };
     expect(edit).toHaveBeenCalledWith(routine.id, values);
     expect(hide).toHaveBeenCalled();
-    // TODO: check clear
   });
 });

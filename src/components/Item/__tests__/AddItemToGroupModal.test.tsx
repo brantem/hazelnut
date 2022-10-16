@@ -12,6 +12,7 @@ const group: Group = {
   title: 'Group 1',
   color: 'red',
   minimized: false,
+  createdAt: 0,
 };
 
 describe('AddItemToGroupModal', () => {

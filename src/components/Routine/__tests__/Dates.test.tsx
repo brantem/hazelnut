@@ -16,12 +16,14 @@ const routine: Routine = {
   time: null,
   days: ['MONDAY'],
   minimized: false,
+  createdAt: 0,
 };
 
 const item: Item = {
   id: 'item-1',
   groupId: 'group-1',
   title: 'Item 1',
+  createdAt: 0,
 };
 
 describe('Dates', () => {

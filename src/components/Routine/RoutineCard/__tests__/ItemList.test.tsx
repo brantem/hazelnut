@@ -15,20 +15,22 @@ const routine: Routine = {
   time: '00:00',
   itemIds: ['item-1'],
   minimized: false,
+  createdAt: 0,
 };
 
 const item: Item = {
   id: 'item-1',
   groupId: 'group-1',
   title: 'Item 1',
+  createdAt: 0,
 };
 
 describe('ItemList', () => {
   beforeAll(() => {
     const items = renderHook(() => useItemsStore());
     act(() => {
-      items.result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as Routine);
-      items.result.current.add('group-1', { id: 'item-2', title: 'Item 2' } as Routine);
+      items.result.current.add('group-1', { id: 'item-1', title: 'Item 1', createdAt: 0 } as Routine);
+      items.result.current.add('group-1', { id: 'item-2', title: 'Item 2', createdAt: 0 } as Routine);
     });
   });
 
