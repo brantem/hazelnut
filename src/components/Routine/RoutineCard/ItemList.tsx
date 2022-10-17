@@ -67,7 +67,7 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
           name={routine.id + '-' + item.id}
           color={routine.color}
           checked={isDone}
-          onChange={(e) => save(routine, item, e.target.checked)}
+          onChange={(e) => save(routine, item, e.target.checked, true)}
         />
       </div>
     </li>

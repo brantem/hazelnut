@@ -69,6 +69,6 @@ describe('ItemList', () => {
     render(<ItemList routine={routine} isSortable />);
 
     act(() => screen.getByText('Item 1').click());
-    expect(save).toHaveBeenCalledWith(routine, item, true);
+    expect(save).toHaveBeenCalledWith(routine, item, true, true);
   });
 });

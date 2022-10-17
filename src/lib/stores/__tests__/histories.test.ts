@@ -71,7 +71,7 @@ describe('historiesStore', async () => {
     expect(historiesStore.getState().histories).toEqual([]);
 
     // check
-    act(() => historiesStore.getState().save(routine, item, true));
+    act(() => historiesStore.getState().save(routine, item, true, true));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
@@ -86,7 +86,7 @@ describe('historiesStore', async () => {
 
     // check new item
     await act(() => routinesStore.getState().edit(routine.id, { itemIds: ['item-1', 'item-2', 'item-3'] }));
-    act(() => historiesStore.getState().save(routine, { ...item, id: 'item-3', title: 'Item 3' }, false));
+    act(() => historiesStore.getState().save(routine, { ...item, id: 'item-3', title: 'Item 3' }, false, true));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
@@ -101,7 +101,7 @@ describe('historiesStore', async () => {
     ]);
 
     // uncheck
-    act(() => historiesStore.getState().save(routine, item, false));
+    act(() => historiesStore.getState().save(routine, item, false, true));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,

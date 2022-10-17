@@ -18,6 +18,7 @@ export type HistoriesState = {
     routine: Omit<History, 'date' | 'items'> & { itemIds?: Routine['itemIds'] },
     item: Omit<HistoryItem, 'completedAt'>,
     done: boolean,
+    forceToday?: boolean,
   ) => void;
   remove: (routineId: string, date: string) => void;
 };
@@ -40,8 +41,8 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
     if (!history) return false;
     return !!history.items.find((item) => item.id === itemId)?.completedAt;
   },
-  save: async (routine, item, done) => {
-    const date = get().selectedDate || dayjs().startOf('day').toISOString();
+  save: async (routine, item, done, forceToday) => {
+    const date = (forceToday ? null : get().selectedDate) || dayjs().startOf('day').toISOString();
 
     const index = get().histories.findIndex((history) => history.id === routine.id && history.date === date);
     if (index === -1) {
