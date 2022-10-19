@@ -28,6 +28,8 @@ const item: Item = {
 
 describe('Dates', () => {
   beforeAll(() => {
+    Element.prototype.scrollIntoView = vi.fn();
+
     vi.useFakeTimers();
     const { result } = renderHook(() => useHistoriesStore());
     act(() => {

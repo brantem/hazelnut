@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import clsx from 'clsx';
 
 import dayjs from 'dayjs';
@@ -9,9 +9,10 @@ import { daysFromSunday } from 'data/days';
 type DateProps = {
   date: string;
   isSelected: boolean;
+  isCurrentDate: boolean;
 };
 
-const DatesItem = ({ date, isSelected }: DateProps) => {
+const DatesItem = ({ date, isSelected, isCurrentDate }: DateProps) => {
   const setSelectedDate = useHistoriesStore((state) => state.setSelectedDate);
   const day = daysFromSunday[dayjs(date).day()]
     .slice(0, 3)
@@ -30,7 +31,8 @@ const DatesItem = ({ date, isSelected }: DateProps) => {
         <span
           className={clsx(
             `flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100`,
-            isSelected && 'bg-black text-white',
+            isSelected && 'border-black bg-black text-white',
+            isCurrentDate && 'border-2',
           )}
         >
           {dayjs(date).date()}
@@ -55,6 +57,11 @@ const Dates = () => {
   const isReady = selectedDate !== undefined;
   const currentDate = useMemo(() => dayjs().startOf('day').toISOString(), []);
 
+  useEffect(() => {
+    if (!isReady) return;
+    document.querySelector('[aria-selected="true"]')?.scrollIntoView();
+  }, [isReady]);
+
   return (
     <section className="px-4 pb-3" data-testid="dates">
       {!isReady ? (
@@ -63,11 +70,11 @@ const Dates = () => {
         <ol className="flex overflow-x-auto">
           {dates.map((date) => {
             const isSelected = selectedDate ? selectedDate === date : currentDate === date;
-            return <DatesItem key={date} date={date} isSelected={isSelected} />;
+            return <DatesItem key={date} date={date} isSelected={isSelected} isCurrentDate={date === currentDate} />;
           })}
 
           {dates.indexOf(currentDate) === -1 && (
-            <DatesItem date={currentDate} isSelected={!selectedDate || selectedDate === currentDate} />
+            <DatesItem date={currentDate} isSelected={!selectedDate || selectedDate === currentDate} isCurrentDate />
           )}
         </ol>
       )}
