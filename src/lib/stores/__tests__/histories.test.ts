@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { act, renderHook } from '@testing-library/react';
+import { act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { routinesStore, itemsStore, historiesStore } from 'lib/stores';
