@@ -1,11 +1,12 @@
+import dayjs from 'dayjs';
 import { render, screen, act, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import HistoryCard from 'components/History/HistoryCard';
 
-import { useHistoriesStore } from 'lib/stores';
+import { useHistoriesStore, useModalStore } from 'lib/stores';
 import { History } from 'types/history';
-import dayjs from 'dayjs';
+import * as constants from 'data/constants';
 
 const history: History = {
   id: 'routine-1',
@@ -24,6 +25,20 @@ const history: History = {
 };
 
 describe('HistoryCard', () => {
+  it('should show settings button', () => {
+    const modal = renderHook(() => useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
+
+    const { result } = renderHook(() => useHistoriesStore());
+    const setHistory = vi.spyOn(result.current, 'setHistory').mockImplementation(() => {});
+
+    render(<HistoryCard history={history} />);
+
+    act(() => screen.getByTestId('history-card-settings').click());
+    expect(setHistory).toHaveBeenCalledWith(history);
+    expect(show).toHaveBeenCalledWith(constants.modals.historySettings);
+  });
+
   it('should be minimizable', () => {
     const { rerender } = render(<HistoryCard history={history} />);
 

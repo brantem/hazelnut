@@ -1,4 +1,5 @@
 export const modals = {
+  historySettings: 'history-settings',
   routineSettings: 'routine-settings',
   saveRoutine: 'save-routine',
   duplicateRoutine: 'duplicate-routine',

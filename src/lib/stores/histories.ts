@@ -10,6 +10,9 @@ import { pick } from 'lib/helpers';
 
 export type HistoriesState = {
   histories: History[];
+  history: History | null;
+  setHistory: (history: History | null) => void;
+
   selectedDate: string | null | undefined;
   setSelectedDate: (selectedDate: string | null) => void;
 
@@ -25,6 +28,9 @@ export type HistoriesState = {
 
 export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
   histories: [],
+  history: null,
+  setHistory: (history) => set({ history }),
+
   selectedDate: undefined,
   setSelectedDate: (selectedDate) => {
     set({ selectedDate });

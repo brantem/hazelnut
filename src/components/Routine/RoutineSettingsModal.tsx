@@ -21,7 +21,7 @@ const RoutineSettingsModal = () => {
       title={routine?.title}
       description={
         <>
-          {routine?.time && <span>{routine?.time}</span>}
+          <span>{routine?.time ? routine.time : 'All day'}</span>
           <span>{routine?.itemIds.length} Item(s)</span>
           <Days days={routine?.days || []} />
         </>

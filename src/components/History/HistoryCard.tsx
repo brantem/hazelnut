@@ -1,11 +1,13 @@
 import { useReducer } from 'react';
-import { ChevronUpIcon } from '@heroicons/react/20/solid';
+import { EllipsisHorizontalIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
 import Checkbox from 'components/Checkbox';
 
 import { useHistoriesStore } from 'lib/stores';
+import { useModal } from 'lib/hooks';
 import type { History } from 'types/history';
+import * as constants from 'data/constants';
 
 type ItemListProps = {
   history: History;
@@ -38,6 +40,9 @@ type HistoryProps = {
 };
 
 const HistoryCard = ({ history }: HistoryProps) => {
+  const setHistory = useHistoriesStore((state) => state.setHistory);
+  const settingsModal = useModal(constants.modals.historySettings);
+
   const [minimized, toggleMinimized] = useReducer((prev) => !prev, false);
 
   return (
@@ -53,6 +58,17 @@ const HistoryCard = ({ history }: HistoryProps) => {
         </div>
 
         <div className="flex flex-shrink-0 items-center space-x-2">
+          <button
+            className={`rounded-md p-1 hover:bg-${history.color}-100`}
+            onClick={() => {
+              setHistory(history);
+              settingsModal.show();
+            }}
+            data-testid="history-card-settings"
+          >
+            <EllipsisHorizontalIcon className="h-5 w-5" />
+          </button>
+
           <button
             className={clsx(`rounded-md p-1 hover:bg-${history.color}-100`, minimized && 'rotate-180')}
             onClick={toggleMinimized}

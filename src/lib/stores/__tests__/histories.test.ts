@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { act } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { routinesStore, itemsStore, historiesStore } from 'lib/stores';
@@ -54,6 +54,19 @@ describe('historiesStore', async () => {
       historiesStore.getState().setSelectedDate(null);
       historiesStore.getState().remove(routineId, date);
     });
+  });
+
+  it('should set routine', async () => {
+    const history = {
+      ...simpleRoutine,
+      date,
+      items: [{ ...simpleItem, completedAt: Date.now() }],
+      createdAt: Date.now(),
+    };
+    await act(() => historiesStore.getState().setHistory(history));
+    expect(historiesStore.getState().history).toEqual(history);
+    await act(() => historiesStore.getState().setHistory(null));
+    expect(historiesStore.getState().history).toBeNull();
   });
 
   it('should be able to set selected date', () => {
