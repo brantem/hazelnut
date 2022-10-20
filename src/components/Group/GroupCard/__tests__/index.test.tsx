@@ -34,9 +34,8 @@ describe('GroupCard', () => {
     const { result } = renderHook(() => useGroupsStore());
     const setGroup = vi.spyOn(result.current, 'setGroup').mockImplementation(() => {});
 
-    const { container } = render(<GroupCard group={group} />);
+    render(<GroupCard group={group} />);
 
-    expect(container).toMatchSnapshot();
     act(() => screen.getByTestId('group-card-add-item').click());
     expect(setGroup).toHaveBeenCalledWith(group);
     expect(show).toHaveBeenCalledWith(constants.modals.addItemToGroup);

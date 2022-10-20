@@ -35,9 +35,8 @@ describe('ItemList', () => {
   });
 
   it('should render successfully', () => {
-    const { container } = render(<ItemList routine={routine} />);
+    render(<ItemList routine={routine} />);
 
-    expect(container).toMatchSnapshot();
     expect(screen.getByText('Item 1')).toBeInTheDocument();
     expect(screen.queryByText('Item 2')).not.toBeInTheDocument();
     expect(screen.queryByTestId('routine-item-handle')).not.toBeInTheDocument();
@@ -48,9 +47,8 @@ describe('ItemList', () => {
     const edit = vi.spyOn(result.current, 'edit');
 
     const itemIds = ['item-1', 'item-2'];
-    const { container } = render(<ItemList routine={{ ...routine, itemIds }} isSortable />);
+    render(<ItemList routine={{ ...routine, itemIds }} isSortable />);
 
-    expect(container).toMatchSnapshot();
     const item = screen.getByText('Item 2').parentElement!.parentElement!.parentElement!;
     const handle = within(item).getByTestId('routine-item-handle');
     fireEvent.keyDown(handle, { code: 'Space' });

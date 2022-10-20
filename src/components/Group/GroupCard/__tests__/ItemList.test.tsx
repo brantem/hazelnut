@@ -25,9 +25,8 @@ describe('ItemList', () => {
   });
 
   it('should render successfully', () => {
-    const { container } = render(<ItemList group={group} />);
+    render(<ItemList group={group} />);
 
-    expect(container).toMatchSnapshot();
     expect(screen.getByText('Item 1')).toBeInTheDocument();
     expect(screen.queryByText('Item 2')).not.toBeInTheDocument();
   });

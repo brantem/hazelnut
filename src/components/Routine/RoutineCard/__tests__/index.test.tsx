@@ -30,9 +30,8 @@ describe('RoutineCard', () => {
   });
 
   it('should render successfully', () => {
-    const { container } = render(<RoutineCard routine={routine} />);
+    render(<RoutineCard routine={routine} />);
 
-    expect(container).toMatchSnapshot();
     expect(screen.getByTestId('routine-card-items')).toBeInTheDocument();
   });
 
@@ -43,9 +42,8 @@ describe('RoutineCard', () => {
     const { result } = renderHook(() => useRoutinesStore());
     const setRoutine = vi.spyOn(result.current, 'setRoutine').mockImplementation(() => {});
 
-    const { container } = render(<RoutineCard routine={routine} showAction />);
+    render(<RoutineCard routine={routine} showAction />);
 
-    expect(container).toMatchSnapshot();
     act(() => screen.getByTestId('routine-card-save-items').click());
     expect(setRoutine).toHaveBeenCalledWith(routine);
     expect(show).toHaveBeenCalledWith(constants.modals.saveItemsToRoutine);
@@ -56,9 +54,8 @@ describe('RoutineCard', () => {
   });
 
   it('should show sort handle', () => {
-    const { container } = render(<RoutineCard routine={routine} isItemSortable />);
+    render(<RoutineCard routine={routine} isItemSortable />);
 
-    expect(container).toMatchSnapshot();
     expect(screen.getByTestId('routine-item-handle')).toBeInTheDocument();
   });
 
