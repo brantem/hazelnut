@@ -1,7 +1,10 @@
 import { ChangeEvent, useRef } from 'react';
 import clsx from 'clsx';
+import dayjs from 'dayjs';
 
 import days from 'data/days';
+import { Day } from 'types/shared';
+import { getFirstDateDifferenceFromToday } from 'lib/helpers';
 
 type DayProps = {
   day: string;
@@ -49,12 +52,13 @@ const Day = ({ day, isSelected, isDisabled, onChange }: DayProps) => {
 };
 
 type DayPickerProps = {
-  value: string[];
-  onChange: (days: string[]) => void;
+  value: Day[];
+  onChange: (days: Day[]) => void;
   isDisabled?: boolean;
+  showNext?: boolean;
 };
 
-const DayPicker = ({ value, onChange, isDisabled }: DayPickerProps) => {
+const DayPicker = ({ value, onChange, isDisabled, showNext }: DayPickerProps) => {
   return (
     <div data-testid="day-picker">
       <label className="block text-sm font-medium text-neutral-700">Day(s)</label>
@@ -70,6 +74,15 @@ const DayPicker = ({ value, onChange, isDisabled }: DayPickerProps) => {
           />
         ))}
       </div>
+
+      {showNext && (
+        <p className="mt-2 text-sm text-neutral-500">
+          Next:{' '}
+          {value.length
+            ? dayjs().startOf('day').add(getFirstDateDifferenceFromToday(value), 'day').format('D MMM')
+            : '-'}
+        </p>
+      )}
     </div>
   );
 };

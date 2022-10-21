@@ -1,6 +1,6 @@
 import _pick from 'just-pick';
 
-import days from 'data/days';
+import days, { daysFromSunday } from 'data/days';
 import { Day } from 'types/shared';
 
 export const getMinutesFromTime = (time: string) => {
@@ -33,5 +33,14 @@ export const sortRoutines = <T extends { time: string | null }>(routines: T[]) =
   return withoutTime.concat(withTime.sort((a, b) => getMinutesFromTime(a.time!) - getMinutesFromTime(b.time!)));
 };
 
-// hack to fix swc minify bug
-export const pick = _pick;
+/* c8 ignore next */
+export const pick = _pick; // hack to fix swc minify bug
+
+export const getFirstDateDifferenceFromToday = (days: Day[]) => {
+  const day = days.sort((a, b) => daysFromSunday.indexOf(a) - daysFromSunday.indexOf(b))[0];
+  console.log(day);
+  const i = new Date().getDay();
+  const j = daysFromSunday.indexOf(day);
+  if (j > i) return j - i;
+  return i + (j - i) + (7 - i);
+};

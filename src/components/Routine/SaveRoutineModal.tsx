@@ -66,11 +66,14 @@ const SaveRoutineModal = () => {
             isDisabled={formik.isSubmitting}
           />
 
-          <DayPicker
-            value={formik.values.days}
-            onChange={(days: string[]) => formik.setFieldValue('days', days)}
-            isDisabled={formik.isSubmitting}
-          />
+          <div className="relative">
+            <DayPicker
+              value={formik.values.days}
+              onChange={(days: string[]) => formik.setFieldValue('days', days)}
+              isDisabled={formik.isSubmitting}
+              showNext
+            />
+          </div>
 
           <Input label="Time" name="time" type="time" value={formik.values.time || ''} onChange={formik.handleChange} />
         </div>

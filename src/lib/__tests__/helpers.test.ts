@@ -1,4 +1,4 @@
-import { sortRoutines, getCurrentDay, getMinutesFromTime, isMatch } from 'lib/helpers';
+import { sortRoutines, getCurrentDay, getMinutesFromTime, isMatch, getFirstDateDifferenceFromToday } from 'lib/helpers';
 import dayjs from 'dayjs';
 import { Routine } from 'types/routine';
 
@@ -42,6 +42,7 @@ const generateRoutine = (i: number, time: Routine['time']): Routine => ({
 });
 
 test('sortRoutines', () => {
+  expect(sortRoutines([])).toEqual([]);
   expect(sortRoutines([generateRoutine(1, '01:00'), generateRoutine(2, null)])).toEqual([
     generateRoutine(2, null),
     generateRoutine(1, '01:00'),
@@ -50,4 +51,14 @@ test('sortRoutines', () => {
     generateRoutine(2, '01:00'),
     generateRoutine(1, '02:00'),
   ]);
+});
+
+test('getFirstDateDifferenceFromToday', () => {
+  const _Date = Date;
+  const DateMock = vi.fn(() => ({ getDay: vi.fn(() => 1) }));
+  vi.stubGlobal('Date', DateMock);
+  expect(getFirstDateDifferenceFromToday(['MONDAY', 'SUNDAY'])).toEqual(6);
+  expect(getFirstDateDifferenceFromToday(['MONDAY', 'TUESDAY'])).toEqual(7);
+  expect(getFirstDateDifferenceFromToday(['TUESDAY'])).toEqual(1);
+  vi.stubGlobal('Date', _Date);
 });
