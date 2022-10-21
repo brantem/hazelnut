@@ -32,14 +32,7 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
   setHistory: (history) => set({ history }),
 
   selectedDate: undefined,
-  setSelectedDate: (selectedDate) => {
-    set({ selectedDate });
-    if (selectedDate) {
-      localStorage.setItem('historySelectedDate', selectedDate);
-    } else {
-      localStorage.removeItem('historySelectedDate');
-    }
-  },
+  setSelectedDate: (selectedDate) => set({ selectedDate }),
 
   getIsDone: (routineId, itemId, forceToday) => {
     const _date = (forceToday ? null : get().selectedDate) || dayjs().startOf('day').toISOString();
