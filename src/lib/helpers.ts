@@ -33,13 +33,5 @@ export const sortRoutines = <T extends { time: string | null }>(routines: T[]) =
   return withoutTime.concat(withTime.sort((a, b) => getMinutesFromTime(a.time!) - getMinutesFromTime(b.time!)));
 };
 
-// export const pick = <T, U extends keyof T>(obj: T, select: U[]) => {
-//   const result = {} as Pick<T, U>;
-//   for (let i = 0; i < select.length; i++) {
-//     const key = select[i];
-//     if (key in obj) result[key] = obj[key];
-//   }
-//   return result;
-// };
-
+// hack to fix swc minify bug
 export const pick = _pick;
