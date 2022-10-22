@@ -38,7 +38,6 @@ export const pick = _pick; // hack to fix swc minify bug
 
 export const getFirstDateDifferenceFromToday = (days: Day[]) => {
   const day = days.sort((a, b) => daysFromSunday.indexOf(a) - daysFromSunday.indexOf(b))[0];
-  console.log(day);
   const i = new Date().getDay();
   const j = daysFromSunday.indexOf(day);
   if (j > i) return j - i;

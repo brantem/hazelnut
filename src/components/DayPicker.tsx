@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import dayjs from 'dayjs';
 
 import days from 'data/days';
-import { Day } from 'types/shared';
+import { Day as _Day } from 'types/shared';
 import { getFirstDateDifferenceFromToday } from 'lib/helpers';
 
 type DayProps = {
@@ -52,8 +52,8 @@ const Day = ({ day, isSelected, isDisabled, onChange }: DayProps) => {
 };
 
 type DayPickerProps = {
-  value: Day[];
-  onChange: (days: Day[]) => void;
+  value: _Day[];
+  onChange: (days: _Day[]) => void;
   isDisabled?: boolean;
   showNext?: boolean;
 };
@@ -61,8 +61,6 @@ type DayPickerProps = {
 const DayPicker = ({ value, onChange, isDisabled, showNext }: DayPickerProps) => {
   return (
     <div data-testid="day-picker">
-      <label className="block text-sm font-medium text-neutral-700">Day(s)</label>
-
       <div className="mt-2 flex items-center justify-between">
         {days.map((day) => (
           <Day
@@ -79,7 +77,7 @@ const DayPicker = ({ value, onChange, isDisabled, showNext }: DayPickerProps) =>
         <p className="mt-2 text-sm text-neutral-500">
           Next:{' '}
           {value.length
-            ? dayjs().startOf('day').add(getFirstDateDifferenceFromToday(value), 'day').format('D MMM')
+            ? dayjs().startOf('day').add(getFirstDateDifferenceFromToday(value), 'day').format('D MMM YYYY')
             : '-'}
         </p>
       )}

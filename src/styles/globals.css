@@ -27,3 +27,10 @@ body {
 #__next {
   @apply flex w-full max-w-lg flex-col bg-white;
 }
+
+@layer utilities {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    @apply appearance-none;
+  }
+}

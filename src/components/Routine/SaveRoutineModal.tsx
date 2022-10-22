@@ -1,9 +1,13 @@
+import { useMemo } from 'react';
 import { useFormik } from 'formik';
+import clsx from 'clsx';
+import dayjs from 'dayjs';
 
 import BottomSheet from 'components/BottomSheet';
 import Input from 'components/Input';
 import ColorPicker from 'components/ColorPicker';
 import DayPicker from 'components/DayPicker';
+import Recurrence from 'components/Recurrence';
 
 import colors from 'data/colors';
 import { useRoutinesStore } from 'lib/stores';
@@ -14,6 +18,13 @@ import { useModal } from 'lib/hooks';
 type Values = Omit<Routine, 'id' | 'itemIds' | 'minimized' | 'createdAt'>;
 
 const SaveRoutineModal = () => {
+  const defaultRecurrence: Routine['recurrence'] = useMemo(() => {
+    return {
+      startAt: dayjs().startOf('day').valueOf(),
+      interval: 1,
+    };
+  }, []);
+
   const modal = useModal(constants.modals.saveRoutine);
   const { defaultColor, routine, add, edit } = useRoutinesStore((state) => ({
     defaultColor: colors[state.routines.length % colors.length],
@@ -26,7 +37,8 @@ const SaveRoutineModal = () => {
     initialValues: {
       title: routine?.title || '',
       color: routine?.color || defaultColor,
-      days: routine?.days || [],
+      days: routine?.days || (routine?.id ? undefined : []),
+      recurrence: routine?.recurrence,
       time: routine?.time || '',
     },
     onSubmit: async (values, { resetForm }) => {
@@ -41,6 +53,8 @@ const SaveRoutineModal = () => {
     },
     enableReinitialize: true,
   });
+
+  const isSimple = formik.values.days !== undefined;
 
   return (
     <BottomSheet
@@ -66,13 +80,53 @@ const SaveRoutineModal = () => {
             isDisabled={formik.isSubmitting}
           />
 
-          <div className="relative">
-            <DayPicker
-              value={formik.values.days}
-              onChange={(days: string[]) => formik.setFieldValue('days', days)}
-              isDisabled={formik.isSubmitting}
-              showNext
-            />
+          <div className="space-y-4">
+            <div className="inline-flex w-full rounded-md" role="group">
+              <button
+                type="button"
+                className={clsx(
+                  'flex-1 rounded-l-md border border-r-0 py-2 px-4 text-sm',
+                  isSimple ? 'border-black bg-black text-white' : 'bg-white',
+                )}
+                onClick={() => {
+                  if (isSimple) return;
+                  formik.setFieldValue('days', []);
+                  formik.setFieldValue('recurrence', undefined);
+                }}
+              >
+                Simple
+              </button>
+              <button
+                type="button"
+                className={clsx(
+                  'flex-1 rounded-r-md border border-t py-2 px-4 text-sm',
+                  !isSimple ? 'border-black bg-black text-white' : 'bg-white',
+                )}
+                onClick={() => {
+                  if (!isSimple) return;
+                  formik.setFieldValue('days', undefined);
+                  formik.setFieldValue('recurrence', defaultRecurrence);
+                }}
+              >
+                Repeat
+              </button>
+            </div>
+
+            {isSimple ? (
+              <DayPicker
+                value={formik.values.days || routine?.days || []}
+                onChange={(days: string[]) => formik.setFieldValue('days', days)}
+                isDisabled={formik.isSubmitting}
+                showNext
+              />
+            ) : (
+              <Recurrence
+                value={formik.values.recurrence || routine?.recurrence || defaultRecurrence}
+                onChange={(recurrence) => formik.setFieldValue('recurrence', recurrence)}
+                isDisabled={formik.isSubmitting}
+                showNext
+              />
+            )}
           </div>
 
           <Input label="Time" name="time" type="time" value={formik.values.time || ''} onChange={formik.handleChange} />

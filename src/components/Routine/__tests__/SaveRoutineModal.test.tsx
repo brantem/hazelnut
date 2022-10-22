@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { render, renderHook, screen, act, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
@@ -25,12 +26,12 @@ describe('SaveRoutineModal', () => {
     window.IntersectionObserver = mockIntersectionObserver;
   });
 
-  it('should add new routine', async () => {
+  it('simple: should add new routine', async () => {
     const modal = renderHook(() => useModalStore());
     const hide = vi.spyOn(modal.result.current, 'hide');
 
     const { result } = renderHook(() => useRoutinesStore());
-    const add = vi.spyOn(result.current, 'add');
+    const add = vi.spyOn(result.current, 'add').mockImplementationOnce(() => {});
 
     render(<SaveRoutineModal />);
 
@@ -43,6 +44,33 @@ describe('SaveRoutineModal', () => {
     });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
     const values = { title: 'Routine 1', color: 'red', days: ['MONDAY'], time: '00:00' };
+    expect(add).toHaveBeenCalledWith(values);
+    expect(hide).toHaveBeenCalled();
+  });
+
+  it('repeat: should add new routine', async () => {
+    const modal = renderHook(() => useModalStore());
+    const hide = vi.spyOn(modal.result.current, 'hide');
+
+    const { result } = renderHook(() => useRoutinesStore());
+    const add = vi.spyOn(result.current, 'add').mockImplementationOnce(() => {});
+
+    render(<SaveRoutineModal />);
+
+    act(() => modal.result.current.show(constants.modals.saveRoutine));
+    act(() => {
+      fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Routine 1' } });
+      screen.getByText('Repeat').click();
+      fireEvent.change(screen.getByLabelText('Time'), { target: { value: '00:00' } });
+      screen.getByText('Add').click();
+    });
+    await waitFor(() => new Promise((res) => setTimeout(res, 0)));
+    const values = {
+      title: 'Routine 1',
+      color: 'red',
+      recurrence: { startAt: dayjs().startOf('day').valueOf(), interval: 1 },
+      time: '00:00',
+    };
     expect(add).toHaveBeenCalledWith(values);
     expect(hide).toHaveBeenCalled();
   });
