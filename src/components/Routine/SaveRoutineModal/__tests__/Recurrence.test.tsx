@@ -1,0 +1,97 @@
+import dayjs from 'dayjs';
+import { render, screen, fireEvent, act } from '@testing-library/react';
+import '@testing-library/jest-dom';
+
+import Recurrence from 'components/Routine/SaveRoutineModal/Recurrence';
+
+import { getCurrentDay } from 'lib/helpers';
+import { Recurrence as Value } from 'types/shared';
+
+const startAt = dayjs().startOf('day').valueOf();
+const value: Value = { startAt, interval: 1, frequency: 'DAILY', days: [] };
+
+describe('Recurrence', () => {
+  it('should change startAt', () => {
+    const onChange = vi.fn(() => {});
+    const { rerender } = render(<Recurrence value={value} onChange={onChange} showNext />);
+
+    expect(screen.getByTestId('recurrence-next').textContent).toContain(
+      dayjs(startAt).add(1, 'day').format('D MMM YYYY'),
+    );
+    const newStartAt = dayjs().add(1, 'day').startOf('day');
+    fireEvent.change(screen.getByTestId('recurrence-startAt'), {
+      target: { value: dayjs(newStartAt).format('YYYY-MM-DD') },
+    });
+    expect(onChange).toHaveBeenCalledWith({ ...value, startAt: newStartAt.valueOf() });
+    rerender(<Recurrence value={{ ...value, startAt: newStartAt.valueOf() }} onChange={onChange} showNext />);
+    expect(screen.getByTestId('recurrence-next').textContent).toContain(newStartAt.add(1, 'day').format('D MMM YYYY'));
+  });
+
+  it('should automatically fill startAt when user clear startAt', () => {
+    const onChange = vi.fn(() => {});
+    render(<Recurrence value={value} onChange={onChange} showNext />);
+
+    fireEvent.change(screen.getByTestId('recurrence-startAt'), { target: { value: '' } });
+    expect(onChange).toHaveBeenCalledWith(value);
+  });
+
+  it('should change interval', () => {
+    const onChange = vi.fn(() => {});
+    const { rerender } = render(<Recurrence value={value} onChange={onChange} showNext />);
+
+    fireEvent.change(screen.getByTestId('recurrence-interval'), { target: { value: '2' } });
+    expect(onChange).toHaveBeenCalledWith({ ...value, interval: 2 });
+    rerender(<Recurrence value={{ ...value, interval: 2 }} onChange={onChange} showNext />);
+    expect(screen.getByTestId('recurrence-next').textContent).toContain(
+      dayjs(startAt).add(2, 'day').format('D MMM YYYY'),
+    );
+  });
+
+  it('should handle empty interval', () => {
+    const onChange = vi.fn(() => {});
+    const { rerender } = render(<Recurrence value={value} onChange={onChange} showNext />);
+
+    fireEvent.change(screen.getByTestId('recurrence-interval'), { target: { value: '' } });
+    expect(onChange).toHaveBeenCalledWith({ ...value, interval: NaN });
+    rerender(<Recurrence value={{ ...value, interval: NaN }} onChange={onChange} showNext />);
+    expect(screen.getByTestId('recurrence-next').textContent).toContain('-');
+  });
+
+  it('should change frequency', () => {
+    const { rerender } = render(<Recurrence value={{ ...value, days: ['MONDAY'] }} onChange={() => {}} showNext />);
+    const select: HTMLSelectElement = screen.getByTestId('recurrence-frequency');
+
+    expect(select.value).toEqual('DAILY');
+    fireEvent.change(select, { target: { value: 'WEEKLY' } });
+    rerender(<Recurrence value={{ ...value, frequency: 'WEEKLY' }} onChange={() => {}} showNext />);
+    expect(select.value).toEqual('WEEKLY');
+
+    fireEvent.change(select, { target: { value: 'DAILY' } });
+    rerender(<Recurrence value={{ ...value, frequency: 'DAILY' }} onChange={() => {}} showNext />);
+    expect(select.value).toEqual('DAILY');
+  });
+
+  it('should change days', () => {
+    const onChange = vi.fn(() => {});
+    const { rerender } = render(<Recurrence value={value} onChange={onChange} showNext />);
+    const day = getCurrentDay();
+
+    fireEvent.change(screen.getByTestId('recurrence-frequency'), { target: { value: 'WEEKLY' } });
+    expect(onChange).toHaveBeenCalledWith({ startAt, interval: 1, frequency: 'WEEKLY', days: [day] });
+    rerender(<Recurrence value={{ ...value, frequency: 'WEEKLY', days: [day] }} onChange={onChange} showNext />);
+
+    const option = day === 'MONDAY' ? 'TUESDAY' : 'MONDAY';
+    act(() => screen.getByTestId(`day-picker-option-${option.toLowerCase()}`).click());
+    expect(onChange).toHaveBeenCalledWith({ startAt, interval: 1, frequency: 'WEEKLY', days: [day, option] });
+    rerender(
+      <Recurrence value={{ ...value, frequency: 'WEEKLY', days: [day, option] }} onChange={onChange} showNext />,
+    );
+
+    act(() => screen.getByTestId(`day-picker-option-${day.toLowerCase()}`).click());
+    expect(onChange).toHaveBeenCalledWith({ startAt, interval: 1, frequency: 'WEEKLY', days: [option] });
+    rerender(<Recurrence value={{ ...value, frequency: 'WEEKLY', days: [option] }} onChange={onChange} showNext />);
+
+    act(() => screen.getByTestId(`day-picker-option-${option.toLowerCase()}`).click());
+    expect(onChange).toHaveBeenCalledWith({ startAt, interval: 1, frequency: 'WEEKLY', days: [day] });
+  });
+});

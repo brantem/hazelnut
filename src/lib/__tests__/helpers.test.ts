@@ -1,10 +1,10 @@
-import { sortRoutines, getCurrentDay, getMinutesFromTime, isMatch, getFirstDateDifferenceFromToday } from 'lib/helpers';
+import { sortRoutines, getCurrentDay, getMinutesFromTime, isMatch, getNextDate } from 'lib/helpers';
 import dayjs from 'dayjs';
 import { Routine } from 'types/routine';
 
 beforeEach(() => {
   vi.useFakeTimers();
-  vi.setSystemTime(dayjs().startOf('hour').toDate());
+  vi.setSystemTime(dayjs('20 October 2022').startOf('day').toDate()); // Thursday
 });
 
 afterEach(() => {
@@ -53,12 +53,44 @@ test('sortRoutines', () => {
   ]);
 });
 
-test('getFirstDateDifferenceFromToday', () => {
-  const _Date = Date;
-  const DateMock = vi.fn(() => ({ getDay: vi.fn(() => 1) }));
-  vi.stubGlobal('Date', DateMock);
-  expect(getFirstDateDifferenceFromToday(['MONDAY', 'SUNDAY'])).toEqual(6);
-  expect(getFirstDateDifferenceFromToday(['MONDAY', 'TUESDAY'])).toEqual(7);
-  expect(getFirstDateDifferenceFromToday(['TUESDAY'])).toEqual(1);
-  vi.stubGlobal('Date', _Date);
+describe('getNextDate', () => {
+  it('should support DAILY', () => {
+    expect(getNextDate({ startAt: Date.now(), interval: 1, frequency: 'DAILY', days: [] })).toEqual(
+      dayjs().add(1, 'day').format('D MMM YYYY'),
+    );
+    expect(getNextDate({ startAt: Date.now(), interval: 2, frequency: 'DAILY', days: [] })).toEqual(
+      dayjs().add(2, 'day').format('D MMM YYYY'),
+    );
+  });
+
+  it('should support WEEKLY', () => {
+    expect(
+      getNextDate({
+        startAt: dayjs().subtract(1, 'month').valueOf(),
+        interval: 1,
+        frequency: 'WEEKLY',
+        days: ['SATURDAY', 'FRIDAY'],
+      }),
+    ).toEqual(dayjs().add(1, 'day').format('D MMM YYYY'));
+    expect(
+      getNextDate({
+        startAt: dayjs().subtract(1, 'month').valueOf(),
+        interval: 1,
+        frequency: 'WEEKLY',
+        days: ['WEDNESDAY', 'TUESDAY'],
+      }),
+    ).toEqual(dayjs().add(5, 'day').format('D MMM YYYY'));
+    expect(
+      getNextDate({
+        startAt: dayjs().subtract(1, 'month').valueOf(),
+        interval: 2,
+        frequency: 'WEEKLY',
+        days: ['THURSDAY'],
+      }),
+    ).toEqual(dayjs().add(14, 'day').format('D MMM YYYY'));
+  });
+
+  it('should not error', () => {
+    expect(getNextDate({ startAt: Date.now(), interval: 0, frequency: 'DAILY', days: [] })).toEqual('-');
+  });
 });

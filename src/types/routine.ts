@@ -1,14 +1,10 @@
-import { Day } from 'types/shared';
+import { Recurrence } from 'types/shared';
 
 export type Routine = {
   id: string;
   title: string;
   color: string;
-  days?: Day[];
-  recurrence?: {
-    startAt: number;
-    interval: number;
-  };
+  recurrence: Recurrence;
   time: string | null;
   itemIds: string[];
   minimized: boolean;

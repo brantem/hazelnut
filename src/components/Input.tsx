@@ -13,6 +13,7 @@ const Input = ({ label, name, className, ...props }: InputProps) => {
           {label}
         </label>
       )}
+
       <input
         type="text"
         {...props}
