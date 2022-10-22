@@ -3,6 +3,7 @@ import clsx from 'clsx';
 
 import days from 'data/days';
 import { Day as _Day } from 'types/shared';
+import { sortDays } from 'lib/helpers';
 
 type DayProps = {
   day: string;
@@ -67,7 +68,9 @@ const DayPicker = ({ label = 'Day(s)', value, onChange, isDisabled }: DayPickerP
             key={day}
             day={day}
             isSelected={value.includes(day)}
-            onChange={(e) => onChange(e.target.checked ? [...value, day] : value.filter((_day) => _day !== day))}
+            onChange={(e) =>
+              onChange(e.target.checked ? sortDays([...value, day]) : value.filter((_day) => _day !== day))
+            }
             isDisabled={isDisabled}
           />
         ))}

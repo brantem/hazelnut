@@ -11,7 +11,12 @@ const routine: Routine = {
   id: 'routine-1',
   title: 'Routine 1',
   color: 'red',
-  days: ['MONDAY'],
+  recurrence: {
+    startAt: 0,
+    interval: 1,
+    frequency: 'WEEKLY',
+    days: ['MONDAY'],
+  },
   time: '00:00',
   itemIds: [],
   minimized: false,

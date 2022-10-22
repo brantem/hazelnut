@@ -1,12 +1,13 @@
 import pick from 'just-pick';
 import omit from 'just-omit';
+import capitalize from 'just-capitalize';
 import dayjs from 'dayjs';
 
 import { daysFromSunday } from 'data/days';
 import { Day, Recurrence } from 'types/shared';
 
 /* c8 ignore next */
-export { pick, omit }; // hack to fix swc minify bug
+export { pick, omit, capitalize }; // hack to fix swc minify bug
 
 export const getMinutesFromTime = (time: string) => {
   const [hour, minute] = time.split(':');
@@ -38,6 +39,11 @@ export const sortRoutines = <T extends { time: string | null }>(routines: T[]) =
   return withoutTime.concat(withTime.sort((a, b) => getMinutesFromTime(a.time!) - getMinutesFromTime(b.time!)));
 };
 
+export const sortDays = (days: Day[]) => {
+  if (!days.length) return [];
+  return [...days].sort((a, b) => daysFromSunday.indexOf(a) - daysFromSunday.indexOf(b));
+};
+
 export const getNextDate = (recurrence: Recurrence) => {
   if (!recurrence.interval) return '-';
 
@@ -49,7 +55,7 @@ export const getNextDate = (recurrence: Recurrence) => {
     case 'DAILY':
       return startAt.startOf('day').add(recurrence.interval, 'day').format('D MMM YYYY');
     case 'WEEKLY': {
-      const day = [...recurrence.days].sort((a, b) => daysFromSunday.indexOf(a) - daysFromSunday.indexOf(b))[0];
+      const day = sortDays(recurrence.days)[0];
       const i = startAt.get('day');
       const j = daysFromSunday.indexOf(day);
       if (j > i) return startAt.add(j - i, 'day').format('D MMM YYYY');

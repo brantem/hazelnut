@@ -7,7 +7,7 @@ import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
 import { Routine } from 'types/routine';
 import { useModalStore, useRoutinesStore } from 'lib/stores';
 import * as constants from 'data/constants';
-import { getCurrentDay, pick } from 'lib/helpers';
+import { getCurrentDay, pick, sortDays } from 'lib/helpers';
 
 const routine: Routine = {
   id: 'routine-1',
@@ -82,7 +82,7 @@ describe('SaveRoutineModal', () => {
         startAt: dayjs().startOf('day').valueOf(),
         interval: 1,
         frequency: 'WEEKLY',
-        days: [getCurrentDay(), 'TUESDAY'],
+        days: sortDays([getCurrentDay(), 'TUESDAY']),
       },
       time: '01:00',
     };

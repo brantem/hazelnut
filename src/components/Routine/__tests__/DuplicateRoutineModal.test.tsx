@@ -6,12 +6,18 @@ import DuplicateRoutineModal from 'components/Routine/DuplicateRoutineModal';
 import { Routine } from 'types/routine';
 import { useModalStore, useRoutinesStore } from 'lib/stores';
 import * as constants from 'data/constants';
+import { pick } from 'lib/helpers';
 
 const routine: Routine = {
   id: 'routine-1',
   title: 'Routine 1',
   color: 'red',
-  days: ['MONDAY'],
+  recurrence: {
+    startAt: 0,
+    interval: 1,
+    frequency: 'WEEKLY',
+    days: ['MONDAY'],
+  },
   time: '00:00',
   itemIds: [],
   minimized: false,
@@ -44,11 +50,9 @@ describe('DuplicateRoutineModal', () => {
     });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
     const values = {
+      ...pick(routine, ['recurrence', 'itemIds', 'time']),
       title: 'Routine 1 - Copy',
       color: 'amber',
-      days: routine.days,
-      itemIds: routine.itemIds,
-      time: routine.time,
     };
     expect(add).toHaveBeenCalledWith(values);
     expect(hide).toHaveBeenCalled();

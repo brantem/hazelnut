@@ -6,6 +6,7 @@ import Recurrence from 'components/Routine/SaveRoutineModal/Recurrence';
 
 import { getCurrentDay } from 'lib/helpers';
 import { Recurrence as Value } from 'types/shared';
+import { sortDays } from 'lib/helpers';
 
 const startAt = dayjs().startOf('day').valueOf();
 const value: Value = { startAt, interval: 1, frequency: 'DAILY', days: [] };
@@ -76,22 +77,21 @@ describe('Recurrence', () => {
     const { rerender } = render(<Recurrence value={value} onChange={onChange} showNext />);
     const day = getCurrentDay();
 
+    const _value: Value = { ...value, frequency: 'WEEKLY' };
     fireEvent.change(screen.getByTestId('recurrence-frequency'), { target: { value: 'WEEKLY' } });
-    expect(onChange).toHaveBeenCalledWith({ startAt, interval: 1, frequency: 'WEEKLY', days: [day] });
-    rerender(<Recurrence value={{ ...value, frequency: 'WEEKLY', days: [day] }} onChange={onChange} showNext />);
+    expect(onChange).toHaveBeenCalledWith({ ..._value, days: [day] });
+    rerender(<Recurrence value={{ ..._value, days: [day] }} onChange={onChange} showNext />);
 
     const option = day === 'MONDAY' ? 'TUESDAY' : 'MONDAY';
     act(() => screen.getByTestId(`day-picker-option-${option.toLowerCase()}`).click());
-    expect(onChange).toHaveBeenCalledWith({ startAt, interval: 1, frequency: 'WEEKLY', days: [day, option] });
-    rerender(
-      <Recurrence value={{ ...value, frequency: 'WEEKLY', days: [day, option] }} onChange={onChange} showNext />,
-    );
+    expect(onChange).toHaveBeenCalledWith({ ..._value, days: sortDays([day, option]) });
+    rerender(<Recurrence value={{ ..._value, days: sortDays([day, option]) }} onChange={onChange} showNext />);
 
     act(() => screen.getByTestId(`day-picker-option-${day.toLowerCase()}`).click());
-    expect(onChange).toHaveBeenCalledWith({ startAt, interval: 1, frequency: 'WEEKLY', days: [option] });
-    rerender(<Recurrence value={{ ...value, frequency: 'WEEKLY', days: [option] }} onChange={onChange} showNext />);
+    expect(onChange).toHaveBeenCalledWith({ ..._value, days: [option] });
+    rerender(<Recurrence value={{ ..._value, days: [option] }} onChange={onChange} showNext />);
 
     act(() => screen.getByTestId(`day-picker-option-${option.toLowerCase()}`).click());
-    expect(onChange).toHaveBeenCalledWith({ startAt, interval: 1, frequency: 'WEEKLY', days: [day] });
+    expect(onChange).toHaveBeenCalledWith({ ..._value, days: [day] });
   });
 });

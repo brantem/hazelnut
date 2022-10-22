@@ -1,4 +1,4 @@
-import { sortRoutines, getCurrentDay, getMinutesFromTime, isMatch, getNextDate } from 'lib/helpers';
+import { getMinutesFromTime, getCurrentDay, isMatch, sortRoutines, sortDays, getNextDate } from 'lib/helpers';
 import dayjs from 'dayjs';
 import { Routine } from 'types/routine';
 
@@ -51,6 +51,11 @@ test('sortRoutines', () => {
     generateRoutine(2, '01:00'),
     generateRoutine(1, '02:00'),
   ]);
+});
+
+test('sortDays', () => {
+  expect(sortDays([])).toEqual([]);
+  expect(sortDays(['TUESDAY', 'MONDAY'])).toEqual(['MONDAY', 'TUESDAY']);
 });
 
 describe('getNextDate', () => {

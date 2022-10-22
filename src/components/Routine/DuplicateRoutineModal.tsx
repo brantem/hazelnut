@@ -30,7 +30,7 @@ const DuplicateRoutineModal = () => {
       add({
         title: values.title,
         color: values.color,
-        days: routine!.days,
+        recurrence: routine!.recurrence,
         time: values.time,
         itemIds: routine!.itemIds,
       });

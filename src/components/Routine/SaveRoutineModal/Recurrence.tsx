@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import Input from 'components/Input';
-import DayPicker from 'components/DayPicker';
+import DayPicker from 'components/Routine/SaveRoutineModal/DayPicker';
 
 import { Frequency, Recurrence as Value } from 'types/shared';
 import { getCurrentDay, getNextDate } from 'lib/helpers';

@@ -1,5 +1,5 @@
 import SettingsModal from 'components/modals/SettingsModal';
-import Days from 'components/Days';
+import Recurrence from 'components/Routine/RoutineSettingsModal/Recurrence';
 import DeleteButton from 'components/DeleteButton';
 
 import { useRoutinesStore } from 'lib/stores';
@@ -20,11 +20,13 @@ const RoutineSettingsModal = () => {
     <SettingsModal
       title={routine?.title}
       description={
-        <>
-          <span>{routine?.time ? routine.time : 'All day'}</span>
-          <span>{routine?.itemIds.length} Item(s)</span>
-          <Days days={routine?.days || []} />
-        </>
+        <div className="flex w-full flex-col space-y-2">
+          <div className="flex items-center justify-between space-x-3">
+            <span>{routine?.time ? routine.time : 'All day'}</span>
+            <span>{routine?.itemIds.length} Item(s)</span>
+          </div>
+          {routine && <Recurrence recurrence={routine.recurrence} />}
+        </div>
       }
       modalKey={constants.modals.routineSettings}
       actions={[

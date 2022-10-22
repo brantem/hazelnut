@@ -1,7 +1,7 @@
 import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import DayPicker from 'components/DayPicker';
+import DayPicker from 'components/Routine/SaveRoutineModal/DayPicker';
 
 describe('DayPicker', () => {
   it('should be clickable', () => {

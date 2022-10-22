@@ -34,3 +34,7 @@ body {
     @apply appearance-none;
   }
 }
+
+strong {
+  @apply font-semibold;
+}
