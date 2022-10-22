@@ -1,8 +1,12 @@
-import _pick from 'just-pick';
+import pick from 'just-pick';
+import omit from 'just-omit';
 import dayjs from 'dayjs';
 
 import { daysFromSunday } from 'data/days';
 import { Day, Recurrence } from 'types/shared';
+
+/* c8 ignore next */
+export { pick, omit }; // hack to fix swc minify bug
 
 export const getMinutesFromTime = (time: string) => {
   const [hour, minute] = time.split(':');
@@ -33,9 +37,6 @@ export const sortRoutines = <T extends { time: string | null }>(routines: T[]) =
 
   return withoutTime.concat(withTime.sort((a, b) => getMinutesFromTime(a.time!) - getMinutesFromTime(b.time!)));
 };
-
-/* c8 ignore next */
-export const pick = _pick; // hack to fix swc minify bug
 
 export const getNextDate = (recurrence: Recurrence) => {
   if (!recurrence.interval) return '-';

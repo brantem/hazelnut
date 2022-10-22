@@ -1,28 +1,7 @@
-import { openDB, DBSchema, IDBPObjectStore, IDBPDatabase, StoreNames, StoreValue, StoreKey } from 'idb';
+import { openDB, IDBPObjectStore, IDBPDatabase, StoreNames, StoreValue, StoreKey, IDBPTransaction } from 'idb';
 
-import { Item } from 'types/item';
-import { Group } from 'types/group';
-import { Routine } from 'types/routine';
-import { History } from 'types/history';
-
-interface Schema extends DBSchema {
-  items: {
-    key: string;
-    value: Item;
-  };
-  groups: {
-    key: string;
-    value: Group;
-  };
-  routines: {
-    key: string;
-    value: Routine;
-  };
-  histories: {
-    key: [string, string];
-    value: History;
-  };
-}
+import { Schema, SchemaV1 } from 'types/storage';
+import { omit } from 'lib/helpers';
 
 export const migrateFromLocalStorage = <Name extends StoreNames<Schema>>(
   store: IDBPObjectStore<Schema, ArrayLike<StoreNames<Schema>>, Name, 'versionchange'>,
@@ -39,30 +18,66 @@ export const migrateFromLocalStorage = <Name extends StoreNames<Schema>>(
 };
 
 /* c8 ignore start */
+const migrateV0ToV1 = (db: IDBPDatabase<Schema>) => {
+  const oldDb = db as unknown as IDBPDatabase<SchemaV1>;
+  if (!oldDb.objectStoreNames.contains('items')) {
+    const items = db.createObjectStore('items', { keyPath: 'id' });
+    migrateFromLocalStorage(items, 'items');
+  }
+
+  if (!oldDb.objectStoreNames.contains('groups')) {
+    const groups = db.createObjectStore('groups', { keyPath: 'id' });
+    migrateFromLocalStorage(groups, 'groups');
+  }
+
+  if (!oldDb.objectStoreNames.contains('routines')) {
+    const routines = db.createObjectStore('routines', { keyPath: 'id' });
+    migrateFromLocalStorage(routines, 'routines');
+  }
+
+  if (!oldDb.objectStoreNames.contains('histories')) {
+    const histories = db.createObjectStore('histories', { keyPath: ['id', 'date'] });
+    migrateFromLocalStorage(histories, 'histories');
+  }
+};
+
+const migrateV1ToV2 = async (transaction: IDBPTransaction<Schema, ArrayLike<StoreNames<Schema>>, 'versionchange'>) => {
+  const oldTransaction = transaction as unknown as IDBPTransaction<SchemaV1>;
+  const oldStore = oldTransaction.objectStore('routines');
+  const store = transaction.objectStore('routines');
+
+  const routines = await oldStore.getAll();
+  for (const routine of routines) {
+    const isEveryday = routine.days.length === 7;
+    store.put({
+      ...omit(routine, ['days']),
+      recurrence: {
+        startAt: routine.createdAt,
+        interval: 1,
+        frequency: isEveryday ? 'DAILY' : 'WEEKLY',
+        days: isEveryday ? [] : routine.days,
+      },
+    });
+  }
+};
+
+const VERSION = 2;
+
 class Storage {
   db: Promise<IDBPDatabase<Schema>>;
 
   constructor() {
-    this.db = openDB('hazelnut', 1, {
-      upgrade(db) {
-        if (!db.objectStoreNames.contains('items')) {
-          const items = db.createObjectStore('items', { keyPath: 'id' });
-          migrateFromLocalStorage(items, 'items');
-        }
-
-        if (!db.objectStoreNames.contains('groups')) {
-          const groups = db.createObjectStore('groups', { keyPath: 'id' });
-          migrateFromLocalStorage(groups, 'groups');
-        }
-
-        if (!db.objectStoreNames.contains('routines')) {
-          const routines = db.createObjectStore('routines', { keyPath: 'id' });
-          migrateFromLocalStorage(routines, 'routines');
-        }
-
-        if (!db.objectStoreNames.contains('histories')) {
-          const histories = db.createObjectStore('histories', { keyPath: ['id', 'date'] });
-          migrateFromLocalStorage(histories, 'histories');
+    this.db = openDB('hazelnut', VERSION, {
+      async upgrade(db, oldVersion, _, transaction) {
+        for (let i = oldVersion; i < VERSION; i++) {
+          switch (i) {
+            case 0:
+              migrateV0ToV1(db);
+              break;
+            case 1:
+              await migrateV1ToV2(transaction);
+              break;
+          }
         }
       },
     });

@@ -1,12 +1,14 @@
-import { Recurrence } from 'types/shared';
+import { Day, Recurrence } from 'types/shared';
 
-export type Routine = {
+export type RoutineV1 = {
   id: string;
   title: string;
   color: string;
-  recurrence: Recurrence;
+  days: Day[];
   time: string | null;
   itemIds: string[];
   minimized: boolean;
   createdAt: number;
 };
+
+export type Routine = Omit<RoutineV1, 'days'> & { recurrence: Recurrence };
