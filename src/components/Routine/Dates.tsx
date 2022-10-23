@@ -63,11 +63,11 @@ const Dates = () => {
   }, [isReady]);
 
   return (
-    <section className="px-4 pb-3" data-testid="dates">
+    <section data-testid="dates">
       {!isReady ? (
-        <div className="h-16" />
+        <div className="mb-3 h-16" />
       ) : (
-        <ol className="flex overflow-x-auto">
+        <ol className="flex overflow-x-auto pb-3">
           {dates.map((date) => {
             const isSelected = selectedDate ? selectedDate === date : currentDate === date;
             return <DatesItem key={date} date={date} isSelected={isSelected} isCurrentDate={date === currentDate} />;
