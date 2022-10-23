@@ -14,7 +14,12 @@ const routine: Routine = {
   color: 'red',
   itemIds: ['item-1', 'item-2'],
   time: null,
-  days: ['MONDAY'],
+  recurrence: {
+    startAt: 0,
+    interval: 1,
+    frequency: 'DAILY',
+    days: [],
+  },
   minimized: false,
   createdAt: 0,
 };

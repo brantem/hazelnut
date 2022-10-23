@@ -17,7 +17,12 @@ const routine: Routine = {
   color: 'red',
   itemIds: ['item-1', 'item-2'],
   time: null,
-  days: ['MONDAY'],
+  recurrence: {
+    startAt: 0,
+    interval: 1,
+    frequency: 'DAILY',
+    days: [],
+  },
   minimized: false,
   createdAt: 0,
 };
@@ -41,7 +46,7 @@ describe('historiesStore', async () => {
       itemsStore.getState().add('group-1', { id: 'item-3', title: 'Item 3' } as Item);
     });
 
-    act(() => routinesStore.getState().add(pick(routine, ['id', 'title', 'color', 'days', 'time', 'itemIds'])));
+    act(() => routinesStore.getState().add(pick(routine, ['id', 'title', 'color', 'recurrence', 'time', 'itemIds'])));
   });
 
   beforeEach(() => {

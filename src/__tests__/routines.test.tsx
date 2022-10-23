@@ -6,6 +6,7 @@ import Routines from 'pages/routines';
 
 import { useRoutinesStore, useHistoriesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
+import { Recurrence } from 'types/shared';
 
 vi.mock('next/router', () => ({
   useRouter() {
@@ -15,11 +16,18 @@ vi.mock('next/router', () => ({
   },
 }));
 
+const recurrence: Recurrence = {
+  startAt: 0,
+  interval: 1,
+  frequency: 'DAILY',
+  days: [],
+};
+
 const routine: Routine = {
   id: 'routine-1',
   title: 'Routine 1',
   color: 'red',
-  days: ['MONDAY'],
+  recurrence,
   time: '00:00',
   itemIds: [],
   minimized: false,
@@ -30,8 +38,8 @@ describe('Routines', () => {
   beforeAll(() => {
     const routines = renderHook(() => useRoutinesStore());
     act(() => {
-      routines.result.current.add({ title: 'Routine 2', color: 'red', days: ['MONDAY'], time: '01:00' });
-      routines.result.current.add({ title: 'Routine 1', color: 'red', days: ['MONDAY'], time: '00:00' });
+      routines.result.current.add({ title: 'Routine 2', color: 'red', recurrence, time: '01:00' });
+      routines.result.current.add({ title: 'Routine 1', color: 'red', recurrence, time: '00:00' });
     });
   });
 
