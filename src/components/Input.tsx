@@ -20,7 +20,7 @@ const Input = ({ label, name, className, ...props }: InputProps) => {
         name={name}
         id={name}
         className={clsx(
-          'block h-10 w-full rounded-md border-neutral-300 bg-white focus:border-neutral-500 focus:ring-neutral-500 disabled:border-neutral-200 disabled:bg-neutral-100 disabled:text-neutral-500',
+          'block w-full rounded-md border-neutral-300 bg-white focus:border-neutral-500 focus:ring-neutral-500 disabled:border-neutral-200 disabled:bg-neutral-100 disabled:text-neutral-500',
           className,
         )}
       />
