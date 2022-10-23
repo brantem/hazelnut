@@ -1,6 +1,16 @@
-import { getMinutesFromTime, getCurrentDay, isMatch, sortRoutines, sortDays, getNextDate } from 'lib/helpers';
+import {
+  getMinutesFromTime,
+  getCurrentDay,
+  isMatch,
+  sortRoutines,
+  sortDays,
+  getNextDate,
+  isRoutineActive,
+} from 'lib/helpers';
 import dayjs from 'dayjs';
+
 import { Routine } from 'types/routine';
+import { Frequency } from 'types/shared';
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -30,11 +40,11 @@ test('isMatch', () => {
   expect(isMatch('ab', 'a  b')).toBeTruthy();
 });
 
-const generateRoutine = (i: number, time: Routine['time']): Routine => ({
+const generateRoutine = (i: number, recurrence: Partial<Routine['recurrence']>, time: Routine['time']): Routine => ({
   id: `routine-${i}`,
   title: `Routine ${i}`,
   color: 'red',
-  days: [],
+  recurrence: { startAt: Date.now(), interval: 1, frequency: 'DAILY', days: [], ...recurrence },
   time,
   itemIds: [],
   minimized: false,
@@ -43,13 +53,13 @@ const generateRoutine = (i: number, time: Routine['time']): Routine => ({
 
 test('sortRoutines', () => {
   expect(sortRoutines([])).toEqual([]);
-  expect(sortRoutines([generateRoutine(1, '01:00'), generateRoutine(2, null)])).toEqual([
-    generateRoutine(2, null),
-    generateRoutine(1, '01:00'),
+  expect(sortRoutines([generateRoutine(1, {}, '01:00'), generateRoutine(2, {}, null)])).toEqual([
+    generateRoutine(2, {}, null),
+    generateRoutine(1, {}, '01:00'),
   ]);
-  expect(sortRoutines([generateRoutine(1, '02:00'), generateRoutine(2, '01:00')])).toEqual([
-    generateRoutine(2, '01:00'),
-    generateRoutine(1, '02:00'),
+  expect(sortRoutines([generateRoutine(1, {}, '02:00'), generateRoutine(2, {}, '01:00')])).toEqual([
+    generateRoutine(2, {}, '01:00'),
+    generateRoutine(1, {}, '02:00'),
   ]);
 });
 
@@ -97,5 +107,30 @@ describe('getNextDate', () => {
 
   it('should not error', () => {
     expect(getNextDate({ startAt: Date.now(), interval: 0, frequency: 'DAILY', days: [] })).toEqual('-');
+  });
+});
+
+describe('isRoutineActive', () => {
+  it('should support not started routine', () => {
+    expect(isRoutineActive(generateRoutine(1, { startAt: Date.now() + 1 }, null))).toBeFalsy();
+  });
+
+  it('should support DAILY', () => {
+    expect(isRoutineActive(generateRoutine(1, {}, null))).toBeTruthy();
+    const yesterday = dayjs().subtract(1, 'day').valueOf();
+    expect(isRoutineActive(generateRoutine(1, { startAt: yesterday }, null))).toBeTruthy();
+    expect(isRoutineActive(generateRoutine(1, { startAt: yesterday, interval: 2 }, null))).toBeFalsy();
+    const twoDaysAgo = dayjs('18 October 2022').valueOf();
+    expect(isRoutineActive(generateRoutine(1, { startAt: twoDaysAgo, interval: 2 }, null))).toBeTruthy();
+  });
+
+  it('should support WEEKLY', () => {
+    const weekly = { frequency: 'WEEKLY' as Frequency, days: [getCurrentDay()] };
+    expect(isRoutineActive(generateRoutine(1, weekly, null))).toBeTruthy();
+    expect(isRoutineActive(generateRoutine(1, { ...weekly, interval: 2 }, null))).toBeTruthy();
+    const lastWeek = dayjs().subtract(1, 'week').valueOf();
+    expect(isRoutineActive(generateRoutine(1, { ...weekly, startAt: lastWeek }, null))).toBeTruthy();
+    const eightDaysAgo = dayjs().subtract(1, 'week').subtract(1, 'day').valueOf();
+    expect(isRoutineActive(generateRoutine(1, { ...weekly, interval: 2, startAt: eightDaysAgo }, null))).toBeFalsy();
   });
 });

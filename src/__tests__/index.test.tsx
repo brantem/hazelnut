@@ -5,8 +5,6 @@ import '@testing-library/jest-dom';
 import Home from 'pages/index';
 
 import { useRoutinesStore } from 'lib/stores';
-import { Routine } from 'types/routine';
-import { getCurrentDay } from 'lib/helpers';
 
 vi.mock('next/router', () => ({
   useRouter() {
@@ -16,36 +14,24 @@ vi.mock('next/router', () => ({
   },
 }));
 
-beforeEach(() => {
-  const mockIntersectionObserver = vi.fn();
-  mockIntersectionObserver.mockReturnValue({ observe: () => null, unobserve: () => null, disconnect: () => null });
-  window.IntersectionObserver = mockIntersectionObserver;
-});
-
-const generateRoutine = (i: number, days: Routine['days'] = []): Routine => ({
-  id: `routine-${i}`,
-  title: `Routine ${i}`,
-  color: 'red',
-  days,
-  time: dayjs().format('HH:mm'),
-  itemIds: [],
-  minimized: false,
-  createdAt: 0,
-});
-
-describe('Home', () => {
-  beforeAll(() => {
-    const { result } = renderHook(() => useRoutinesStore());
-    act(() => {
-      result.current.add(generateRoutine(1, [getCurrentDay()]));
-      result.current.add(generateRoutine(2, ['TUESDAY']));
+test('Home', () => {
+  const { result } = renderHook(() => useRoutinesStore());
+  act(() => {
+    result.current.add({
+      title: 'Routine 1',
+      color: 'red',
+      recurrence: {
+        startAt: 0,
+        interval: 1,
+        frequency: 'DAILY',
+        days: [],
+      },
+      time: dayjs().format('HH:mm'),
+      itemIds: [],
     });
   });
 
-  it("should show today's routine", async () => {
-    render(<Home />);
+  render(<Home />);
 
-    expect(screen.getByText('Routine 1')).toBeInTheDocument();
-    expect(screen.queryByText('Routine 2')).not.toBeInTheDocument();
-  });
+  expect(screen.getByText('Routine 1')).toBeInTheDocument();
 });

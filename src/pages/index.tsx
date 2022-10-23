@@ -5,12 +5,11 @@ import Layout from 'components/Layout';
 import RoutineCard from 'components/Routine/RoutineCard';
 
 import { useRoutinesStore } from 'lib/stores';
-import { getCurrentDay, sortRoutines } from 'lib/helpers';
+import { isRoutineActive, sortRoutines } from 'lib/helpers';
 
 const Home: NextPage = () => {
-  const day = getCurrentDay();
   const routines = useRoutinesStore(
-    useCallback((state) => sortRoutines(state.routines.filter((routine) => routine.days.includes(day))), [day]),
+    useCallback((state) => sortRoutines(state.routines.filter((routine) => isRoutineActive(routine))), []),
   );
 
   return (

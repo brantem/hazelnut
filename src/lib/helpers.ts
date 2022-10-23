@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 
 import { daysFromSunday } from 'data/days';
 import { Day, Recurrence } from 'types/shared';
+import { Routine } from 'types/routine';
 
 /* c8 ignore next */
 export { pick, omit, capitalize }; // hack to fix swc minify bug
@@ -61,5 +62,17 @@ export const getNextDate = (recurrence: Recurrence) => {
       if (j > i) return startAt.add(j - i, 'day').format('D MMM YYYY');
       return startAt.add(recurrence.interval * 7 - i + j, 'day').format('D MMM YYYY');
     }
+  }
+};
+
+export const isRoutineActive = (routine: Routine) => {
+  if (routine.recurrence.startAt > Date.now()) return false;
+  const day = getCurrentDay();
+  const startAt = dayjs(routine.recurrence.startAt);
+  switch (routine.recurrence.frequency) {
+    case 'DAILY':
+      return dayjs().diff(startAt, 'day') % routine.recurrence.interval === 0;
+    case 'WEEKLY':
+      return dayjs().diff(startAt, 'week') % routine.recurrence.interval === 0 && routine.recurrence.days.includes(day);
   }
 };
