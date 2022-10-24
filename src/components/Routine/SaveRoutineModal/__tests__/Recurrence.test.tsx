@@ -12,30 +12,6 @@ const startAt = dayjs().startOf('day').valueOf();
 const value: Value = { startAt, interval: 1, frequency: 'DAILY', days: [] };
 
 describe('Recurrence', () => {
-  it('should change startAt', () => {
-    const onChange = vi.fn(() => {});
-    const { rerender } = render(<Recurrence value={value} onChange={onChange} showNext />);
-
-    expect(screen.getByTestId('recurrence-next').textContent).toContain(
-      dayjs(startAt).add(1, 'day').format('D MMM YYYY'),
-    );
-    const newStartAt = dayjs().add(1, 'day').startOf('day');
-    fireEvent.change(screen.getByTestId('recurrence-startAt'), {
-      target: { value: dayjs(newStartAt).format('YYYY-MM-DD') },
-    });
-    expect(onChange).toHaveBeenCalledWith({ ...value, startAt: newStartAt.valueOf() });
-    rerender(<Recurrence value={{ ...value, startAt: newStartAt.valueOf() }} onChange={onChange} showNext />);
-    expect(screen.getByTestId('recurrence-next').textContent).toContain(newStartAt.add(1, 'day').format('D MMM YYYY'));
-  });
-
-  it('should automatically fill startAt when user clear startAt', () => {
-    const onChange = vi.fn(() => {});
-    render(<Recurrence value={value} onChange={onChange} showNext />);
-
-    fireEvent.change(screen.getByTestId('recurrence-startAt'), { target: { value: '' } });
-    expect(onChange).toHaveBeenCalledWith(value);
-  });
-
   it('should change interval', () => {
     const onChange = vi.fn(() => {});
     const { rerender } = render(<Recurrence value={value} onChange={onChange} showNext />);
