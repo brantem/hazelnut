@@ -17,7 +17,7 @@ const ItemList = ({ history }: ItemListProps) => {
   const save = useHistoriesStore((state) => state.save);
 
   return (
-    <ol className="space-y-1 pt-2 pb-1" data-testid="history-card-items">
+    <ol className="space-y-1 pt-1" data-testid="history-card-items">
       {history.items.map((item) => (
         <li key={history.id + '-' + item.id} className="flex h-8 w-full items-center justify-between space-x-2 pr-1">
           <div className="w-full">
