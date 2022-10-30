@@ -23,6 +23,7 @@ export type HistoriesState = {
     done: boolean,
     forceToday?: boolean,
   ) => void;
+  saveItems: (routineId: string, date: string, items: Omit<HistoryItem, 'completedAt'>[]) => void;
   remove: (routineId: string, date: string) => void;
 };
 
@@ -81,6 +82,19 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
       set({ histories });
       await storage.put('histories', histories[index]);
     }
+  },
+  saveItems: async (routineId, date, items) => {
+    const histories = get().histories.slice();
+    const index = get().histories.findIndex((history) => history.id === routineId && history.date === date);
+
+    for (const item of items) {
+      histories[index].items.push({ ...pick(item, ['id', 'title']), completedAt: null });
+    }
+
+    console.log(JSON.stringify(histories, null, 2));
+
+    set({ histories });
+    await storage.put('histories', histories[index]);
   },
   remove: async (routineId, date) => {
     set({
