@@ -4,14 +4,15 @@ import { Transition, Dialog } from '@headlessui/react';
 export type BottomSheetProps = {
   isOpen: boolean;
   onClose: () => void;
+  onAfterClose?: () => void;
   title?: React.ReactNode;
   rightElement?: React.ReactNode;
   children: React.ReactNode;
 };
 
-const BottomSheet = ({ isOpen, onClose, title, rightElement, children, ...props }: BottomSheetProps) => {
+const BottomSheet = ({ isOpen, onClose, onAfterClose, title, rightElement, children, ...props }: BottomSheetProps) => {
   return (
-    <Transition show={isOpen} as={Fragment}>
+    <Transition show={isOpen} as={Fragment} afterLeave={onAfterClose}>
       <Dialog onClose={onClose} className="relative inset-0 z-50" data-testid="bottom-sheet" {...props}>
         <Transition.Child
           enter="transition duration-100 ease-out"

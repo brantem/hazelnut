@@ -13,6 +13,6 @@ export const modals = {
 
 export const searches = {
   routines: 'routines',
-  saveItemsToRoutine: 'save-items-to-routine',
+  saveItems: 'save-items',
   items: 'items',
 };

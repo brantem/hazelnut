@@ -1,7 +1,7 @@
 import { render, screen, act, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import Group from 'components/Routine/SaveItemsToRoutineModal/Group';
+import Group from 'components/modals/SaveItemsModal/Group';
 
 import { Item } from 'types/item';
 import { Group as _Group } from 'types/group';
@@ -31,10 +31,10 @@ describe('Group', async () => {
     render(<Group group={group} itemIds={['item-1']} onItemClick={onItemClick} />);
 
     act(() => screen.getByText('Item 1').click());
-    expect(onItemClick).toBeCalledWith(false, 'item-1');
+    expect(onItemClick).toBeCalledWith('item-1', false);
 
     act(() => screen.getByText('Item 2').click());
-    expect(onItemClick).toBeCalledWith(true, 'item-2');
+    expect(onItemClick).toBeCalledWith('item-2', true);
   });
 
   it("should render empty when group doesn't have items", () => {
@@ -49,9 +49,9 @@ describe('Group', async () => {
     render(<Group group={group} itemIds={[]} onItemClick={() => {}} />);
 
     expect(screen.getByText('Group 1')).toBeInTheDocument();
-    act(() => search.result.current.setSearch(constants.searches.saveItemsToRoutine, 'b'));
+    act(() => search.result.current.setSearch(constants.searches.saveItems, 'b'));
     expect(screen.queryByText('Group 1')).not.toBeInTheDocument();
-    act(() => search.result.current.setSearch(constants.searches.saveItemsToRoutine, ''));
+    act(() => search.result.current.setSearch(constants.searches.saveItems, ''));
   });
 
   it('should be minimizable', () => {
