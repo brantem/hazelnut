@@ -8,10 +8,23 @@ import { getCurrentDay } from 'lib/helpers';
 import { Recurrence as Value } from 'types/shared';
 import { sortDays } from 'lib/helpers';
 
-const startAt = dayjs().startOf('day').valueOf();
+const _startAt = dayjs().startOf('day');
+const startAt = _startAt.valueOf();
 const value: Value = { startAt, interval: 1, frequency: 'DAILY', days: [] };
 
 describe('Recurrence', () => {
+  it('should change startAt', () => {
+    const onChange = vi.fn(() => {});
+    const { rerender } = render(<Recurrence value={value} onChange={onChange} showNext />);
+
+    expect(screen.getByTestId('recurrence-next').textContent).toContain(_startAt.add(1, 'day').format('D MMM YYYY'));
+    const newStartAt = dayjs().add(1, 'day').startOf('day');
+    fireEvent.change(screen.getByTestId('recurrence-startAt'), { target: { value: newStartAt.format('YYYY-MM-DD') } });
+    expect(onChange).toHaveBeenCalledWith({ ...value, startAt: newStartAt.valueOf() });
+    rerender(<Recurrence value={{ ...value, startAt: newStartAt.valueOf() }} onChange={onChange} showNext />);
+    expect(screen.getByTestId('recurrence-next').textContent).toContain(newStartAt.add(1, 'day').format('D MMM YYYY'));
+  });
+
   it('should change interval', () => {
     const onChange = vi.fn(() => {});
     const { rerender } = render(<Recurrence value={value} onChange={onChange} showNext />);
