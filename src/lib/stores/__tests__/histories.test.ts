@@ -83,6 +83,27 @@ describe('historiesStore', async () => {
     expect(historiesStore.getState().selectedDate).toBeNull();
   });
 
+  it('should be able to add new history', async () => {
+    vi.setSystemTime(dayjs().startOf('hour').toDate());
+
+    expect(historiesStore.getState().histories).toEqual([]);
+    act(() => historiesStore.getState().add(routine, date));
+    expect(historiesStore.getState().histories).toEqual([
+      {
+        ...simpleRoutine,
+        date,
+        items: [
+          { ...simpleItem, completedAt: null },
+          { id: 'item-2', title: 'Item 2', completedAt: null },
+        ],
+        createdAt: Date.now(),
+      },
+    ]);
+
+    // reset
+    await act(async () => await historiesStore.getState().remove(routine.id, date));
+  });
+
   it('should be able to add and remove item', async () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
 
