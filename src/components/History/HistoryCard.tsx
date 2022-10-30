@@ -41,6 +41,7 @@ type HistoryProps = {
 
 const HistoryCard = ({ history }: HistoryProps) => {
   const setHistory = useHistoriesStore((state) => state.setHistory);
+  const addItemsModal = useModal(constants.modals.addItemsToHistory);
   const settingsModal = useModal(constants.modals.historySettings);
 
   const [minimized, toggleMinimized] = useReducer((prev) => !prev, false);
@@ -58,6 +59,17 @@ const HistoryCard = ({ history }: HistoryProps) => {
         </div>
 
         <div className="flex flex-shrink-0 items-center space-x-2">
+          <button
+            className={`rounded-md px-2 py-1 text-sm hover:bg-${history.color}-100 flex-shrink-0`}
+            onClick={() => {
+              setHistory(history);
+              addItemsModal.show();
+            }}
+            data-testid="history-card-add-items"
+          >
+            Items
+          </button>
+
           <button
             className={`rounded-md p-1 hover:bg-${history.color}-100`}
             onClick={() => {

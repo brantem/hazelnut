@@ -61,4 +61,12 @@ describe('Group', async () => {
     act(() => screen.getByTestId('group-minimize').click());
     expect(screen.queryByTestId('group-items')).not.toBeInTheDocument();
   });
+
+  it('should show disabled item', () => {
+    const onItemClick = vi.fn(() => {});
+    render(<Group group={group} itemIds={['item-1']} disabledItemIds={['item-1']} onItemClick={onItemClick} />);
+
+    act(() => screen.getByText('Item 1').click());
+    expect(onItemClick).not.toBeCalledWith('item-1', false);
+  });
 });

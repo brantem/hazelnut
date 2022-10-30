@@ -12,11 +12,12 @@ import * as constants from 'data/constants';
 type SaveItemsModalProps = {
   modalKey: string;
   itemIds: string[];
-  onItemClick: (itemId: string, isChecked: boolean) => void;
+  disabledItemIds?: string[];
+  onChange: (itemIds: string[]) => void;
   onSave: () => void;
 };
 
-const SaveItemsModal = ({ modalKey, itemIds, onItemClick, onSave }: SaveItemsModalProps) => {
+const SaveItemsModal = ({ modalKey, itemIds, disabledItemIds, onChange, onSave }: SaveItemsModalProps) => {
   const groups = useGroupsStore((state) => state.groups);
   const modal = useModal(modalKey);
 
@@ -42,7 +43,19 @@ const SaveItemsModal = ({ modalKey, itemIds, onItemClick, onSave }: SaveItemsMod
     >
       <ol className="max-h-[75vh] flex-1 space-y-3 overflow-y-auto px-4 pb-3">
         {groups.map((group) => (
-          <Group key={group.id} group={group} itemIds={itemIds} onItemClick={onItemClick} />
+          <Group
+            key={group.id}
+            group={group}
+            itemIds={itemIds}
+            disabledItemIds={disabledItemIds}
+            onItemClick={(itemId, isChecked) => {
+              if (isChecked) {
+                onChange([...itemIds, itemId]);
+              } else {
+                onChange(itemIds.filter((id) => id !== itemId));
+              }
+            }}
+          />
         ))}
 
         {isSearchEmpty && <li className="text-neutral-500">No results found</li>}

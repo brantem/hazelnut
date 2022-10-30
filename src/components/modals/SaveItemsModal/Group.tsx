@@ -13,10 +13,11 @@ import * as constants from 'data/constants';
 type GroupProps = {
   group: _Group;
   itemIds: string[];
+  disabledItemIds?: string[];
   onItemClick: (itemId: string, isChecked: boolean) => void;
 };
 
-export const Group = ({ group, itemIds, onItemClick }: GroupProps) => {
+export const Group = ({ group, itemIds, disabledItemIds, onItemClick }: GroupProps) => {
   const search = useSearch(constants.searches.saveItems);
   const items = useItemsStore(
     useCallback(
@@ -54,6 +55,7 @@ export const Group = ({ group, itemIds, onItemClick }: GroupProps) => {
                 name={item.id}
                 checked={itemIds.includes(item.id)}
                 onChange={(e) => onItemClick(item.id, e.target.checked)}
+                disabled={disabledItemIds?.includes(item.id)}
               />
             </li>
           ))}

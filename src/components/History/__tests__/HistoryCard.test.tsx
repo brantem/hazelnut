@@ -25,7 +25,7 @@ const history: History = {
 };
 
 describe('HistoryCard', () => {
-  it('should show settings button', () => {
+  it('should open settings modal', () => {
     const modal = renderHook(() => useModalStore());
     const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
 
@@ -56,5 +56,19 @@ describe('HistoryCard', () => {
 
     act(() => screen.getByText('Item 1').click());
     expect(save).toHaveBeenCalledWith(history, history.items[0], true);
+  });
+
+  it('should open add items modal', () => {
+    const modal = renderHook(() => useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
+
+    const { result } = renderHook(() => useHistoriesStore());
+    const setHistory = vi.spyOn(result.current, 'setHistory').mockImplementation(() => {});
+
+    render(<HistoryCard history={history} />);
+
+    act(() => screen.getByTestId('history-card-add-items').click());
+    expect(setHistory).toHaveBeenCalledWith(history);
+    expect(show).toHaveBeenCalledWith(constants.modals.addItemsToHistory);
   });
 });

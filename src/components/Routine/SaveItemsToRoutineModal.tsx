@@ -22,13 +22,7 @@ const SaveItemsToRoutineModal = () => {
     <SaveItemsModal
       modalKey={constants.modals.saveItemsToRoutine}
       itemIds={itemIds}
-      onItemClick={(itemId, isChecked) => {
-        if (isChecked) {
-          setItemIds((prev) => [...prev, itemId]);
-        } else {
-          setItemIds((prev) => prev.filter((id) => id !== itemId));
-        }
-      }}
+      onChange={(_itemIds) => setItemIds(_itemIds)}
       onSave={() => edit(routine!.id, { itemIds: getItemIdsByIds(itemIds) })}
     />
   );

@@ -12,6 +12,7 @@ import HistoryList from 'components/History/HistoryList';
 import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
 import DuplicateRoutineModal from 'components/Routine/DuplicateRoutineModal';
 import SaveItemsToRoutineModal from 'components/Routine/SaveItemsToRoutineModal';
+import AddItemsToHistoryModal from 'components/History/AddItemsToHistoryModal';
 import HistorySettingsModal from 'components/History/HistorySettingsModal';
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
@@ -77,6 +78,7 @@ const Routines: NextPage = () => {
       <DuplicateRoutineModal />
 
       <SaveItemsToRoutineModal />
+      <AddItemsToHistoryModal />
 
       <HistorySettingsModal />
       <RoutineSettingsModal />
