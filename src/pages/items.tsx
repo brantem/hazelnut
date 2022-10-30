@@ -44,7 +44,7 @@ const Items: NextPage = () => {
     ),
   );
 
-  const [isSearching, toggleIsSearching] = useReducer((prev) => !prev, false);
+  const [isSearching, toggleIsSearching] = useReducer((prev) => !prev, search.value !== '');
 
   return (
     <>

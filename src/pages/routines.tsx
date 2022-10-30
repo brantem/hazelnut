@@ -28,7 +28,7 @@ const Routines: NextPage = () => {
   const saveRoutineModal = useModal(constants.modals.saveRoutine);
   const search = useSearch(constants.searches.routines);
 
-  const [isSearching, toggleIsSearching] = useReducer((prev) => !prev, false);
+  const [isSearching, toggleIsSearching] = useReducer((prev) => !prev, search.value !== '');
 
   const currentDate = useMemo(() => dayjs().startOf('day').toISOString(), []);
   const isTodaySelected = !selectedDate || selectedDate === currentDate;
