@@ -1,4 +1,5 @@
 import { InputHTMLAttributes } from 'react';
+import clsx from 'clsx';
 
 type CheckboxProps = React.DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
   label: string;
@@ -8,7 +9,7 @@ type CheckboxProps = React.DetailedHTMLProps<InputHTMLAttributes<HTMLInputElemen
 const Checkbox = ({ label, name, color = 'neutral', ...props }: CheckboxProps) => {
   return (
     <div className="flex w-full items-center justify-between space-x-3">
-      <label htmlFor={name} className="flex-1 truncate font-medium">
+      <label htmlFor={name} className={clsx('flex-1 truncate font-medium', props.disabled && 'text-neutral-500')}>
         {label}
       </label>
 
@@ -17,7 +18,7 @@ const Checkbox = ({ label, name, color = 'neutral', ...props }: CheckboxProps) =
         type="checkbox"
         id={name}
         name={name}
-        className={`h-5 w-5 rounded-full border-${color}-300 text-${color}-600 focus:ring-${color}-500`}
+        className={`h-5 w-5 rounded-full border-${color}-300 text-${color}-600 focus:ring-${color}-500 disabled:bg-neutral-400 disabled:hover:bg-neutral-400`}
         aria-checked={props.checked ? 'true' : 'false'}
       />
     </div>
