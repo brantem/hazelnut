@@ -1,7 +1,7 @@
 import { render, screen, act, renderHook, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import SaveItemsToRoutineModal from 'components/Item/SaveItemsToRoutineModal';
+import SaveItemsToRoutineModal from 'components/Routine/SaveItemsToRoutineModal';
 
 import { useGroupsStore, useItemsStore, useModalStore, useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';

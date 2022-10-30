@@ -1,7 +1,7 @@
 import { render, screen, act, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import Group from 'components/Item/SaveItemsToRoutineModal/Group';
+import Group from 'components/Routine/SaveItemsToRoutineModal/Group';
 
 import { Item } from 'types/item';
 import { Group as _Group } from 'types/group';

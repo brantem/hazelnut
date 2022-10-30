@@ -1,7 +1,7 @@
 import { render, screen, act, fireEvent, waitFor, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import AddItemToGroupModal from 'components/Item/AddItemToGroupModal';
+import AddItemToGroupModal from 'components/Group/AddItemToGroupModal';
 
 import { useGroupsStore, useItemsStore, useModalStore } from 'lib/stores';
 import { Group } from 'types/group';

@@ -11,7 +11,7 @@ import RoutineList from 'components/Routine/RoutineList';
 import HistoryList from 'components/History/HistoryList';
 import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
 import DuplicateRoutineModal from 'components/Routine/DuplicateRoutineModal';
-import SaveItemsToRoutineModal from 'components/Item/SaveItemsToRoutineModal';
+import SaveItemsToRoutineModal from 'components/Routine/SaveItemsToRoutineModal';
 import HistorySettingsModal from 'components/History/HistorySettingsModal';
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 

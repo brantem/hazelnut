@@ -7,7 +7,7 @@ import Layout from 'components/Layout';
 import Search from 'components/Search';
 import GroupCard from 'components/Group/GroupCard';
 import SaveGroupModal from 'components/Group/SaveGroupModal';
-import AddItemToGroupModal from 'components/Item/AddItemToGroupModal';
+import AddItemToGroupModal from 'components/Group/AddItemToGroupModal';
 import EditItemModal from 'components/Item/EditItemModal';
 import GroupSettingsModal from 'components/Group/GroupSettingsModal';
 import ItemSettingsModal from 'components/Item/ItemSettingsModal';

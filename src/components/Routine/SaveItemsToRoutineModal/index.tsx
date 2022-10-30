@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import BottomSheet from 'components/BottomSheet';
 import Search from 'components/Search';
-import Group from 'components/Item/SaveItemsToRoutineModal/Group';
+import Group from 'components/Routine/SaveItemsToRoutineModal/Group';
 
 import { useRoutinesStore, useGroupsStore, useItemsStore } from 'lib/stores';
 import { isMatch } from 'lib/helpers';
