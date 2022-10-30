@@ -14,14 +14,13 @@ const NavItem = ({ icon, href, children }: NavItemProps) => {
   const isActive = router.pathname === href;
 
   return (
-    <Link href={href}>
-      <a
-        className="flex flex-1 items-center justify-center px-4 py-3 text-center font-medium"
-        aria-current={isActive ? 'page' : undefined}
-      >
-        <div className="h-6 w-6">{icon}</div>
-        {isActive && <span className="ml-2">{children}</span>}
-      </a>
+    <Link
+      href={href}
+      className="flex flex-1 items-center justify-center px-4 py-3 text-center font-medium"
+      aria-current={isActive ? 'page' : undefined}
+    >
+      <div className="h-6 w-6">{icon}</div>
+      {isActive && <span className="ml-2">{children}</span>}
     </Link>
   );
 };
