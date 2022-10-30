@@ -199,7 +199,7 @@ describe('historiesStore', async () => {
     act(() => historiesStore.getState().save(routine, item, true));
     const item3 = { id: 'item-3', title: 'Item 3', completedAt: null };
     expect(historiesStore.getState().histories[0].items).not.toContainEqual(item3);
-    act(() => historiesStore.getState().saveItems(routineId, dayjs().startOf('day').toISOString(), [item3]));
+    act(() => historiesStore.getState().addItems(routineId, dayjs().startOf('day').toISOString(), [item3]));
     expect(historiesStore.getState().histories[0].items).toContainEqual(item3);
   });
 
