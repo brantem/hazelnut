@@ -1,4 +1,4 @@
-import { render, screen, act, renderHook, waitFor } from '@testing-library/react';
+import { render, screen, act, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import AddMissingRoutineModal from 'components/History/AddMissingRoutineModal';
