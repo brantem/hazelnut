@@ -4,9 +4,10 @@ import '@testing-library/jest-dom';
 
 import Routines from 'pages/routines';
 
-import { useRoutinesStore, useHistoriesStore } from 'lib/stores';
+import { useModalStore, useRoutinesStore, useHistoriesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 import { Recurrence } from 'types/shared';
+import * as constants from 'data/constants';
 
 vi.mock('next/router', () => ({
   useRouter() {
@@ -89,8 +90,11 @@ describe('Routines', () => {
     expect(routines.result.current.routine).toBeNull();
   });
 
-  it('should show <HistoryList /> and hide search if selectedDate !== currentDate', async () => {
+  it('should support selectedDate !== currentDate', async () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
+    const modal = renderHook(() => useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
+
     const histories = renderHook(() => useHistoriesStore());
 
     const { rerender } = render(<Routines />);
@@ -102,17 +106,9 @@ describe('Routines', () => {
     rerender(<Routines />);
     expect(screen.getByTestId('history-list')).toBeInTheDocument();
     expect(screen.queryByTestId('routines-search')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('routines-add')).not.toBeInTheDocument();
+    act(() => screen.getByTestId('routines-add-missing').click());
+    expect(show).toHaveBeenCalledWith(constants.modals.addMissingRoutine);
     expect(screen.queryByTestId('search')).not.toBeInTheDocument();
-  });
-
-  it('should move to today when clicking "Add Routine" when selectedDate !== currentDate', async () => {
-    vi.setSystemTime(dayjs().startOf('hour').toDate());
-    const histories = renderHook(() => useHistoriesStore());
-
-    const { rerender } = render(<Routines />);
-
-    act(() => screen.getByTestId('routines-add').click());
-    expect(histories.result.current.selectedDate).toBeNull();
-    rerender(<Routines />);
   });
 });

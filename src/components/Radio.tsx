@@ -1,18 +1,21 @@
 import { InputHTMLAttributes } from 'react';
-import clsx from 'clsx';
 
-type RadioProps = Omit<React.DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, 'value'> & {
+type RadioProps = Omit<
+  React.DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+  'name' | 'value'
+> & {
   label: React.ReactNode;
+  name: string;
   value: string;
   color?: string;
 };
 
 const Radio = ({ label, name, color = 'neutral', ...props }: RadioProps) => {
-  const id = name ? name + '-' + props.value : 'radio-' + props.value;
+  const id = name + '-' + props.value;
 
   return (
     <div className="flex w-full items-center justify-between space-x-3">
-      <label htmlFor={id} className={clsx('flex-1 truncate font-medium', props.disabled && 'text-neutral-500')}>
+      <label htmlFor={id} className="flex-1 truncate font-medium">
         {label}
       </label>
 

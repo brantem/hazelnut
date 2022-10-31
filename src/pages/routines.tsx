@@ -13,6 +13,7 @@ import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
 import DuplicateRoutineModal from 'components/Routine/DuplicateRoutineModal';
 import SaveItemsToRoutineModal from 'components/Routine/SaveItemsToRoutineModal';
 import AddItemsToHistoryModal from 'components/History/AddItemsToHistoryModal';
+import AddMissingRoutineModal from 'components/History/AddMissingRoutineModal';
 import HistorySettingsModal from 'components/History/HistorySettingsModal';
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
@@ -21,13 +22,11 @@ import { useModal, useSearch } from 'lib/hooks';
 import * as constants from 'data/constants';
 
 const Routines: NextPage = () => {
-  const { selectedDate, setSelectedDate } = useHistoriesStore((state) => ({
-    selectedDate: state.selectedDate,
-    setSelectedDate: state.setSelectedDate,
-  }));
+  const selectedDate = useHistoriesStore((state) => state.selectedDate);
   const clearRoutine = useRoutinesStore((state) => () => state.routine ? state.setRoutine(null) : void 0);
-  const saveRoutineModal = useModal(constants.modals.saveRoutine);
   const search = useSearch(constants.searches.routines);
+  const saveRoutineModal = useModal(constants.modals.saveRoutine);
+  const addMissingRoutineModal = useModal(constants.modals.addMissingRoutine);
 
   const [isSearching, toggleIsSearching] = useReducer((prev) => !prev, search.value !== '');
 
@@ -53,10 +52,16 @@ const Routines: NextPage = () => {
               text: 'Add Routine',
               onClick: () => {
                 clearRoutine();
-                if (!isTodaySelected) setSelectedDate(null);
                 saveRoutineModal.show();
               },
               testId: 'routines-add',
+              skip: !isTodaySelected,
+            },
+            {
+              text: 'Add Missing Routine',
+              onClick: () => addMissingRoutineModal.show(),
+              testId: 'routines-add-missing',
+              skip: isTodaySelected,
             },
           ],
         }}
@@ -79,6 +84,7 @@ const Routines: NextPage = () => {
 
       <SaveItemsToRoutineModal />
       <AddItemsToHistoryModal />
+      <AddMissingRoutineModal />
 
       <HistorySettingsModal />
       <RoutineSettingsModal />

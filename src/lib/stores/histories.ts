@@ -43,8 +43,7 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
     return !!history.items.find((item) => item.id === itemId)?.completedAt;
   },
   add: async (routine) => {
-    const date = get().selectedDate;
-    if (!date) return;
+    const date = get().selectedDate || dayjs().startOf('day').toISOString();
     const _items = itemsStore.getState().items;
     const history = {
       ...pick(routine, ['id', 'title', 'color', 'time']),

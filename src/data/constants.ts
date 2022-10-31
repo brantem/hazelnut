@@ -1,6 +1,7 @@
 export const modals = {
   historySettings: 'history-settings',
   addItemsToHistory: 'add-items-to-history',
+  addMissingRoutine: 'add-missing-routine',
 
   routineSettings: 'routine-settings',
   saveRoutine: 'save-routine',
@@ -16,7 +17,10 @@ export const modals = {
 };
 
 export const searches = {
+  missingRoutines: 'missing-routines',
+
   routines: 'routines',
   saveItems: 'save-items',
+
   items: 'items',
 };
