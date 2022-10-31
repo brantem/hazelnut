@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { Analytics } from '@vercel/analytics/react';
 
 import { useLoadStore } from 'lib/stores';
 
@@ -28,6 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <Component {...pageProps} />
+      <Analytics />
     </>
   );
 }
