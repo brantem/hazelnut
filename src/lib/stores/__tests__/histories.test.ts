@@ -7,8 +7,6 @@ import { Routine } from 'types/routine';
 import { Item } from 'types/item';
 import { pick } from 'lib/helpers';
 
-const routineId = 'routine-1';
-const itemId = 'item-1';
 const date = dayjs().startOf('day').toISOString();
 
 const routine: Routine = {
@@ -57,7 +55,7 @@ describe('historiesStore', async () => {
     vi.useRealTimers();
     act(() => {
       historiesStore.getState().setSelectedDate(null);
-      historiesStore.getState().remove(routineId, date);
+      historiesStore.getState().remove(routine.id, date);
     });
   });
 
@@ -85,13 +83,14 @@ describe('historiesStore', async () => {
 
   it('should be able to add new history', async () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
+    act(() => historiesStore.getState().setSelectedDate(date));
 
     expect(historiesStore.getState().histories).toEqual([]);
-    act(() => historiesStore.getState().add(routine, date));
+    act(() => historiesStore.getState().add(routine));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
-        date,
+        date: date.valueOf(),
         items: [
           { ...simpleItem, completedAt: null },
           { id: 'item-2', title: 'Item 2', completedAt: null },
@@ -99,9 +98,6 @@ describe('historiesStore', async () => {
         createdAt: Date.now(),
       },
     ]);
-
-    // reset
-    await act(async () => await historiesStore.getState().remove(routine.id, date));
   });
 
   it('should be able to add and remove item', async () => {
@@ -153,12 +149,6 @@ describe('historiesStore', async () => {
         createdAt: Date.now(),
       },
     ]);
-
-    // reset
-    await act(async () => {
-      await historiesStore.getState().save(routine, item, true);
-      await routinesStore.getState().edit(routine.id, { itemIds: ['item-1', 'item-2'] });
-    });
   });
 
   it('should be able to add and remove item from past routine', () => {
@@ -196,31 +186,31 @@ describe('historiesStore', async () => {
     ]);
 
     // reset
-    act(() => historiesStore.getState().remove(routineId, _date));
+    act(() => historiesStore.getState().remove(routine.id, _date));
   });
 
   it('should be able to check whether an item has been completed or not', () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
-    expect(historiesStore.getState().getIsDone(routineId, itemId)).toBeFalsy();
+    expect(historiesStore.getState().getIsDone(routine.id, item.id)).toBeFalsy();
     act(() => historiesStore.getState().save(routine, item, true));
-    expect(historiesStore.getState().getIsDone(routineId, itemId)).toBeTruthy();
+    expect(historiesStore.getState().getIsDone(routine.id, item.id)).toBeTruthy();
   });
 
   it('should be able to check whether an item from past routine has been completed or not', () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
     const _date = dayjs().subtract(5, 'day').toISOString();
     act(() => historiesStore.getState().setSelectedDate(_date));
-    expect(historiesStore.getState().getIsDone(routineId, itemId)).toBeFalsy();
+    expect(historiesStore.getState().getIsDone(routine.id, item.id)).toBeFalsy();
     act(() => historiesStore.getState().save(routine, item, true));
-    expect(historiesStore.getState().getIsDone(routineId, itemId)).toBeTruthy();
-    act(() => historiesStore.getState().remove(routineId, _date)); // reset
+    expect(historiesStore.getState().getIsDone(routine.id, item.id)).toBeTruthy();
+    act(() => historiesStore.getState().remove(routine.id, _date)); // reset
   });
 
   it('should be able to add new items to history', () => {
     act(() => historiesStore.getState().save(routine, item, true));
     const item3 = { id: 'item-3', title: 'Item 3', completedAt: null };
     expect(historiesStore.getState().histories[0].items).not.toContainEqual(item3);
-    act(() => historiesStore.getState().addItems(routineId, dayjs().startOf('day').toISOString(), [item3]));
+    act(() => historiesStore.getState().addItems(routine.id, dayjs().startOf('day').toISOString(), [item3]));
     expect(historiesStore.getState().histories[0].items).toContainEqual(item3);
   });
 
@@ -232,7 +222,7 @@ describe('historiesStore', async () => {
     });
 
     expect(historiesStore.getState().histories).toHaveLength(2);
-    act(() => historiesStore.getState().remove(routineId, dayjs().startOf('day').toISOString()));
+    act(() => historiesStore.getState().remove(routine.id, dayjs().startOf('day').toISOString()));
     expect(historiesStore.getState().histories).toHaveLength(1);
   });
 });
