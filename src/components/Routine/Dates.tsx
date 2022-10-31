@@ -21,7 +21,7 @@ const DatesItem = ({ date, isSelected, isCurrentDate }: DateProps) => {
 
   return (
     <li
-      className="ml-4 mr-3 flex-shrink-0 cursor-pointer last:mr-4"
+      className="flex-shrink-0 cursor-pointer"
       onClick={() => setSelectedDate(date)}
       tabIndex={0}
       onKeyDown={(e) => e.code === 'Space' && setSelectedDate(date)}
@@ -67,7 +67,7 @@ const Dates = () => {
       {!isReady ? (
         <div className="mb-3 h-16" />
       ) : (
-        <ol className="flex overflow-x-auto pb-3">
+        <ol className="flex scroll-pr-4 space-x-7 overflow-x-auto px-4 pb-3">
           {dates.map((date) => {
             const isSelected = selectedDate ? selectedDate === date : currentDate === date;
             return <DatesItem key={date} date={date} isSelected={isSelected} isCurrentDate={date === currentDate} />;
