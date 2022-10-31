@@ -21,7 +21,7 @@ const DatesItem = ({ date, isSelected, isCurrentDate }: DateProps) => {
 
   return (
     <li
-      className="w-[calc(100%/7)] flex-shrink-0 cursor-pointer"
+      className="ml-4 mr-3 flex-shrink-0 cursor-pointer last:mr-4"
       onClick={() => setSelectedDate(date)}
       tabIndex={0}
       onKeyDown={(e) => e.code === 'Space' && setSelectedDate(date)}
