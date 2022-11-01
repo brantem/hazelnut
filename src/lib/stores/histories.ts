@@ -17,9 +17,9 @@ export type HistoriesState = {
   setSelectedDate: (selectedDate: string | null) => void;
 
   getIsDone: (routineId: string, itemId: string, forceToday?: boolean) => boolean;
-  add: (routine: Omit<History, 'date' | 'items'> & { itemIds: Routine['itemIds'] }) => void;
+  add: (routine: Omit<History, 'date' | 'items'> & Pick<Routine, 'itemIds'>) => void;
   save: (
-    routine: Omit<History, 'date' | 'items'> & { itemIds?: Routine['itemIds'] },
+    routine: Omit<History, 'date' | 'items'> & Pick<Routine, 'itemIds'>,
     item: Omit<HistoryItem, 'completedAt'>,
     done: boolean,
     forceToday?: boolean,
@@ -48,8 +48,9 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
     const history = {
       ...pick(routine, ['id', 'title', 'color', 'time']),
       date,
-      items: _items.reduce((items, _item) => {
-        if (!routine.itemIds?.includes(_item.id)) return items;
+      items: routine.itemIds.reduce((items, itemId) => {
+        const _item = _items.find((item) => item.id === itemId);
+        if (!_item) return items;
         return [...items, { ...pick(_item, ['id', 'title']), completedAt: null }];
       }, [] as History['items']),
       createdAt: Date.now(),
@@ -66,15 +67,10 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
       const history = {
         ...pick(routine, ['id', 'title', 'color', 'time']),
         date,
-        items: _items.reduce((items, _item) => {
-          if (!routine.itemIds?.includes(_item.id)) return items;
-          return [
-            ...items,
-            {
-              ...pick(_item, ['id', 'title']),
-              completedAt: _item.id === item.id ? Date.now() : null,
-            },
-          ];
+        items: routine.itemIds.reduce((items, itemId) => {
+          const _item = _items.find((item) => item.id === itemId);
+          if (!_item) return items;
+          return [...items, { ...pick(_item, ['id', 'title']), completedAt: _item.id === item.id ? Date.now() : null }];
         }, [] as History['items']),
         createdAt: Date.now(),
       };

@@ -13,7 +13,7 @@ const routine: Routine = {
   id: 'routine-1',
   title: 'Routine 1',
   color: 'red',
-  itemIds: ['item-1', 'item-2'],
+  itemIds: ['item-2', 'item-1'],
   time: null,
   recurrence: {
     startAt: 0,
@@ -86,14 +86,14 @@ describe('historiesStore', async () => {
     act(() => historiesStore.getState().setSelectedDate(date));
 
     expect(historiesStore.getState().histories).toEqual([]);
-    act(() => historiesStore.getState().add(routine));
+    act(() => historiesStore.getState().add({ ...routine, itemIds: [...routine.itemIds, 'item-4'] }));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
         date: date.valueOf(),
         items: [
-          { ...simpleItem, completedAt: null },
           { id: 'item-2', title: 'Item 2', completedAt: null },
+          { ...simpleItem, completedAt: null },
         ],
         createdAt: Date.now(),
       },
@@ -106,29 +106,30 @@ describe('historiesStore', async () => {
     expect(historiesStore.getState().histories).toEqual([]);
 
     // check
-    act(() => historiesStore.getState().save(routine, item, true, true));
+    const _routine = { ...routine, itemIds: [...routine.itemIds, 'item-4'] };
+    act(() => historiesStore.getState().save(_routine, item, true, true));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
         date,
         items: [
-          { ...simpleItem, completedAt: Date.now() },
           { id: 'item-2', title: 'Item 2', completedAt: null },
+          { ...simpleItem, completedAt: Date.now() },
         ],
         createdAt: Date.now(),
       },
     ]);
 
     // check new item
-    await act(() => routinesStore.getState().edit(routine.id, { itemIds: ['item-1', 'item-2', 'item-3'] }));
+    await act(() => routinesStore.getState().edit(routine.id, { itemIds: ['item-2', 'item-1', 'item-3'] }));
     act(() => historiesStore.getState().save(routine, { ...item, id: 'item-3', title: 'Item 3' }, false, true));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
         date,
         items: [
-          { ...simpleItem, completedAt: Date.now() },
           { id: 'item-2', title: 'Item 2', completedAt: null },
+          { ...simpleItem, completedAt: Date.now() },
           { id: 'item-3', title: 'Item 3', completedAt: Date.now() },
         ],
         createdAt: Date.now(),
@@ -142,8 +143,8 @@ describe('historiesStore', async () => {
         ...simpleRoutine,
         date,
         items: [
-          { ...simpleItem, completedAt: null },
           { id: 'item-2', title: 'Item 2', completedAt: null },
+          { ...simpleItem, completedAt: null },
           { id: 'item-3', title: 'Item 3', completedAt: Date.now() },
         ],
         createdAt: Date.now(),
@@ -164,8 +165,8 @@ describe('historiesStore', async () => {
         ...simpleRoutine,
         date: _date,
         items: [
-          { ...simpleItem, completedAt: Date.now() },
           { id: 'item-2', title: 'Item 2', completedAt: null },
+          { ...simpleItem, completedAt: Date.now() },
         ],
         createdAt: Date.now(),
       },
@@ -178,8 +179,8 @@ describe('historiesStore', async () => {
         ...simpleRoutine,
         date: _date,
         items: [
-          { ...simpleItem, completedAt: null },
           { id: 'item-2', title: 'Item 2', completedAt: null },
+          { ...simpleItem, completedAt: null },
         ],
         createdAt: Date.now(),
       },
