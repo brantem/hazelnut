@@ -12,7 +12,7 @@ const DeleteButton = ({ text = 'Delete', confirmText = 'Confirm', timeout = 2000
 
   return !clicked ? (
     <button
-      className="px-4 py-2 text-left hover:bg-neutral-100"
+      className="px-4 py-2 text-left text-red-500 hover:bg-neutral-100"
       onClick={() => {
         setClicked(true);
         setTimeout(() => setClicked(false), timeout);

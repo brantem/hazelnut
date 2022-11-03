@@ -7,7 +7,7 @@ import { useModal } from 'lib/hooks';
 type SettingsModalProps = Pick<BottomSheetProps, 'title'> & {
   modalKey: string;
   description?: React.ReactNode;
-  actions: ({ text: string; onClick: () => void } | { render: () => React.ReactNode })[];
+  actions: (({ text: string; onClick: () => void } | { render: () => React.ReactNode }) & { skip?: boolean })[];
 };
 
 const SettingsModal = ({ modalKey, description, actions, ...props }: SettingsModalProps) => {
@@ -23,6 +23,7 @@ const SettingsModal = ({ modalKey, description, actions, ...props }: SettingsMod
 
       <div className="flex flex-col pb-3">
         {actions.map((action, i) => {
+          if (action.skip) return null;
           return 'render' in action ? (
             <Fragment key={i}>{action.render()}</Fragment>
           ) : (

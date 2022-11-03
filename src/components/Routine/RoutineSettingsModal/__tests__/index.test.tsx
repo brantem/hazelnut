@@ -1,9 +1,10 @@
+import dayjs from 'dayjs';
 import { render, renderHook, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 
-import { useModalStore, useRoutinesStore } from 'lib/stores';
+import { useModalStore, historiesStore, useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 import * as constants from 'data/constants';
 
@@ -82,6 +83,27 @@ describe('RoutineSettingsModal', async () => {
     act(() => screen.getByText('Delete').click());
     act(() => screen.getByText('Confirm').click());
     expect(remove).toHaveBeenCalledWith('routine-1');
+    expect(hide).toHaveBeenCalledWith();
+  });
+
+  it('should delete history', async () => {
+    const modal = renderHook(() => useModalStore());
+    const hide = vi.spyOn(modal.result.current, 'hide');
+
+    const remove = vi.spyOn(historiesStore.getState(), 'remove');
+
+    const { result } = renderHook(() => useRoutinesStore());
+
+    render(<RoutineSettingsModal />);
+
+    act(() => {
+      historiesStore.getState().add(routine);
+      result.current.setRoutine(routine);
+      modal.result.current.show(constants.modals.routineSettings);
+    });
+    act(() => screen.getByText('Delete History').click());
+    act(() => screen.getByText('Confirm').click());
+    expect(remove).toHaveBeenCalledWith('routine-1', dayjs().startOf('day').toISOString());
     expect(hide).toHaveBeenCalledWith();
   });
 });
