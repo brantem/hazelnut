@@ -1,4 +1,4 @@
-import { render, renderHook, screen, act, waitFor } from '@testing-library/react';
+import { render, renderHook, screen, act, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import DuplicateRoutineModal from 'components/Routine/DuplicateRoutineModal';
@@ -45,6 +45,7 @@ describe('DuplicateRoutineModal', () => {
       modal.result.current.show(constants.modals.duplicateRoutine);
     });
     act(() => {
+      fireEvent.change(screen.getByLabelText('Title'), { target: { value: ' Routine 1 - Copy ' } });
       screen.getByTestId('color-picker-option-amber').click();
       screen.getByText('Duplicate').click();
     });

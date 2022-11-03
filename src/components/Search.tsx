@@ -18,7 +18,7 @@ const Search = ({ searchKey, placeholder = 'Search', ...props }: SearchProps) =>
         name="search"
         placeholder={placeholder}
         value={search.value}
-        onChange={(e) => search.change(e.target.value)}
+        onChange={(e) => search.change(e.target.value.trim())}
         autoFocus
       />
     </div>

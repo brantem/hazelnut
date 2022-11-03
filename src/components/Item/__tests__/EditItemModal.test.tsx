@@ -50,7 +50,7 @@ describe('EditItemModal', () => {
       modal.result.current.show(constants.modals.editItem);
     });
     act(() => {
-      fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Item 1a' } });
+      fireEvent.change(screen.getByLabelText('Title'), { target: { value: ' Item 1a ' } });
       screen.getByText('Save').click();
     });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));

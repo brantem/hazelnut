@@ -17,7 +17,7 @@ const EditItemModal = () => {
   const formik = useFormik<Values>({
     initialValues: { title: item?.title || '' },
     onSubmit: async (values, { resetForm }) => {
-      await edit(item!.id, values);
+      await edit(item!.id, { title: values.title.trim() });
       resetForm();
       editModal.hide();
     },

@@ -33,7 +33,7 @@ describe('SaveGroupModal', () => {
 
     act(() => modal.result.current.show(constants.modals.saveGroup));
     act(() => {
-      fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Group 1' } });
+      fireEvent.change(screen.getByLabelText('Title'), { target: { value: ' Group 1 ' } });
       screen.getByText('Add').click();
     });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));

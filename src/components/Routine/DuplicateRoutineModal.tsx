@@ -24,14 +24,14 @@ const DuplicateRoutineModal = () => {
     initialValues: {
       title: (routine?.title || '') + ' - Copy',
       color: defaultColor,
-      time: routine?.time || '',
+      time: routine?.time || null,
     },
     onSubmit: async (values, { resetForm }) => {
       add({
-        title: values.title,
-        color: values.color,
+        title: values.title.trim(),
+        color: values.color.trim(),
         recurrence: routine!.recurrence,
-        time: values.time,
+        time: values.time?.trim() || null,
         itemIds: routine!.itemIds,
       });
 

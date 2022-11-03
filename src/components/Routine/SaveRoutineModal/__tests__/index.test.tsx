@@ -32,7 +32,7 @@ describe('SaveRoutineModal', () => {
     window.IntersectionObserver = mockIntersectionObserver;
   });
 
-  it(' should add new routine', async () => {
+  it('should add new routine', async () => {
     const modal = renderHook(() => useModalStore());
     const hide = vi.spyOn(modal.result.current, 'hide');
 
@@ -43,7 +43,7 @@ describe('SaveRoutineModal', () => {
 
     act(() => modal.result.current.show(constants.modals.saveRoutine));
     act(() => {
-      fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Routine 1' } });
+      fireEvent.change(screen.getByLabelText('Title'), { target: { value: ' Routine 1 ' } });
       fireEvent.change(screen.getByTestId('recurrence-frequency'), { target: { value: 'WEEKLY' } });
       fireEvent.change(screen.getByLabelText('Time'), { target: { value: '00:00' } });
       screen.getByText('Add').click();

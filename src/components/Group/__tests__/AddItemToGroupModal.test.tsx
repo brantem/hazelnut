@@ -53,7 +53,7 @@ describe('AddItemToGroupModal', () => {
       modal.result.current.show(constants.modals.addItemToGroup);
     });
     act(() => {
-      fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Item 1' } });
+      fireEvent.change(screen.getByLabelText('Title'), { target: { value: ' Item 1 ' } });
       screen.getByText('Add').click();
     });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));

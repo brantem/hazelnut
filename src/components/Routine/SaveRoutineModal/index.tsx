@@ -38,13 +38,20 @@ const SaveRoutineModal = () => {
       title: routine?.title || '',
       color: routine?.color || defaultColor,
       recurrence: routine?.recurrence || defaultRecurrence,
-      time: routine?.time || '',
+      time: routine?.time || null,
     },
     onSubmit: async (values, { resetForm }) => {
+      const data = {
+        title: values.title.trim(),
+        color: values.color.trim(),
+        recurrence: values.recurrence,
+        time: values.time?.trim() || null,
+      };
+
       if (routine) {
-        edit(routine?.id, values);
+        edit(routine?.id, data);
       } else {
-        add(values);
+        add(data);
       }
 
       resetForm();

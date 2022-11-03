@@ -18,7 +18,7 @@ const AddItemToGroupModal = () => {
   const formik = useFormik<Values>({
     initialValues: { title: '' },
     onSubmit: async (values, { resetForm }) => {
-      await add(group!.id, values);
+      await add(group!.id, { title: values.title.trim() });
       resetForm();
       modal.hide();
     },
