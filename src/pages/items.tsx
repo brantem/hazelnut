@@ -11,6 +11,7 @@ import AddItemToGroupModal from 'components/Group/AddItemToGroupModal';
 import EditItemModal from 'components/Item/EditItemModal';
 import GroupSettingsModal from 'components/Group/GroupSettingsModal';
 import ItemSettingsModal from 'components/Item/ItemSettingsModal';
+import EmptySection from 'components/sections/EmptySection';
 
 import { useGroupsStore, useItemsStore } from 'lib/stores';
 import { isMatch } from 'lib/helpers';
@@ -18,9 +19,10 @@ import { useModal, useSearch } from 'lib/hooks';
 import * as constants from 'data/constants';
 
 const Items: NextPage = () => {
-  const { groups, clearGroup } = useGroupsStore((state) => ({
+  const { groups, clearGroup, isReady } = useGroupsStore((state) => ({
     groups: state.groups,
     clearGroup: () => (state.group ? state.setGroup(null) : void 0),
+    isReady: state.isReady,
   }));
   const saveGroupModal = useModal(constants.modals.saveGroup);
 
@@ -59,6 +61,7 @@ const Items: NextPage = () => {
                 toggleIsSearching();
               },
               testId: 'items-search',
+              skip: groups.length === 0,
             },
             {
               text: 'Add Group',
@@ -70,23 +73,37 @@ const Items: NextPage = () => {
           ],
         }}
       >
-        {isSearching && (
-          <Search
-            placeholder="Search for group or item titles"
-            searchKey={constants.searches.items}
-            className="sticky top-0 bg-white px-4 pt-1 pb-3"
-          />
+        {groups.length > 0 ? (
+          <>
+            {isSearching && (
+              <Search
+                placeholder="Search for group or item titles"
+                searchKey={constants.searches.items}
+                className="sticky top-0 bg-white px-4 pt-1 pb-3"
+              />
+            )}
+
+            <section className="space-y-3">
+              {groups.map((group, i) => (
+                <GroupCard key={i} group={group} />
+              ))}
+
+              {isSearchGroupEmpty && isSearchItemsEmpty && (
+                <p className="mx-4 mt-3 text-center text-neutral-500">No results found</p>
+              )}
+            </section>
+          </>
+        ) : (
+          isReady && (
+            <EmptySection
+              title="You have not created any groups yet"
+              action={{
+                onClick: saveGroupModal.show,
+                text: 'Add Group',
+              }}
+            />
+          )
         )}
-
-        <section className="space-y-3">
-          {groups.map((group, i) => (
-            <GroupCard key={i} group={group} />
-          ))}
-
-          {isSearchGroupEmpty && isSearchItemsEmpty && (
-            <p className="mx-4 mt-3 text-center text-neutral-500">No results found</p>
-          )}
-        </section>
       </Layout>
 
       <SaveGroupModal />

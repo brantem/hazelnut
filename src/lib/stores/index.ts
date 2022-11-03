@@ -17,9 +17,9 @@ export const useLoadStore = () => {
         storage.getAll('histories'),
       ]);
 
-      itemsStore.setState({ items: items.sort((a, b) => a.createdAt - b.createdAt) });
-      groupsStore.setState({ groups: groups.sort((a, b) => a.createdAt - b.createdAt) });
-      routinesStore.setState({ routines });
+      itemsStore.setState({ items: items.sort((a, b) => a.createdAt - b.createdAt), isReady: true });
+      groupsStore.setState({ groups: groups.sort((a, b) => a.createdAt - b.createdAt), isReady: true });
+      routinesStore.setState({ routines, isReady: true });
       historiesStore.setState({ histories, selectedDate: null });
     })();
   }, []);

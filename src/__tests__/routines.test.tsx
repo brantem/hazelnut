@@ -1,13 +1,22 @@
 import { act, render, screen, renderHook, fireEvent } from '@testing-library/react';
 import dayjs from 'dayjs';
+import Router from 'next/router';
 import '@testing-library/jest-dom';
 
 import Routines from 'pages/routines';
 
-import { useModalStore, useRoutinesStore, useHistoriesStore } from 'lib/stores';
+import {
+  useModalStore,
+  useHistoriesStore,
+  routinesStore,
+  useRoutinesStore,
+  itemsStore,
+  useItemsStore,
+} from 'lib/stores';
 import { Routine } from 'types/routine';
 import { Recurrence } from 'types/shared';
 import * as constants from 'data/constants';
+import { Item } from 'types/item';
 
 vi.mock('next/router', () => ({
   useRouter() {
@@ -15,8 +24,11 @@ vi.mock('next/router', () => ({
       pathname: '/',
     };
   },
+  default: {
+    push: vi.fn(),
+  },
 }));
-
+``;
 const recurrence: Recurrence = {
   startAt: 0,
   interval: 1,
@@ -35,12 +47,24 @@ const routine: Routine = {
   createdAt: 0,
 };
 
+const item: Item = {
+  id: 'item-1',
+  groupId: 'group-1',
+  title: 'Item 1',
+  createdAt: 0,
+};
+
 describe('Routines', () => {
   beforeAll(() => {
     const routines = renderHook(() => useRoutinesStore());
+    const items = renderHook(() => useItemsStore());
     act(() => {
+      routinesStore.setState({ isReady: true });
       routines.result.current.add({ title: 'Routine 2', color: 'red', recurrence, time: '01:00' });
       routines.result.current.add({ title: 'Routine 1', color: 'red', recurrence, time: '00:00' });
+
+      itemsStore.setState({ isReady: true });
+      items.result.current.add('group-1', item);
     });
   });
 
@@ -65,6 +89,44 @@ describe('Routines', () => {
 
     act(() => screen.getByText('Add Routine').click());
     expect(screen.getByTestId('save-routine-modal')).toBeInTheDocument();
+  });
+
+  it('should render empty state for empty items successfully', () => {
+    const items = renderHook(() => useItemsStore());
+    act(() => {
+      items.result.current.remove(item.id);
+    });
+
+    render(<Routines />);
+
+    const action = screen.getByTestId('empty-section-action');
+    expect(action).toHaveTextContent('Add Item');
+    act(() => action.click());
+    expect(Router.push).toHaveBeenCalledWith('/items');
+
+    act(() => {
+      items.result.current.add('group-1', item);
+    });
+  });
+
+  it('should render empty state for empty routines successfully', () => {
+    const modal = renderHook(() => useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show').mockImplementationOnce(() => {});
+
+    const routines = renderHook(() => useRoutinesStore());
+    act(() => routinesStore.setState({ routines: [] }));
+
+    render(<Routines />);
+
+    const action = screen.getByTestId('empty-section-action');
+    expect(action).toHaveTextContent('Add Routine');
+    act(() => action.click());
+    expect(show).toHaveBeenCalledWith(constants.modals.saveRoutine);
+
+    act(() => {
+      routines.result.current.add({ title: 'Routine 2', color: 'red', recurrence, time: '01:00' });
+      routines.result.current.add({ title: 'Routine 1', color: 'red', recurrence, time: '00:00' });
+    });
   });
 
   it('should search', async () => {

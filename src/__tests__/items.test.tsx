@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 
 import Items from 'pages/items';
 
-import { useItemsStore, useGroupsStore } from 'lib/stores';
+import { useItemsStore, useGroupsStore, groupsStore } from 'lib/stores';
 import { Group } from 'types/group';
 
 vi.mock('next/router', () => ({
@@ -44,6 +44,16 @@ describe('Items', () => {
 
     act(() => screen.getByText('Add Group').click());
     expect(screen.getByTestId('save-group-modal')).toBeInTheDocument();
+  });
+
+  it('should render empty state successfully', () => {
+    act(() => groupsStore.setState({ isReady: true, groups: [] }));
+
+    render(<Items />);
+
+    expect(screen.getByTestId('empty-section-action')).toHaveTextContent('Add Group');
+
+    act(() => groupsStore.setState({ groups: [group] }));
   });
 
   it('should search', async () => {

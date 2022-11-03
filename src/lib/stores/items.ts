@@ -17,6 +17,8 @@ export type ItemsState = {
   add: (groupId: string, data: Omit<Item, 'id' | 'groupId' | 'createdAt'>) => void;
   edit: (id: string, data: Partial<Omit<Item, 'id' | 'groupId' | 'createdAt'>>) => void;
   remove: (id: string) => void;
+
+  isReady: boolean;
 };
 
 export const itemsStore = createVanilla<ItemsState>()((set, get) => ({
@@ -58,6 +60,8 @@ export const itemsStore = createVanilla<ItemsState>()((set, get) => ({
     set((state) => ({ items: state.items.filter((item) => item.id !== id) }));
     await storage.delete('items', id);
   },
+
+  isReady: false,
 }));
 
 export const useItemsStore = create(itemsStore);

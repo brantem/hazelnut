@@ -13,6 +13,8 @@ type RoutinesState = {
   add: (data: Omit<Routine, 'id' | 'itemIds' | 'minimized' | 'createdAt'> & { itemIds?: string[] }) => void;
   edit: (id: string, data: Partial<Omit<Routine, 'id' | 'createdAt'>>) => void;
   remove: (id: string) => void;
+
+  isReady: boolean;
 };
 
 export const routinesStore = createVanilla<RoutinesState>()((set, get) => ({
@@ -37,6 +39,8 @@ export const routinesStore = createVanilla<RoutinesState>()((set, get) => ({
     set((state) => ({ routines: state.routines.filter((routine) => routine.id !== id) }));
     await storage.delete('routines', id);
   },
+
+  isReady: false,
 }));
 
 export const useRoutinesStore = create(routinesStore);

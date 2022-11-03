@@ -13,6 +13,8 @@ type GroupsState = {
   add: (data: Omit<Group, 'id' | 'minimized' | 'createdAt'>) => void;
   edit: (id: string, data: Partial<Omit<Group, 'id' | 'createdAt'>>) => void;
   remove: (id: string) => void;
+
+  isReady: boolean;
 };
 
 export const groupsStore = createVanilla<GroupsState>()((set, get) => ({
@@ -37,6 +39,8 @@ export const groupsStore = createVanilla<GroupsState>()((set, get) => ({
     set((state) => ({ groups: state.groups.filter((group) => group.id !== id) }));
     await storage.delete('groups', id);
   },
+
+  isReady: false,
 }));
 
 export const useGroupsStore = create(groupsStore);
