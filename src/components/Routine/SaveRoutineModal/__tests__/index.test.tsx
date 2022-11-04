@@ -45,11 +45,10 @@ describe('SaveRoutineModal', () => {
     act(() => {
       fireEvent.change(screen.getByLabelText('Title'), { target: { value: ' Routine 1 ' } });
       fireEvent.change(screen.getByTestId('recurrence-frequency'), { target: { value: 'WEEKLY' } });
-      fireEvent.change(screen.getByLabelText('Time'), { target: { value: '00:00' } });
       screen.getByText('Add').click();
     });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
-    const values = pick(routine, ['title', 'color', 'recurrence', 'time']);
+    const values = { ...pick(routine, ['title', 'color', 'recurrence']), time: null };
     expect(add).toHaveBeenCalledWith(values);
     expect(hide).toHaveBeenCalled();
   });

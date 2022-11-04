@@ -17,6 +17,7 @@ export const migrateFromLocalStorage = <Name extends StoreNames<Schema>>(
   }
 };
 
+// i have no idea how to test this
 /* c8 ignore start */
 const migrateV0ToV1 = (db: IDBPDatabase<Schema>) => {
   const oldDb = db as unknown as IDBPDatabase<SchemaV1>;
@@ -108,9 +109,7 @@ class Storage {
     return db.delete(name, key);
   }
 }
-/* c8 ignore stop */
 
-/* c8 ignore start */
 const dummy = {
   add: () => {},
   get: () => {},
@@ -118,8 +117,7 @@ const dummy = {
   put: () => {},
   delete: () => {},
 };
-/* c8 ignore stop */
 
-// TODO: test this once i find a way to mock window.indexedDB
 const storage = typeof window !== 'undefined' && 'indexedDB' in window ? new Storage() : dummy;
 export default storage;
+/* c8 ignore stop */

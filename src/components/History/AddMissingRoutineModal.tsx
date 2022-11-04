@@ -46,10 +46,12 @@ const AddMissingRoutineModal = () => {
     <BottomSheet
       isOpen={modal.isOpen}
       onClose={modal.hide}
+      /* c8 ignore start */
       onAfterClose={() => {
         if (selectedRoutine) setSelectedRoutine(null);
         if (search) search.change('');
       }}
+      /* c8 ignore stop */
       title="Add Missing Routine"
       data-testid="add-missing-routine-modal"
     >

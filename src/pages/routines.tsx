@@ -38,7 +38,7 @@ const Routines: NextPage = () => {
   const isTodaySelected = !selectedDate || selectedDate === currentDate;
 
   const isEmpty = routines.isEmpty || items.isEmpty;
-  const isReady = routines.isReady || items.isReady;
+  const isReady = /* c8 ignore next */ routines.isReady || items.isReady;
 
   return (
     <>

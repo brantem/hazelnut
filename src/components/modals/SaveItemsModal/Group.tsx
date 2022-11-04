@@ -63,6 +63,7 @@ export const Group = ({ group, itemIds, disabledItemIds, onItemClick }: GroupPro
       )}
     </li>
   );
+  /* c8 ignore next */
 };
 
 export default Group;

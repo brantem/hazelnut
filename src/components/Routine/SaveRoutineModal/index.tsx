@@ -43,9 +43,9 @@ const SaveRoutineModal = () => {
     onSubmit: async (values, { resetForm }) => {
       const data = {
         title: values.title.trim(),
-        color: values.color.trim(),
+        color: values.color,
         recurrence: values.recurrence,
-        time: values.time?.trim() || null,
+        time: values.time || null,
       };
 
       if (routine) {

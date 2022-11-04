@@ -29,7 +29,7 @@ const SaveGroupModal = () => {
     onSubmit: async (values, { resetForm }) => {
       const data = {
         title: values.title.trim(),
-        color: values.color.trim(),
+        color: values.color,
       };
 
       if (group) {

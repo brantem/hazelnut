@@ -29,9 +29,9 @@ const DuplicateRoutineModal = () => {
     onSubmit: async (values, { resetForm }) => {
       add({
         title: values.title.trim(),
-        color: values.color.trim(),
+        color: values.color,
         recurrence: routine!.recurrence,
-        time: values.time?.trim() || null,
+        time: values.time,
         itemIds: routine!.itemIds,
       });
 

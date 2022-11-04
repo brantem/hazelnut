@@ -33,7 +33,7 @@ const SaveItemsModal = ({ modalKey, itemIds, disabledItemIds, onChange, onSave }
     <BottomSheet
       isOpen={modal.isOpen}
       onClose={modal.hide}
-      onAfterClose={() => search && search.change('')}
+      onAfterClose={() => /* c8 ignore next */ search && search.change('')}
       title={
         <>
           Items <span className="ml-1 text-base font-normal text-neutral-500">{itemIds.length}</span>
