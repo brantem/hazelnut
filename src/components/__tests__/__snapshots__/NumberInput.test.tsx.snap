@@ -1,0 +1,74 @@
+// Vitest Snapshot v1
+
+exports[`NumberInput 1`] = `
+<div>
+  <div
+    class="flex w-full items-center justify-between space-x-3"
+  >
+    <label
+      class="flex-1 truncate font-medium"
+      for="name"
+    >
+      Label
+    </label>
+    <div
+      class="flex items-center space-x-1"
+    >
+      <button
+        class="rounded-full disabled:opacity-50"
+        data-testid="number-input-decrement"
+        disabled=""
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+      <input
+        class="border-0 bg-transparent p-0 text-center text-sm tabular-nums disabled:text-neutral-500 w-5"
+        data-testid="number-input-value"
+        id="name"
+        max="2"
+        min="0"
+        name="name"
+        step="2"
+        type="number"
+        value="0"
+      />
+      <button
+        class="rounded-full disabled:opacity-50"
+        data-testid="number-input-increment"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+`;
