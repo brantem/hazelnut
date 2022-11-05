@@ -3,57 +3,51 @@ import clsx from 'clsx';
 
 type NumberInputProps = {
   label?: string;
-  name: string;
+  color?: string;
   value: number;
   onChange: (quantity: number) => void;
   min?: number;
   max?: number;
   step?: number;
-  isDisabled?: boolean;
+  className?: string;
 };
-
-const NumberInput = ({ label, name, value = 0, onChange, min = 0, max, step = 1, isDisabled }: NumberInputProps) => {
+const NumberInput = ({
+  label,
+  color = 'mono',
+  value = 0,
+  onChange,
+  min = 0,
+  max,
+  step = 1,
+  className,
+}: NumberInputProps) => {
   return (
     <div className="flex w-full items-center justify-between space-x-3">
-      {label && (
-        <label htmlFor={name} className="flex-1 truncate font-medium">
-          {label}
-        </label>
-      )}
+      {label && <label className="flex-1 truncate font-medium">{label}</label>}
 
-      <div className="flex items-center space-x-1">
+      <div className="!-mr-0.5 flex items-center space-x-1">
         <button
           type="button"
-          className="rounded-full disabled:opacity-50"
+          className={`rounded-full disabled:opacity-50 text-${color}-600`}
           onClick={() => onChange(value - step)}
-          disabled={isDisabled || value === min}
+          disabled={value === min}
           data-testid="number-input-decrement"
         >
           <MinusCircleIcon className="h-6 w-6" />
         </button>
 
-        <input
-          type="number"
-          className={clsx(
-            'border-0 bg-transparent p-0 text-center text-sm tabular-nums disabled:text-neutral-500',
-            /* c8 ignore next */ value.toString().length > step ? 'w-7' : 'w-5',
-          )}
-          name={name}
-          id={name}
-          value={value}
-          onChange={(e) => onChange?.(parseInt(e.target.value))}
-          min={min}
-          max={max}
-          step={step}
-          disabled={isDisabled}
+        <span
+          className={clsx(`px-1.5 text-center text-sm tabular-nums text-${color}-600 rounded-full`, className)}
           data-testid="number-input-value"
-        />
+        >
+          {value}
+        </span>
 
         <button
           type="button"
-          className="rounded-full disabled:opacity-50"
+          className={`rounded-full disabled:opacity-50 text-${color}-600`}
           onClick={() => onChange(value + step)}
-          disabled={isDisabled || Boolean(max && value >= max)}
+          disabled={Boolean(max && value >= max)}
           data-testid="number-input-increment"
         >
           <PlusCircleIcon className="h-6 w-6" />

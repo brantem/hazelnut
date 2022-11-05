@@ -39,14 +39,14 @@ describe('DateList', () => {
     const { result } = renderHook(() => useHistoriesStore());
     act(() => {
       vi.setSystemTime(dayjs().subtract(2, 'day').toDate());
-      result.current.save(routine, item, true);
+      result.current.save(routine, item, { done: true });
       result.current.save(
         { ...routine, id: 'routine-2', title: 'Routine 2' },
         { ...item, id: 'item-2', title: 'Item 2' },
-        true,
+        { done: true },
       );
       vi.setSystemTime(dayjs().subtract(1, 'day').toDate());
-      result.current.save(routine, item, true);
+      result.current.save(routine, item, { done: true });
     });
     vi.useRealTimers();
   });

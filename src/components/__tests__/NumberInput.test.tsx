@@ -1,4 +1,4 @@
-import { render, screen, act, fireEvent } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import NumberInput from 'components/NumberInput';
@@ -16,7 +16,4 @@ test('NumberInput', () => {
   expect(screen.getByTestId('number-input-increment')).toBeDisabled();
   act(() => screen.getByTestId('number-input-decrement').click());
   expect(onChange).toHaveBeenCalledWith(0);
-  rerender(<NumberInput {...props} />);
-  fireEvent.change(screen.getByTestId('number-input-value'), { target: { value: 2 } });
-  expect(onChange).toHaveBeenCalledWith(2);
 });

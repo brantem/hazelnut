@@ -7,15 +7,14 @@ exports[`NumberInput 1`] = `
   >
     <label
       class="flex-1 truncate font-medium"
-      for="name"
     >
       Label
     </label>
     <div
-      class="flex items-center space-x-1"
+      class="!-mr-0.5 flex items-center space-x-1"
     >
       <button
-        class="rounded-full disabled:opacity-50"
+        class="rounded-full disabled:opacity-50 text-mono-600"
         data-testid="number-input-decrement"
         disabled=""
         type="button"
@@ -36,19 +35,14 @@ exports[`NumberInput 1`] = `
           />
         </svg>
       </button>
-      <input
-        class="border-0 bg-transparent p-0 text-center text-sm tabular-nums disabled:text-neutral-500 w-5"
+      <span
+        class="px-1.5 text-center text-sm tabular-nums text-mono-600 rounded-full"
         data-testid="number-input-value"
-        id="name"
-        max="2"
-        min="0"
-        name="name"
-        step="2"
-        type="number"
-        value="0"
-      />
+      >
+        0
+      </span>
       <button
-        class="rounded-full disabled:opacity-50"
+        class="rounded-full disabled:opacity-50 text-mono-600"
         data-testid="number-input-increment"
         type="button"
       >

@@ -3,12 +3,14 @@ import { EllipsisHorizontalIcon, ChevronUpIcon } from '@heroicons/react/20/solid
 import clsx from 'clsx';
 
 import Card from 'components/Card';
+import NumberInput from 'components/NumberInput';
 import Checkbox from 'components/Checkbox';
 
 import { useHistoriesStore } from 'lib/stores';
 import { useModal } from 'lib/hooks';
 import type { History } from 'types/history';
 import * as constants from 'data/constants';
+import { ItemType } from 'types/item';
 
 type ItemListProps = {
   history: History;
@@ -21,15 +23,24 @@ const ItemList = ({ history }: ItemListProps) => {
     <ol className="space-y-1 pt-1" data-testid="history-card-items">
       {history.items.map((item) => (
         <li key={history.id + '-' + item.id} className="flex h-8 w-full items-center justify-between space-x-2 pr-1">
-          <div className="w-full">
+          {item.type === ItemType.Number ? (
+            <NumberInput
+              label={item.title}
+              color={history.color}
+              value={item.value!}
+              onChange={(value) => save(history, item, { value, done: value >= item.settings!.minCompleted })}
+              className={item.value! >= item.settings!.minCompleted ? `bg-${history.color}-500 text-white` : ''}
+              step={item.settings!.step}
+            />
+          ) : (
             <Checkbox
               label={item.title}
               name={history.id + '-' + item.id}
               color={history.color}
               checked={!!item.completedAt}
-              onChange={(e) => save(history, item, e.target.checked)}
+              onChange={(e) => save(history, item, { done: e.target.checked })}
             />
-          </div>
+          )}
         </li>
       ))}
     </ol>

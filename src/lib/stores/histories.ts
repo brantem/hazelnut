@@ -16,12 +16,12 @@ export type HistoriesState = {
   selectedDate: string | null | undefined;
   setSelectedDate: (selectedDate: string | null) => void;
 
-  getIsDone: (routineId: string, itemId: string, forceToday?: boolean) => boolean;
+  getItem: (routineId: string, itemId: string, forceToday?: boolean) => HistoryItem | null;
   add: (routine: Omit<History, 'date' | 'items'> & Pick<Routine, 'itemIds'>) => void;
   save: (
     routine: Omit<History, 'date' | 'items'> & { itemIds?: Routine['itemIds'] },
     item: Omit<HistoryItem, 'completedAt'>,
-    done: boolean,
+    data: { value?: number; done: boolean },
     forceToday?: boolean,
   ) => void;
   addItems: (routineId: string, date: string, items: Omit<HistoryItem, 'completedAt'>[]) => void;
@@ -36,11 +36,10 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
   selectedDate: undefined,
   setSelectedDate: (selectedDate) => set({ selectedDate }),
 
-  getIsDone: (routineId, itemId, forceToday) => {
+  getItem: (routineId, itemId, forceToday) => {
     const _date = (forceToday ? null : get().selectedDate) || dayjs().startOf('day').toISOString();
     const history = get().histories.find((history) => history.id === routineId && history.date === _date);
-    if (!history) return false;
-    return !!history.items.find((item) => item.id === itemId)?.completedAt;
+    return history?.items.find((item) => item.id === itemId) || null;
   },
   add: async (routine) => {
     const date = get().selectedDate || dayjs().startOf('day').toISOString();
@@ -51,16 +50,22 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
       items: routine.itemIds.reduce((items, itemId) => {
         const _item = _items.find((item) => item.id === itemId);
         if (!_item) return items;
-        return [...items, { ...pick(_item, ['id', 'title']), completedAt: null }];
+        return [
+          ...items,
+          {
+            ...pick(_item, ['id', 'type', 'title', 'settings']),
+            completedAt: null,
+          },
+        ];
       }, [] as History['items']),
       createdAt: Date.now(),
     };
+
     set((state) => ({ histories: [...state.histories, history] }));
     await storage.add('histories', history);
   },
-  save: async (routine, item, done, forceToday) => {
+  save: async (routine, item, data, forceToday) => {
     const date = (forceToday ? null : get().selectedDate) || dayjs().startOf('day').toISOString();
-
     const index = get().histories.findIndex((history) => history.id === routine.id && history.date === date);
     if (index === -1) {
       const _items = itemsStore.getState().items;
@@ -70,27 +75,51 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
         items: routine.itemIds!.reduce((items, itemId) => {
           const _item = _items.find((item) => item.id === itemId);
           if (!_item) return items;
-          return [...items, { ...pick(_item, ['id', 'title']), completedAt: _item.id === item.id ? Date.now() : null }];
+          return [
+            ...items,
+            Object.assign(
+              {
+                ...pick(_item.id === item.id ? item : _item, ['id', 'type', 'title', 'settings']),
+                completedAt: _item.id === item.id ? Date.now() : null,
+              },
+              'value' in data && { value: data.value },
+            ),
+          ];
         }, [] as History['items']),
         createdAt: Date.now(),
       };
+
       set((state) => ({ histories: [...state.histories, history] }));
       await storage.add('histories', history);
     } else {
       const histories = get().histories.slice();
       histories[index] = { ...histories[index], ...pick(routine, ['id', 'title', 'color', 'time']) };
+
       const itemIndex = histories[index].items.findIndex((_item) => _item.id === item.id);
       if (itemIndex === -1) {
-        histories[index].items.push({
-          ...pick(item, ['id', 'title']),
-          completedAt: Date.now(),
-        });
+        histories[index].items.push(
+          Object.assign(
+            {
+              ...pick(item, ['id', 'type', 'title', 'settings']),
+              completedAt: Date.now(),
+            },
+            'value' in data && { value: data.value },
+          ),
+        );
       } else {
         histories[index].items = histories[index].items.map((_item) => {
           if (_item.id !== item.id) return _item;
-          return { ..._item, ...pick(item, ['id', 'title']), completedAt: done ? Date.now() : null };
+          return Object.assign(
+            {
+              ..._item,
+              ...pick(item, ['id', 'type', 'title', 'settings']),
+              completedAt: data.done ? Date.now() : null,
+            },
+            'value' in data && { value: data.value },
+          );
         });
       }
+
       set({ histories });
       await storage.put('histories', histories[index]);
     }
@@ -100,7 +129,7 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
     const index = get().histories.findIndex((history) => history.id === routineId && history.date === date);
 
     for (const item of items) {
-      histories[index].items.push({ ...pick(item, ['id', 'title']), completedAt: null });
+      histories[index].items.push({ ...pick(item, ['id', 'type', 'title', 'settings']), completedAt: null });
     }
 
     set({ histories });
@@ -113,6 +142,7 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
         return true;
       }),
     });
+
     await storage.delete('histories', [routineId, date]);
   },
 }));

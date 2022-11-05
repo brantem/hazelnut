@@ -34,7 +34,7 @@ const item: Item = {
 describe('HistoryList', () => {
   beforeAll(async () => {
     const { result } = renderHook(() => useHistoriesStore());
-    await act(() => result.current.save(routine, item, true));
+    await act(() => result.current.save(routine, item, { done: true }));
   });
 
   beforeEach(() => {

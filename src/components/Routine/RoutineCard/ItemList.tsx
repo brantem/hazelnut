@@ -21,10 +21,11 @@ import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
 
 import Checkbox from 'components/Checkbox';
+import NumberInput from 'components/NumberInput';
 
 import { useItemsStore, useRoutinesStore, useHistoriesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
-import { Item as _Item } from 'types/item';
+import { Item as _Item, ItemType } from 'types/item';
 
 type ItemProps = {
   routine: Routine;
@@ -33,8 +34,8 @@ type ItemProps = {
 };
 
 const Item = ({ routine, item, isSortable }: ItemProps) => {
-  const isDone = useHistoriesStore(
-    useCallback((state) => state.getIsDone(routine.id, item.id, true), [routine.id, item.id]),
+  const _item = useHistoriesStore(
+    useCallback((state) => state.getItem(routine.id, item.id, true), [routine.id, item.id]),
   );
   const save = useHistoriesStore((state) => state.save);
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition } = useSortable({
@@ -62,13 +63,24 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
       )}
 
       <div className={clsx('w-full', isSortable && 'max-w-[calc(100%-theme(spacing.8))]')}>
-        <Checkbox
-          label={item.title}
-          name={routine.id + '-' + item.id}
-          color={routine.color}
-          checked={isDone}
-          onChange={(e) => save(routine, item, e.target.checked, true)}
-        />
+        {item.type === ItemType.Number ? (
+          <NumberInput
+            label={item.title}
+            color={routine.color}
+            value={_item?.value || 0}
+            onChange={(value) => save(routine, item, { value, done: value >= item.settings.minCompleted }, true)}
+            className={(_item?.value || 0) >= item.settings.minCompleted ? `bg-${routine.color}-500 text-white` : ''}
+            step={item.settings.step}
+          />
+        ) : (
+          <Checkbox
+            label={item.title}
+            name={routine.id + '-' + item.id}
+            color={routine.color}
+            checked={!!_item?.completedAt}
+            onChange={(e) => save(routine, item, { done: e.target.checked }, true)}
+          />
+        )}
       </div>
     </li>
   );

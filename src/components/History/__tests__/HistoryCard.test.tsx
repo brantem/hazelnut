@@ -4,9 +4,11 @@ import '@testing-library/jest-dom';
 
 import HistoryCard from 'components/History/HistoryCard';
 
-import { useHistoriesStore, useModalStore } from 'lib/stores';
+import { historiesStore, useHistoriesStore, useModalStore } from 'lib/stores';
 import { History } from 'types/history';
 import * as constants from 'data/constants';
+import { ItemType } from 'types/item';
+import SaveItemModal from 'components/Item/SaveItemModal';
 
 const history: History = {
   id: 'routine-1',
@@ -18,6 +20,17 @@ const history: History = {
     {
       id: 'item-1',
       title: 'Item 1',
+      completedAt: null,
+    },
+    {
+      id: 'item-2',
+      type: ItemType.Number,
+      title: 'Item 2',
+      settings: {
+        minCompleted: 1,
+        step: 1,
+      },
+      value: 0,
       completedAt: null,
     },
   ],
@@ -55,7 +68,24 @@ describe('HistoryCard', () => {
     render(<HistoryCard history={history} />);
 
     act(() => screen.getByText('Item 1').click());
-    expect(save).toHaveBeenCalledWith(history, history.items[0], true);
+    expect(save).toHaveBeenCalledWith(history, history.items[0], { done: true });
+  });
+
+  it('should save number item', async () => {
+    const histories = renderHook(() => useHistoriesStore());
+    const save = vi.spyOn(histories.result.current, 'save').mockImplementation(() => {});
+
+    const { rerender } = render(<HistoryCard history={history} />);
+
+    act(() => screen.getByTestId('number-input-increment').click());
+    expect(save).toHaveBeenCalledWith(history, history.items[1], { value: 1, done: true });
+
+    const _history = { ...history };
+    _history.items[1].value = 1;
+    _history.items[1].completedAt = Date.now();
+    rerender(<HistoryCard history={_history} />);
+    act(() => screen.getByTestId('number-input-decrement').click());
+    expect(save).toHaveBeenCalledWith(_history, _history.items[1], { value: 0, done: false });
   });
 
   it('should open add items modal', () => {
