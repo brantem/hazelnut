@@ -54,7 +54,7 @@ const Items: NextPage = () => {
         header={{
           actions: [
             {
-              text: <MagnifyingGlassIcon className="h-5 w-5" />,
+              children: <MagnifyingGlassIcon className="h-5 w-5" />,
               className: clsx('!px-1.5', isSearching && 'bg-neutral-100'),
               onClick: () => {
                 if (isSearching) search.change('');
@@ -64,7 +64,7 @@ const Items: NextPage = () => {
               skip: groups.length === 0,
             },
             {
-              text: 'Add Group',
+              children: 'Add Group',
               onClick: () => {
                 clearGroup();
                 saveGroupModal.show();
@@ -98,8 +98,8 @@ const Items: NextPage = () => {
             <EmptySection
               title="You have not created any groups yet"
               action={{
+                children: 'Add Group',
                 onClick: saveGroupModal.show,
-                text: 'Add Group',
               }}
             />
           )

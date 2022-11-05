@@ -46,7 +46,7 @@ const Routines: NextPage = () => {
         header={{
           actions: [
             {
-              text: <MagnifyingGlassIcon className="h-5 w-5" />,
+              children: <MagnifyingGlassIcon className="h-5 w-5" />,
               className: clsx('!px-1.5', isSearching && 'bg-neutral-100'),
               onClick: () => {
                 if (isSearching) search.change('');
@@ -56,7 +56,7 @@ const Routines: NextPage = () => {
               skip: isEmpty || !isTodaySelected,
             },
             {
-              text: 'Add Routine',
+              children: 'Add Routine',
               onClick: () => {
                 clearRoutine();
                 saveRoutineModal.show();
@@ -65,7 +65,7 @@ const Routines: NextPage = () => {
               skip: items.isEmpty || !isTodaySelected,
             },
             {
-              text: 'Add Missing Routine',
+              children: 'Add Missing Routine',
               onClick: () => addMissingRoutineModal.show(),
               testId: 'routines-add-missing',
               skip: isEmpty || isTodaySelected,
@@ -92,8 +92,8 @@ const Routines: NextPage = () => {
             <EmptySection
               title={`You have not created any ${items.isEmpty ? 'items' : 'routines'} yet`}
               action={{
+                children: items.isEmpty ? 'Add Item' : 'Add Routine',
                 onClick: () => (items.isEmpty ? Router.push('/items') : saveRoutineModal.show()),
-                text: items.isEmpty ? 'Add Item' : 'Add Routine',
               }}
             />
           )

@@ -33,8 +33,8 @@ const Home: NextPage = () => {
           <EmptySection
             title="You have not created any routines yet"
             action={{
+              children: 'Add Routine',
               onClick: () => Router.push('/routines'),
-              text: 'Add Routine',
             }}
           />
         )

@@ -2,7 +2,10 @@ import Button from 'components/Button';
 
 type EmptySectionProps = {
   title: string;
-  action: { text: string; onClick: () => void };
+  action: {
+    children: React.ReactNode;
+    onClick: () => void;
+  };
 };
 
 const EmptySection = ({ title, action }: EmptySectionProps) => {
@@ -13,7 +16,7 @@ const EmptySection = ({ title, action }: EmptySectionProps) => {
       </p>
 
       <Button data-testid="empty-section-action" onClick={action.onClick}>
-        {action.text}
+        {action.children}
       </Button>
     </section>
   );

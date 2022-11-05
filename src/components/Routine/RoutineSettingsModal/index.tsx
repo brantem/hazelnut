@@ -46,14 +46,14 @@ const RoutineSettingsModal = () => {
       modalKey={constants.modals.routineSettings}
       actions={[
         {
-          text: 'Edit',
+          children: 'Edit',
           onClick: () => {
             setRoutine(routine);
             saveModal.show();
           },
         },
         {
-          text: 'Duplicate',
+          children: 'Duplicate',
           onClick: () => {
             setRoutine(routine);
             duplicateModal.show();

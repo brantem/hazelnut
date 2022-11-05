@@ -4,10 +4,15 @@ import BottomSheet, { BottomSheetProps } from 'components/BottomSheet';
 
 import { useModal } from 'lib/hooks';
 
+type Action = { skip?: boolean } & (
+  | { children: React.ReactNode; onClick: () => void }
+  | { render: () => React.ReactNode }
+);
+
 type SettingsModalProps = Pick<BottomSheetProps, 'title'> & {
   modalKey: string;
   description?: React.ReactNode;
-  actions: (({ text: string; onClick: () => void } | { render: () => React.ReactNode }) & { skip?: boolean })[];
+  actions: Action[];
 };
 
 const SettingsModal = ({ modalKey, description, actions, ...props }: SettingsModalProps) => {
@@ -28,7 +33,7 @@ const SettingsModal = ({ modalKey, description, actions, ...props }: SettingsMod
             <Fragment key={i}>{action.render()}</Fragment>
           ) : (
             <button key={i} className="px-4 py-2 text-left hover:bg-neutral-100" onClick={action.onClick}>
-              {action.text}
+              {action.children}
             </button>
           );
         })}

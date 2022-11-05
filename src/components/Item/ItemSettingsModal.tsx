@@ -15,7 +15,10 @@ const ItemSettingsModal = () => {
       title={item?.title}
       modalKey={constants.modals.itemSettings}
       actions={[
-        { text: 'Edit', onClick: () => editModal.show() },
+        {
+          children: 'Edit',
+          onClick: () => editModal.show(),
+        },
         {
           render: () => (
             <DeleteButton

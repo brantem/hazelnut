@@ -33,7 +33,7 @@ const GroupSettingsModal = () => {
       modalKey={constants.modals.groupSettings}
       actions={[
         {
-          text: 'Edit',
+          children: 'Edit',
           onClick: () => {
             setGroup(group);
             saveGroupModal.show();

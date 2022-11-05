@@ -9,7 +9,7 @@ import { Navigation } from 'types/shared';
 export type HeaderProps = {
   navigations: Navigation[];
   actions?: {
-    text: React.ReactNode;
+    children: React.ReactNode;
     className?: string;
     onClick: () => void;
     testId?: string;
@@ -47,7 +47,7 @@ const Header = ({ navigations, actions }: HeaderProps) => {
                   onClick={action.onClick}
                   data-testid={action.testId}
                 >
-                  {action.text}
+                  {action.children}
                 </Button>
               );
             })}

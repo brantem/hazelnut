@@ -21,12 +21,12 @@ test('Header', () => {
       ]}
       actions={[
         {
+          children: 'Action 1',
           onClick: onActionClick,
-          text: 'Action 1',
         },
         {
+          children: 'Action 2',
           onClick: () => {},
-          text: 'Action 2',
           skip: true,
         },
       ]}
