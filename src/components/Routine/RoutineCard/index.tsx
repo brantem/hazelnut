@@ -1,6 +1,7 @@
 import { EllipsisHorizontalIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
+import Card from 'components/Card';
 import ItemList from 'components/Routine/RoutineCard/ItemList';
 
 import { useRoutinesStore } from 'lib/stores';
@@ -20,56 +21,47 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
   const settingsModal = useModal(constants.modals.routineSettings);
 
   return (
-    <div className={`px-4 py-3 bg-${routine.color}-50`} data-testid="routine-card">
-      <div className="flex h-8 items-center justify-between space-x-3">
-        <div className="flex max-w-[440px] items-center space-x-3">
-          <h3 className={`text-sm font-semibold uppercase text-${routine.color}-600 truncate`}>{routine.title} </h3>
+    <Card
+      color={routine.color}
+      title={
+        <>
+          <span>{routine.title}</span>
           {routine.time && (
             <span className={`text-sm font-medium text-${routine.color}-400 ml-2 flex-shrink-0 tabular-nums`}>
               {routine.time}
             </span>
           )}
-        </div>
-
-        <div className="flex flex-shrink-0 items-center space-x-2">
-          {showAction && (
-            <button
-              className={`rounded-full px-3 py-1 text-sm hover:bg-${routine.color}-100 flex-shrink-0`}
-              onClick={() => {
-                setRoutine(routine);
-                saveItemsModal.show();
-              }}
-              data-testid="routine-card-save-items"
-            >
-              Items
-            </button>
-          )}
-
-          {showAction && (
-            <button
-              className={`rounded-full p-1 hover:bg-${routine.color}-100`}
-              onClick={() => {
-                setRoutine(routine);
-                settingsModal.show();
-              }}
-              data-testid="routine-card-settings"
-            >
-              <EllipsisHorizontalIcon className="h-5 w-5" />
-            </button>
-          )}
-
-          <button
-            className={clsx(`rounded-full p-1 hover:bg-${routine.color}-100`, routine.minimized && 'rotate-180')}
-            onClick={() => edit(routine.id, { minimized: !routine.minimized })}
-            data-testid="routine-card-minimize"
-          >
-            <ChevronUpIcon className="h-5 w-5" />
-          </button>
-        </div>
-      </div>
-
+        </>
+      }
+      actions={[
+        {
+          children: 'Items',
+          onClick: () => {
+            setRoutine(routine);
+            saveItemsModal.show();
+          },
+          testId: 'routine-card-save-items',
+          skip: !showAction,
+        },
+        {
+          children: <EllipsisHorizontalIcon className="h-5 w-5" />,
+          onClick: () => {
+            setRoutine(routine);
+            settingsModal.show();
+          },
+          testId: 'routine-card-settings',
+          skip: !showAction,
+        },
+        {
+          children: <ChevronUpIcon className={clsx('h-5 w-5', routine.minimized && 'rotate-180')} />,
+          onClick: () => edit(routine.id, { minimized: !routine.minimized }),
+          testId: 'routine-card-minimize',
+        },
+      ]}
+      data-testid="routine-card"
+    >
       {!routine.minimized && <ItemList routine={routine} isSortable={isItemSortable} />}
-    </div>
+    </Card>
   );
 };
 

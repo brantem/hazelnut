@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { EllipsisHorizontalIcon, PlusIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
+import Card from 'components/Card';
 import ItemList from 'components/Group/GroupCard/ItemList';
 
 import { isMatch } from 'lib/helpers';
@@ -37,45 +38,36 @@ const GroupCard = ({ group }: GroupCardProps) => {
   if (!isGroupMatch && !isItemsMatch) return null;
 
   return (
-    <div className={`px-4 py-3 bg-${group.color}-50`} data-testid="group-card">
-      <div className="flex h-8 items-center justify-between space-x-3">
-        <h3 className={`text-sm font-semibold uppercase text-${group.color}-600 truncate`}>{group.title}</h3>
-
-        <div className="flex flex-shrink-0 items-center space-x-2">
-          <button
-            className={`rounded-full p-1 text-sm hover:bg-${group.color}-100 flex-shrink-0`}
-            onClick={() => {
-              setGroup(group);
-              addItemModal.show();
-            }}
-            data-testid="group-card-add-item"
-          >
-            <PlusIcon className="h-5 w-5" />
-          </button>
-
-          <button
-            className={`rounded-full p-1 hover:bg-${group.color}-100`}
-            onClick={() => {
-              setGroup(group);
-              settingsModal.show();
-            }}
-            data-testid="group-card-settings"
-          >
-            <EllipsisHorizontalIcon className="h-5 w-5" />
-          </button>
-
-          <button
-            className={clsx(`rounded-full p-1 hover:bg-${group.color}-100`, group.minimized && 'rotate-180')}
-            onClick={() => edit(group.id, { minimized: !group.minimized })}
-            data-testid="group-card-minimize"
-          >
-            <ChevronUpIcon className="h-5 w-5" />
-          </button>
-        </div>
-      </div>
-
+    <Card
+      title={group.title}
+      color={group.color}
+      actions={[
+        {
+          children: <PlusIcon className="h-5 w-5" />,
+          onClick: () => {
+            setGroup(group);
+            addItemModal.show();
+          },
+          testId: 'group-card-add-item',
+        },
+        {
+          children: <EllipsisHorizontalIcon className="h-5 w-5" />,
+          onClick: () => {
+            setGroup(group);
+            settingsModal.show();
+          },
+          testId: 'group-card-settings',
+        },
+        {
+          children: <ChevronUpIcon className={clsx('h-5 w-5', group.minimized && 'rotate-180')} />,
+          onClick: () => edit(group.id, { minimized: !group.minimized }),
+          testId: 'group-card-minimize',
+        },
+      ]}
+      data-testid="group-card"
+    >
       {!group.minimized && <ItemList group={group} />}
-    </div>
+    </Card>
   );
 };
 
