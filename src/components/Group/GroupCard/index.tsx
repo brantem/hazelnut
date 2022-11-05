@@ -17,7 +17,8 @@ type GroupCardProps = {
 
 const GroupCard = ({ group }: GroupCardProps) => {
   const { setGroup, edit } = useGroupsStore((state) => ({ setGroup: state.setGroup, edit: state.edit }));
-  const addItemModal = useModal(constants.modals.addItemToGroup);
+  const clearItem = useItemsStore((state) => () => state.item && state.setItem(null));
+  const saveItemModal = useModal(constants.modals.saveItem);
   const settingsModal = useModal(constants.modals.groupSettings);
 
   const search = useSearch(constants.searches.items);
@@ -46,7 +47,8 @@ const GroupCard = ({ group }: GroupCardProps) => {
           children: <PlusIcon className="h-5 w-5" />,
           onClick: () => {
             setGroup(group);
-            addItemModal.show();
+            clearItem();
+            saveItemModal.show();
           },
           testId: 'group-card-add-item',
         },

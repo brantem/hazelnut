@@ -36,7 +36,7 @@ describe('ItemSettingsModal', async () => {
     });
     act(() => screen.getByText('Edit').click());
     expect(setItem).toHaveBeenCalledWith(item);
-    expect(show).toHaveBeenCalledWith(constants.modals.editItem);
+    expect(show).toHaveBeenCalledWith(constants.modals.saveItem);
   });
 
   it('should delete item', () => {

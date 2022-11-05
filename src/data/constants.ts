@@ -10,10 +10,9 @@ export const modals = {
 
   groupSettings: 'group-settings',
   saveGroup: 'save-group',
-  addItemToGroup: 'add-item-to-group',
 
   itemSettings: 'item-settings',
-  editItem: 'edit-item',
+  saveItem: 'save-item',
 };
 
 export const searches = {

@@ -16,10 +16,20 @@ const group: Group = {
   createdAt: 0,
 };
 
+const item: Item = {
+  id: 'item-1',
+  groupId: 'group-1',
+  title: 'Item 1',
+  createdAt: 0,
+};
+
 describe('GroupCard', () => {
   beforeEach(async () => {
     const items = renderHook(() => useItemsStore());
-    await act(() => items.result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as Item));
+    await act(() => {
+      items.result.current.add('group-1', item);
+      items.result.current.setItem(item);
+    });
   });
 
   afterEach(async () => {
@@ -34,11 +44,15 @@ describe('GroupCard', () => {
     const { result } = renderHook(() => useGroupsStore());
     const setGroup = vi.spyOn(result.current, 'setGroup').mockImplementation(() => {});
 
+    const items = renderHook(() => useItemsStore());
+    const setItem = vi.spyOn(items.result.current, 'setItem').mockImplementation(() => {});
+
     render(<GroupCard group={group} />);
 
     act(() => screen.getByTestId('group-card-add-item').click());
     expect(setGroup).toHaveBeenCalledWith(group);
-    expect(show).toHaveBeenCalledWith(constants.modals.addItemToGroup);
+    expect(setItem).toHaveBeenCalledWith(null);
+    expect(show).toHaveBeenCalledWith(constants.modals.saveItem);
 
     act(() => screen.getByTestId('group-card-settings').click());
     expect(setGroup).toHaveBeenCalledWith(group);

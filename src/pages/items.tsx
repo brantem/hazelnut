@@ -7,8 +7,7 @@ import Layout from 'components/Layout';
 import Search from 'components/Search';
 import GroupCard from 'components/Group/GroupCard';
 import SaveGroupModal from 'components/Group/SaveGroupModal';
-import AddItemToGroupModal from 'components/Group/AddItemToGroupModal';
-import EditItemModal from 'components/Item/EditItemModal';
+import SaveItemModal from 'components/Item/SaveItemModal';
 import GroupSettingsModal from 'components/Group/GroupSettingsModal';
 import ItemSettingsModal from 'components/Item/ItemSettingsModal';
 import EmptySection from 'components/sections/EmptySection';
@@ -108,8 +107,7 @@ const Items: NextPage = () => {
 
       <SaveGroupModal />
 
-      <AddItemToGroupModal />
-      <EditItemModal />
+      <SaveItemModal />
 
       <GroupSettingsModal />
       <ItemSettingsModal />

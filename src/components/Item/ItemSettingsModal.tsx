@@ -7,7 +7,7 @@ import { useModal } from 'lib/hooks';
 
 const ItemSettingsModal = () => {
   const modal = useModal(constants.modals.itemSettings);
-  const editModal = useModal(constants.modals.editItem);
+  const saveModal = useModal(constants.modals.saveItem);
   const { item, remove } = useItemsStore((state) => ({ item: state.item, remove: state.remove }));
 
   return (
@@ -17,7 +17,7 @@ const ItemSettingsModal = () => {
       actions={[
         {
           children: 'Edit',
-          onClick: () => editModal.show(),
+          onClick: () => saveModal.show(),
         },
         {
           render: () => (

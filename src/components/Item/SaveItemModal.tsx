@@ -5,28 +5,45 @@ import Input from 'components/Input';
 import Button from 'components/Button';
 
 import { Item } from 'types/item';
-import { useItemsStore } from 'lib/stores';
+import { useGroupsStore, useItemsStore } from 'lib/stores';
 import * as constants from 'data/constants';
 import { useModal } from 'lib/hooks';
 
 type Values = Pick<Item, 'title'>;
 
-const EditItemModal = () => {
-  const { item, edit } = useItemsStore((state) => ({ item: state.item, edit: state.edit }));
-  const editModal = useModal(constants.modals.editItem);
+const SaveItemModal = () => {
+  const { group, clearGroup } = useGroupsStore((state) => ({
+    group: state.group,
+    clearGroup: () => state.setGroup(null),
+  }));
+  const { item, add, edit } = useItemsStore((state) => ({ item: state.item, add: state.add, edit: state.edit }));
+  const saveModal = useModal(constants.modals.saveItem);
 
   const formik = useFormik<Values>({
     initialValues: { title: item?.title || '' },
     onSubmit: async (values, { resetForm }) => {
-      await edit(item!.id, { title: values.title.trim() });
+      const data = { title: values.title.trim() };
+
+      if (group) {
+        await add(group!.id, data);
+      } else {
+        await edit(item!.id, data);
+      }
+
       resetForm();
-      editModal.hide();
+      saveModal.hide();
+      if (group) clearGroup();
     },
     enableReinitialize: true,
   });
 
   return (
-    <BottomSheet isOpen={editModal.isOpen} onClose={editModal.hide} title="Edit Item" data-testid="edit-item-modal">
+    <BottomSheet
+      isOpen={saveModal.isOpen}
+      onClose={saveModal.hide}
+      title={`${group ? 'Add' : 'Edit'} Item`}
+      data-testid="save-item-modal"
+    >
       <form onSubmit={formik.handleSubmit}>
         <div className="px-4 pb-3">
           <Input
@@ -41,7 +58,7 @@ const EditItemModal = () => {
 
         <div className="bg-neutral-50 px-4 py-3">
           <Button type="submit" size="lg" className="w-full" disabled={!formik.dirty || formik.isSubmitting}>
-            Save
+            {group ? 'Add' : 'Save'}
           </Button>
         </div>
       </form>
@@ -49,4 +66,4 @@ const EditItemModal = () => {
   );
 };
 
-export default EditItemModal;
+export default SaveItemModal;
