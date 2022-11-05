@@ -2,7 +2,7 @@ import { render, renderHook, act, screen, fireEvent } from '@testing-library/rea
 import dayjs from 'dayjs';
 import '@testing-library/jest-dom';
 
-import Dates from 'components/Routine/Dates';
+import DateList from 'components/Routine/DateList';
 
 import { useHistoriesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
@@ -31,7 +31,7 @@ const item: Item = {
   createdAt: 0,
 };
 
-describe('Dates', () => {
+describe('DateList', () => {
   beforeAll(() => {
     Element.prototype.scrollIntoView = vi.fn();
 
@@ -60,9 +60,9 @@ describe('Dates', () => {
     const { result } = renderHook(() => useHistoriesStore());
     act(() => result.current.setSelectedDate(null));
 
-    render(<Dates />);
+    render(<DateList />);
 
-    const items = screen.getAllByTestId('dates-item');
+    const items = screen.getAllByTestId('date-list-item');
     expect(items).toHaveLength(3);
     expect(result.current.selectedDate).toBeNull();
     expect(items[1].firstChild).toHaveAttribute('aria-selected', 'false');
@@ -73,9 +73,9 @@ describe('Dates', () => {
   });
 
   it('should be selectable', async () => {
-    render(<Dates />);
+    render(<DateList />);
 
-    const items = screen.getAllByTestId('dates-item');
+    const items = screen.getAllByTestId('date-list-item');
     expect(items[1].firstChild).toHaveAttribute('aria-selected', 'false');
     expect(items[2].firstChild).toHaveAttribute('aria-selected', 'true');
     fireEvent.keyDown(items[1], { code: 'Space' });

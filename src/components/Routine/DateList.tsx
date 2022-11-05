@@ -6,13 +6,13 @@ import dayjs from 'dayjs';
 import { useHistoriesStore } from 'lib/stores';
 import { daysFromSunday } from 'data/days';
 
-type DateProps = {
+type DateListItem = {
   date: string;
   isSelected: boolean;
   isCurrentDate: boolean;
 };
 
-const DatesItem = ({ date, isSelected, isCurrentDate }: DateProps) => {
+const DateListItem = ({ date, isSelected, isCurrentDate }: DateListItem) => {
   const setSelectedDate = useHistoriesStore((state) => state.setSelectedDate);
   const day = daysFromSunday[dayjs(date).day()]
     .slice(0, 3)
@@ -25,7 +25,7 @@ const DatesItem = ({ date, isSelected, isCurrentDate }: DateProps) => {
       onClick={() => setSelectedDate(date)}
       tabIndex={0}
       onKeyDown={(e) => e.code === 'Space' && setSelectedDate(date)}
-      data-testid="dates-item"
+      data-testid="date-list-item"
     >
       <div className="flex flex-col items-center justify-center" aria-selected={isSelected ? 'true' : 'false'}>
         <span
@@ -43,7 +43,7 @@ const DatesItem = ({ date, isSelected, isCurrentDate }: DateProps) => {
   );
 };
 
-const Dates = () => {
+const DateList = () => {
   const { dates, selectedDate } = useHistoriesStore((state) => {
     const dates = state.histories
       .reduce((dates, history) => {
@@ -63,18 +63,18 @@ const Dates = () => {
   }, [isReady]);
 
   return (
-    <section data-testid="dates">
+    <section data-testid="date-list">
       {!isReady ? (
         <div className="mb-3 h-16" />
       ) : (
         <ol className="flex scroll-pr-4 space-x-7 overflow-x-auto px-4 pb-3">
           {dates.map((date) => {
             const isSelected = selectedDate ? selectedDate === date : currentDate === date;
-            return <DatesItem key={date} date={date} isSelected={isSelected} isCurrentDate={date === currentDate} />;
+            return <DateListItem key={date} date={date} isSelected={isSelected} isCurrentDate={date === currentDate} />;
           })}
 
           {dates.indexOf(currentDate) === -1 && (
-            <DatesItem date={currentDate} isSelected={!selectedDate || selectedDate === currentDate} isCurrentDate />
+            <DateListItem date={currentDate} isSelected={!selectedDate || selectedDate === currentDate} isCurrentDate />
           )}
         </ol>
       )}
@@ -82,4 +82,4 @@ const Dates = () => {
   );
 };
 
-export default Dates;
+export default DateList;

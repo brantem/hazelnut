@@ -7,7 +7,7 @@ import Router from 'next/router';
 
 import Layout from 'components/Layout';
 import Search from 'components/Search';
-import Dates from 'components/Routine/Dates';
+import DateList from 'components/Routine/DateList';
 import RoutineList from 'components/Routine/RoutineList';
 import HistoryList from 'components/History/HistoryList';
 import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
@@ -83,7 +83,7 @@ const Routines: NextPage = () => {
               />
             )}
 
-            <Dates />
+            <DateList />
 
             {isTodaySelected ? <RoutineList /> : <HistoryList />}
           </>
