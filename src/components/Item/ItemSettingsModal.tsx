@@ -4,6 +4,7 @@ import DeleteButton from 'components/DeleteButton';
 import { useItemsStore } from 'lib/stores';
 import * as constants from 'data/constants';
 import { useModal } from 'lib/hooks';
+import { ItemType } from 'types/item';
 
 const ItemSettingsModal = () => {
   const modal = useModal(constants.modals.itemSettings);
@@ -13,6 +14,7 @@ const ItemSettingsModal = () => {
   return (
     <SettingsModal
       title={item?.title}
+      description={item?.type === ItemType.Number && `Min Completed: ${item.settings.minCompleted}`}
       modalKey={constants.modals.itemSettings}
       actions={[
         {

@@ -26,6 +26,7 @@ export default defineConfig({
       lib: path.resolve(__dirname, './src/lib'),
       data: path.resolve(__dirname, './src/data'),
       pages: path.resolve(__dirname, './src/pages'),
+      types: path.resolve(__dirname, './src/types'),
     },
   },
 });

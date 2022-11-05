@@ -44,7 +44,7 @@ export const itemsStore = createVanilla<ItemsState>()((set, get) => ({
   },
 
   add: async (groupId, data) => {
-    const item = { id: nanoid(), groupId, createdAt: Date.now(), ...data };
+    const item = { id: nanoid(), groupId, createdAt: Date.now(), ...data } as Item;
     set((state) => ({ items: [...state.items, item] }));
     await storage.add('items', item);
   },
@@ -52,7 +52,7 @@ export const itemsStore = createVanilla<ItemsState>()((set, get) => ({
     const items = get().items.slice();
     const index = items.findIndex((item) => item.id === id);
     if (index === -1) return;
-    items[index] = { ...items[index], ...data };
+    items[index] = { ...items[index], ...data } as Item;
     set({ items });
     await storage.put('items', items[index]);
   },

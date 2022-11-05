@@ -2,14 +2,15 @@ import { useFormik } from 'formik';
 
 import BottomSheet from 'components/BottomSheet';
 import Input from 'components/Input';
+import Select from 'components/Select';
 import Button from 'components/Button';
 
-import { Item } from 'types/item';
+import { Item, ItemType } from 'types/item';
 import { useGroupsStore, useItemsStore } from 'lib/stores';
 import * as constants from 'data/constants';
 import { useModal } from 'lib/hooks';
 
-type Values = Pick<Item, 'title'>;
+type Values = Pick<Item, 'title' | 'type' | 'settings'>;
 
 const SaveItemModal = () => {
   const { group, clearGroup } = useGroupsStore((state) => ({
@@ -20,9 +21,17 @@ const SaveItemModal = () => {
   const saveModal = useModal(constants.modals.saveItem);
 
   const formik = useFormik<Values>({
-    initialValues: { title: item?.title || '' },
+    initialValues: {
+      title: item?.title || '',
+      type: item?.type || ItemType.Bool,
+      settings: item?.settings || {},
+    },
     onSubmit: async (values, { resetForm }) => {
-      const data = { title: values.title.trim() };
+      const data = {
+        title: values.title.trim(),
+        type: values.type,
+        settings: values.settings,
+      };
 
       if (group) {
         await add(group!.id, data);
@@ -45,7 +54,7 @@ const SaveItemModal = () => {
       data-testid="save-item-modal"
     >
       <form onSubmit={formik.handleSubmit}>
-        <div className="px-4 pb-3">
+        <div className="space-y-6 px-4 pb-3">
           <Input
             label="Title"
             name="title"
@@ -54,6 +63,52 @@ const SaveItemModal = () => {
             disabled={formik.isSubmitting}
             required
           />
+
+          <div className="flex items-center space-x-3">
+            <Select
+              label="Type"
+              name="type"
+              value={formik.values.type}
+              onChange={(e) => {
+                const type = parseInt(e.target.value);
+                formik.setFieldValue('type', type);
+                if (type === ItemType.Number) formik.setFieldValue('settings', { minCompleted: 1, step: 1 });
+              }}
+              disabled={formik.isSubmitting || Boolean(item)}
+              required
+            >
+              <option value={ItemType.Bool} defaultChecked>
+                Checkbox
+              </option>
+              <option value={ItemType.Number}>Number</option>
+            </Select>
+
+            {formik.values.type === ItemType.Number && (
+              <>
+                <Input
+                  type="number"
+                  label="Min Completed"
+                  name="settings.minCompleted"
+                  value={formik.values.settings!.minCompleted}
+                  onChange={(e) => formik.setFieldValue('settings.minCompleted', parseInt(e.target.value || '1'))}
+                  disabled={formik.isSubmitting}
+                  required
+                  min={1}
+                />
+
+                <Input
+                  type="number"
+                  label="Step"
+                  name="settings.step"
+                  value={formik.values.settings!.step}
+                  onChange={(e) => formik.setFieldValue('settings.step', parseInt(e.target.value || '1'))}
+                  disabled={formik.isSubmitting}
+                  required
+                  min={1}
+                />
+              </>
+            )}
+          </div>
         </div>
 
         <div className="bg-neutral-50 px-4 py-3">

@@ -5,7 +5,7 @@ import SaveItemModal from 'components/Item/SaveItemModal';
 
 import { useGroupsStore, useItemsStore, useModalStore } from 'lib/stores';
 import { Group } from 'types/group';
-import { Item } from 'types/item';
+import { Item, ItemType } from 'types/item';
 import * as constants from 'data/constants';
 
 const group: Group = {
@@ -45,7 +45,7 @@ describe('SaveItemModal', () => {
     expect(screen.getByTestId('save-item-modal')).toBeInTheDocument();
   });
 
-  it('should add new item', async () => {
+  it('should add bool item', async () => {
     const modal = renderHook(() => useModalStore());
     const hide = vi.spyOn(modal.result.current, 'hide');
 
@@ -60,12 +60,48 @@ describe('SaveItemModal', () => {
       result.current.setGroup(group);
       modal.result.current.show(constants.modals.saveItem);
     });
-    act(() => {
-      fireEvent.change(screen.getByLabelText('Title'), { target: { value: ' Item 1 ' } });
-      screen.getByText('Add').click();
-    });
+    fireEvent.change(screen.getByLabelText('Title'), { target: { value: ' Item 1 ' } });
+    act(() => screen.getByText('Add').click());
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
-    const values = { title: 'Item 1' };
+    const values = { title: 'Item 1', type: ItemType.Bool, settings: {} };
+    expect(add).toHaveBeenCalledWith(group.id, values);
+    expect(hide).toHaveBeenCalledWith();
+  });
+
+  it('should add number item', async () => {
+    const modal = renderHook(() => useModalStore());
+    const hide = vi.spyOn(modal.result.current, 'hide');
+
+    const items = renderHook(() => useItemsStore());
+    const add = vi.spyOn(items.result.current, 'add');
+
+    const { result } = renderHook(() => useGroupsStore());
+
+    render(<SaveItemModal />);
+
+    act(() => {
+      result.current.setGroup(group);
+      modal.result.current.show(constants.modals.saveItem);
+    });
+    fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Item 2' } });
+    expect(screen.queryByLabelText('Min Completed')).not.toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText('Type'), { target: { value: ItemType.Number } });
+
+    const minCompleted = screen.getByLabelText<HTMLInputElement>('Min Completed');
+    expect(minCompleted.value).toEqual('1');
+    fireEvent.change(minCompleted, { target: { value: '2' } });
+    fireEvent.change(minCompleted, { target: { value: '' } });
+    expect(minCompleted.value).toEqual('1');
+
+    const step = screen.getByLabelText<HTMLInputElement>('Step');
+    expect(step.value).toEqual('1');
+    fireEvent.change(step, { target: { value: '2' } });
+    fireEvent.change(step, { target: { value: '' } });
+    expect(step.value).toEqual('1');
+
+    act(() => screen.getByText('Add').click());
+    await waitFor(() => new Promise((res) => setTimeout(res, 0)));
+    const values = { title: 'Item 2', type: ItemType.Number, settings: { minCompleted: 1, step: 1 } };
     expect(add).toHaveBeenCalledWith(group.id, values);
     expect(hide).toHaveBeenCalledWith();
   });
@@ -83,12 +119,11 @@ describe('SaveItemModal', () => {
       result.current.setItem(item);
       modal.result.current.show(constants.modals.saveItem);
     });
-    act(() => {
-      fireEvent.change(screen.getByLabelText('Title'), { target: { value: ' Item 1a ' } });
-      screen.getByText('Save').click();
-    });
+    expect(screen.getByLabelText('Type')).toBeDisabled();
+    fireEvent.change(screen.getByLabelText('Title'), { target: { value: ' Item 1a ' } });
+    act(() => screen.getByText('Save').click());
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
-    const values = { title: 'Item 1a' };
+    const values = { title: 'Item 1a', type: ItemType.Bool, settings: {} };
     expect(edit).toHaveBeenCalledWith(item.id, values);
     expect(hide).toHaveBeenCalled();
   });
