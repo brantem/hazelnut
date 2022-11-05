@@ -43,7 +43,7 @@ const GroupCard = ({ group }: GroupCardProps) => {
 
         <div className="flex flex-shrink-0 items-center space-x-2">
           <button
-            className={`rounded-md p-1 text-sm hover:bg-${group.color}-100 flex-shrink-0`}
+            className={`rounded-full p-1 text-sm hover:bg-${group.color}-100 flex-shrink-0`}
             onClick={() => {
               setGroup(group);
               addItemModal.show();
@@ -54,7 +54,7 @@ const GroupCard = ({ group }: GroupCardProps) => {
           </button>
 
           <button
-            className={`rounded-md p-1 hover:bg-${group.color}-100`}
+            className={`rounded-full p-1 hover:bg-${group.color}-100`}
             onClick={() => {
               setGroup(group);
               settingsModal.show();
@@ -65,7 +65,7 @@ const GroupCard = ({ group }: GroupCardProps) => {
           </button>
 
           <button
-            className={clsx(`rounded-md p-1 hover:bg-${group.color}-100`, group.minimized && 'rotate-180')}
+            className={clsx(`rounded-full p-1 hover:bg-${group.color}-100`, group.minimized && 'rotate-180')}
             onClick={() => edit(group.id, { minimized: !group.minimized })}
             data-testid="group-card-minimize"
           >

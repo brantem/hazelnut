@@ -24,7 +24,7 @@ exports[`Header 1`] = `
       class="flex items-center space-x-2"
     >
       <button
-        class="rounded-md px-3 py-1.5 text-sm hover:bg-neutral-100"
+        class="rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-500 disabled:opacity-70 enabled:hover:bg-neutral-100 px-3 py-1.5 text-sm"
       >
         Action 1
       </button>

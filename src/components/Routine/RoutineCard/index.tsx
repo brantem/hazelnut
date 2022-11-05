@@ -34,7 +34,7 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
         <div className="flex flex-shrink-0 items-center space-x-2">
           {showAction && (
             <button
-              className={`rounded-md px-2 py-1 text-sm hover:bg-${routine.color}-100 flex-shrink-0`}
+              className={`rounded-full px-3 py-1 text-sm hover:bg-${routine.color}-100 flex-shrink-0`}
               onClick={() => {
                 setRoutine(routine);
                 saveItemsModal.show();
@@ -47,7 +47,7 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
 
           {showAction && (
             <button
-              className={`rounded-md p-1 hover:bg-${routine.color}-100`}
+              className={`rounded-full p-1 hover:bg-${routine.color}-100`}
               onClick={() => {
                 setRoutine(routine);
                 settingsModal.show();
@@ -59,7 +59,7 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
           )}
 
           <button
-            className={clsx(`rounded-md p-1 hover:bg-${routine.color}-100`, routine.minimized && 'rotate-180')}
+            className={clsx(`rounded-full p-1 hover:bg-${routine.color}-100`, routine.minimized && 'rotate-180')}
             onClick={() => edit(routine.id, { minimized: !routine.minimized })}
             data-testid="routine-card-minimize"
           >

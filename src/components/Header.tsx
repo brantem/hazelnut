@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import clsx from 'clsx';
+
+import Button from 'components/Button';
 
 import { Navigation } from 'types/shared';
 
@@ -38,14 +39,16 @@ const Header = ({ navigations, actions }: HeaderProps) => {
             {actions.map((action, i) => {
               if (action.skip) return null;
               return (
-                <button
+                <Button
                   key={i}
-                  className={clsx('rounded-md px-3 py-1.5 text-sm hover:bg-neutral-100', action.className)}
+                  variant="ghost"
+                  size="sm"
+                  className={action.className}
                   onClick={action.onClick}
                   data-testid={action.testId}
                 >
                   {action.text}
-                </button>
+                </Button>
               );
             })}
           </div>

@@ -4,8 +4,9 @@ module.exports = {
   safelist: [
     { pattern: /text-.+-(400|500|600)/ },
     { pattern: /bg-.+-(50|300)/ },
-    { pattern: /border-.+-(300)/ },
     { pattern: /bg-.+-(100|200)/, variants: ['hover', 'disabled'] },
+    { pattern: /bg-.+-(100|800)/, variants: ['enabled:hover'] },
+    { pattern: /border-.+-(300)/ },
     { pattern: /ring-.+-(500)/, variants: ['focus'] },
   ],
   theme: {

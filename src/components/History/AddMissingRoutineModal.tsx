@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import BottomSheet from 'components/BottomSheet';
 import Radio from 'components/Radio';
 import Search from 'components/Search';
+import Button from 'components/Button';
 
 import { useHistoriesStore, useRoutinesStore } from 'lib/stores';
 import { isMatch, sortRoutines } from 'lib/helpers';
@@ -76,12 +77,13 @@ const AddMissingRoutineModal = () => {
         {isSearchEmpty && <li className="text-neutral-500">No results found</li>}
       </ol>
 
-      <div className="bg-neutral-50 px-4 py-3">
+      <div className="space-y-3 bg-neutral-50 px-4 py-3">
         <Search placeholder="Search for routine titles" searchKey={constants.searches.missingRoutines} />
 
-        <button
+        <Button
           type="submit"
-          className="mt-3 w-full rounded-md bg-black py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-neutral-500 enabled:hover:bg-neutral-800 disabled:opacity-70"
+          size="lg"
+          className="w-full"
           onClick={() => {
             add(selectedRoutine!);
             modal.hide();
@@ -89,7 +91,7 @@ const AddMissingRoutineModal = () => {
           disabled={!selectedRoutine}
         >
           Save
-        </button>
+        </Button>
       </div>
     </BottomSheet>
   );

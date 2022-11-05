@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import BottomSheet from 'components/BottomSheet';
 import Group from 'components/modals/SaveItemsModal/Group';
 import Search from 'components/Search';
+import Button from 'components/Button';
 
 import { useGroupsStore, useItemsStore } from 'lib/stores';
 import { isMatch } from 'lib/helpers';
@@ -61,19 +62,20 @@ const SaveItemsModal = ({ modalKey, itemIds, disabledItemIds, onChange, onSave }
         {isSearchEmpty && <li className="text-neutral-500">No results found</li>}
       </ol>
 
-      <div className="bg-neutral-50 px-4 py-3">
+      <div className="space-y-3 bg-neutral-50 px-4 py-3">
         <Search placeholder="Search for item titles" searchKey={constants.searches.saveItems} />
 
-        <button
+        <Button
           type="submit"
-          className="mt-3 w-full rounded-md bg-black py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-neutral-500 enabled:hover:bg-neutral-800 disabled:opacity-70"
+          size="lg"
+          className="w-full"
           onClick={() => {
             onSave();
             modal.hide();
           }}
         >
           Save
-        </button>
+        </Button>
       </div>
     </BottomSheet>
   );

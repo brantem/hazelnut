@@ -6,6 +6,7 @@ import BottomSheet from 'components/BottomSheet';
 import Input from 'components/Input';
 import ColorPicker from 'components/ColorPicker';
 import Recurrence from 'components/Routine/SaveRoutineModal/Recurrence';
+import Button from 'components/Button';
 
 import colors from 'data/colors';
 import { useRoutinesStore } from 'lib/stores';
@@ -102,13 +103,9 @@ const SaveRoutineModal = () => {
         </div>
 
         <div className="bg-neutral-50 px-4 py-3">
-          <button
-            type="submit"
-            className="w-full rounded-md bg-black py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-neutral-500 enabled:hover:bg-neutral-800 disabled:opacity-70"
-            disabled={!formik.dirty || formik.isSubmitting}
-          >
+          <Button type="submit" size="lg" className="w-full" disabled={!formik.dirty || formik.isSubmitting}>
             {routine ? 'Save' : 'Add'}
-          </button>
+          </Button>
         </div>
       </form>
     </BottomSheet>

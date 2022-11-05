@@ -60,7 +60,7 @@ const HistoryCard = ({ history }: HistoryProps) => {
 
         <div className="flex flex-shrink-0 items-center space-x-2">
           <button
-            className={`rounded-md px-2 py-1 text-sm hover:bg-${history.color}-100 flex-shrink-0`}
+            className={`rounded-full px-3 py-1 text-sm hover:bg-${history.color}-100 flex-shrink-0`}
             onClick={() => {
               setHistory(history);
               addItemsModal.show();
@@ -71,7 +71,7 @@ const HistoryCard = ({ history }: HistoryProps) => {
           </button>
 
           <button
-            className={`rounded-md p-1 hover:bg-${history.color}-100`}
+            className={`rounded-full p-1 hover:bg-${history.color}-100`}
             onClick={() => {
               setHistory(history);
               settingsModal.show();
@@ -82,7 +82,7 @@ const HistoryCard = ({ history }: HistoryProps) => {
           </button>
 
           <button
-            className={clsx(`rounded-md p-1 hover:bg-${history.color}-100`, minimized && 'rotate-180')}
+            className={clsx(`rounded-full p-1 hover:bg-${history.color}-100`, minimized && 'rotate-180')}
             onClick={toggleMinimized}
             data-testid="history-card-minimize"
           >

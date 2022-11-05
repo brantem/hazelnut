@@ -35,7 +35,7 @@ const ItemList = ({ group }: ItemListProps) => {
           <span className="truncate">{item.title}</span>
 
           <button
-            className={`rounded-md p-1 hover:bg-${group.color}-100`}
+            className={`rounded-full p-1 hover:bg-${group.color}-100`}
             onClick={() => {
               setItem(item);
               settingsModal.show();

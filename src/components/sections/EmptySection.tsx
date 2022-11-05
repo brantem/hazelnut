@@ -1,3 +1,5 @@
+import Button from 'components/Button';
+
 type EmptySectionProps = {
   title: string;
   action: { text: string; onClick: () => void };
@@ -10,13 +12,9 @@ const EmptySection = ({ title, action }: EmptySectionProps) => {
         {title}
       </p>
 
-      <button
-        className="rounded-md bg-black py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-neutral-500 enabled:hover:bg-neutral-800 disabled:opacity-70"
-        onClick={action.onClick}
-        data-testid="empty-section-action"
-      >
+      <Button data-testid="empty-section-action" onClick={action.onClick}>
         {action.text}
-      </button>
+      </Button>
     </section>
   );
 };
