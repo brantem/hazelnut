@@ -20,7 +20,7 @@ import * as constants from 'data/constants';
 const Items: NextPage = () => {
   const { groups, clearGroup, isReady } = useGroupsStore((state) => ({
     groups: state.groups,
-    clearGroup: () => (state.group ? state.setGroup(null) : void 0),
+    clearGroup: () => state.group && state.setGroup(null),
     isReady: state.isReady,
   }));
   const saveGroupModal = useModal(constants.modals.saveGroup);

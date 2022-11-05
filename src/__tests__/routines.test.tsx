@@ -61,7 +61,8 @@ describe('Routines', () => {
     act(() => {
       routinesStore.setState({ isReady: true });
       routines.result.current.add({ title: 'Routine 2', color: 'red', recurrence, time: '01:00' });
-      routines.result.current.add({ title: 'Routine 1', color: 'red', recurrence, time: '00:00' });
+      routines.result.current.add(routine);
+      routines.result.current.setRoutine(routine);
 
       itemsStore.setState({ isReady: true });
       items.result.current.add('group-1', item);
@@ -80,6 +81,9 @@ describe('Routines', () => {
   });
 
   it('should render successfully', async () => {
+    const routines = renderHook(() => useRoutinesStore());
+    const setRoutine = vi.spyOn(routines.result.current, 'setRoutine').mockImplementation(() => {});
+
     render(<Routines />);
 
     const cards = screen.getAllByTestId('routine-card');
@@ -88,6 +92,7 @@ describe('Routines', () => {
     expect(cards[1]).toHaveTextContent('Routine 2');
 
     act(() => screen.getByText('Add Routine').click());
+    expect(setRoutine).toHaveBeenCalledWith(null);
     expect(screen.getByTestId('save-routine-modal')).toBeInTheDocument();
   });
 
@@ -139,17 +144,6 @@ describe('Routines', () => {
     expect(screen.getByText('No results found')).toBeInTheDocument();
     act(() => screen.getByTestId('routines-search').click());
     expect(screen.queryByTestId('search')).not.toBeInTheDocument();
-  });
-
-  it('should clear routine', async () => {
-    const routines = renderHook(() => useRoutinesStore());
-    act(() => routines.result.current.setRoutine(routine));
-
-    render(<Routines />);
-
-    expect(routines.result.current.routine).not.toBeNull();
-    act(() => screen.getByText('Add Routine').click());
-    expect(routines.result.current.routine).toBeNull();
   });
 
   it('should support selectedDate !== currentDate', async () => {

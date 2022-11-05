@@ -27,7 +27,7 @@ const Routines: NextPage = () => {
   const selectedDate = useHistoriesStore((state) => state.selectedDate);
   const routines = useRoutinesStore((state) => ({ isEmpty: state.routines.length === 0, isReady: state.isReady }));
   const items = useItemsStore((state) => ({ isEmpty: state.items.length === 0, isReady: state.isReady }));
-  const clearRoutine = useRoutinesStore((state) => () => state.routine ? state.setRoutine(null) : void 0);
+  const clearRoutine = useRoutinesStore((state) => () => state.routine && state.setRoutine(null));
   const search = useSearch(constants.searches.routines);
   const saveRoutineModal = useModal(constants.modals.saveRoutine);
   const addMissingRoutineModal = useModal(constants.modals.addMissingRoutine);

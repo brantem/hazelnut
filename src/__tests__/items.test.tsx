@@ -28,7 +28,10 @@ describe('Items', () => {
     await act(() => items.result.current.add('group-1', { title: 'Item 1' }));
 
     const groups = renderHook(() => useGroupsStore());
-    await act(() => groups.result.current.add(group));
+    await act(() => {
+      groups.result.current.add(group);
+      groups.result.current.setGroup(group);
+    });
   });
 
   beforeEach(() => {
@@ -38,11 +41,15 @@ describe('Items', () => {
   });
 
   it('should render successfully', async () => {
+    const groups = renderHook(() => useGroupsStore());
+    const setGroup = vi.spyOn(groups.result.current, 'setGroup').mockImplementation(() => {});
+
     render(<Items />);
 
     expect(screen.getByTestId('group-card')).toBeInTheDocument();
 
     act(() => screen.getByText('Add Group').click());
+    expect(setGroup).toHaveBeenCalledWith(null);
     expect(screen.getByTestId('save-group-modal')).toBeInTheDocument();
   });
 
@@ -66,16 +73,5 @@ describe('Items', () => {
     expect(screen.getByText('No results found')).toBeInTheDocument();
     act(() => screen.getByTestId('items-search').click());
     expect(screen.queryByTestId('search')).not.toBeInTheDocument();
-  });
-
-  it('should clear group', async () => {
-    const groups = renderHook(() => useGroupsStore());
-    act(() => groups.result.current.setGroup(group));
-
-    render(<Items />);
-
-    expect(groups.result.current.group).not.toBeNull();
-    act(() => screen.getByText('Add Group').click());
-    expect(groups.result.current.group).toBeNull();
   });
 });
