@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import clsx from 'clsx';
 
 import Input from 'components/Input';
+import Select from 'components/Select';
 import DayPicker from 'components/Routine/SaveRoutineModal/DayPicker';
 
 import { Frequency, Recurrence as Value } from 'types/shared';
@@ -79,7 +80,7 @@ const Recurrence = ({ value, onChange, isDisabled, showNext }: RecurrenceProps) 
           />
         </div>
 
-        <select
+        <Select
           data-testid="recurrence-frequency"
           name="recurrence.frequency"
           value={value.frequency}
@@ -93,11 +94,11 @@ const Recurrence = ({ value, onChange, isDisabled, showNext }: RecurrenceProps) 
           }}
           disabled={isDisabled}
           required
-          className="block h-10 w-[94px] rounded-md border-neutral-300 bg-white pl-2 text-sm opacity-100 focus:border-neutral-500 focus:ring-neutral-500 disabled:border-neutral-200 disabled:bg-neutral-100 disabled:text-neutral-500"
+          className="h-10 w-[94px] pl-2 text-sm"
         >
           <option value="DAILY">{value.interval > 1 ? 'days' : 'day'}</option>
           <option value="WEEKLY">{value.interval > 1 ? 'weeks' : 'week'}</option>
-        </select>
+        </Select>
       </div>
 
       {value.frequency === 'WEEKLY' && (
