@@ -4,11 +4,10 @@ import '@testing-library/jest-dom';
 
 import HistoryCard from 'components/History/HistoryCard';
 
-import { historiesStore, useHistoriesStore, useModalStore } from 'lib/stores';
+import { useHistoriesStore, useModalStore } from 'lib/stores';
 import { History } from 'types/history';
 import * as constants from 'data/constants';
 import { ItemType } from 'types/item';
-import SaveItemModal from 'components/Item/SaveItemModal';
 
 const history: History = {
   id: 'routine-1',
