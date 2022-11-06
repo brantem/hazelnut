@@ -72,9 +72,16 @@ const SaveItemModal = () => {
               onChange={(e) => {
                 const type = parseInt(e.target.value);
                 formik.setFieldValue('type', type);
-                if (type === ItemType.Number) formik.setFieldValue('settings', { minCompleted: 1, step: 1 });
+                switch (type) {
+                  case ItemType.Bool:
+                    formik.setFieldValue('settings', {});
+                    break;
+                  case ItemType.Number:
+                    formik.setFieldValue('settings', { minCompleted: 1, step: 1 });
+                    break;
+                }
               }}
-              disabled={formik.isSubmitting || Boolean(item)}
+              disabled={formik.isSubmitting}
               required
             >
               <option value={ItemType.Bool} defaultChecked>
