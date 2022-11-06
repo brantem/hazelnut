@@ -63,47 +63,47 @@ describe('DateList', () => {
     render(<DateList />);
 
     const items = screen.getAllByTestId('date-list-item');
-    const routine = screen.getByTestId('date-list-routine');
+    const action = screen.getByTestId('date-list-action');
 
     expect(items).toHaveLength(2);
     expect(result.current.selectedDate).toBeNull();
-    expect(items[0].firstChild).toHaveAttribute('aria-selected', 'false');
-    expect(items[1].firstChild).toHaveAttribute('aria-selected', 'false');
-    expect(routine.firstChild).toHaveAttribute('aria-selected', 'true');
+    expect(items[0]).toHaveAttribute('aria-selected', 'false');
+    expect(items[1]).toHaveAttribute('aria-selected', 'false');
+    expect(action).toHaveAttribute('aria-selected', 'true');
 
     // item
     act(() => items[0].click());
-    expect(items[0].firstChild).toHaveAttribute('aria-selected', 'true');
-    expect(items[1].firstChild).toHaveAttribute('aria-selected', 'false');
-    expect(routine.firstChild).toHaveAttribute('aria-selected', 'false');
+    expect(items[0]).toHaveAttribute('aria-selected', 'true');
+    expect(items[1]).toHaveAttribute('aria-selected', 'false');
+    expect(action).toHaveAttribute('aria-selected', 'false');
 
     // routine
-    act(() => routine.click());
-    expect(items[0].firstChild).toHaveAttribute('aria-selected', 'false');
-    expect(items[1].firstChild).toHaveAttribute('aria-selected', 'false');
-    expect(routine.firstChild).toHaveAttribute('aria-selected', 'true');
+    act(() => action.click());
+    expect(items[0]).toHaveAttribute('aria-selected', 'false');
+    expect(items[1]).toHaveAttribute('aria-selected', 'false');
+    expect(action).toHaveAttribute('aria-selected', 'true');
   });
 
   it('should be selectable using keyboard', async () => {
     render(<DateList />);
 
     const items = screen.getAllByTestId('date-list-item');
-    const routine = screen.getByTestId('date-list-routine');
+    const action = screen.getByTestId('date-list-action');
 
-    expect(items[0].firstChild).toHaveAttribute('aria-selected', 'false');
-    expect(items[1].firstChild).toHaveAttribute('aria-selected', 'false');
-    expect(routine.firstChild).toHaveAttribute('aria-selected', 'true');
+    expect(items[0]).toHaveAttribute('aria-selected', 'false');
+    expect(items[1]).toHaveAttribute('aria-selected', 'false');
+    expect(action).toHaveAttribute('aria-selected', 'true');
 
     // item
     fireEvent.keyDown(items[0], { code: 'Space' });
-    expect(items[0].firstChild).toHaveAttribute('aria-selected', 'true');
-    expect(items[1].firstChild).toHaveAttribute('aria-selected', 'false');
-    expect(routine.firstChild).toHaveAttribute('aria-selected', 'false');
+    expect(items[0]).toHaveAttribute('aria-selected', 'true');
+    expect(items[1]).toHaveAttribute('aria-selected', 'false');
+    expect(action).toHaveAttribute('aria-selected', 'false');
 
     // item
-    fireEvent.keyDown(routine, { code: 'Space' });
-    expect(items[0].firstChild).toHaveAttribute('aria-selected', 'false');
-    expect(items[1].firstChild).toHaveAttribute('aria-selected', 'false');
-    expect(routine.firstChild).toHaveAttribute('aria-selected', 'true');
+    fireEvent.keyDown(action, { code: 'Space' });
+    expect(items[0]).toHaveAttribute('aria-selected', 'false');
+    expect(items[1]).toHaveAttribute('aria-selected', 'false');
+    expect(action).toHaveAttribute('aria-selected', 'true');
   });
 });
