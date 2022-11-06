@@ -61,6 +61,7 @@ describe('SaveItemModal', () => {
       modal.result.current.show(constants.modals.saveItem);
     });
     fireEvent.change(screen.getByLabelText('Title'), { target: { value: ' Item 1 ' } });
+    fireEvent.change(screen.getByLabelText('Type'), { target: { value: ItemType.Bool } });
     act(() => screen.getByText('Add').click());
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
     const values = { title: 'Item 1', type: ItemType.Bool, settings: {} };
@@ -90,18 +91,16 @@ describe('SaveItemModal', () => {
     const minCompleted = screen.getByLabelText<HTMLInputElement>('Min Completed');
     expect(minCompleted.value).toEqual('1');
     fireEvent.change(minCompleted, { target: { value: '2' } });
-    fireEvent.change(minCompleted, { target: { value: '' } });
-    expect(minCompleted.value).toEqual('1');
+    expect(minCompleted.value).toEqual('2');
 
     const step = screen.getByLabelText<HTMLInputElement>('Step');
     expect(step.value).toEqual('1');
     fireEvent.change(step, { target: { value: '2' } });
-    fireEvent.change(step, { target: { value: '' } });
-    expect(step.value).toEqual('1');
+    expect(step.value).toEqual('2');
 
     act(() => screen.getByText('Add').click());
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
-    const values = { title: 'Item 2', type: ItemType.Number, settings: { minCompleted: 1, step: 1 } };
+    const values = { title: 'Item 2', type: ItemType.Number, settings: { minCompleted: 2, step: 2 } };
     expect(add).toHaveBeenCalledWith(group.id, values);
     expect(hide).toHaveBeenCalledWith();
   });
@@ -119,7 +118,6 @@ describe('SaveItemModal', () => {
       result.current.setItem(item);
       modal.result.current.show(constants.modals.saveItem);
     });
-    expect(screen.getByLabelText('Type')).toBeDisabled();
     fireEvent.change(screen.getByLabelText('Title'), { target: { value: ' Item 1a ' } });
     act(() => screen.getByText('Save').click());
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
