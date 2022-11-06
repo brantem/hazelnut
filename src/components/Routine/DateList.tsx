@@ -54,8 +54,18 @@ const DateList = () => {
 
   const isReady = selectedDate !== undefined;
   useEffect(() => {
+    /* c8 ignore start */
     if (!isReady) return;
-    document.querySelector('[aria-selected="true"]')?.scrollIntoView();
+    const selected = document.querySelector('[aria-selected="true"]');
+    if (!selected) return;
+    if (selected.getAttribute('id') === 'date-list-action') {
+      const items = document.getElementById('date-list-items');
+      if (!items) return;
+      items.scrollLeft = items.scrollWidth;
+    } else {
+      selected.scrollIntoView({ inline: 'start' });
+    }
+    /* c8 ignore stop */
   }, [isReady]);
 
   return (
@@ -63,7 +73,7 @@ const DateList = () => {
       className="sticky top-0 z-10 flex w-full flex-1 items-stretch justify-end bg-white"
       data-testid="date-list"
     >
-      <div className="flex scroll-pl-4 space-x-4 overflow-x-auto px-4 pb-3">
+      <div className="flex scroll-pl-4 space-x-4 overflow-x-auto px-4 pb-3" id="date-list-items">
         {dates.map((date) => {
           const isSelected = selectedDate === date;
           return <DateListItem key={date} date={date} isSelected={isSelected} />;
@@ -77,6 +87,7 @@ const DateList = () => {
         onClick={() => setSelectedDate(null)}
         tabIndex={0}
         onKeyDown={(e) => e.code === 'Space' && setSelectedDate(null)}
+        id="date-list-action"
         data-testid="date-list-action"
         aria-selected={isReady && !selectedDate ? 'true' : 'false'}
       >
