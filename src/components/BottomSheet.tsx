@@ -13,7 +13,7 @@ export type BottomSheetProps = {
 const BottomSheet = ({ isOpen, onClose, onAfterClose, title, rightElement, children, ...props }: BottomSheetProps) => {
   return (
     <Transition show={isOpen} as={Fragment} afterLeave={onAfterClose}>
-      <Dialog onClose={onClose} className="relative inset-0 z-50" data-testid="bottom-sheet" {...props}>
+      <Dialog onClose={onClose} className="relative inset-0" data-testid="bottom-sheet" {...props}>
         <Transition.Child
           enter="transition duration-100 ease-out"
           enterFrom="transform opacity-0"
@@ -23,10 +23,10 @@ const BottomSheet = ({ isOpen, onClose, onAfterClose, title, rightElement, child
           leaveTo="transform opacity-0"
           as={Fragment}
         >
-          <Dialog.Backdrop className="fixed inset-0 bg-neutral-500/25" data-testid="bottom-sheet-backdrop" />
+          <Dialog.Backdrop className="fixed inset-0 z-20 bg-neutral-500/25" data-testid="bottom-sheet-backdrop" />
         </Transition.Child>
 
-        <div className="fixed inset-0 flex items-end justify-center">
+        <div className="fixed inset-0 z-30 flex items-end justify-center">
           <div className="flex h-full w-full max-w-lg items-end">
             <Transition.Child
               enter="transition duration-200 ease-out"

@@ -4,10 +4,7 @@ import BottomSheet, { BottomSheetProps } from 'components/BottomSheet';
 
 import { useModal } from 'lib/hooks';
 
-type Action = { skip?: boolean } & (
-  | { children: React.ReactNode; onClick: () => void }
-  | { render: () => React.ReactNode }
-);
+type Action = { children: React.ReactNode; onClick: () => void } | { render: () => React.ReactNode };
 
 type SettingsModalProps = Pick<BottomSheetProps, 'title'> & {
   modalKey: string;
@@ -28,7 +25,6 @@ const SettingsModal = ({ modalKey, description, actions, ...props }: SettingsMod
 
       <div className="flex flex-col pb-3">
         {actions.map((action, i) => {
-          if (action.skip) return null;
           return 'render' in action ? (
             <Fragment key={i}>{action.render()}</Fragment>
           ) : (

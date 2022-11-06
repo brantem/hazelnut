@@ -1,7 +1,6 @@
-import { useReducer, useMemo } from 'react';
+import { useReducer } from 'react';
 import type { NextPage } from 'next';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import dayjs from 'dayjs';
 import clsx from 'clsx';
 import Router from 'next/router';
 
@@ -24,7 +23,7 @@ import { useModal, useSearch } from 'lib/hooks';
 import * as constants from 'data/constants';
 
 const Routines: NextPage = () => {
-  const selectedDate = useHistoriesStore((state) => state.selectedDate);
+  const isHistory = useHistoriesStore((state) => !!state.selectedDate);
   const routines = useRoutinesStore((state) => ({ isEmpty: state.routines.length === 0, isReady: state.isReady }));
   const items = useItemsStore((state) => ({ isEmpty: state.items.length === 0, isReady: state.isReady }));
   const clearRoutine = useRoutinesStore((state) => () => state.routine && state.setRoutine(null));
@@ -33,9 +32,6 @@ const Routines: NextPage = () => {
   const addMissingRoutineModal = useModal(constants.modals.addMissingRoutine);
 
   const [isSearching, toggleIsSearching] = useReducer((prev) => !prev, search.value !== '');
-
-  const currentDate = useMemo(() => dayjs().startOf('day').toISOString(), []);
-  const isTodaySelected = !selectedDate || selectedDate === currentDate;
 
   const isEmpty = routines.isEmpty || items.isEmpty;
   const isReady = /* c8 ignore next */ routines.isReady || items.isReady;
@@ -53,7 +49,7 @@ const Routines: NextPage = () => {
                 toggleIsSearching();
               },
               testId: 'routines-search',
-              skip: isEmpty || !isTodaySelected,
+              skip: isEmpty,
             },
             {
               children: 'Add Routine',
@@ -62,20 +58,20 @@ const Routines: NextPage = () => {
                 saveRoutineModal.show();
               },
               testId: 'routines-add',
-              skip: items.isEmpty || !isTodaySelected,
+              skip: items.isEmpty || isHistory,
             },
             {
               children: 'Add Missing Routine',
               onClick: () => addMissingRoutineModal.show(),
               testId: 'routines-add-missing',
-              skip: isEmpty || isTodaySelected,
+              skip: isEmpty || !isHistory,
             },
           ],
         }}
       >
         {!isEmpty ? (
           <>
-            {isTodaySelected && isSearching && (
+            {isSearching && (
               <Search
                 placeholder="Search for routine titles"
                 searchKey={constants.searches.routines}
@@ -85,7 +81,7 @@ const Routines: NextPage = () => {
 
             <DateList />
 
-            {isTodaySelected ? <RoutineList /> : <HistoryList />}
+            {!isHistory ? <RoutineList /> : <HistoryList />}
           </>
         ) : (
           isReady && (

@@ -6,7 +6,8 @@ import HistoryList from 'components/History/HistoryList';
 
 import { useHistoriesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
-import { Item } from 'types/item';
+import { useSearch } from 'lib/hooks';
+import * as constants from 'data/constants';
 
 const routine: Routine = {
   id: 'routine-1',
@@ -24,42 +25,42 @@ const routine: Routine = {
   createdAt: 0,
 };
 
-const item: Item = {
-  id: 'item-1',
-  groupId: 'group-1',
-  title: 'Item 1',
-  createdAt: 0,
-};
-
 describe('HistoryList', () => {
-  beforeAll(async () => {
+  beforeAll(() => {
     const { result } = renderHook(() => useHistoriesStore());
-    await act(() => result.current.save(routine, item, { done: true }));
+    act(() => {
+      result.current.add(routine);
+    });
   });
 
   beforeEach(() => {
-    vi.useFakeTimers();
+    const { result } = renderHook(() => useHistoriesStore());
+    act(() => result.current.setSelectedDate(dayjs().startOf('day').toISOString()));
   });
 
-  afterEach(async () => {
-    vi.useRealTimers();
-    const { result } = renderHook(() => useHistoriesStore());
-    await act(() => result.current.setSelectedDate(null));
-  });
-
-  it('should render successfully', async () => {
-    vi.setSystemTime(dayjs().startOf('hour').toDate());
-    const { result } = renderHook(() => useHistoriesStore());
-    await act(() => result.current.setSelectedDate(dayjs().startOf('day').toISOString()));
-
+  it('should render successfully', () => {
     render(<HistoryList />);
 
     expect(screen.getByText('Routine 1')).toBeInTheDocument();
   });
 
-  it('should render empty when selectedDate is null', async () => {
+  it('should render empty when selectedDate is null', () => {
+    const { result } = renderHook(() => useHistoriesStore());
+    act(() => result.current.setSelectedDate(null));
+
     render(<HistoryList />);
 
     expect(screen.queryByText('Routine 1')).not.toBeInTheDocument();
+  });
+
+  it('should support search', () => {
+    render(<HistoryList />);
+
+    const search = renderHook(() => useSearch(constants.searches.routines));
+
+    act(() => search.result.current.change('#'));
+    expect(screen.getByText('No results found')).toBeInTheDocument();
+    act(() => search.result.current.change('1'));
+    expect(screen.getByTestId('history-card')).toHaveTextContent('Routine 1');
   });
 });

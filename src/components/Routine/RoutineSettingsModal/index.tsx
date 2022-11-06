@@ -1,11 +1,8 @@
-import { useCallback } from 'react';
-import dayjs from 'dayjs';
-
 import SettingsModal from 'components/modals/SettingsModal';
 import Recurrence from 'components/Routine/RoutineSettingsModal/Recurrence';
 import DeleteButton from 'components/DeleteButton';
 
-import { useHistoriesStore, useRoutinesStore } from 'lib/stores';
+import { useRoutinesStore } from 'lib/stores';
 import * as constants from 'data/constants';
 import { useModal } from 'lib/hooks';
 
@@ -20,16 +17,6 @@ const RoutineSettingsModal = () => {
       removeRoutine: () => state.routine && state.remove(state.routine.id),
     };
   });
-  const { isInHistory, removeHistory } = useHistoriesStore(
-    useCallback(
-      (state) => {
-        const date = dayjs().startOf('day').toISOString();
-        const history = state.histories.find((history) => history.id === routine?.id && history.date === date);
-        return { isInHistory: Boolean(history), removeHistory: () => history && state.remove(history.id, date) };
-      },
-      [routine],
-    ),
-  );
 
   return (
     <SettingsModal
@@ -68,18 +55,6 @@ const RoutineSettingsModal = () => {
               }}
             />
           ),
-        },
-        {
-          render: () => (
-            <DeleteButton
-              text="Delete History"
-              onConfirm={() => {
-                removeHistory();
-                modal.hide();
-              }}
-            />
-          ),
-          skip: !isInHistory,
         },
       ]}
       data-testid="routine-settings-modal"

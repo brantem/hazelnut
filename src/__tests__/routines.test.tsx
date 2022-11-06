@@ -1,4 +1,4 @@
-import { act, render, screen, renderHook, fireEvent } from '@testing-library/react';
+import { act, render, screen, renderHook } from '@testing-library/react';
 import dayjs from 'dayjs';
 import Router from 'next/router';
 import '@testing-library/jest-dom';
@@ -134,19 +134,18 @@ describe('Routines', () => {
     });
   });
 
-  it('should search', async () => {
+  it('should open search', async () => {
     render(<Routines />);
 
+    const action = screen.getByTestId('routines-search');
     expect(screen.queryByTestId('search')).not.toBeInTheDocument();
-    act(() => screen.getByTestId('routines-search').click());
+    act(() => action.click());
     expect(screen.getByTestId('search')).toBeInTheDocument();
-    fireEvent.change(screen.getByPlaceholderText('Search for routine titles'), { target: { value: 'a' } });
-    expect(screen.getByText('No results found')).toBeInTheDocument();
-    act(() => screen.getByTestId('routines-search').click());
+    act(() => action.click());
     expect(screen.queryByTestId('search')).not.toBeInTheDocument();
   });
 
-  it('should support selectedDate !== currentDate', async () => {
+  it('should show history list', async () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
     const modal = renderHook(() => useModalStore());
     const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
@@ -156,13 +155,15 @@ describe('Routines', () => {
     const { rerender } = render(<Routines />);
 
     expect(screen.getByTestId('routine-list')).toBeInTheDocument();
-    act(() => screen.getByTestId('routines-search').click());
-    expect(screen.getByTestId('search')).toBeInTheDocument();
+    expect(screen.getByTestId('routines-add')).toBeInTheDocument();
+    expect(screen.queryByTestId('routines-add-missing')).not.toBeInTheDocument();
+
     act(() => histories.result.current.setSelectedDate(dayjs().subtract(1, 'day').startOf('day').toISOString()));
     rerender(<Routines />);
     expect(screen.getByTestId('history-list')).toBeInTheDocument();
-    expect(screen.queryByTestId('routines-search')).not.toBeInTheDocument();
     expect(screen.queryByTestId('routines-add')).not.toBeInTheDocument();
+    expect(screen.getByTestId('routines-add-missing')).toBeInTheDocument();
+
     act(() => screen.getByTestId('routines-add-missing').click());
     expect(show).toHaveBeenCalledWith(constants.modals.addMissingRoutine);
     expect(screen.queryByTestId('search')).not.toBeInTheDocument();
