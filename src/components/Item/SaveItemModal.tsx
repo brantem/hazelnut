@@ -97,7 +97,7 @@ const SaveItemModal = () => {
                   label="Min Completed"
                   name="settings.minCompleted"
                   value={formik.values.settings!.minCompleted}
-                  onChange={(e) => formik.setFieldValue('settings.minCompleted', parseInt(e.target.value || '1'))}
+                  onChange={(e) => formik.setFieldValue('settings.minCompleted', parseInt(e.target.value))}
                   disabled={formik.isSubmitting}
                   required
                   min={1}
@@ -108,7 +108,7 @@ const SaveItemModal = () => {
                   label="Step"
                   name="settings.step"
                   value={formik.values.settings!.step}
-                  onChange={(e) => formik.setFieldValue('settings.step', parseInt(e.target.value || '1'))}
+                  onChange={(e) => formik.setFieldValue('settings.step', parseInt(e.target.value))}
                   disabled={formik.isSubmitting}
                   required
                   min={1}
