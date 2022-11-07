@@ -120,7 +120,7 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
             {
               ..._item,
               ...pick(item, ['id', 'type', 'title', 'settings']),
-              completedAt: data.done ? Date.now() : null,
+              completedAt: data.done ? _item.completedAt || Date.now() : null,
             },
             'value' in data && { value: data.value },
           );

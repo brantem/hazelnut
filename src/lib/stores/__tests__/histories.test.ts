@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { act } from '@testing-library/react';
+import { act, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { routinesStore, itemsStore, historiesStore } from 'lib/stores';
@@ -66,10 +66,7 @@ describe('historiesStore', async () => {
 
   afterEach(() => {
     vi.useRealTimers();
-    act(() => {
-      historiesStore.getState().setSelectedDate(null);
-      historiesStore.getState().remove(routine.id, date);
-    });
+    act(() => historiesStore.setState({ histories: [], selectedDate: null }));
   });
 
   it('should set history', async () => {
@@ -278,5 +275,17 @@ describe('historiesStore', async () => {
     expect(historiesStore.getState().histories).toHaveLength(2);
     act(() => historiesStore.getState().remove(routine.id, dayjs().startOf('day').toISOString()));
     expect(historiesStore.getState().histories).toHaveLength(1);
+  });
+
+  it('should not update completedAt', async () => {
+    vi.useRealTimers();
+    act(() => historiesStore.setState({ selectedDate: null }));
+
+    const _routine = generateRoutine(1, { itemIds: ['item-3'] });
+    act(() => historiesStore.getState().save(_routine, item3, { value: 1, done: true }));
+    const prevCompletedAt = historiesStore.getState().histories[0].items[0].completedAt;
+    await waitFor(() => new Promise((res) => setTimeout(res, 100)));
+    act(() => historiesStore.getState().save(_routine, item3, { value: 2, done: true }));
+    expect(historiesStore.getState().histories[0].items[0].completedAt).toEqual(prevCompletedAt);
   });
 });
