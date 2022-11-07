@@ -47,13 +47,15 @@ describe('DuplicateRoutineModal', () => {
     act(() => {
       fireEvent.change(screen.getByLabelText('Title'), { target: { value: ' Routine 1 - Copy ' } });
       screen.getByTestId('color-picker-option-amber').click();
+      fireEvent.change(screen.getByTestId('recurrence-interval'), { target: { value: '2' } });
       screen.getByText('Duplicate').click();
     });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
     const values = {
-      ...pick(routine, ['recurrence', 'itemIds', 'time']),
+      ...pick(routine, ['itemIds', 'time']),
       title: 'Routine 1 - Copy',
       color: 'amber',
+      recurrence: { ...routine.recurrence, interval: 2 },
     };
     expect(add).toHaveBeenCalledWith(values);
     expect(hide).toHaveBeenCalled();

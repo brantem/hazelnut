@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import BottomSheet from 'components/BottomSheet';
 import Input from 'components/Input';
 import ColorPicker from 'components/ColorPicker';
+import Recurrence from 'components/Routine/SaveRoutineModal/Recurrence';
 import Button from 'components/Button';
 
 import colors from 'data/colors';
@@ -11,7 +12,7 @@ import { Routine } from 'types/routine';
 import * as constants from 'data/constants';
 import { useModal } from 'lib/hooks';
 
-type Values = Pick<Routine, 'title' | 'color' | 'time'>;
+type Values = Pick<Routine, 'title' | 'color' | 'recurrence' | 'time'>;
 
 const DuplicateRoutineModal = () => {
   const modal = useModal(constants.modals.duplicateRoutine);
@@ -25,13 +26,14 @@ const DuplicateRoutineModal = () => {
     initialValues: {
       title: (routine?.title || '') + ' - Copy',
       color: defaultColor,
+      recurrence: routine?.recurrence as Routine['recurrence'],
       time: routine?.time || null,
     },
     onSubmit: async (values, { resetForm }) => {
       add({
         title: values.title.trim(),
         color: values.color,
-        recurrence: routine!.recurrence,
+        recurrence: values.recurrence,
         time: values.time,
         itemIds: routine!.itemIds,
       });
@@ -64,6 +66,13 @@ const DuplicateRoutineModal = () => {
             value={formik.values.color}
             onChange={(color: string) => formik.setFieldValue('color', color)}
             isDisabled={formik.isSubmitting}
+          />
+
+          <Recurrence
+            value={formik.values.recurrence}
+            onChange={(recurrence) => formik.setFieldValue('recurrence', recurrence)}
+            isDisabled={formik.isSubmitting}
+            showNext
           />
 
           <Input label="Time" name="time" type="time" value={formik.values.time || ''} onChange={formik.handleChange} />
