@@ -9,6 +9,7 @@ import { Group as _Group } from 'types/group';
 import { isMatch } from 'lib/helpers';
 import { useSearch } from 'lib/hooks';
 import * as constants from 'data/constants';
+import { ItemType } from 'types/item';
 
 type GroupProps = {
   group: _Group;
@@ -51,7 +52,16 @@ export const Group = ({ group, itemIds, disabledItemIds, onItemClick }: GroupPro
           {items.map((item) => (
             <li key={item.id} className="flex h-8 items-center pr-1">
               <Checkbox
-                label={item.title}
+                label={
+                  <>
+                    <span>{item.title}</span>
+                    {item.type === ItemType.Number && (
+                      <span className="ml-2 flex-shrink-0 text-sm tabular-nums text-neutral-500">
+                        {item.settings.minCompleted}
+                      </span>
+                    )}
+                  </>
+                }
                 name={item.id}
                 checked={itemIds.includes(item.id)}
                 onChange={(e) => onItemClick(item.id, e.target.checked)}

@@ -2,7 +2,7 @@ import { InputHTMLAttributes } from 'react';
 import clsx from 'clsx';
 
 type CheckboxProps = React.DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
-  label: string;
+  label: React.ReactNode;
   color?: string;
 };
 
