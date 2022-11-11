@@ -65,7 +65,7 @@ const HistoryCard = ({ history }: HistoryProps) => {
         <>
           <span>{history.title}</span>
           {history.time && (
-            <span className={`text-sm font-medium text-${history.color}-400 ml-2 flex-shrink-0 tabular-nums`}>
+            <span className={`text-sm font-medium text-${history.color}-500 ml-2 flex-shrink-0 tabular-nums`}>
               {history.time}
             </span>
           )}

@@ -27,7 +27,7 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
         <>
           <span>{routine.title}</span>
           {routine.time && (
-            <span className={`text-sm font-medium text-${routine.color}-400 ml-2 flex-shrink-0 tabular-nums`}>
+            <span className={`text-sm font-medium text-${routine.color}-500 ml-2 flex-shrink-0 tabular-nums`}>
               {routine.time}
             </span>
           )}
