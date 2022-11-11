@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 
 import Group from 'components/modals/SaveItemsModal/Group';
 
-import { Item } from 'types/item';
+import { Item, ItemType } from 'types/item';
 import { Group as _Group } from 'types/group';
 import { useItemsStore, useSearchStore } from 'lib/stores';
 import * as constants from 'data/constants';
@@ -21,7 +21,12 @@ describe('Group', async () => {
     const items = renderHook(() => useItemsStore());
     act(() => {
       items.result.current.add('group-1', { id: 'item-1', title: 'Item 1' } as Item);
-      items.result.current.add('group-1', { id: 'item-2', title: 'Item 2' } as Item);
+      items.result.current.add('group-1', {
+        id: 'item-2',
+        type: ItemType.Number,
+        title: 'Item 2',
+        settings: { minCompleted: 10, step: 1 },
+      } as Item);
       items.result.current.add('group-2', { id: 'item-3', title: 'Item 3' } as Item);
     });
   });
@@ -33,7 +38,9 @@ describe('Group', async () => {
     act(() => screen.getByText('Item 1').click());
     expect(onItemClick).toBeCalledWith('item-1', false);
 
-    act(() => screen.getByText('Item 2').click());
+    const item2 = screen.getByText('Item 2');
+    expect(item2.parentNode).toHaveTextContent('10');
+    act(() => item2.click());
     expect(onItemClick).toBeCalledWith('item-2', true);
   });
 
