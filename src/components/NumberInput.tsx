@@ -5,6 +5,7 @@ type NumberInputProps = {
   label?: string;
   color?: string;
   value: number;
+  renderValue?: (value: number) => React.ReactNode;
   onChange: (quantity: number) => void;
   min?: number;
   max?: number;
@@ -15,6 +16,7 @@ const NumberInput = ({
   label,
   color = 'mono',
   value = 0,
+  renderValue,
   onChange,
   min = 0,
   max,
@@ -40,7 +42,7 @@ const NumberInput = ({
           className={clsx(`px-1.5 text-center text-sm tabular-nums text-${color}-600 rounded-full`, className)}
           data-testid="number-input-value"
         >
-          {value}
+          {renderValue ? renderValue(value) : value}
         </span>
 
         <button

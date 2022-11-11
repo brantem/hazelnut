@@ -28,6 +28,7 @@ const ItemList = ({ history }: ItemListProps) => {
               label={item.title}
               color={history.color}
               value={item.value!}
+              renderValue={(value) => `${value} / ${item.settings!.minCompleted}`}
               onChange={(value) => save(history, item, { value, done: value >= item.settings!.minCompleted })}
               className={item?.completedAt ? `bg-${history.color}-500 text-white` : ''}
               step={item.settings!.step}
