@@ -69,7 +69,7 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
             color={routine.color}
             value={_item?.value || 0}
             onChange={(value) => save(routine, item, { value, done: value >= item.settings.minCompleted }, true)}
-            className={(_item?.value || 0) >= item.settings.minCompleted ? `bg-${routine.color}-500 text-white` : ''}
+            className={_item?.completedAt ? `bg-${routine.color}-500 text-white` : ''}
             step={item.settings.step}
           />
         ) : (

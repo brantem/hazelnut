@@ -29,7 +29,7 @@ const ItemList = ({ history }: ItemListProps) => {
               color={history.color}
               value={item.value!}
               onChange={(value) => save(history, item, { value, done: value >= item.settings!.minCompleted })}
-              className={item.value! >= item.settings!.minCompleted ? `bg-${history.color}-500 text-white` : ''}
+              className={item?.completedAt ? `bg-${history.color}-500 text-white` : ''}
               step={item.settings!.step}
             />
           ) : (
