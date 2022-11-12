@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import Router from 'next/router';
 
 import Layout from 'components/Layout';
+import MonthPickerAction from 'components/Routine/MonthPickerAction';
 import Search from 'components/Search';
 import DateList from 'components/Routine/DateList';
 import RoutineList from 'components/Routine/RoutineList';
@@ -49,6 +50,10 @@ const Routines: NextPage = () => {
                 toggleIsSearching();
               },
               testId: 'routines-search',
+              skip: isEmpty,
+            },
+            {
+              render: () => <MonthPickerAction />,
               skip: isEmpty,
             },
             {

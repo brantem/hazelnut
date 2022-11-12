@@ -34,7 +34,7 @@ const RecurrenceStartAt = ({ value, onChange, isDisabled }: RecurrenceStartAtPro
           'flex-grow-1 flex-auto flex-shrink-0 rounded-md border border-neutral-300 p-2 text-center text-sm',
           isDisabled && 'border-neutral-200 bg-neutral-100 text-neutral-500',
         )}
-        onClick={() => inputRef.current?.showPicker()}
+        onClick={() => /* c8 ignore next */ inputRef.current?.showPicker()}
       >
         {dayjs(value).format('D MMM YYYY')}
       </span>
