@@ -20,6 +20,9 @@ exports[`Header 1`] = `
       >
         Action 1
       </button>
+      <span>
+        Action 3
+      </span>
     </div>
   </header>
 </div>

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import Header from 'components/Header';
@@ -29,6 +29,7 @@ test('Header', () => {
           onClick: () => {},
           skip: true,
         },
+        { render: () => <span>Action 3</span> },
       ]}
     />,
   );
@@ -38,7 +39,8 @@ test('Header', () => {
   expect(screen.getByText('A')).toBeInTheDocument();
   expect(screen.queryByText('B')).not.toBeInTheDocument();
 
-  screen.getByText('Action 1').click();
+  act(() => screen.getByText('Action 1').click());
   expect(onActionClick).toHaveBeenCalled();
   expect(screen.queryByText('Action 2')).not.toBeInTheDocument();
+  expect(screen.getByText('Action 3')).toBeInTheDocument();
 });

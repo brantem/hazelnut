@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
@@ -6,15 +6,14 @@ import Button from 'components/Button';
 
 import { Navigation } from 'types/shared';
 
+type Action = { skip?: boolean } & (
+  | { children: React.ReactNode; className?: string; onClick: () => void; testId?: string }
+  | { render: () => React.ReactNode }
+);
+
 export type HeaderProps = {
   navigations: Navigation[];
-  actions?: {
-    children: React.ReactNode;
-    className?: string;
-    onClick: () => void;
-    testId?: string;
-    skip?: boolean;
-  }[];
+  actions?: Action[];
 };
 
 const Header = ({ navigations, actions }: HeaderProps) => {
@@ -38,7 +37,9 @@ const Header = ({ navigations, actions }: HeaderProps) => {
           <div className="flex items-center space-x-2">
             {actions.map((action, i) => {
               if (action.skip) return null;
-              return (
+              return 'render' in action ? (
+                <Fragment key={i}>{action.render()}</Fragment>
+              ) : (
                 <Button
                   key={i}
                   variant="ghost"
