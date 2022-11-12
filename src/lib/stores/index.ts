@@ -1,20 +1,23 @@
 import { useEffect } from 'react';
+import dayjs from 'dayjs';
 
 import { itemsStore } from 'lib/stores/items';
 import { groupsStore } from 'lib/stores/groups';
 import { routinesStore } from 'lib/stores/routines';
-import { historiesStore } from 'lib/stores/histories';
+import { historiesStore, getHistories } from 'lib/stores/histories';
 import storage from 'lib/stores/storage';
 
 /* c8 ignore start */
 export const useLoadStore = () => {
   useEffect(() => {
     (async () => {
+      const from = dayjs().startOf('month').valueOf();
+      const to = dayjs().endOf('month').valueOf();
       const [items, groups, routines, histories] = await Promise.all([
         storage.getAll('items'),
         storage.getAll('groups'),
         storage.getAll('routines'),
-        storage.getAll('histories'),
+        getHistories(from, to),
       ]);
 
       itemsStore.setState({ items: items.sort((a, b) => a.createdAt - b.createdAt), isReady: true });
