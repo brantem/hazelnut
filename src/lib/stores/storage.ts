@@ -1,4 +1,13 @@
-import { openDB, IDBPObjectStore, IDBPDatabase, StoreNames, StoreValue, StoreKey, IDBPTransaction } from 'idb';
+import {
+  openDB,
+  IDBPObjectStore,
+  IDBPDatabase,
+  StoreNames,
+  StoreValue,
+  StoreKey,
+  IDBPTransaction,
+  IndexNames,
+} from 'idb';
 
 import { Schema, SchemaV1 } from 'types/storage';
 import { omit } from 'lib/helpers';
@@ -107,6 +116,11 @@ class Storage {
     return db.getAll(name);
   }
 
+  async index<Name extends StoreNames<Schema>>(name: Name, indexName: IndexNames<Schema, Name>) {
+    const db = await this.db;
+    return db.transaction(name).store.index(indexName);
+  }
+
   async put<Name extends StoreNames<Schema>>(name: Name, value: StoreValue<Schema, Name>) {
     const db = await this.db;
     return db.put(name, value);
@@ -121,6 +135,7 @@ class Storage {
 const dummy = {
   add: () => {},
   get: () => {},
+  index: () => {},
   getAll: () => [],
   put: () => {},
   delete: () => {},
