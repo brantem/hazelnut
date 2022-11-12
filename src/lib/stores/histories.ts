@@ -15,10 +15,10 @@ export type HistoriesState = {
   history: History | null;
   setHistory: (history: History | null) => void;
 
-  selectedMonth: string | undefined;
+  selectedMonth: string | undefined; // YYYY-MM
   setSelectedMonth: (selectedMonth: string | undefined) => void;
 
-  selectedDate: string | null | undefined;
+  selectedDate: string | null | undefined; // YYYY-MM-DD
   setSelectedDate: (selectedDate: string | null) => void;
 
   getItem: (routineId: string, itemId: string, forceToday?: boolean) => HistoryItem | null;
@@ -40,9 +40,8 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
 
   selectedMonth: undefined,
   setSelectedMonth: async (selectedMonth) => {
-    const from = dayjs(selectedMonth).startOf('month').valueOf();
-    const to = dayjs(selectedMonth).endOf('month').valueOf();
-    const histories = await getHistories(from, to);
+    const from = dayjs(selectedMonth);
+    const histories = await getHistories(from.valueOf(), from.add(1, 'month').valueOf());
     set({ histories, selectedMonth, selectedDate: null });
     localStorage.removeItem('history-selected-date');
   },

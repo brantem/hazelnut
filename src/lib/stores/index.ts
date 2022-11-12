@@ -11,19 +11,22 @@ import storage from 'lib/stores/storage';
 export const useLoadStore = () => {
   useEffect(() => {
     (async () => {
-      const from = dayjs().startOf('month').valueOf();
-      const to = dayjs().endOf('month').valueOf();
+      const selectedMonth = dayjs().startOf('month');
       const [items, groups, routines, histories] = await Promise.all([
         storage.getAll('items'),
         storage.getAll('groups'),
         storage.getAll('routines'),
-        getHistories(from, to),
+        getHistories(selectedMonth.valueOf(), dayjs().endOf('month').valueOf()),
       ]);
 
       itemsStore.setState({ items: items.sort((a, b) => a.createdAt - b.createdAt), isReady: true });
       groupsStore.setState({ groups: groups.sort((a, b) => a.createdAt - b.createdAt), isReady: true });
       routinesStore.setState({ routines, isReady: true });
-      historiesStore.setState({ histories, selectedDate: localStorage.getItem('history-selected-date') });
+      historiesStore.setState({
+        histories,
+        selectedMonth: selectedMonth.format('YYYY-MM'),
+        selectedDate: localStorage.getItem('history-selected-date'),
+      });
     })();
   }, []);
 };

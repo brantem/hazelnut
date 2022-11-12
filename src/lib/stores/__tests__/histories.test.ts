@@ -97,7 +97,7 @@ describe('historiesStore', async () => {
   });
 
   it('should be able to set selected month', async () => {
-    const date = dayjs().toISOString();
+    const date = dayjs().format('YYYY-MM');
     act(() => historiesStore.setState({ selectedDate: date }));
 
     act(() => historiesStore.getState().setSelectedMonth(date));
