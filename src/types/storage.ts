@@ -24,6 +24,25 @@ export interface SchemaV1 extends DBSchema {
   };
 }
 
+export interface SchemaV2 extends DBSchema {
+  items: {
+    key: string;
+    value: Item;
+  };
+  groups: {
+    key: string;
+    value: Group;
+  };
+  routines: {
+    key: string;
+    value: Routine;
+  };
+  histories: {
+    key: [string, string];
+    value: History;
+  };
+}
+
 export interface Schema extends DBSchema {
   items: {
     key: string;
@@ -40,5 +59,6 @@ export interface Schema extends DBSchema {
   histories: {
     key: [string, string];
     value: History;
+    indexes: { createdAt: number };
   };
 }

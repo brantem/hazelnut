@@ -62,7 +62,12 @@ const migrateV1ToV2 = async (transaction: IDBPTransaction<Schema, ArrayLike<Stor
   }
 };
 
-const VERSION = 2;
+const migrateV2ToV3 = async (transaction: IDBPTransaction<Schema, ArrayLike<StoreNames<Schema>>, 'versionchange'>) => {
+  const store = transaction.objectStore('histories');
+  store.createIndex('createdAt', 'createdAt');
+};
+
+const VERSION = 3;
 
 class Storage {
   db: Promise<IDBPDatabase<Schema>>;
@@ -77,6 +82,9 @@ class Storage {
               break;
             case 1:
               await migrateV1ToV2(transaction);
+              break;
+            case 2:
+              await migrateV2ToV3(transaction);
               break;
           }
         }
