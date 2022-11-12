@@ -2,6 +2,7 @@ import { useCallback, useReducer } from 'react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
+import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
 
 import { useItemsStore } from 'lib/stores';
@@ -42,9 +43,9 @@ export const Group = ({ group, itemIds, disabledItemIds, onItemClick }: GroupPro
 
         <hr className="flex-1" />
 
-        <button className={clsx('-mr-1 p-1', minimized && 'rotate-180')} onClick={toggle} data-testid="group-minimize">
-          <ChevronUpIcon className="h-5 w-5" />
-        </button>
+        <Button size="sm" variant="ghost" className="-mr-1 !p-1" onClick={toggle} data-testid="group-minimize">
+          <ChevronUpIcon className={clsx('h-5 w-5', minimized && 'rotate-180')} />
+        </Button>
       </div>
 
       {!minimized && (

@@ -1,6 +1,8 @@
 import { useCallback } from 'react';
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid';
 
+import Button from 'components/Button';
+
 import { useItemsStore } from 'lib/stores';
 import type { Group } from 'types/group';
 import { isMatch } from 'lib/helpers';
@@ -34,8 +36,11 @@ const ItemList = ({ group }: ItemListProps) => {
         <li key={item.id} className="flex h-8 items-center justify-between space-x-3">
           <span className="truncate">{item.title}</span>
 
-          <button
-            className={`rounded-full p-1 hover:bg-${group.color}-100`}
+          <Button
+            size="sm"
+            color={group.color}
+            variant="ghost"
+            className="!p-1"
             onClick={() => {
               setItem(item);
               settingsModal.show();
@@ -43,7 +48,7 @@ const ItemList = ({ group }: ItemListProps) => {
             data-testid="group-item-settings"
           >
             <EllipsisHorizontalIcon className="h-5 w-5" />
-          </button>
+          </Button>
         </li>
       ))}
     </ol>
