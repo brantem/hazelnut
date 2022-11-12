@@ -8,6 +8,25 @@ import { Item, ItemType } from 'types/item';
 import { omit } from 'lib/helpers';
 import colors from 'data/colors';
 
+vi.mock('lib/stores/storage', () => ({
+  default: {
+    add: () => {},
+    get: () => {},
+    index: vi.fn().mockImplementation(() => ({
+      openCursor: vi.fn().mockImplementation(() => ({
+        value: null,
+        continue: vi.fn(),
+      })),
+    })),
+    getAll: () => {},
+    put: () => {},
+    delete: () => {},
+  },
+}));
+
+// @ts-expect-error mock
+window.IDBKeyRange = { bound: vi.fn() };
+
 const date = dayjs().startOf('day').toISOString();
 
 const generateRoutine = (i: number, data?: Partial<Omit<Routine, 'id' | 'title' | 'color'>>) => {
@@ -60,12 +79,7 @@ describe('historiesStore', async () => {
     act(() => routinesStore.getState().add(routine));
   });
 
-  beforeEach(() => {
-    vi.useFakeTimers();
-  });
-
   afterEach(() => {
-    vi.useRealTimers();
     act(() => historiesStore.setState({ histories: [], selectedDate: null }));
   });
 
@@ -80,6 +94,20 @@ describe('historiesStore', async () => {
     expect(historiesStore.getState().history).toEqual(history);
     await act(() => historiesStore.getState().setHistory(null));
     expect(historiesStore.getState().history).toBeNull();
+  });
+
+  it('should be able to set selected month', async () => {
+    const date = dayjs().toISOString();
+    act(() => historiesStore.setState({ selectedDate: date }));
+
+    act(() => historiesStore.getState().setSelectedMonth(date));
+    await waitFor(() => new Promise((res) => setTimeout(res, 0)));
+    expect(historiesStore.getState().selectedDate).toBeNull();
+    expect(historiesStore.getState().selectedMonth).toEqual(date);
+
+    act(() => historiesStore.getState().setSelectedMonth(undefined));
+    await waitFor(() => new Promise((res) => setTimeout(res, 0)));
+    expect(historiesStore.getState().selectedMonth).toBeUndefined();
   });
 
   it('should be able to set selected date', () => {

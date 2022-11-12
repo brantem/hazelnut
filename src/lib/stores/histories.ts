@@ -1,10 +1,12 @@
 import create from 'zustand';
 import createVanilla from 'zustand/vanilla';
 import dayjs from 'dayjs';
+import { StoreValue } from 'idb';
 
 import { History, HistoryItem } from 'types/history';
 import { Routine } from 'types/routine';
 import { itemsStore } from 'lib/stores';
+import { Schema } from 'types/storage';
 import storage from 'lib/stores/storage';
 import { pick } from 'lib/helpers';
 
@@ -12,6 +14,9 @@ export type HistoriesState = {
   histories: History[];
   history: History | null;
   setHistory: (history: History | null) => void;
+
+  selectedMonth: string | undefined;
+  setSelectedMonth: (selectedMonth: string | undefined) => void;
 
   selectedDate: string | null | undefined;
   setSelectedDate: (selectedDate: string | null) => void;
@@ -32,6 +37,15 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
   histories: [],
   history: null,
   setHistory: (history) => set({ history }),
+
+  selectedMonth: undefined,
+  setSelectedMonth: async (selectedMonth) => {
+    const from = dayjs(selectedMonth).startOf('month').valueOf();
+    const to = dayjs(selectedMonth).endOf('month').valueOf();
+    const histories = await getHistories(from, to);
+    set({ histories, selectedMonth, selectedDate: null });
+    localStorage.removeItem('history-selected-date');
+  },
 
   selectedDate: undefined,
   setSelectedDate: (selectedDate) => {
@@ -155,3 +169,16 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
 }));
 
 export const useHistoriesStore = create(historiesStore);
+
+/* c8 ignore start */
+export const getHistories = async (from: number, to: number) => {
+  const index = await storage.index('histories', 'createdAt')!;
+  let cursor = await index.openCursor(IDBKeyRange.bound(from, to));
+  const values: StoreValue<Schema, 'histories'>[] = [];
+  while (cursor) {
+    values.push(cursor.value);
+    cursor = await cursor.continue();
+  }
+  return values;
+};
+/* c8 ignore stop */
