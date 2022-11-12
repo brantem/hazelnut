@@ -1,5 +1,5 @@
-import { useRef, useEffect, useMemo } from 'react';
-import { ArrowLeftIcon, ArrowRightIcon, ListBulletIcon } from '@heroicons/react/20/solid';
+import { useRef, useEffect } from 'react';
+import { ListBulletIcon } from '@heroicons/react/20/solid';
 import dayjs from 'dayjs';
 
 import Item, { ItemProps } from 'components/Routine/DateList/Item';
@@ -28,7 +28,7 @@ const DateItem = ({ date, isSelected }: DateItemProps) => {
 const DateList = () => {
   const listRef = useRef<HTMLDivElement>(null);
 
-  const { selectedMonth, setSelectedMonth, dates, selectedDate, setSelectedDate } = useHistoriesStore((state) => {
+  const { dates, selectedDate, setSelectedDate } = useHistoriesStore((state) => {
     const dates = state.histories
       .reduce((dates, history) => {
         const date = dayjs(history.date).startOf('day').toISOString();
@@ -36,8 +36,6 @@ const DateList = () => {
       }, [] as string[])
       .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
     return {
-      selectedMonth: state.selectedMonth,
-      setSelectedMonth: state.setSelectedMonth,
       dates,
       selectedDate: state.selectedDate,
       setSelectedDate: state.setSelectedDate,
@@ -59,56 +57,16 @@ const DateList = () => {
     /* c8 ignore stop */
   }, [isReady]);
 
-  const prevMonth = useMemo(() => {
-    const value = dayjs(selectedMonth).startOf('month').subtract(1, 'month');
-    return { label: value.format(dayjs().isSame(value, 'year') ? 'MMM' : 'MMM YYYY'), value: value.toISOString() };
-  }, [selectedMonth]);
-
-  const nextMonth = useMemo(() => {
-    if (!selectedMonth) return null;
-    const value = dayjs(selectedMonth).startOf('month').add(1, 'month');
-    if (dayjs().isSame(value, 'month')) return { label: value.format('MMM'), value: undefined };
-    return { label: value.format(dayjs().isSame(value, 'year') ? 'MMM' : 'MMM YYYY'), value: value.toISOString() };
-  }, [selectedMonth]);
-
   return (
     <section
       className="sticky top-0 z-10 flex w-full flex-1 items-stretch justify-end bg-white"
       data-testid="date-list"
     >
       <div className="flex scroll-pl-4 space-x-4 overflow-x-auto px-4" ref={listRef}>
-        {dates.length > 0 && (
-          <>
-            <Item
-              label={prevMonth.label}
-              onSelected={() => setSelectedMonth(prevMonth.value)}
-              data-testid="date-list-previous-month"
-            >
-              <ArrowLeftIcon className="h-5 w-5" />
-            </Item>
-
-            <div className="relative mr-4 mb-3 border-l" />
-          </>
-        )}
-
         {dates.map((date) => {
           const isSelected = selectedDate === date;
           return <DateItem key={date} date={date} isSelected={isSelected} />;
         })}
-
-        {nextMonth && (
-          <>
-            {dates.length > 0 && <div className="relative mr-4 mb-3 border-l" />}
-
-            <Item
-              label={nextMonth.label}
-              onSelected={() => setSelectedMonth(nextMonth.value)}
-              data-testid="date-list-next-month"
-            >
-              <ArrowRightIcon className="h-5 w-5" />
-            </Item>
-          </>
-        )}
       </div>
 
       {dates.length > 0 && <div className="relative mr-4 mb-3 border-l" />}
