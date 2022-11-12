@@ -8,15 +8,7 @@ exports[`Header 1`] = `
     <div
       class="flex items-center text-2xl font-semibold"
     >
-      <div
-        class="h-6 w-6"
-      >
-        <span />
-      </div>
-       
-      <h1
-        class="ml-3"
-      >
+      <h1>
         A
       </h1>
     </div>

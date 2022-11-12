@@ -31,7 +31,7 @@ const Header = ({ navigations, actions }: HeaderProps) => {
       </Head>
       <header className="flex items-center justify-between py-3 px-4">
         <div className="flex items-center text-2xl font-semibold">
-          <div className="h-6 w-6">{navigation.icon}</div> <h1 className="ml-3">{navigation.text}</h1>
+          <h1>{navigation.text}</h1>
         </div>
 
         {actions?.length ? (
