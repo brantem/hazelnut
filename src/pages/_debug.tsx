@@ -27,7 +27,7 @@ type CardProps = {
 };
 
 const buttonProps: any = {
-  className: '!py-1 !rounded-md bg-neutral-100 enabled:hover:bg-neutral-200',
+  className: '!py-1',
   color: 'neutral',
   variant: 'ghost',
   size: 'sm',
@@ -80,9 +80,9 @@ const Card = ({ title, data, onSave }: CardProps) => {
 
               <Button
                 {...buttonProps}
-                onClick={() => {
-                  navigator.clipboard.writeText(JSON.stringify(data));
+                onClick={async () => {
                   setIsCopied(true);
+                  await navigator.clipboard.writeText(JSON.stringify(data));
                   setTimeout(() => setIsCopied(false), 1000);
                 }}
               >
