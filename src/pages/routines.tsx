@@ -78,7 +78,7 @@ const Routines: NextPage = () => {
           <>
             {isSearching && (
               <Search
-                placeholder="Search for routine titles"
+                placeholder="Search for routines by title"
                 searchKey={constants.searches.routines}
                 className="sticky top-0 bg-white px-4 pt-1 pb-3"
               />

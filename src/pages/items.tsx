@@ -76,7 +76,7 @@ const Items: NextPage = () => {
           <>
             {isSearching && (
               <Search
-                placeholder="Search for group or item titles"
+                placeholder="Search for groups or items by title"
                 searchKey={constants.searches.items}
                 className="sticky top-0 bg-white px-4 pt-1 pb-3"
               />

@@ -63,7 +63,7 @@ const SaveItemsModal = ({ modalKey, itemIds, disabledItemIds, onChange, onSave }
       </ol>
 
       <div className="space-y-3 bg-neutral-50 px-4 py-3">
-        <Search placeholder="Search for item titles" searchKey={constants.searches.saveItems} />
+        <Search placeholder="Search for items by title" searchKey={constants.searches.saveItems} />
 
         <Button
           type="submit"

@@ -78,7 +78,7 @@ const AddMissingRoutineModal = () => {
       </ol>
 
       <div className="space-y-3 bg-neutral-50 px-4 py-3">
-        <Search placeholder="Search for routine titles" searchKey={constants.searches.missingRoutines} />
+        <Search placeholder="Search for routines by title" searchKey={constants.searches.missingRoutines} />
 
         <Button
           type="submit"
