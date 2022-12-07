@@ -2,6 +2,7 @@ import create from 'zustand';
 import createVanilla from 'zustand/vanilla';
 import dayjs from 'dayjs';
 import { StoreValue } from 'idb';
+import { nanoid } from 'nanoid';
 
 import { History, HistoryItem } from 'types/history';
 import { Routine } from 'types/routine';
@@ -29,6 +30,7 @@ export type HistoriesState = {
     data: { value?: number; done: boolean },
     forceToday?: boolean,
   ) => void;
+  addRawItem: (routineId: string, date: string, item: Omit<HistoryItem, 'id' | 'value' | 'completedAt'>) => void;
   addItems: (routineId: string, date: string, items: Omit<HistoryItem, 'completedAt'>[]) => void;
   remove: (routineId: string, date: string) => void;
 };
@@ -143,6 +145,15 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
       set({ histories });
       await storage.put('histories', histories[index]);
     }
+  },
+  addRawItem: async (routineId, date, item) => {
+    const histories = get().histories.slice();
+    const index = get().histories.findIndex((history) => history.id === routineId && history.date === date);
+
+    histories[index].items.push({ id: nanoid(), ...item, completedAt: null });
+
+    set({ histories });
+    await storage.put('histories', histories[index]);
   },
   addItems: async (routineId, date, items) => {
     const histories = get().histories.slice();
