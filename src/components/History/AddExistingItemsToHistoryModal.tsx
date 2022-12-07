@@ -5,7 +5,7 @@ import SaveItemsModal from 'components/modals/SaveItemsModal';
 import { useHistoriesStore, useItemsStore } from 'lib/stores';
 import * as constants from 'data/constants';
 
-const AddItemsToHistoryModal = () => {
+const AddExistingItemsToHistoryModal = () => {
   const { history, addItems } = useHistoriesStore((state) => ({ history: state.history, addItems: state.addItems }));
   const _itemIds = useMemo(() => {
     if (!history) return [];
@@ -24,7 +24,7 @@ const AddItemsToHistoryModal = () => {
 
   return (
     <SaveItemsModal
-      modalKey={constants.modals.addItemsToHistory}
+      modalKey={constants.modals.addExistingItemsToHistory}
       itemIds={itemIds}
       disabledItemIds={_itemIds}
       onChange={(_itemIds) => setItemIds(_itemIds)}
@@ -36,4 +36,4 @@ const AddItemsToHistoryModal = () => {
   );
 };
 
-export default AddItemsToHistoryModal;
+export default AddExistingItemsToHistoryModal;

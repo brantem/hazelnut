@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { render, screen, act, renderHook, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import AddItemsToHistoryModal from 'components/History/AddItemsToHistoryModal';
+import AddExistingItemsToHistoryModal from 'components/History/AddExistingItemsToHistoryModal';
 
 import { useGroupsStore, useItemsStore, useModalStore, useHistoriesStore } from 'lib/stores';
 import { History } from 'types/history';
@@ -26,7 +26,7 @@ const history: History = {
   createdAt: 0,
 };
 
-describe('AddItemsToHistoryModal', () => {
+describe('AddExistingItemsToHistoryModal', () => {
   beforeAll(() => {
     const groups = renderHook(() => useGroupsStore());
     act(() => {
@@ -54,10 +54,10 @@ describe('AddItemsToHistoryModal', () => {
     const { result } = renderHook(() => useHistoriesStore());
     const addItems = vi.spyOn(result.current, 'addItems').mockImplementation(() => {});
 
-    render(<AddItemsToHistoryModal />);
+    render(<AddExistingItemsToHistoryModal />);
     act(() => {
       result.current.setHistory(history);
-      modal.result.current.show(constants.modals.addItemsToHistory);
+      modal.result.current.show(constants.modals.addExistingItemsToHistory);
     });
     expect(screen.getByLabelText('Item 2')).toHaveAttribute('aria-checked', 'false');
     act(() => {

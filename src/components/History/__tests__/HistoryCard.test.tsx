@@ -98,6 +98,6 @@ describe('HistoryCard', () => {
 
     act(() => screen.getByTestId('history-card-add-items').click());
     expect(setHistory).toHaveBeenCalledWith(history);
-    expect(show).toHaveBeenCalledWith(constants.modals.addItemsToHistory);
+    expect(show).toHaveBeenCalledWith(constants.modals.addExistingItemsToHistory);
   });
 });
