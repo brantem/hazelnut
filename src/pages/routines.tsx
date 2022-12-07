@@ -14,8 +14,10 @@ import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
 import DuplicateRoutineModal from 'components/Routine/DuplicateRoutineModal';
 import SaveItemsToRoutineModal from 'components/Routine/SaveItemsToRoutineModal';
 import AddExistingItemsToHistoryModal from 'components/History/AddExistingItemsToHistoryModal';
+import AddRawItemToHistoryModal from 'components/History/AddRawItemToHistoryModal';
 import AddMissingRoutineModal from 'components/History/AddMissingRoutineModal';
 import HistorySettingsModal from 'components/History/HistorySettingsModal';
+import HistoryItemsSettingsModal from 'components/History/HistoryItemsSettingsModal';
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 import EmptySection from 'components/sections/EmptySection';
 
@@ -106,9 +108,11 @@ const Routines: NextPage = () => {
 
       <SaveItemsToRoutineModal />
       <AddExistingItemsToHistoryModal />
+      <AddRawItemToHistoryModal />
       <AddMissingRoutineModal />
 
       <HistorySettingsModal />
+      <HistoryItemsSettingsModal />
       <RoutineSettingsModal />
     </>
   );

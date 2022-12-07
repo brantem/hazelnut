@@ -87,7 +87,7 @@ describe('HistoryCard', () => {
     expect(save).toHaveBeenCalledWith(_history, _history.items[1], { value: 0, done: false });
   });
 
-  it('should open add items modal', () => {
+  it('should open add items settings modal', () => {
     const modal = renderHook(() => useModalStore());
     const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
 
@@ -96,8 +96,8 @@ describe('HistoryCard', () => {
 
     render(<HistoryCard history={history} />);
 
-    act(() => screen.getByTestId('history-card-add-items').click());
+    act(() => screen.getByTestId('history-card-items-settings').click());
     expect(setHistory).toHaveBeenCalledWith(history);
-    expect(show).toHaveBeenCalledWith(constants.modals.addExistingItemsToHistory);
+    expect(show).toHaveBeenCalledWith(constants.modals.historyItemsSetttings);
   });
 });

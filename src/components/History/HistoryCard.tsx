@@ -54,7 +54,7 @@ type HistoryProps = {
 
 const HistoryCard = ({ history }: HistoryProps) => {
   const setHistory = useHistoriesStore((state) => state.setHistory);
-  const addItemsModal = useModal(constants.modals.addExistingItemsToHistory);
+  const itemsSettingsModal = useModal(constants.modals.historyItemsSetttings);
   const settingsModal = useModal(constants.modals.historySettings);
 
   const [minimized, toggleMinimized] = useReducer((prev) => !prev, false);
@@ -77,9 +77,9 @@ const HistoryCard = ({ history }: HistoryProps) => {
           children: 'Items',
           onClick: () => {
             setHistory(history);
-            addItemsModal.show();
+            itemsSettingsModal.show();
           },
-          testId: 'history-card-add-items',
+          testId: 'history-card-items-settings',
         },
         {
           children: <EllipsisHorizontalIcon className="h-5 w-5" />,
