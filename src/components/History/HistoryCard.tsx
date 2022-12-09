@@ -11,6 +11,7 @@ import { useModal } from 'lib/hooks';
 import type { History } from 'types/history';
 import * as constants from 'data/constants';
 import { ItemType } from 'types/item';
+import { getNumberInputShade } from 'lib/helpers';
 
 type ItemListProps = {
   history: History;
@@ -24,15 +25,22 @@ const ItemList = ({ history }: ItemListProps) => {
       {history.items.map((item) => (
         <li key={history.id + '-' + item.id} className="flex h-8 w-full items-center justify-between space-x-2 pr-1">
           {item.type === ItemType.Number ? (
-            <NumberInput
-              label={item.title}
-              color={history.color}
-              value={item.value!}
-              renderValue={(value) => `${value} / ${item.settings!.minCompleted}`}
-              onChange={(value) => save(history, item, { value, done: value >= item.settings!.minCompleted })}
-              className={item?.completedAt ? `bg-${history.color}-500 text-white` : ''}
-              step={item.settings!.step}
-            />
+            (() => {
+              const minCompleted = item.settings!.minCompleted;
+              const value = item.value!;
+              const shade = getNumberInputShade(minCompleted, value);
+              return (
+                <NumberInput
+                  label={item.title}
+                  color={history.color}
+                  value={value}
+                  renderValue={(value) => `${value} / ${minCompleted}`}
+                  onChange={(value) => save(history, item, { value, done: value >= minCompleted })}
+                  className={clsx(shade > 0 && `bg-${history.color}-${shade}`, shade > 300 && 'text-white')}
+                  step={item.settings!.step}
+                />
+              );
+            })()
           ) : (
             <Checkbox
               label={item.title}

@@ -26,6 +26,7 @@ import NumberInput from 'components/NumberInput';
 import { useItemsStore, useRoutinesStore, useHistoriesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 import { Item as _Item, ItemType } from 'types/item';
+import { getNumberInputShade } from 'lib/helpers';
 
 type ItemProps = {
   routine: Routine;
@@ -64,15 +65,22 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
 
       <div className={clsx('w-full', isSortable && 'max-w-[calc(100%-theme(spacing.8))]')}>
         {item.type === ItemType.Number ? (
-          <NumberInput
-            label={item.title}
-            color={routine.color}
-            value={_item?.value || 0}
-            renderValue={(value) => `${value} / ${item.settings?.minCompleted}`}
-            onChange={(value) => save(routine, item, { value, done: value >= item.settings.minCompleted }, true)}
-            className={_item?.completedAt ? `bg-${routine.color}-500 text-white` : ''}
-            step={item.settings.step}
-          />
+          (() => {
+            const minCompleted = item.settings.minCompleted;
+            const value = _item?.value || 0;
+            const shade = getNumberInputShade(minCompleted, value);
+            return (
+              <NumberInput
+                label={item.title}
+                color={routine.color}
+                value={value}
+                renderValue={(value) => `${value} / ${minCompleted}`}
+                onChange={(value) => save(routine, item, { value, done: value >= minCompleted }, true)}
+                className={clsx(shade > 0 && `bg-${routine.color}-${shade}`, shade > 300 && 'text-white')}
+                step={item.settings.step}
+              />
+            );
+          })()
         ) : (
           <Checkbox
             label={item.title}

@@ -6,6 +6,7 @@ import {
   sortDays,
   getNextDate,
   isRoutineActive,
+  getNumberInputShade,
 } from 'lib/helpers';
 import dayjs from 'dayjs';
 
@@ -133,4 +134,20 @@ describe('isRoutineActive', () => {
     const eightDaysAgo = dayjs().subtract(1, 'week').subtract(1, 'day').valueOf();
     expect(isRoutineActive(generateRoutine(1, { ...weekly, interval: 2, startAt: eightDaysAgo }, null))).toBeFalsy();
   });
+});
+
+test('getNumberInputShade', () => {
+  expect(getNumberInputShade(0, 0)).toEqual(0);
+  expect(getNumberInputShade(50, 0)).toEqual(0);
+
+  expect(getNumberInputShade(50, 10)).toEqual(100);
+  expect(getNumberInputShade(50, 20)).toEqual(200);
+  expect(getNumberInputShade(50, 30)).toEqual(300);
+  expect(getNumberInputShade(50, 40)).toEqual(400);
+  expect(getNumberInputShade(50, 50)).toEqual(500);
+  expect(getNumberInputShade(50, 60)).toEqual(500);
+
+  expect(getNumberInputShade(30, 10)).toEqual(200);
+  expect(getNumberInputShade(30, 20)).toEqual(400);
+  expect(getNumberInputShade(30, 30)).toEqual(500);
 });
