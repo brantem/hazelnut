@@ -51,6 +51,22 @@ describe('HistoryCard', () => {
     expect(show).toHaveBeenCalledWith(constants.modals.historySettings);
   });
 
+  it('should show note', () => {
+    const modal = renderHook(() => useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
+
+    const { result } = renderHook(() => useHistoriesStore());
+    const setHistory = vi.spyOn(result.current, 'setHistory').mockImplementation(() => {});
+
+    const _history = { ...history, note: 'a' };
+    render(<HistoryCard history={_history} />);
+
+    expect(screen.getByTestId('history-card-note')).toBeInTheDocument();
+    act(() => screen.getByTestId('history-card-note-action').click());
+    expect(setHistory).toHaveBeenCalledWith(_history);
+    expect(show).toHaveBeenCalledWith(constants.modals.historyNote);
+  });
+
   it('should be minimizable', () => {
     const { rerender } = render(<HistoryCard history={history} />);
 

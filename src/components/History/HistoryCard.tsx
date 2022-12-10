@@ -1,10 +1,11 @@
 import { useReducer } from 'react';
-import { EllipsisHorizontalIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+import { EllipsisHorizontalIcon, ChevronUpIcon, PencilSquareIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
 import Card from 'components/Card';
 import NumberInput from 'components/NumberInput';
 import Checkbox from 'components/Checkbox';
+import Button from 'components/Button';
 
 import { useHistoriesStore } from 'lib/stores';
 import { useModal } from 'lib/hooks';
@@ -64,6 +65,7 @@ const HistoryCard = ({ history }: HistoryProps) => {
   const setHistory = useHistoriesStore((state) => state.setHistory);
   const itemsSettingsModal = useModal(constants.modals.historyItemsSetttings);
   const settingsModal = useModal(constants.modals.historySettings);
+  const noteModal = useModal(constants.modals.historyNote);
 
   const [minimized, toggleMinimized] = useReducer((prev) => !prev, false);
 
@@ -106,6 +108,27 @@ const HistoryCard = ({ history }: HistoryProps) => {
       data-testid="history-card"
     >
       {!minimized && <ItemList history={history} />}
+
+      {!minimized && history.note && (
+        <div className="pt-3" data-testid="history-card-note">
+          <div className="mb-1 flex items-center justify-between space-x-3">
+            <h4 className={`text-${history.color}-500`}>Note</h4>
+            <Button
+              color={history.color}
+              variant="ghost"
+              className="rounded-full !p-1"
+              onClick={() => {
+                setHistory(history);
+                noteModal.show();
+              }}
+              data-testid="history-card-note-action"
+            >
+              <PencilSquareIcon className="h-5 w-5" />
+            </Button>
+          </div>
+          <p className="text-sm text-neutral-500">{history.note}</p>
+        </div>
+      )}
     </Card>
   );
 };
