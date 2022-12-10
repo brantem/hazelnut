@@ -148,6 +148,6 @@ test('getNumberInputShade', () => {
   expect(getNumberInputShade(50, 60)).toEqual(500);
 
   expect(getNumberInputShade(30, 10)).toEqual(200);
-  expect(getNumberInputShade(30, 20)).toEqual(400);
+  expect(getNumberInputShade(30, 20)).toEqual(300);
   expect(getNumberInputShade(30, 30)).toEqual(500);
 });

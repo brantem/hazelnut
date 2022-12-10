@@ -79,6 +79,6 @@ export const isRoutineActive = (routine: Routine) => {
 
 export const getNumberInputShade = (minCompleted: number, value: number) => {
   if (minCompleted === 0 || value === 0) return 0;
-  const i = Math.ceil(value / (minCompleted / 5)) - 1;
+  const i = Math.round(value / (minCompleted / 5)) - 1;
   return [100, 200, 300, 400, 500][i > 4 ? 4 : i];
 };
