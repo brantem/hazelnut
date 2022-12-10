@@ -65,7 +65,7 @@ const HistoryCard = ({ history }: HistoryProps) => {
   const setHistory = useHistoriesStore((state) => state.setHistory);
   const itemsSettingsModal = useModal(constants.modals.historyItemsSetttings);
   const settingsModal = useModal(constants.modals.historySettings);
-  const noteModal = useModal(constants.modals.historyNote);
+  const noteModal = useModal(constants.modals.saveHistoryNote);
 
   const [minimized, toggleMinimized] = useReducer((prev) => !prev, false);
 

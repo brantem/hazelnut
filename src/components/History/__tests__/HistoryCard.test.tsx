@@ -64,7 +64,7 @@ describe('HistoryCard', () => {
     expect(screen.getByTestId('history-card-note')).toBeInTheDocument();
     act(() => screen.getByTestId('history-card-note-action').click());
     expect(setHistory).toHaveBeenCalledWith(_history);
-    expect(show).toHaveBeenCalledWith(constants.modals.historyNote);
+    expect(show).toHaveBeenCalledWith(constants.modals.saveHistoryNote);
   });
 
   it('should be minimizable', () => {

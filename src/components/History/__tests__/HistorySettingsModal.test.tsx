@@ -46,7 +46,7 @@ describe('HistorySettingsModal', async () => {
     });
     act(() => screen.getByText('Add Note').click());
     expect(setHistory).toHaveBeenCalledWith(history);
-    expect(show).toHaveBeenCalledWith(constants.modals.historyNote);
+    expect(show).toHaveBeenCalledWith(constants.modals.saveHistoryNote);
   });
 
   it('should not show "Add Note"', () => {

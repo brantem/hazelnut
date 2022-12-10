@@ -13,7 +13,7 @@ type Values = {
 };
 
 const SaveHistoryModal = () => {
-  const modal = useModal(constants.modals.historyNote);
+  const modal = useModal(constants.modals.saveHistoryNote);
   const { history, saveNote } = useHistoriesStore((state) => ({ history: state.history, saveNote: state.saveNote }));
 
   const formik = useFormik<Values>({

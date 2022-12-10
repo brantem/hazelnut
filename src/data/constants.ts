@@ -1,6 +1,6 @@
 export const modals = {
   historySettings: 'history-settings',
-  historyNote: 'history-note',
+  saveHistoryNote: 'save-history-note',
   historyItemsSetttings: 'history-items-settings',
   addExistingItemsToHistory: 'add-existing-items-to-history',
   addRawItemToHistory: 'add-raw-item-to-history',

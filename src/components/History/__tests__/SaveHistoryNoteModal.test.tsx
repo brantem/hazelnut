@@ -38,7 +38,7 @@ describe('SaveHistoryNoteModal', () => {
     render(<SaveHistoryNoteModal />);
 
     expect(screen.queryByTestId('save-history-note-modal')).not.toBeInTheDocument();
-    act(() => modal.result.current.show(constants.modals.historyNote));
+    act(() => modal.result.current.show(constants.modals.saveHistoryNote));
     expect(screen.getByTestId('save-history-note-modal')).toBeInTheDocument();
   });
 
@@ -52,7 +52,7 @@ describe('SaveHistoryNoteModal', () => {
 
     act(() => {
       result.current.setHistory(history);
-      modal.result.current.show(constants.modals.historyNote);
+      modal.result.current.show(constants.modals.saveHistoryNote);
     });
     fireEvent.change(screen.getByLabelText('Note'), { target: { value: ' a ' } });
     act(() => screen.getByText('Save').click());

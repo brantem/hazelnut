@@ -7,7 +7,7 @@ import { useModal } from 'lib/hooks';
 
 const HistorySettingsModal = () => {
   const modal = useModal(constants.modals.historySettings);
-  const historyNoteModal = useModal(constants.modals.historyNote);
+  const saveHistoryNoteModal = useModal(constants.modals.saveHistoryNote);
   const { history, setHistory, remove } = useHistoriesStore((state) => ({
     history: state.history,
     setHistory: state.setHistory,
@@ -31,7 +31,7 @@ const HistorySettingsModal = () => {
           children: 'Add Note',
           onClick: () => {
             setHistory(history);
-            historyNoteModal.show();
+            saveHistoryNoteModal.show();
           },
           skip: !!history?.note,
         },
