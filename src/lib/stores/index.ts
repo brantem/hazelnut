@@ -7,7 +7,6 @@ import { routinesStore } from 'lib/stores/routines';
 import { historiesStore, getHistories } from 'lib/stores/histories';
 import storage from 'lib/stores/storage';
 
-/* c8 ignore start */
 export const useLoadStore = () => {
   useEffect(() => {
     (async () => {
@@ -30,7 +29,6 @@ export const useLoadStore = () => {
     })();
   }, []);
 };
-/* c8 ignore stop */
 
 export * from 'lib/stores/items';
 export * from 'lib/stores/groups';

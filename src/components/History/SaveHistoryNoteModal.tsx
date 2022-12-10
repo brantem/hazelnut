@@ -41,7 +41,7 @@ const SaveHistoryModal = () => {
             value={formik.values.note}
             onChange={formik.handleChange}
             disabled={formik.isSubmitting}
-            className="h-[50vh]"
+            className="h-[75vh]"
           />
         </div>
 

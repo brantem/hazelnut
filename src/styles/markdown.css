@@ -1,0 +1,20 @@
+.markdown > *:not(:first-child) {
+  @apply mt-2;
+}
+
+.markdown a {
+  @apply underline;
+}
+
+.markdown ul,
+.markdown ol {
+  @apply ml-4;
+}
+
+.markdown > ul {
+  @apply list-disc;
+}
+
+.markdown > ol {
+  @apply list-decimal;
+}

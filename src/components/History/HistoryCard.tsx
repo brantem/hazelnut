@@ -1,6 +1,7 @@
 import { useReducer } from 'react';
 import { EllipsisHorizontalIcon, ChevronUpIcon, PencilSquareIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
+import dynamic from 'next/dynamic';
 
 import Card from 'components/Card';
 import NumberInput from 'components/NumberInput';
@@ -13,6 +14,8 @@ import type { History } from 'types/history';
 import * as constants from 'data/constants';
 import { ItemType } from 'types/item';
 import { getNumberInputShade } from 'lib/helpers';
+
+const Markdown = dynamic(() => import('components/Markdown'));
 
 type ItemListProps = {
   history: History;
@@ -65,7 +68,7 @@ const HistoryCard = ({ history }: HistoryProps) => {
   const setHistory = useHistoriesStore((state) => state.setHistory);
   const itemsSettingsModal = useModal(constants.modals.historyItemsSetttings);
   const settingsModal = useModal(constants.modals.historySettings);
-  const noteModal = useModal(constants.modals.saveHistoryNote);
+  const saveNoteModal = useModal(constants.modals.saveHistoryNote);
 
   const [minimized, toggleMinimized] = useReducer((prev) => !prev, false);
 
@@ -119,14 +122,27 @@ const HistoryCard = ({ history }: HistoryProps) => {
               className="rounded-full !p-1"
               onClick={() => {
                 setHistory(history);
-                noteModal.show();
+                saveNoteModal.show();
               }}
               data-testid="history-card-note-action"
             >
               <PencilSquareIcon className="h-5 w-5" />
             </Button>
           </div>
-          <p className="text-sm text-neutral-500">{history.note}</p>
+          <Markdown
+            className="text-sm text-neutral-500"
+            options={{
+              overrides: {
+                hr: {
+                  props: {
+                    className: 'border-neutral-300',
+                  },
+                },
+              },
+            }}
+          >
+            {history.note}
+          </Markdown>
         </div>
       )}
     </Card>

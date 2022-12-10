@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { useLoadStore } from 'lib/stores';
 
 import 'styles/globals.css';
+import 'styles/markdown.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   useLoadStore();
