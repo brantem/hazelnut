@@ -76,25 +76,25 @@ describe('ItemList', () => {
 
   it('should save item', async () => {
     const histories = renderHook(() => useHistoriesStore());
-    const save = vi.spyOn(histories.result.current, 'save');
+    const saveItem = vi.spyOn(histories.result.current, 'saveItem');
 
     render(<ItemList routine={routine} isSortable />);
 
     act(() => screen.getByText('Item 1').click());
-    expect(save).toHaveBeenCalledWith(routine, item1, { done: true }, true);
+    expect(saveItem).toHaveBeenCalledWith(routine, item1, { done: true }, true);
     act(() => screen.getByText('Item 1').click());
-    expect(save).toHaveBeenCalledWith(routine, item1, { done: false }, true);
+    expect(saveItem).toHaveBeenCalledWith(routine, item1, { done: false }, true);
   });
 
   it('should save number item', async () => {
     const histories = renderHook(() => useHistoriesStore());
-    const save = vi.spyOn(histories.result.current, 'save');
+    const saveItem = vi.spyOn(histories.result.current, 'saveItem');
 
     render(<ItemList routine={routine2} isSortable />);
 
     act(() => screen.getByTestId('number-input-increment').click());
-    expect(save).toHaveBeenCalledWith(routine2, item2, { value: 1, done: true }, true);
+    expect(saveItem).toHaveBeenCalledWith(routine2, item2, { value: 1, done: true }, true);
     act(() => screen.getByTestId('number-input-decrement').click());
-    expect(save).toHaveBeenCalledWith(routine2, item2, { value: 0, done: false }, true);
+    expect(saveItem).toHaveBeenCalledWith(routine2, item2, { value: 0, done: false }, true);
   });
 });

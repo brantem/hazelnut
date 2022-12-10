@@ -62,29 +62,29 @@ describe('HistoryCard', () => {
 
   it('should save item', () => {
     const { result } = renderHook(() => useHistoriesStore());
-    const save = vi.spyOn(result.current, 'save').mockImplementation(() => {});
+    const saveItem = vi.spyOn(result.current, 'saveItem').mockImplementation(() => {});
 
     render(<HistoryCard history={history} />);
 
     act(() => screen.getByText('Item 1').click());
-    expect(save).toHaveBeenCalledWith(history, history.items[0], { done: true });
+    expect(saveItem).toHaveBeenCalledWith(history, history.items[0], { done: true });
   });
 
   it('should save number item', async () => {
     const histories = renderHook(() => useHistoriesStore());
-    const save = vi.spyOn(histories.result.current, 'save').mockImplementation(() => {});
+    const saveItem = vi.spyOn(histories.result.current, 'saveItem').mockImplementation(() => {});
 
     const { rerender } = render(<HistoryCard history={history} />);
 
     act(() => screen.getByTestId('number-input-increment').click());
-    expect(save).toHaveBeenCalledWith(history, history.items[1], { value: 1, done: true });
+    expect(saveItem).toHaveBeenCalledWith(history, history.items[1], { value: 1, done: true });
 
     const _history = { ...history };
     _history.items[1].value = 1;
     _history.items[1].completedAt = Date.now();
     rerender(<HistoryCard history={_history} />);
     act(() => screen.getByTestId('number-input-decrement').click());
-    expect(save).toHaveBeenCalledWith(_history, _history.items[1], { value: 0, done: false });
+    expect(saveItem).toHaveBeenCalledWith(_history, _history.items[1], { value: 0, done: false });
   });
 
   it('should open add items settings modal', () => {

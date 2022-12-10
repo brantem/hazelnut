@@ -18,7 +18,7 @@ type ItemListProps = {
 };
 
 const ItemList = ({ history }: ItemListProps) => {
-  const save = useHistoriesStore((state) => state.save);
+  const saveItem = useHistoriesStore((state) => state.saveItem);
 
   return (
     <ol className="space-y-1 pt-1" data-testid="history-card-items">
@@ -35,7 +35,7 @@ const ItemList = ({ history }: ItemListProps) => {
                   color={history.color}
                   value={value}
                   renderValue={(value) => `${value} / ${minCompleted}`}
-                  onChange={(value) => save(history, item, { value, done: value >= minCompleted })}
+                  onChange={(value) => saveItem(history, item, { value, done: value >= minCompleted })}
                   className={clsx(shade > 0 && `bg-${history.color}-${shade}`, shade > 300 && 'text-white')}
                   step={item.settings!.step}
                 />
@@ -47,7 +47,7 @@ const ItemList = ({ history }: ItemListProps) => {
               name={history.id + '-' + item.id}
               color={history.color}
               checked={!!item.completedAt}
-              onChange={(e) => save(history, item, { done: e.target.checked })}
+              onChange={(e) => saveItem(history, item, { done: e.target.checked })}
             />
           )}
         </li>

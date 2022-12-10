@@ -144,7 +144,7 @@ describe('historiesStore', async () => {
 
     // complete
     const __routine = generateRoutine(1, { itemIds: [...itemIds, 'item-4'] });
-    act(() => historiesStore.getState().save(__routine, item, { done: true }, true));
+    act(() => historiesStore.getState().saveItem(__routine, item, { done: true }, true));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
@@ -158,7 +158,7 @@ describe('historiesStore', async () => {
     ]);
 
     // complete new item
-    act(() => historiesStore.getState().save(_routine, item3, { value: 1, done: true }, true));
+    act(() => historiesStore.getState().saveItem(_routine, item3, { value: 1, done: true }, true));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
@@ -173,7 +173,7 @@ describe('historiesStore', async () => {
     ]);
 
     // complete existing item
-    act(() => historiesStore.getState().save(_routine, item2, { done: true }, true));
+    act(() => historiesStore.getState().saveItem(_routine, item2, { done: true }, true));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
@@ -188,7 +188,7 @@ describe('historiesStore', async () => {
     ]);
 
     // incomplete
-    act(() => historiesStore.getState().save(_routine, item, { done: false }, true));
+    act(() => historiesStore.getState().saveItem(_routine, item, { done: false }, true));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
@@ -209,7 +209,7 @@ describe('historiesStore', async () => {
     const _routine = generateRoutine(1, { itemIds: ['item-3'] });
 
     // complete
-    act(() => historiesStore.getState().save(_routine, item3, { value: 1, done: true }, true));
+    act(() => historiesStore.getState().saveItem(_routine, item3, { value: 1, done: true }, true));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
@@ -220,7 +220,7 @@ describe('historiesStore', async () => {
     ]);
 
     // incomplete
-    act(() => historiesStore.getState().save(_routine, item3, { value: 0, done: false }, true));
+    act(() => historiesStore.getState().saveItem(_routine, item3, { value: 0, done: false }, true));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
@@ -237,7 +237,7 @@ describe('historiesStore', async () => {
     act(() => historiesStore.getState().setSelectedDate(_date));
 
     // complete
-    act(() => historiesStore.getState().save(routine, item, { done: true }));
+    act(() => historiesStore.getState().saveItem(routine, item, { done: true }));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
@@ -251,7 +251,7 @@ describe('historiesStore', async () => {
     ]);
 
     // incomplete
-    act(() => historiesStore.getState().save(routine, item, { done: false }));
+    act(() => historiesStore.getState().saveItem(routine, item, { done: false }));
     expect(historiesStore.getState().histories).toEqual([
       {
         ...simpleRoutine,
@@ -271,7 +271,7 @@ describe('historiesStore', async () => {
   it('should be able to check whether an item has been completed or not', () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
     expect(historiesStore.getState().getItem(routine.id, item.id)).toBeNull();
-    act(() => historiesStore.getState().save(routine, item, { done: true }));
+    act(() => historiesStore.getState().saveItem(routine, item, { done: true }));
     expect(historiesStore.getState().getItem(routine.id, item.id)).not.toBeNull();
   });
 
@@ -280,13 +280,13 @@ describe('historiesStore', async () => {
     const _date = dayjs().subtract(5, 'day').toISOString();
     act(() => historiesStore.getState().setSelectedDate(_date));
     expect(historiesStore.getState().getItem(routine.id, item.id)).toBeNull();
-    act(() => historiesStore.getState().save(routine, item, { done: true }));
+    act(() => historiesStore.getState().saveItem(routine, item, { done: true }));
     expect(historiesStore.getState().getItem(routine.id, item.id)).not.toBeNull();
     act(() => historiesStore.getState().remove(routine.id, _date)); // reset
   });
 
   it('should be able to add new items to history', () => {
-    act(() => historiesStore.getState().save(routine, item, { done: true }));
+    act(() => historiesStore.getState().saveItem(routine, item, { done: true }));
     const item3 = { id: 'item-3', title: 'Item 3', completedAt: null };
     expect(historiesStore.getState().histories[0].items).not.toContainEqual(item3);
     act(() => historiesStore.getState().addItems(routine.id, dayjs().startOf('day').toISOString(), [item3]));
@@ -294,7 +294,7 @@ describe('historiesStore', async () => {
   });
 
   it('should be able to add raw item to history', () => {
-    act(() => historiesStore.getState().save(routine, item, { done: true }));
+    act(() => historiesStore.getState().saveItem(routine, item, { done: true }));
     const item3 = { id: 'item-3', title: 'Item 3', completedAt: null };
     expect(historiesStore.getState().histories[0].items).not.toContainEqual(item3);
     act(() => historiesStore.getState().addRawItem(routine.id, dayjs().startOf('day').toISOString(), item3));
@@ -304,8 +304,8 @@ describe('historiesStore', async () => {
   it('should be able to remove history', () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
     act(() => {
-      historiesStore.getState().save(routine, item, { done: true });
-      historiesStore.getState().save(generateRoutine(2), item, { done: true });
+      historiesStore.getState().saveItem(routine, item, { done: true });
+      historiesStore.getState().saveItem(generateRoutine(2), item, { done: true });
     });
 
     expect(historiesStore.getState().histories).toHaveLength(2);
@@ -318,10 +318,10 @@ describe('historiesStore', async () => {
     act(() => historiesStore.setState({ selectedDate: null }));
 
     const _routine = generateRoutine(1, { itemIds: ['item-3'] });
-    act(() => historiesStore.getState().save(_routine, item3, { value: 1, done: true }));
+    act(() => historiesStore.getState().saveItem(_routine, item3, { value: 1, done: true }));
     const prevCompletedAt = historiesStore.getState().histories[0].items[0].completedAt;
     await waitFor(() => new Promise((res) => setTimeout(res, 100)));
-    act(() => historiesStore.getState().save(_routine, item3, { value: 2, done: true }));
+    act(() => historiesStore.getState().saveItem(_routine, item3, { value: 2, done: true }));
     expect(historiesStore.getState().histories[0].items[0].completedAt).toEqual(prevCompletedAt);
   });
 });
