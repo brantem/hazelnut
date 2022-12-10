@@ -10,4 +10,5 @@ export type History = Pick<Routine, 'id' | 'title' | 'color' | 'time'> & {
   date: string;
   items: HistoryItem[];
   createdAt: number;
+  note?: string;
 };

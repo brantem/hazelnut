@@ -301,6 +301,13 @@ describe('historiesStore', async () => {
     expect(historiesStore.getState().histories[0].items).toContainEqual(item3);
   });
 
+  it('should be able to add note to history', () => {
+    act(() => historiesStore.getState().saveItem(routine, item, { done: true }));
+    expect(historiesStore.getState().histories[0].note).not.toEqual('a');
+    act(() => historiesStore.getState().saveNote(routine.id, dayjs().startOf('day').toISOString(), 'a'));
+    expect(historiesStore.getState().histories[0].note).toEqual('a');
+  });
+
   it('should be able to remove history', () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
     act(() => {
