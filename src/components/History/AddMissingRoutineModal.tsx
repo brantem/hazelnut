@@ -85,7 +85,7 @@ const AddMissingRoutineModal = () => {
           size="lg"
           className="w-full"
           onClick={() => {
-            add(selectedRoutine!);
+            if (selectedRoutine) add(selectedRoutine.id);
             modal.hide();
           }}
           disabled={!selectedRoutine}

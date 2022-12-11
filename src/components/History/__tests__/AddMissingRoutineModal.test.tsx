@@ -23,12 +23,18 @@ const routine: Routine = {
   createdAt: 0,
 };
 
+const routine2 = {
+  ...routine,
+  id: 'routine-2',
+  title: 'Routine 2',
+};
+
 describe('AddMissingRoutineModal', () => {
   beforeAll(async () => {
     const routines = renderHook(() => useRoutinesStore());
     act(() => {
       routines.result.current.add(routine);
-      routines.result.current.add({ ...routine, id: 'routine-2', title: 'Routine 2' } as any);
+      routines.result.current.add(routine2);
     });
   });
 
@@ -51,7 +57,7 @@ describe('AddMissingRoutineModal', () => {
       screen.getByText('Routine 2').click();
       screen.getByText('Save').click();
     });
-    expect(add).toHaveBeenCalledWith({ ...routine, id: 'routine-2', title: 'Routine 2' });
+    expect(add).toHaveBeenCalledWith(routine2.id);
     expect(hide).toHaveBeenCalled();
   });
 });

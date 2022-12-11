@@ -5,7 +5,6 @@ import { StoreValue } from 'idb';
 import { nanoid } from 'nanoid';
 
 import { History, HistoryItem } from 'types/history';
-import { Routine } from 'types/routine';
 import { routinesStore, itemsStore } from 'lib/stores';
 import { Schema } from 'types/storage';
 import storage from 'lib/stores/storage';
@@ -23,7 +22,7 @@ export type HistoriesState = {
   setSelectedDate: (selectedDate: string | null) => void;
 
   getItem: (routineId: string, itemId: string, forceToday?: boolean) => HistoryItem | null;
-  add: (routine: Omit<History, 'date' | 'items'> & Pick<Routine, 'itemIds'>) => void;
+  add: (routineId: string) => void;
   saveItem: (routineId: string, itemId: string, data: { value?: number; done: boolean }, forceToday?: boolean) => void;
   addRawItem: (routineId: string, date: string, item: Omit<HistoryItem, 'id' | 'value' | 'completedAt'>) => void;
   addItems: (routineId: string, date: string, itemIds: string[]) => void;
@@ -56,15 +55,20 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
 
   getItem: (routineId, itemId, forceToday) => {
     const _date = (forceToday ? null : get().selectedDate) || dayjs().startOf('day').toISOString();
+
     const history = get().histories.find((history) => history.id === routineId && history.date === _date);
-    return history?.items.find((item) => item.id === itemId) || null;
+    if (!history) return null;
+
+    return history.items.find((item) => item.id === itemId) || null;
   },
-  add: async (routine) => {
-    const date = get().selectedDate || dayjs().startOf('day').toISOString();
+  add: async (routineId) => {
+    const routine = routinesStore.getState().routines.find((routine) => routine.id === routineId);
+    if (!routine) return;
+
     const _items = itemsStore.getState().items;
     const history = {
       ...pick(routine, ['id', 'title', 'color', 'time']),
-      date,
+      date: get().selectedDate || dayjs().startOf('day').toISOString(),
       items: routine.itemIds.reduce((items, itemId) => {
         const _item = _items.find((item) => item.id === itemId);
         if (!_item) return items;
@@ -87,14 +91,13 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
     if (!routine) return;
 
     const date = (forceToday ? null : get().selectedDate) || dayjs().startOf('day').toISOString();
-
     const index = get().histories.findIndex((history) => history.id === routineId && history.date === date);
     if (index === -1) {
       const _items = itemsStore.getState().items;
       const history = {
         ...pick(routine, ['id', 'title', 'color', 'time']),
         date,
-        items: routine.itemIds!.reduce((items, id) => {
+        items: routine.itemIds.reduce((items, id) => {
           const _item = _items.find((item) => item.id === id);
           if (!_item) return items;
 

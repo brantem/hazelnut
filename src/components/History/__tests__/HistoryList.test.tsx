@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 
 import HistoryList from 'components/History/HistoryList';
 
-import { useHistoriesStore } from 'lib/stores';
+import { useHistoriesStore, useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 import { useSearch } from 'lib/hooks';
 import * as constants from 'data/constants';
@@ -26,11 +26,12 @@ const routine: Routine = {
 };
 
 describe('HistoryList', () => {
-  beforeAll(() => {
+  beforeAll(async () => {
+    const routines = renderHook(() => useRoutinesStore());
+    await act(() => routines.result.current.add(routine));
+
     const { result } = renderHook(() => useHistoriesStore());
-    act(() => {
-      result.current.add(routine);
-    });
+    await act(() => result.current.add(routine.id));
   });
 
   beforeEach(() => {

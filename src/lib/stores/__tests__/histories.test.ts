@@ -124,10 +124,14 @@ describe('historiesStore', async () => {
     vi.setSystemTime(dayjs().startOf('hour').toDate());
     act(() => historiesStore.getState().setSelectedDate(date));
 
-    act(() => historiesStore.getState().add({ ...routine, itemIds: [...routine.itemIds, 'item-4'] }));
+    const _routine = generateRoutine(10, { itemIds: [...itemIds, 'item-4'] });
+    act(() => routinesStore.getState().add(_routine));
+    const _simpleRoutine = omit(_routine, ['itemIds', 'recurrence']);
+
+    act(() => historiesStore.getState().add(_routine.id));
     expect(historiesStore.getState().histories).toEqual([
       {
-        ...simpleRoutine,
+        ..._simpleRoutine,
         date: date.valueOf(),
         items: [
           { ...item2, completedAt: null },
@@ -136,9 +140,14 @@ describe('historiesStore', async () => {
         createdAt: Date.now(),
       },
     ]);
+
+    act(() => routinesStore.getState().remove(_routine.id));
   });
 
   it('should not add non-existing routine as history', async () => {
+    act(() => historiesStore.getState().add('routine-4'));
+    expect(historiesStore.getState().histories).toEqual([]);
+
     act(() => historiesStore.getState().saveItem('routine-4', 'item-4', { done: true }));
     expect(historiesStore.getState().histories).toEqual([]);
   });
@@ -308,6 +317,11 @@ describe('historiesStore', async () => {
 
     // reset
     act(() => historiesStore.getState().remove(routine.id, _date));
+  });
+
+  it("should return null if the item doesn't exist", () => {
+    act(() => historiesStore.getState().saveItem(routine.id, item.id, { done: true }));
+    expect(historiesStore.getState().getItem(routine.id, 'item-4')).toBeNull();
   });
 
   it('should be able to check whether an item has been completed or not', () => {
