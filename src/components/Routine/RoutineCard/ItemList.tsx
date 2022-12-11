@@ -75,7 +75,7 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
                 color={routine.color}
                 value={value}
                 renderValue={(value) => `${value} / ${minCompleted}`}
-                onChange={(value) => saveItem(routine, item, { value, done: value >= minCompleted }, true)}
+                onChange={(value) => saveItem(routine.id, item.id, { value, done: value >= minCompleted }, true)}
                 className={clsx(shade > 0 && `bg-${routine.color}-${shade}`, shade > 300 && 'text-white')}
                 step={item.settings.step}
               />
@@ -87,7 +87,7 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
             name={routine.id + '-' + item.id}
             color={routine.color}
             checked={!!_item?.completedAt}
-            onChange={(e) => saveItem(routine, item, { done: e.target.checked }, true)}
+            onChange={(e) => saveItem(routine.id, item.id, { done: e.target.checked }, true)}
           />
         )}
       </div>

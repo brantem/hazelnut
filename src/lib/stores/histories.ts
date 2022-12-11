@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid';
 
 import { History, HistoryItem } from 'types/history';
 import { Routine } from 'types/routine';
-import { itemsStore } from 'lib/stores';
+import { routinesStore, itemsStore } from 'lib/stores';
 import { Schema } from 'types/storage';
 import storage from 'lib/stores/storage';
 import { pick } from 'lib/helpers';
@@ -24,12 +24,7 @@ export type HistoriesState = {
 
   getItem: (routineId: string, itemId: string, forceToday?: boolean) => HistoryItem | null;
   add: (routine: Omit<History, 'date' | 'items'> & Pick<Routine, 'itemIds'>) => void;
-  saveItem: (
-    routine: Omit<History, 'date' | 'items'> & { itemIds?: Routine['itemIds'] },
-    item: Omit<HistoryItem, 'completedAt'>,
-    data: { value?: number; done: boolean },
-    forceToday?: boolean,
-  ) => void;
+  saveItem: (routineId: string, itemId: string, data: { value?: number; done: boolean }, forceToday?: boolean) => void;
   addRawItem: (routineId: string, date: string, item: Omit<HistoryItem, 'id' | 'value' | 'completedAt'>) => void;
   addItems: (routineId: string, date: string, itemIds: string[]) => void;
   saveNote: (routineId: string, date: string, note: string) => void;
@@ -87,25 +82,30 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
     set((state) => ({ histories: [...state.histories, history] }));
     await storage.add('histories', history);
   },
-  saveItem: async (routine, item, data, forceToday) => {
+  saveItem: async (routineId, itemId, data, forceToday) => {
+    const routine = routinesStore.getState().routines.find((routine) => routine.id === routineId);
+    if (!routine) return;
+
     const date = (forceToday ? null : get().selectedDate) || dayjs().startOf('day').toISOString();
-    const index = get().histories.findIndex((history) => history.id === routine.id && history.date === date);
+
+    const index = get().histories.findIndex((history) => history.id === routineId && history.date === date);
     if (index === -1) {
       const _items = itemsStore.getState().items;
       const history = {
         ...pick(routine, ['id', 'title', 'color', 'time']),
         date,
-        items: routine.itemIds!.reduce((items, itemId) => {
-          const _item = _items.find((item) => item.id === itemId);
+        items: routine.itemIds!.reduce((items, id) => {
+          const _item = _items.find((item) => item.id === id);
           if (!_item) return items;
+
           return [
             ...items,
             Object.assign(
               {
-                ...pick(_item.id === item.id ? item : _item, ['id', 'type', 'title', 'settings']),
-                completedAt: _item.id === item.id ? Date.now() : null,
+                ...pick(_item, ['id', 'type', 'title', 'settings']),
+                completedAt: id === itemId ? Date.now() : null,
               },
-              _item.id === item.id && 'value' in data && { value: data.value },
+              id === itemId && 'value' in data && { value: data.value },
             ),
           ];
         }, [] as History['items']),
@@ -118,12 +118,15 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
       const histories = get().histories.slice();
       histories[index] = { ...histories[index], ...pick(routine, ['id', 'title', 'color', 'time']) };
 
-      const itemIndex = histories[index].items.findIndex((_item) => _item.id === item.id);
-      if (itemIndex === -1) {
+      const item = histories[index].items.find((item) => item.id === itemId);
+      if (!item) {
+        const _item = itemsStore.getState().items.find((_item) => _item.id === itemId);
+        if (!_item) return;
+
         histories[index].items.push(
           Object.assign(
             {
-              ...pick(item, ['id', 'type', 'title', 'settings']),
+              ...pick(_item, ['id', 'type', 'title', 'settings']),
               completedAt: Date.now(),
             },
             'value' in data && { value: data.value },

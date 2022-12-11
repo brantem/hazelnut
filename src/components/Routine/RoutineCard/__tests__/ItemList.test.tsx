@@ -5,7 +5,7 @@ import ItemList from 'components/Routine/RoutineCard/ItemList';
 
 import { Routine } from 'types/routine';
 import { Item, ItemType } from 'types/item';
-import { useHistoriesStore, useItemsStore, useRoutinesStore } from 'lib/stores';
+import { useHistoriesStore, useRoutinesStore, useItemsStore } from 'lib/stores';
 import colors from 'data/colors';
 
 const generateRoutine = (i: number, data?: Partial<Omit<Routine, 'id' | 'title' | 'color'>>) => {
@@ -42,6 +42,12 @@ const item2 = generateItem(2, { groupId: 'group-1', type: ItemType.Number, creat
 
 describe('ItemList', () => {
   beforeAll(() => {
+    const routines = renderHook(() => useRoutinesStore());
+    act(() => {
+      routines.result.current.add(routine);
+      routines.result.current.add(routine2);
+    });
+
     const items = renderHook(() => useItemsStore());
     act(() => {
       items.result.current.add('group-1', generateItem(1, { createdAt: 0 }));
@@ -81,9 +87,9 @@ describe('ItemList', () => {
     render(<ItemList routine={routine} isSortable />);
 
     act(() => screen.getByText('Item 1').click());
-    expect(saveItem).toHaveBeenCalledWith(routine, item1, { done: true }, true);
+    expect(saveItem).toHaveBeenCalledWith(routine.id, item1.id, { done: true }, true);
     act(() => screen.getByText('Item 1').click());
-    expect(saveItem).toHaveBeenCalledWith(routine, item1, { done: false }, true);
+    expect(saveItem).toHaveBeenCalledWith(routine.id, item1.id, { done: false }, true);
   });
 
   it('should save number item', async () => {
@@ -93,8 +99,8 @@ describe('ItemList', () => {
     render(<ItemList routine={routine2} isSortable />);
 
     act(() => screen.getByTestId('number-input-increment').click());
-    expect(saveItem).toHaveBeenCalledWith(routine2, item2, { value: 1, done: true }, true);
+    expect(saveItem).toHaveBeenCalledWith(routine2.id, item2.id, { value: 1, done: true }, true);
     act(() => screen.getByTestId('number-input-decrement').click());
-    expect(saveItem).toHaveBeenCalledWith(routine2, item2, { value: 0, done: false }, true);
+    expect(saveItem).toHaveBeenCalledWith(routine2.id, item2.id, { value: 0, done: false }, true);
   });
 });

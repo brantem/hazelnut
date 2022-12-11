@@ -83,7 +83,7 @@ describe('HistoryCard', () => {
     render(<HistoryCard history={history} />);
 
     act(() => screen.getByText('Item 1').click());
-    expect(saveItem).toHaveBeenCalledWith(history, history.items[0], { done: true });
+    expect(saveItem).toHaveBeenCalledWith(history.id, history.items[0].id, { done: true });
   });
 
   it('should save number item', async () => {
@@ -93,14 +93,14 @@ describe('HistoryCard', () => {
     const { rerender } = render(<HistoryCard history={history} />);
 
     act(() => screen.getByTestId('number-input-increment').click());
-    expect(saveItem).toHaveBeenCalledWith(history, history.items[1], { value: 1, done: true });
+    expect(saveItem).toHaveBeenCalledWith(history.id, history.items[1].id, { value: 1, done: true });
 
     const _history = { ...history };
     _history.items[1].value = 1;
     _history.items[1].completedAt = Date.now();
     rerender(<HistoryCard history={_history} />);
     act(() => screen.getByTestId('number-input-decrement').click());
-    expect(saveItem).toHaveBeenCalledWith(_history, _history.items[1], { value: 0, done: false });
+    expect(saveItem).toHaveBeenCalledWith(_history.id, _history.items[1].id, { value: 0, done: false });
   });
 
   it('should open add items settings modal', () => {
