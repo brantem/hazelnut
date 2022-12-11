@@ -65,9 +65,7 @@ describe('AddExistingItemsToHistoryModal', () => {
       screen.getByText('Save').click();
     });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
-    expect(addItems).toHaveBeenCalledWith(history.id, history.date, [
-      { id: 'item-2', groupId: 'group-2', title: 'Item 2', createdAt: 0 },
-    ]);
+    expect(addItems).toHaveBeenCalledWith(history.id, history.date, ['item-2']);
     expect(hide).toHaveBeenCalled();
   });
 });

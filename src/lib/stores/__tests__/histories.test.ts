@@ -60,20 +60,17 @@ const generateItem = (i: number, data?: Partial<Omit<Item, 'id' | 'title'>>) => 
 };
 
 const item = generateItem(1);
-const simpleItem = generateItem(1);
 const item2 = generateItem(2);
-const simpleItem2 = generateItem(2);
 const item3 = generateItem(3, { type: ItemType.Number });
-const simpleItem3 = generateItem(3, { type: ItemType.Number });
 
 // TODO: for some reason use*Store is not working
 
 describe('historiesStore', async () => {
   beforeAll(() => {
     act(() => {
-      itemsStore.getState().add('group-1', generateItem(1));
-      itemsStore.getState().add('group-1', generateItem(2));
-      itemsStore.getState().add('group-1', generateItem(3, { type: ItemType.Number }));
+      itemsStore.getState().add('group-1', item);
+      itemsStore.getState().add('group-1', item2);
+      itemsStore.getState().add('group-1', item3);
     });
 
     act(() => routinesStore.getState().add(routine));
@@ -87,7 +84,7 @@ describe('historiesStore', async () => {
     const history = {
       ...simpleRoutine,
       date,
-      items: [{ ...simpleItem, completedAt: Date.now() }],
+      items: [{ ...item, completedAt: Date.now() }],
       createdAt: Date.now(),
     };
     await act(() => historiesStore.getState().setHistory(history));
@@ -129,8 +126,8 @@ describe('historiesStore', async () => {
         ...simpleRoutine,
         date: date.valueOf(),
         items: [
-          { ...simpleItem2, completedAt: null },
-          { ...simpleItem, completedAt: null },
+          { ...item2, completedAt: null },
+          { ...item, completedAt: null },
         ],
         createdAt: Date.now(),
       },
@@ -150,8 +147,8 @@ describe('historiesStore', async () => {
         ...simpleRoutine,
         date,
         items: [
-          { ...simpleItem2, completedAt: null },
-          { ...simpleItem, completedAt: Date.now() },
+          { ...item2, completedAt: null },
+          { ...item, completedAt: Date.now() },
         ],
         createdAt: Date.now(),
       },
@@ -164,9 +161,9 @@ describe('historiesStore', async () => {
         ...simpleRoutine,
         date,
         items: [
-          { ...simpleItem2, completedAt: null },
-          { ...simpleItem, completedAt: Date.now() },
-          { ...simpleItem3, value: 1, completedAt: Date.now() },
+          { ...item2, completedAt: null },
+          { ...item, completedAt: Date.now() },
+          { ...item3, value: 1, completedAt: Date.now() },
         ],
         createdAt: Date.now(),
       },
@@ -179,9 +176,9 @@ describe('historiesStore', async () => {
         ...simpleRoutine,
         date,
         items: [
-          { ...simpleItem2, completedAt: Date.now() },
-          { ...simpleItem, completedAt: Date.now() },
-          { ...simpleItem3, value: 1, completedAt: Date.now() },
+          { ...item2, completedAt: Date.now() },
+          { ...item, completedAt: Date.now() },
+          { ...item3, value: 1, completedAt: Date.now() },
         ],
         createdAt: Date.now(),
       },
@@ -194,9 +191,9 @@ describe('historiesStore', async () => {
         ...simpleRoutine,
         date,
         items: [
-          { ...simpleItem2, completedAt: Date.now() },
-          { ...simpleItem, completedAt: null },
-          { ...simpleItem3, value: 1, completedAt: Date.now() },
+          { ...item2, completedAt: Date.now() },
+          { ...item, completedAt: null },
+          { ...item3, value: 1, completedAt: Date.now() },
         ],
         createdAt: Date.now(),
       },
@@ -214,7 +211,7 @@ describe('historiesStore', async () => {
       {
         ...simpleRoutine,
         date,
-        items: [{ ...simpleItem3, value: 1, completedAt: Date.now() }],
+        items: [{ ...item3, value: 1, completedAt: Date.now() }],
         createdAt: Date.now(),
       },
     ]);
@@ -225,7 +222,7 @@ describe('historiesStore', async () => {
       {
         ...simpleRoutine,
         date,
-        items: [{ ...simpleItem3, value: 0, completedAt: null }],
+        items: [{ ...item3, value: 0, completedAt: null }],
         createdAt: Date.now(),
       },
     ]);
@@ -243,8 +240,8 @@ describe('historiesStore', async () => {
         ...simpleRoutine,
         date: _date,
         items: [
-          { ...simpleItem2, completedAt: null },
-          { ...simpleItem, completedAt: Date.now() },
+          { ...item2, completedAt: null },
+          { ...item, completedAt: Date.now() },
         ],
         createdAt: Date.now(),
       },
@@ -257,8 +254,8 @@ describe('historiesStore', async () => {
         ...simpleRoutine,
         date: _date,
         items: [
-          { ...simpleItem2, completedAt: null },
-          { ...simpleItem, completedAt: null },
+          { ...item2, completedAt: null },
+          { ...item, completedAt: null },
         ],
         createdAt: Date.now(),
       },
@@ -287,18 +284,18 @@ describe('historiesStore', async () => {
 
   it('should be able to add new items to history', () => {
     act(() => historiesStore.getState().saveItem(routine, item, { done: true }));
-    const item3 = { id: 'item-3', title: 'Item 3', completedAt: null };
-    expect(historiesStore.getState().histories[0].items).not.toContainEqual(item3);
-    act(() => historiesStore.getState().addItems(routine.id, dayjs().startOf('day').toISOString(), [item3]));
-    expect(historiesStore.getState().histories[0].items).toContainEqual(item3);
+    const _item3 = { ...item3, completedAt: null };
+    expect(historiesStore.getState().histories[0].items).not.toContainEqual(_item3);
+    act(() => historiesStore.getState().addItems(routine.id, dayjs().startOf('day').toISOString(), ['item-3']));
+    expect(historiesStore.getState().histories[0].items).toContainEqual(_item3);
   });
 
   it('should be able to add raw item to history', () => {
     act(() => historiesStore.getState().saveItem(routine, item, { done: true }));
-    const item3 = { id: 'item-3', title: 'Item 3', completedAt: null };
-    expect(historiesStore.getState().histories[0].items).not.toContainEqual(item3);
+    const _item3 = { ...item3, completedAt: null };
+    expect(historiesStore.getState().histories[0].items).not.toContainEqual(_item3);
     act(() => historiesStore.getState().addRawItem(routine.id, dayjs().startOf('day').toISOString(), item3));
-    expect(historiesStore.getState().histories[0].items).toContainEqual(item3);
+    expect(historiesStore.getState().histories[0].items).toContainEqual(_item3);
   });
 
   it('should be able to add note to history', () => {

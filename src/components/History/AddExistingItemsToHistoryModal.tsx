@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import SaveItemsModal from 'components/modals/SaveItemsModal';
 
-import { useHistoriesStore, useItemsStore } from 'lib/stores';
+import { useHistoriesStore } from 'lib/stores';
 import * as constants from 'data/constants';
 
 const AddExistingItemsToHistoryModal = () => {
@@ -11,8 +11,6 @@ const AddExistingItemsToHistoryModal = () => {
     if (!history) return [];
     return history.items.map((item) => item.id);
   }, [history]);
-
-  const getItemsByIds = useItemsStore((state) => state.getItemsByIds);
 
   const [itemIds, setItemIds] = useState<string[]>([]);
 
@@ -30,7 +28,7 @@ const AddExistingItemsToHistoryModal = () => {
       onChange={(_itemIds) => setItemIds(_itemIds)}
       onSave={() => {
         const newItemIds = itemIds.filter((itemId) => !_itemIds.includes(itemId));
-        addItems(history!.id, history!.date, getItemsByIds(newItemIds));
+        addItems(history!.id, history!.date, newItemIds);
       }}
     />
   );
