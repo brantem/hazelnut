@@ -31,7 +31,7 @@ describe('HistorySettingsModal', async () => {
     window.IntersectionObserver = mockIntersectionObserver;
   });
 
-  it('should open save note modal', () => {
+  it('should show "Add Note"', () => {
     const modal = renderHook(() => useModalStore());
     const show = vi.spyOn(modal.result.current, 'show');
 
@@ -49,18 +49,23 @@ describe('HistorySettingsModal', async () => {
     expect(show).toHaveBeenCalledWith(constants.modals.saveHistoryNote);
   });
 
-  it('should not show "Add Note"', () => {
+  it('should show "Edit Note"', () => {
     const modal = renderHook(() => useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show');
 
     const { result } = renderHook(() => useHistoriesStore());
+    const setHistory = vi.spyOn(result.current, 'setHistory');
 
     render(<HistorySettingsModal />);
 
+    const _history = { ...history, note: 'a' };
     act(() => {
-      result.current.setHistory({ ...history, note: 'a' });
+      result.current.setHistory(_history);
       modal.result.current.show(constants.modals.historySettings);
     });
-    expect(screen.queryByText('Add Note')).not.toBeInTheDocument();
+    act(() => screen.getByText('Edit Note').click());
+    expect(setHistory).toHaveBeenCalledWith(_history);
+    expect(show).toHaveBeenCalledWith(constants.modals.saveHistoryNote);
   });
 
   it('should delete history', () => {

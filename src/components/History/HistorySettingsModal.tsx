@@ -28,12 +28,11 @@ const HistorySettingsModal = () => {
       modalKey={constants.modals.historySettings}
       actions={[
         {
-          children: 'Add Note',
+          children: history?.note ? 'Edit Note' : 'Add Note',
           onClick: () => {
             setHistory(history);
             saveHistoryNoteModal.show();
           },
-          skip: !!history?.note,
         },
         {
           render: () => (
