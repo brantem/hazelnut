@@ -21,11 +21,7 @@ export const useLoadStore = () => {
       itemsStore.setState({ items: items.sort((a, b) => a.createdAt - b.createdAt), isReady: true });
       groupsStore.setState({ groups: groups.sort((a, b) => a.createdAt - b.createdAt), isReady: true });
       routinesStore.setState({ routines, isReady: true });
-      historiesStore.setState({
-        histories,
-        selectedMonth: selectedMonth.format('YYYY-MM'),
-        selectedDate: localStorage.getItem('history-selected-date'),
-      });
+      historiesStore.setState({ histories, selectedMonth: selectedMonth.format('YYYY-MM') });
     })();
   }, []);
 };

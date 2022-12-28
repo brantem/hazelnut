@@ -28,7 +28,7 @@ const DateItem = ({ date, isSelected }: DateItemProps) => {
 const DateList = () => {
   const listRef = useRef<HTMLDivElement>(null);
 
-  const { dates, selectedDate, setSelectedDate } = useHistoriesStore((state) => {
+  const { dates, selectedMonth, selectedDate, setSelectedDate, cleanup } = useHistoriesStore((state) => {
     const dates = state.histories
       .reduce((dates, history) => {
         const date = dayjs(history.date).startOf('day').toISOString();
@@ -37,25 +37,31 @@ const DateList = () => {
       .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
     return {
       dates,
+      selectedMonth: state.selectedMonth,
       selectedDate: state.selectedDate,
       setSelectedDate: state.setSelectedDate,
+      cleanup: () => {
+        state.setSelectedMonth(dayjs().format('YYYY-MM'));
+        state.setSelectedDate(null);
+      },
     };
   });
 
-  const isReady = selectedDate !== undefined;
+  /* c8 ignore start */
   useEffect(() => {
-    /* c8 ignore start */
-    if (!isReady) return;
+    if (listRef.current) listRef.current.scrollLeft = listRef.current.scrollWidth;
+
     const selected = document.querySelector('[aria-selected="true"]');
-    if (!selected) return;
-    if (selected.getAttribute('id') === 'date-list-action') {
-      if (!listRef.current) return;
-      listRef.current.scrollLeft = listRef.current.scrollWidth;
-    } else {
-      selected.scrollIntoView({ inline: 'start' });
-    }
-    /* c8 ignore stop */
-  }, [isReady]);
+    if (selected) selected.scrollIntoView({ inline: 'start' });
+
+    return cleanup;
+  }, []);
+
+  useEffect(() => {
+    if (!listRef.current) return;
+    listRef.current.scrollLeft = listRef.current.scrollWidth;
+  }, [selectedMonth]);
+  /* c8 ignore stop */
 
   return (
     <section
@@ -74,7 +80,7 @@ const DateList = () => {
       <Item
         className="mr-4"
         label="List"
-        isSelected={isReady && !selectedDate}
+        isSelected={!selectedDate}
         onSelected={() => setSelectedDate(null)}
         data-testid="date-list-action"
       >

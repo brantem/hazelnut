@@ -19,7 +19,6 @@ describe('DateList', () => {
           { date: dayjs().startOf('day').subtract(1, 'day').valueOf() },
           { date: dayjs().startOf('day').valueOf() },
         ] as any,
-        selectedDate: null,
       });
     });
     vi.useRealTimers();

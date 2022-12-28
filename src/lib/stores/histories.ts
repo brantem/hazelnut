@@ -40,18 +40,10 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
     const from = dayjs(selectedMonth);
     const histories = await getHistories(from.valueOf(), from.add(1, 'month').valueOf());
     set({ histories, selectedMonth, selectedDate: null });
-    localStorage.removeItem('history-selected-date');
   },
 
   selectedDate: undefined,
-  setSelectedDate: (selectedDate) => {
-    set({ selectedDate });
-    if (selectedDate) {
-      localStorage.setItem('history-selected-date', selectedDate);
-    } else {
-      localStorage.removeItem('history-selected-date');
-    }
-  },
+  setSelectedDate: (selectedDate) => set({ selectedDate }),
 
   getItem: (routineId, itemId, forceToday) => {
     const _date = (forceToday ? null : get().selectedDate) || dayjs().startOf('day').toISOString();

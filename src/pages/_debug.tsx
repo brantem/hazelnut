@@ -122,9 +122,6 @@ const handleSave = (key: string, isIdb = true) => {
     }
 
     switch (key) {
-      case 'histories.selectedDate':
-        localStorage.setItem('history-selected-date', data);
-        break;
       case 'groups':
         groupsStore.setState({ groups: data });
         break;
@@ -145,10 +142,7 @@ const Debug: NextPage = () => {
   const items = useItemsStore((state) => state.items);
   const groups = useGroupsStore((state) => state.groups);
   const routines = useRoutinesStore((state) => state.routines);
-  const { histories, selectedDate } = useHistoriesStore((state) => ({
-    histories: state.histories,
-    selectedDate: state.selectedDate,
-  }));
+  const histories = useHistoriesStore((state) => state.histories);
 
   return (
     <>
@@ -170,7 +164,6 @@ const Debug: NextPage = () => {
         <Card title="items" data={items} onSave={handleSave('items')} />
         <Card title="routines" data={routines} onSave={handleSave('routines')} />
         <Card title="histories" data={histories} onSave={handleSave('histories')} />
-        <Card title="histories.selectedDate" data={selectedDate} onSave={handleSave('histories.selectedDate', false)} />
       </main>
     </>
   );

@@ -56,6 +56,8 @@ const item: Item = {
 
 describe('Routines', () => {
   beforeAll(() => {
+    Element.prototype.scrollIntoView = vi.fn();
+
     const routines = renderHook(() => useRoutinesStore());
     const items = renderHook(() => useItemsStore());
     act(() => {
