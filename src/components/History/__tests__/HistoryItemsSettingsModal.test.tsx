@@ -31,7 +31,7 @@ describe('HistoryItemsSettingsModal', async () => {
     window.IntersectionObserver = mockIntersectionObserver;
   });
 
-  it('should open add items from existing modal', () => {
+  it('should open save items modal', () => {
     const modal = renderHook(() => useModalStore());
     const show = vi.spyOn(modal.result.current, 'show');
 
@@ -44,12 +44,12 @@ describe('HistoryItemsSettingsModal', async () => {
       result.current.setHistory(history);
       modal.result.current.show(constants.modals.historyItemsSetttings);
     });
-    act(() => screen.getByText('Pick from Existing').click());
+    act(() => screen.getByText('Edit').click());
     expect(setHistory).toHaveBeenCalledWith(history);
     expect(show).toHaveBeenCalledWith(constants.modals.addExistingItemsToHistory);
   });
 
-  it('should open add items from existing modal', () => {
+  it('should open add new item modal', () => {
     const modal = renderHook(() => useModalStore());
     const show = vi.spyOn(modal.result.current, 'show');
 

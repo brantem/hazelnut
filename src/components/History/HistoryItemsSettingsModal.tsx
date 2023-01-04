@@ -23,7 +23,7 @@ const HistoryItemsSettingsModal = () => {
       modalKey={constants.modals.historyItemsSetttings}
       actions={[
         {
-          children: 'Pick from Existing',
+          children: 'Edit',
           onClick: () => addExistingItemsModal.show(),
         },
         {

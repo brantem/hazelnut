@@ -5,8 +5,12 @@ import SaveItemsModal from 'components/modals/SaveItemsModal';
 import { useHistoriesStore } from 'lib/stores';
 import * as constants from 'data/constants';
 
-const AddExistingItemsToHistoryModal = () => {
-  const { history, addItems } = useHistoriesStore((state) => ({ history: state.history, addItems: state.addItems }));
+const SaveHistoryItemsModal = () => {
+  const { history, addItems, removeItems } = useHistoriesStore((state) => ({
+    history: state.history,
+    addItems: state.addItems,
+    removeItems: state.removeItems,
+  }));
   const _itemIds = useMemo(() => {
     if (!history) return [];
     return history.items.map((item) => item.id);
@@ -24,14 +28,16 @@ const AddExistingItemsToHistoryModal = () => {
     <SaveItemsModal
       modalKey={constants.modals.addExistingItemsToHistory}
       itemIds={itemIds}
-      disabledItemIds={_itemIds}
       onChange={(_itemIds) => setItemIds(_itemIds)}
       onSave={() => {
+        const removedItemIds = _itemIds.filter((itemId) => !itemIds.includes(itemId));
+        if (removedItemIds.length) removeItems(history!.id, history!.date, removedItemIds);
+
         const newItemIds = itemIds.filter((itemId) => !_itemIds.includes(itemId));
-        addItems(history!.id, history!.date, newItemIds);
+        if (newItemIds.length) addItems(history!.id, history!.date, newItemIds);
       }}
     />
   );
 };
 
-export default AddExistingItemsToHistoryModal;
+export default SaveHistoryItemsModal;
