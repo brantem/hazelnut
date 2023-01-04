@@ -349,6 +349,13 @@ describe('historiesStore', async () => {
     expect(historiesStore.getState().histories[0].items).toContainEqual(_item3);
   });
 
+  it('should be able to remove items to history', () => {
+    act(() => historiesStore.getState().saveItem(routine.id, item.id, { done: true }));
+    expect(historiesStore.getState().histories[0].items).not.toContainEqual(item2);
+    act(() => historiesStore.getState().removeItems(routine.id, dayjs().startOf('day').toISOString(), ['item-2']));
+    expect(historiesStore.getState().histories[0].items).not.toContainEqual(item2);
+  });
+
   it('should be able to add raw item to history', () => {
     act(() => historiesStore.getState().saveItem(routine.id, item.id, { done: true }));
     const _item3 = { ...item3, completedAt: null };

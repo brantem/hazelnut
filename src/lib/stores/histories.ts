@@ -26,6 +26,7 @@ export type HistoriesState = {
   saveItem: (routineId: string, itemId: string, data: { value?: number; done: boolean }, forceToday?: boolean) => void;
   addRawItem: (routineId: string, date: string, item: Omit<HistoryItem, 'id' | 'value' | 'completedAt'>) => void;
   addItems: (routineId: string, date: string, itemIds: string[]) => void;
+  removeItems: (routineId: string, date: string, itemIds: string[]) => void;
   saveNote: (routineId: string, date: string, note: string) => void;
   remove: (routineId: string, date: string) => void;
 };
@@ -166,6 +167,15 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
     set({ histories });
     await storage.put('histories', histories[index]);
   },
+  removeItems: async (routineId, date, itemIds) => {
+    const histories = get().histories.slice();
+    const index = get().histories.findIndex((history) => history.id === routineId && history.date === date);
+
+    histories[index].items = histories[index].items.filter((item) => !itemIds.includes(item.id));
+
+    set({ histories });
+    await storage.put('histories', histories[index]);
+  },
   saveNote: async (routineId, date, note) => {
     const histories = get().histories.slice();
     const index = get().histories.findIndex((history) => history.id === routineId && history.date === date);
@@ -191,7 +201,8 @@ export const useHistoriesStore = create(historiesStore);
 
 /* c8 ignore start */
 export const getHistories = async (from: number, to: number) => {
-  const index = await storage.index('histories', 'createdAt')!;
+  const index = await storage.index('histories', 'createdAt');
+  if (!index) return [];
   let cursor = await index.openCursor(IDBKeyRange.bound(from, to));
   const values: StoreValue<Schema, 'histories'>[] = [];
   while (cursor) {
