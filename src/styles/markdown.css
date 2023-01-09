@@ -11,10 +11,10 @@
   @apply ml-4;
 }
 
-.markdown > ul {
+.markdown ul {
   @apply list-disc;
 }
 
-.markdown > ol {
+.markdown ol {
   @apply list-decimal;
 }
