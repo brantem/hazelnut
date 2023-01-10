@@ -159,10 +159,12 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
     const histories = get().histories.slice();
     const index = get().histories.findIndex((history) => history.id === routineId && history.date === date);
 
-    itemsStore.getState().items.forEach((item) => {
-      if (!itemIds.includes(item.id)) return;
+    const items = itemsStore.getState().items;
+    for (const itemId of itemIds) {
+      const item = items.find((item) => item.id === itemId);
+      if (!item) continue;
       histories[index].items.push({ ...pick(item, ['id', 'type', 'title', 'settings']), completedAt: null });
-    });
+    }
 
     set({ histories });
     await storage.put('histories', histories[index]);
