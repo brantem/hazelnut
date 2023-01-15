@@ -1,5 +1,6 @@
 import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
+
+import { cn } from 'lib/helpers';
 
 type NumberInputProps = {
   label?: string;
@@ -39,7 +40,7 @@ const NumberInput = ({
         </button>
 
         <span
-          className={clsx(`px-1.5 text-center text-sm tabular-nums text-${color}-600 rounded-full`, className)}
+          className={cn(`px-1.5 text-center text-sm tabular-nums text-${color}-600 rounded-full`, className)}
           data-testid="number-input-value"
         >
           {renderValue ? renderValue(value) : value}

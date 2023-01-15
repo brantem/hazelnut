@@ -2,6 +2,8 @@ import pick from 'just-pick';
 import omit from 'just-omit';
 import capitalize from 'just-capitalize';
 import dayjs from 'dayjs';
+import { ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 import { daysFromSunday } from 'data/days';
 import { Day, Recurrence } from 'types/shared';
@@ -81,4 +83,8 @@ export const getNumberInputShade = (minCompleted: number, value: number) => {
   if (minCompleted === 0 || value === 0) return 0;
   const i = Math.round(value / (minCompleted / 5)) - 1;
   return [100, 200, 300, 400, 500][i > 4 ? 4 : i];
+};
+
+export const cn = (...inputs: ClassValue[]) => {
+  return twMerge(clsx(inputs));
 };
