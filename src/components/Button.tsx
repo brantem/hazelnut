@@ -11,10 +11,10 @@ const Button = ({ className, color = 'neutral', variant = 'solid', size = 'md', 
   return (
     <button
       className={clsx(
-        `rounded-full focus:outline-none focus:ring-2 focus:ring-${color}-500 disabled:opacity-70`,
+        `rounded-full focus:outline-none focus:ring-2 focus:ring-${color}-500 dark:focus:ring-${color}-700 disabled:opacity-70`,
         {
           [`bg-black text-white enabled:hover:bg-${color}-800`]: variant === 'solid',
-          [`enabled:hover:bg-${color}-100`]: variant === 'ghost',
+          [`dark:text-white enabled:hover:bg-${color}-100 dark:enabled:hover:bg-${color}-800`]: variant === 'ghost',
         },
         {
           'px-3 py-1.5 text-sm': size === 'sm',

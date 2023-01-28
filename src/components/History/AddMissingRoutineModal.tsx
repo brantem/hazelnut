@@ -77,7 +77,7 @@ const AddMissingRoutineModal = () => {
         {isSearchEmpty && <li className="text-neutral-500">No results found</li>}
       </ol>
 
-      <div className="space-y-3 bg-neutral-50 px-4 py-3">
+      <div className="space-y-3 bg-neutral-50 px-4 py-3 dark:bg-neutral-900/50">
         <Search placeholder="Search for routines by title" searchKey={constants.searches.missingRoutines} />
 
         <Button

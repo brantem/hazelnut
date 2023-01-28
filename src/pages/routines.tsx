@@ -83,7 +83,7 @@ const Routines: NextPage = () => {
               <Search
                 placeholder="Search for routines by title"
                 searchKey={constants.searches.routines}
-                className="sticky top-0 bg-white px-4 pt-1 pb-3"
+                className="sticky top-0 bg-white px-4 pt-1 pb-3 dark:bg-neutral-900"
               />
             )}
 

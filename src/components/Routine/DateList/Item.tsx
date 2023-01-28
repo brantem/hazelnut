@@ -11,7 +11,10 @@ const Item = ({ className, children, label, isSelected, onSelected, ...props }: 
   return (
     <div
       {...props}
-      className={clsx('mb-3 flex flex-shrink-0 cursor-pointer flex-col items-center justify-center', className)}
+      className={clsx(
+        'mb-3 flex flex-shrink-0 cursor-pointer flex-col items-center justify-center dark:text-white',
+        className,
+      )}
       onClick={onSelected}
       tabIndex={0}
       onKeyDown={(e) => e.code === 'Space' && onSelected()}
@@ -19,7 +22,7 @@ const Item = ({ className, children, label, isSelected, onSelected, ...props }: 
     >
       <span
         className={clsx(
-          `flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100`,
+          `flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-700`,
           isSelected && 'border-black bg-black text-white',
         )}
       >

@@ -69,7 +69,7 @@ const SaveGroupModal = () => {
           />
         </div>
 
-        <div className="bg-neutral-50 px-4 py-3">
+        <div className="bg-neutral-50 px-4 py-3 dark:bg-neutral-900/50">
           <Button type="submit" className="w-full" size="lg" disabled={!formik.dirty || formik.isSubmitting}>
             {group ? 'Save' : 'Add'}
           </Button>

@@ -130,7 +130,7 @@ const HistoryCard = ({ history }: HistoryProps) => {
             </Button>
           </div>
           <Markdown
-            className="text-sm text-neutral-500"
+            className="text-sm text-neutral-500 dark:text-neutral-400"
             options={{
               overrides: {
                 hr: {

@@ -9,7 +9,7 @@ exports[`ColorPicker > should render successfully 1`] = `
     role="radiogroup"
   >
     <label
-      class="block text-sm text-neutral-700"
+      class="block text-sm text-neutral-700 dark:text-white"
       id="headlessui-label-:r1:"
       role="none"
     >
@@ -186,7 +186,7 @@ exports[`ColorPicker > should render successfully 2`] = `
     role="radiogroup"
   >
     <label
-      class="block text-sm text-neutral-700"
+      class="block text-sm text-neutral-700 dark:text-white"
       id="headlessui-label-:r1:"
       role="none"
     >
@@ -363,7 +363,7 @@ exports[`ColorPicker > shouldn't be clickable if disabled 1`] = `
     role="radiogroup"
   >
     <label
-      class="block text-sm text-neutral-700"
+      class="block text-sm text-neutral-700 dark:text-white"
       id="headlessui-label-:rk:"
       role="none"
     >

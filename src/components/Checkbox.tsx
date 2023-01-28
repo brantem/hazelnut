@@ -18,7 +18,7 @@ const Checkbox = ({ label, name, color = 'neutral', ...props }: CheckboxProps) =
         type="checkbox"
         id={name}
         name={name}
-        className={`h-5 w-5 rounded-full border-2 border-${color}-300 text-${color}-600 focus:ring-${color}-500 disabled:bg-neutral-400 disabled:hover:bg-neutral-400`}
+        className={`h-5 w-5 rounded-full border-2 border-${color}-300 text-${color}-600 focus:ring-${color}-500 disabled:bg-neutral-400 disabled:hover:bg-neutral-400 dark:bg-transparent`}
         aria-checked={props.checked ? 'true' : 'false'}
       />
     </div>

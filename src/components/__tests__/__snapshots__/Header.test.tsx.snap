@@ -6,7 +6,7 @@ exports[`Header 1`] = `
     class="flex items-center justify-between py-3 px-4"
   >
     <div
-      class="flex items-center text-xl font-semibold md:text-2xl"
+      class="flex items-center text-xl font-semibold dark:text-white md:text-2xl"
     >
       <h1>
         A
@@ -16,7 +16,7 @@ exports[`Header 1`] = `
       class="flex items-center space-x-2"
     >
       <button
-        class="rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-500 disabled:opacity-70 enabled:hover:bg-neutral-100 px-3 py-1.5 text-sm"
+        class="rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-500 dark:focus:ring-neutral-700 disabled:opacity-70 dark:text-white enabled:hover:bg-neutral-100 dark:enabled:hover:bg-neutral-800 px-3 py-1.5 text-sm"
       >
         Action 1
       </button>

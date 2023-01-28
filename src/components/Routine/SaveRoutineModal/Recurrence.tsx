@@ -51,9 +51,9 @@ type RecurrenceProps = {
 
 const Recurrence = ({ value, onChange, isDisabled, showNext }: RecurrenceProps) => {
   return (
-    <div data-testid="repeat-every" className="space-y-2">
+    <div data-testid="repeat-every" className="space-y-2 text-neutral-700 dark:text-white">
       <div className="flex w-full items-center space-x-3">
-        <span className="flex-shrink-0 text-sm text-neutral-700">From</span>
+        <span className="flex-shrink-0 text-sm">From</span>
 
         <RecurrenceStartAt
           value={value.startAt}
@@ -64,7 +64,7 @@ const Recurrence = ({ value, onChange, isDisabled, showNext }: RecurrenceProps) 
           isDisabled={isDisabled}
         />
 
-        <span className="flex-shrink-0 text-sm text-neutral-700">repeat every</span>
+        <span className="flex-shrink-0 text-sm">repeat every</span>
 
         <div className="w-10">
           <Input

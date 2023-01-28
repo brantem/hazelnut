@@ -65,7 +65,7 @@ const DateList = () => {
 
   return (
     <section
-      className="sticky top-0 z-10 flex w-full flex-1 items-stretch justify-end bg-white"
+      className="sticky top-0 z-10 flex w-full flex-1 items-stretch justify-end bg-white dark:bg-neutral-900"
       data-testid="date-list"
     >
       <div className="flex scroll-pl-4 space-x-4 overflow-x-auto px-4" ref={listRef}>
@@ -75,7 +75,7 @@ const DateList = () => {
         })}
       </div>
 
-      {dates.length > 0 && <div className="relative mr-4 mb-3 border-l" />}
+      {dates.length > 0 && <div className="relative mr-4 mb-3 border-l dark:border-l-neutral-700" />}
 
       <Item
         className="mr-4"

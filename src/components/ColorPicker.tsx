@@ -12,7 +12,7 @@ type ColorPickerProps = {
 const ColorPicker = ({ value, onChange, isDisabled }: ColorPickerProps) => {
   return (
     <RadioGroup value={value} onChange={onChange} data-testid="color-picker">
-      <RadioGroup.Label className="block text-sm text-neutral-700">Color</RadioGroup.Label>
+      <RadioGroup.Label className="block text-sm text-neutral-700 dark:text-white">Color</RadioGroup.Label>
 
       <div className="mt-2 flex w-full justify-between space-x-2">
         {colors.map((color) => {

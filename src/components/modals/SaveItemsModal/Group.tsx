@@ -41,7 +41,7 @@ export const Group = ({ group, itemIds, disabledItemIds, onItemClick }: GroupPro
       <div className="flex items-center space-x-3">
         <span className={`max-w-full flex-shrink-0 truncate text-${group.color}-500 font-semibold`}>{group.title}</span>
 
-        <hr className="flex-1" />
+        <hr className="flex-1 dark:border-neutral-600" />
 
         <Button size="sm" variant="ghost" className="-mr-1 !p-1" onClick={toggle} data-testid="group-minimize">
           <ChevronUpIcon className={clsx('h-5 w-5', minimized && 'rotate-180')} />
@@ -49,7 +49,7 @@ export const Group = ({ group, itemIds, disabledItemIds, onItemClick }: GroupPro
       </div>
 
       {!minimized && (
-        <ol className="mt-1 space-y-1" data-testid="group-items">
+        <ol className="mt-1 space-y-1 dark:text-white" data-testid="group-items">
           {items.map((item) => (
             <li key={item.id} className="flex h-8 items-center pr-1">
               <Checkbox

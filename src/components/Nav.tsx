@@ -28,7 +28,7 @@ const NavItem = ({ icon, href, children }: NavItemProps) => {
 
 const Nav = ({ navigations }: { navigations: Navigation[] }) => {
   return (
-    <nav className="flex w-full divide-x divide-neutral-200 border-t border-t-neutral-200">
+    <nav className="flex w-full divide-x divide-neutral-200 border-t border-t-neutral-200 dark:divide-neutral-800 dark:border-t-neutral-800 dark:text-white">
       {navigations.map((navigation, i) => (
         <NavItem key={i} icon={navigation.icon} href={navigation.href}>
           {navigation.text}

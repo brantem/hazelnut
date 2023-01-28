@@ -23,7 +23,10 @@ const BottomSheet = ({ isOpen, onClose, onAfterClose, title, rightElement, child
           leaveTo="transform opacity-0"
           as={Fragment}
         >
-          <Dialog.Backdrop className="fixed inset-0 z-20 bg-neutral-500/25" data-testid="bottom-sheet-backdrop" />
+          <Dialog.Backdrop
+            className="fixed inset-0 z-20 bg-neutral-500/50 dark:bg-black/50"
+            data-testid="bottom-sheet-backdrop"
+          />
         </Transition.Child>
 
         <div className="fixed inset-0 z-30 flex items-end justify-center">
@@ -37,9 +40,9 @@ const BottomSheet = ({ isOpen, onClose, onAfterClose, title, rightElement, child
               leaveTo="transform translate-y-full"
               as={Fragment}
             >
-              <Dialog.Panel className="flex w-full max-w-lg flex-col overflow-hidden rounded-t-md bg-white">
+              <Dialog.Panel className="flex w-full max-w-lg flex-col overflow-hidden rounded-t-md bg-white dark:bg-neutral-800">
                 <div className="flex items-center justify-between px-4 py-3">
-                  {title && <Dialog.Title className="text-lg font-semibold">{title}</Dialog.Title>}
+                  {title && <Dialog.Title className="text-lg font-semibold dark:text-white">{title}</Dialog.Title>}
                   {rightElement}
                 </div>
 

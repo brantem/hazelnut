@@ -102,7 +102,7 @@ const SaveRoutineModal = () => {
           />
         </div>
 
-        <div className="bg-neutral-50 px-4 py-3">
+        <div className="bg-neutral-50 px-4 py-3 dark:bg-neutral-900/50">
           <Button type="submit" size="lg" className="w-full" disabled={!formik.dirty || formik.isSubmitting}>
             {routine ? 'Save' : 'Add'}
           </Button>

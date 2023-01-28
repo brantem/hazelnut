@@ -3,7 +3,7 @@
 exports[`Nav 1`] = `
 <div>
   <nav
-    class="flex w-full divide-x divide-neutral-200 border-t border-t-neutral-200"
+    class="flex w-full divide-x divide-neutral-200 border-t border-t-neutral-200 dark:divide-neutral-800 dark:border-t-neutral-800 dark:text-white"
   >
     <a
       aria-current="page"
