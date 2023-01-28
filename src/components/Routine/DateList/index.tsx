@@ -75,7 +75,7 @@ const DateList = () => {
         })}
       </div>
 
-      {dates.length > 0 && <div className="relative mr-4 mb-3 border-l dark:border-l-neutral-700" />}
+      {dates.length > 0 && <div className="relative mr-4 mb-3 border-l dark:border-l-neutral-800" />}
 
       <Item
         className="mr-4"

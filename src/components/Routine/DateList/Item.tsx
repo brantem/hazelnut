@@ -22,8 +22,9 @@ const Item = ({ className, children, label, isSelected, onSelected, ...props }: 
     >
       <span
         className={clsx(
-          `flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-700`,
-          isSelected && 'border-black bg-black text-white',
+          `flex h-10 w-10 items-center justify-center rounded-full`,
+          !isSelected && 'bg-neutral-100 dark:bg-neutral-800',
+          isSelected && 'border-black bg-black text-white dark:bg-white dark:text-black',
         )}
       >
         {children}

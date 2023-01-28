@@ -60,7 +60,7 @@ type DayPickerProps = {
 const DayPicker = ({ label = 'Day(s)', value, onChange, isDisabled }: DayPickerProps) => {
   return (
     <div data-testid="day-picker">
-      {label && <label className="mb-1 block text-sm text-neutral-700">{label}</label>}
+      {label && <label className="mb-1 block text-sm text-neutral-700 dark:text-white">{label}</label>}
 
       <div className="mt-2 flex items-center justify-between">
         {days.map((day) => (

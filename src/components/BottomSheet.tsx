@@ -40,7 +40,7 @@ const BottomSheet = ({ isOpen, onClose, onAfterClose, title, rightElement, child
               leaveTo="transform translate-y-full"
               as={Fragment}
             >
-              <Dialog.Panel className="flex w-full max-w-lg flex-col overflow-hidden rounded-t-md bg-white dark:bg-neutral-800">
+              <Dialog.Panel className="flex w-full max-w-lg flex-col overflow-hidden rounded-t-md bg-white dark:bg-neutral-900">
                 <div className="flex items-center justify-between px-4 py-3">
                   {title && <Dialog.Title className="text-lg font-semibold dark:text-white">{title}</Dialog.Title>}
                   {rightElement}
