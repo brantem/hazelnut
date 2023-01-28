@@ -158,16 +158,16 @@ describe('Routines', () => {
 
     expect(screen.getByTestId('routine-list')).toBeInTheDocument();
     expect(screen.getByTestId('routines-add')).toBeInTheDocument();
-    expect(screen.queryByTestId('routines-add-missing')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('routines-add-history')).not.toBeInTheDocument();
 
     act(() => histories.result.current.setSelectedDate(dayjs().subtract(1, 'day').startOf('day').toISOString()));
     rerender(<Routines />);
     expect(screen.getByTestId('history-list')).toBeInTheDocument();
     expect(screen.queryByTestId('routines-add')).not.toBeInTheDocument();
-    expect(screen.getByTestId('routines-add-missing')).toBeInTheDocument();
+    expect(screen.getByTestId('routines-add-history')).toBeInTheDocument();
 
-    act(() => screen.getByTestId('routines-add-missing').click());
-    expect(show).toHaveBeenCalledWith(constants.modals.addMissingRoutine);
+    act(() => screen.getByTestId('routines-add-history').click());
+    expect(show).toHaveBeenCalledWith(constants.modals.addHistory);
     expect(screen.queryByTestId('search')).not.toBeInTheDocument();
   });
 });

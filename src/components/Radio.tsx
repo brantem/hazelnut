@@ -24,7 +24,7 @@ const Radio = ({ label, name, color = 'neutral', ...props }: RadioProps) => {
         type="radio"
         id={id}
         name={name}
-        className={`h-5 w-5 rounded-full border-${color}-300 text-${color}-600 focus:ring-${color}-500 disabled:bg-neutral-400 disabled:hover:bg-neutral-400`}
+        className={`h-5 w-5 rounded-full border-${color}-300 text-${color}-600 focus:ring-${color}-500 disabled:bg-neutral-400 disabled:hover:bg-neutral-400 dark:bg-transparent`}
         aria-checked={props.checked ? 'true' : 'false'}
       />
     </div>

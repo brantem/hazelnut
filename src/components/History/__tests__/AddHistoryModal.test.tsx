@@ -1,7 +1,7 @@
 import { render, screen, act, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import AddMissingRoutineModal from 'components/History/AddMissingRoutineModal';
+import AddHistoryModal from 'components/History/AddHistoryModal';
 
 import { useModalStore, historiesStore, useRoutinesStore } from 'lib/stores';
 import { Routine } from 'types/routine';
@@ -29,7 +29,7 @@ const routine2 = {
   title: 'Routine 2',
 };
 
-describe('AddMissingRoutineModal', () => {
+describe('AddHistoryModal', () => {
   beforeAll(async () => {
     const routines = renderHook(() => useRoutinesStore());
     act(() => {
@@ -50,8 +50,8 @@ describe('AddMissingRoutineModal', () => {
 
     const add = vi.spyOn(historiesStore.getState(), 'add').mockImplementation(() => {});
 
-    render(<AddMissingRoutineModal />);
-    act(() => modal.result.current.show(constants.modals.addMissingRoutine));
+    render(<AddHistoryModal />);
+    act(() => modal.result.current.show(constants.modals.addHistory));
     expect(screen.getByLabelText('Routine 2')).toHaveAttribute('aria-checked', 'false');
     act(() => {
       screen.getByText('Routine 2').click();

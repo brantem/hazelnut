@@ -4,7 +4,7 @@ export const modals = {
   historyItemsSetttings: 'history-items-settings',
   addExistingItemsToHistory: 'add-existing-items-to-history',
   addRawItemToHistory: 'add-raw-item-to-history',
-  addMissingRoutine: 'add-missing-routine',
+  addHistory: 'add-history',
 
   routineSettings: 'routine-settings',
   saveRoutine: 'save-routine',
@@ -19,7 +19,7 @@ export const modals = {
 };
 
 export const searches = {
-  missingRoutines: 'missing-routines',
+  addHistory: 'add-history',
 
   routines: 'routines',
   saveItems: 'save-items',

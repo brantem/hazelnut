@@ -11,7 +11,7 @@ import { useModal, useSearch } from 'lib/hooks';
 import * as constants from 'data/constants';
 import { Routine } from 'types/routine';
 
-const AddMissingRoutineModal = () => {
+const AddHistoryModal = () => {
   const add = useHistoriesStore((state) => state.add);
   const currentRoutineIds = useHistoriesStore((state) => {
     if (!state.selectedDate) return [];
@@ -20,9 +20,9 @@ const AddMissingRoutineModal = () => {
       [] as string[],
     );
   });
-  const modal = useModal(constants.modals.addMissingRoutine);
+  const modal = useModal(constants.modals.addHistory);
 
-  const search = useSearch(constants.searches.missingRoutines);
+  const search = useSearch(constants.searches.addHistory);
   const routines = useRoutinesStore(
     useCallback(
       (state) => {
@@ -53,20 +53,20 @@ const AddMissingRoutineModal = () => {
         if (search) search.change('');
       }}
       /* c8 ignore stop */
-      title="Add Missing Routine"
-      data-testid="add-missing-routine-modal"
+      title="Add Routine"
+      data-testid="add-history-modal"
     >
-      <ol className="max-h-[75vh] flex-1 space-y-3 px-4 pb-3">
+      <ol className="max-h-[75vh] flex-1 space-y-3 px-4 pb-3 dark:text-white">
         {routines.map((routine) => (
           <li key={routine.id} className="pr-1">
             <Radio
               label={
                 <>
                   {routine.title}
-                  {routine.time && <span className="ml-2 text-neutral-400">{routine.time}</span>}
+                  {routine.time && <span className="ml-2 text-neutral-500">{routine.time}</span>}
                 </>
               }
-              name={constants.modals.addMissingRoutine}
+              name={constants.modals.addHistory}
               value={routine.id}
               checked={selectedRoutine?.id === routine.id}
               onChange={() => setSelectedRoutine(routine)}
@@ -78,7 +78,7 @@ const AddMissingRoutineModal = () => {
       </ol>
 
       <div className="space-y-3 bg-neutral-50 px-4 py-3 dark:bg-neutral-900/50">
-        <Search placeholder="Search for routines by title" searchKey={constants.searches.missingRoutines} />
+        <Search placeholder="Search for routines by title" searchKey={constants.searches.addHistory} />
 
         <Button
           type="submit"
@@ -97,4 +97,4 @@ const AddMissingRoutineModal = () => {
   );
 };
 
-export default AddMissingRoutineModal;
+export default AddHistoryModal;

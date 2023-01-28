@@ -16,7 +16,7 @@ import SaveItemsToRoutineModal from 'components/Routine/SaveItemsToRoutineModal'
 import SaveHistoryItemsModal from 'components/History/SaveHistoryItemsModal';
 import AddRawItemToHistoryModal from 'components/History/AddRawItemToHistoryModal';
 import SaveHistoryNoteModal from 'components/History/SaveHistoryNoteModal';
-import AddMissingRoutineModal from 'components/History/AddMissingRoutineModal';
+import AddHistoryModal from 'components/History/AddHistoryModal';
 import HistorySettingsModal from 'components/History/HistorySettingsModal';
 import HistoryItemsSettingsModal from 'components/History/HistoryItemsSettingsModal';
 import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
@@ -33,7 +33,7 @@ const Routines: NextPage = () => {
   const clearRoutine = useRoutinesStore((state) => () => state.routine && state.setRoutine(null));
   const search = useSearch(constants.searches.routines);
   const saveRoutineModal = useModal(constants.modals.saveRoutine);
-  const addMissingRoutineModal = useModal(constants.modals.addMissingRoutine);
+  const addHistoryModal = useModal(constants.modals.addHistory);
 
   const [isSearching, toggleIsSearching] = useReducer((prev) => !prev, search.value !== '');
 
@@ -69,9 +69,9 @@ const Routines: NextPage = () => {
               skip: items.isEmpty || isHistory,
             },
             {
-              children: 'Add Missing Routine',
-              onClick: () => addMissingRoutineModal.show(),
-              testId: 'routines-add-missing',
+              children: 'Add Routine',
+              onClick: () => addHistoryModal.show(),
+              testId: 'routines-add-history',
               skip: isEmpty || !isHistory,
             },
           ],
@@ -111,7 +111,7 @@ const Routines: NextPage = () => {
       <SaveHistoryItemsModal />
       <AddRawItemToHistoryModal />
       <SaveHistoryNoteModal />
-      <AddMissingRoutineModal />
+      <AddHistoryModal />
 
       <HistorySettingsModal />
       <HistoryItemsSettingsModal />
