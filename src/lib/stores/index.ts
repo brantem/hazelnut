@@ -21,7 +21,7 @@ export const useLoadStore = () => {
       itemsStore.setState({ items: items.sort((a, b) => a.createdAt - b.createdAt), isReady: true });
       groupsStore.setState({ groups: groups.sort((a, b) => a.createdAt - b.createdAt), isReady: true });
       routinesStore.setState({ routines, isReady: true });
-      const selectedDate = dayjs().startOf('day').format('YYYY-MM-DD');
+      const selectedDate = dayjs().startOf('day').toISOString();
       historiesStore.setState({ histories, selectedMonth: selectedMonth.format('YYYY-MM'), selectedDate });
     })();
   }, []);

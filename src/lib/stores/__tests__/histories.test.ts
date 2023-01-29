@@ -101,7 +101,7 @@ describe('historiesStore', async () => {
     const date = dayjs().format('YYYY-MM');
     act(() => historiesStore.getState().setSelectedMonth(date));
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
-    expect(historiesStore.getState().selectedDate).toEqual(dayjs().format('YYYY-MM-DD'));
+    expect(historiesStore.getState().selectedDate).toEqual(dayjs().startOf('day').toISOString());
     expect(historiesStore.getState().selectedMonth).toEqual(date);
 
     act(() => historiesStore.getState().setSelectedMonth(undefined));

@@ -14,10 +14,10 @@ describe('DateList', () => {
     act(() => {
       historiesStore.setState({
         histories: [
-          { date: dayjs().startOf('day').subtract(2, 'day').valueOf() },
-          { date: dayjs().startOf('day').subtract(2, 'day').valueOf() },
-          { date: dayjs().startOf('day').subtract(1, 'day').valueOf() },
-          { date: dayjs().startOf('day').valueOf() },
+          { date: dayjs().startOf('day').subtract(2, 'day').toISOString() },
+          { date: dayjs().startOf('day').subtract(2, 'day').toISOString() },
+          { date: dayjs().startOf('day').subtract(1, 'day').toISOString() },
+          { date: dayjs().startOf('day').toISOString() },
         ] as any,
       });
     });

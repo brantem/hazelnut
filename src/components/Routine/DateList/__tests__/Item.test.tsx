@@ -5,9 +5,9 @@ import Item from 'components/Routine/DateList/Item';
 
 describe('Item', () => {
   it('should be selectable', async () => {
-    const onSelected = vi.fn();
+    const onSelect = vi.fn();
     const { rerender } = render(
-      <Item label="Label" isSelected={false} onSelected={onSelected} data-testid="item">
+      <Item label="Label" isSelected={false} onSelect={onSelect} data-testid="item">
         Children
       </Item>,
     );
@@ -15,9 +15,9 @@ describe('Item', () => {
     const item = screen.getByTestId('item');
     expect(item).toHaveAttribute('aria-selected', 'false');
     act(() => item.click());
-    expect(onSelected).toHaveBeenCalled();
+    expect(onSelect).toHaveBeenCalled();
     rerender(
-      <Item label="Label" isSelected={true} onSelected={onSelected} data-testid="item">
+      <Item label="Label" isSelected={true} onSelect={onSelect} data-testid="item">
         Children
       </Item>,
     );
@@ -25,9 +25,9 @@ describe('Item', () => {
   });
 
   it('should be selectable using keyboard', async () => {
-    const onSelected = vi.fn();
+    const onSelect = vi.fn();
     const { rerender } = render(
-      <Item label="Label" isSelected={false} onSelected={onSelected} data-testid="item">
+      <Item label="Label" isSelected={false} onSelect={onSelect} data-testid="item">
         Children
       </Item>,
     );
@@ -36,9 +36,9 @@ describe('Item', () => {
     fireEvent.keyDown(item, { code: 'Space' });
     expect(item).toHaveAttribute('aria-selected', 'false');
     act(() => item.click());
-    expect(onSelected).toHaveBeenCalled();
+    expect(onSelect).toHaveBeenCalled();
     rerender(
-      <Item label="Label" isSelected={true} onSelected={onSelected} data-testid="item">
+      <Item label="Label" isSelected={true} onSelect={onSelect} data-testid="item">
         Children
       </Item>,
     );

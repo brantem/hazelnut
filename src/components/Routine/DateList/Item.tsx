@@ -4,10 +4,10 @@ export type ItemProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElem
   children: React.ReactNode;
   label: React.ReactNode;
   isSelected?: boolean;
-  onSelected: () => void;
+  onSelect: () => void;
 };
 
-const Item = ({ className, children, label, isSelected, onSelected, ...props }: ItemProps) => {
+const Item = ({ className, children, label, isSelected, onSelect, ...props }: ItemProps) => {
   return (
     <div
       {...props}
@@ -15,9 +15,9 @@ const Item = ({ className, children, label, isSelected, onSelected, ...props }: 
         'mb-3 flex flex-shrink-0 cursor-pointer flex-col items-center justify-center dark:text-white',
         className,
       )}
-      onClick={onSelected}
+      onClick={onSelect}
       tabIndex={0}
-      onKeyDown={(e) => e.code === 'Space' && onSelected()}
+      onKeyDown={(e) => e.code === 'Space' && onSelect()}
       aria-selected={isSelected ? 'true' : 'false'}
     >
       <span

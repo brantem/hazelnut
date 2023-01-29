@@ -2,40 +2,21 @@ import { useRef, useEffect } from 'react';
 import { ListBulletIcon } from '@heroicons/react/20/solid';
 import dayjs from 'dayjs';
 
-import Item, { ItemProps } from 'components/Routine/DateList/Item';
+import Item from 'components/Routine/DateList/Item';
 
 import { useHistoriesStore } from 'lib/stores';
 import { daysFromSunday } from 'data/days';
-
-type DateItemProps = Pick<ItemProps, 'isSelected'> & {
-  date: string;
-};
-
-const DateItem = ({ date, isSelected }: DateItemProps) => {
-  const setSelectedDate = useHistoriesStore((state) => state.setSelectedDate);
-  const day = daysFromSunday[dayjs(date).day()]
-    .slice(0, 3)
-    .toLowerCase()
-    .replace(/^(\w{1})/, (match) => match.toUpperCase());
-
-  return (
-    <Item label={day} isSelected={isSelected} onSelected={() => setSelectedDate(date)} data-testid="date-list-item">
-      {dayjs(date).date()}
-    </Item>
-  );
-};
 
 const DateList = () => {
   const listRef = useRef<HTMLDivElement>(null);
 
   const { dates, selectedMonth, selectedDate, setSelectedDate } = useHistoriesStore((state) => {
     const dates = state.histories.reduce((dates, history) => {
-      const date = dayjs(history.date).startOf('day').format('YYYY-MM-DD');
-      return dates.indexOf(date) === -1 ? [...dates, date] : dates;
+      return dates.indexOf(history.date) === -1 ? [...dates, history.date] : dates;
     }, [] as string[]);
 
     const currentMonth = dayjs().startOf('month').format('YYYY-MM');
-    const currentDate = dayjs().startOf('day').format('YYYY-MM-DD');
+    const currentDate = dayjs().startOf('day').toISOString();
     if (state.selectedMonth === currentMonth && dates.indexOf(currentDate) === -1) dates.push(currentDate);
 
     return {
@@ -67,8 +48,21 @@ const DateList = () => {
     >
       <div className="flex scroll-pl-4 space-x-4 overflow-x-auto px-4" ref={listRef}>
         {dates.map((date) => {
-          const isSelected = selectedDate === date;
-          return <DateItem key={date} date={date} isSelected={isSelected} />;
+          const day = daysFromSunday[dayjs(date).day()]
+            .slice(0, 3)
+            .toLowerCase()
+            .replace(/^(\w{1})/, (match) => match.toUpperCase());
+          return (
+            <Item
+              key={date}
+              label={day}
+              isSelected={selectedDate === date}
+              onSelect={() => setSelectedDate(date)}
+              data-testid="date-list-item"
+            >
+              {dayjs(date).date()}
+            </Item>
+          );
         })}
       </div>
 
@@ -78,7 +72,7 @@ const DateList = () => {
         className="mr-4"
         label="List"
         isSelected={!selectedDate}
-        onSelected={() => setSelectedDate(null)}
+        onSelect={() => setSelectedDate(null)}
         data-testid="date-list-action"
       >
         <ListBulletIcon className="h-5 w-5" />
