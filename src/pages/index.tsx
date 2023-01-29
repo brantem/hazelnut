@@ -1,46 +1,123 @@
-import { useCallback } from 'react';
+import { useReducer } from 'react';
 import type { NextPage } from 'next';
+import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import clsx from 'clsx';
 import Router from 'next/router';
 
 import Layout from 'components/Layout';
-import RoutineCard from 'components/Routine/RoutineCard';
+import MonthPickerAction from 'components/Routine/MonthPickerAction';
+import Search from 'components/Search';
+import DateList from 'components/Routine/DateList';
+import RoutineList from 'components/Routine/RoutineList';
+import HistoryList from 'components/History/HistoryList';
+import SaveRoutineModal from 'components/Routine/SaveRoutineModal';
+import DuplicateRoutineModal from 'components/Routine/DuplicateRoutineModal';
+import SaveItemsToRoutineModal from 'components/Routine/SaveItemsToRoutineModal';
+import SaveHistoryItemsModal from 'components/History/SaveHistoryItemsModal';
+import AddRawItemToHistoryModal from 'components/History/AddRawItemToHistoryModal';
+import SaveHistoryNoteModal from 'components/History/SaveHistoryNoteModal';
+import AddHistoryModal from 'components/History/AddHistoryModal';
+import HistorySettingsModal from 'components/History/HistorySettingsModal';
+import HistoryItemsSettingsModal from 'components/History/HistoryItemsSettingsModal';
+import RoutineSettingsModal from 'components/Routine/RoutineSettingsModal';
 import EmptySection from 'components/sections/EmptySection';
 
-import { useRoutinesStore } from 'lib/stores';
-import { isRoutineActive, sortRoutines } from 'lib/helpers';
+import { useHistoriesStore, useRoutinesStore, useItemsStore } from 'lib/stores';
+import { useModal, useSearch } from 'lib/hooks';
+import * as constants from 'data/constants';
 
-const Home: NextPage = () => {
-  const { routines, isReady } = useRoutinesStore(
-    useCallback(
-      (state) => ({
-        routines: sortRoutines(state.routines.filter((routine) => isRoutineActive(routine))),
-        isReady: state.isReady,
-      }),
-      [],
-    ),
-  );
+const Routines: NextPage = () => {
+  const isHistory = useHistoriesStore((state) => !!state.selectedDate);
+  const routines = useRoutinesStore((state) => ({ isEmpty: state.routines.length === 0, isReady: state.isReady }));
+  const items = useItemsStore((state) => ({ isEmpty: state.items.length === 0, isReady: state.isReady }));
+  const clearRoutine = useRoutinesStore((state) => () => state.routine && state.setRoutine(null));
+  const search = useSearch(constants.searches.routines);
+  const saveRoutineModal = useModal(constants.modals.saveRoutine);
+  const addHistoryModal = useModal(constants.modals.addHistory);
+
+  const [isSearching, toggleIsSearching] = useReducer((prev) => !prev, search.value !== '');
+
+  const isEmpty = routines.isEmpty || items.isEmpty;
+  const isReady = /* c8 ignore next */ routines.isReady || items.isReady;
 
   return (
-    <Layout>
-      {routines.length ? (
-        <section className="space-y-3">
-          {routines.map((routine, i) => (
-            <RoutineCard key={i} routine={routine} />
-          ))}
-        </section>
-      ) : (
-        isReady && (
-          <EmptySection
-            title="You have not created any routines yet"
-            action={{
+    <>
+      <Layout
+        header={{
+          actions: [
+            {
+              children: <MagnifyingGlassIcon className="h-5 w-5" />,
+              className: clsx('!px-1.5', isSearching && 'bg-neutral-100'),
+              onClick: () => {
+                if (isSearching) search.change('');
+                toggleIsSearching();
+              },
+              testId: 'routines-search',
+              skip: isEmpty,
+            },
+            {
+              render: () => <MonthPickerAction />,
+              skip: isEmpty,
+            },
+            {
               children: 'Add Routine',
-              onClick: () => Router.push('/routines'),
-            }}
-          />
-        )
-      )}
-    </Layout>
+              onClick: () => {
+                clearRoutine();
+                saveRoutineModal.show();
+              },
+              testId: 'routines-add',
+              skip: items.isEmpty || isHistory,
+            },
+            {
+              children: 'Add Routine',
+              onClick: () => addHistoryModal.show(),
+              testId: 'routines-add-history',
+              skip: isEmpty || !isHistory,
+            },
+          ],
+        }}
+      >
+        {!isEmpty ? (
+          <>
+            {isSearching && (
+              <Search
+                placeholder="Search for routines by title"
+                searchKey={constants.searches.routines}
+                className="sticky top-0 bg-white px-4 pt-1 pb-3 dark:bg-neutral-900"
+              />
+            )}
+
+            <DateList />
+
+            {!isHistory ? <RoutineList /> : <HistoryList />}
+          </>
+        ) : (
+          isReady && (
+            <EmptySection
+              title={`You have not created any ${items.isEmpty ? 'items' : 'routines'} yet`}
+              action={{
+                children: items.isEmpty ? 'Add Item' : 'Add Routine',
+                onClick: () => (items.isEmpty ? Router.push('/items') : saveRoutineModal.show()),
+              }}
+            />
+          )
+        )}
+      </Layout>
+
+      <SaveRoutineModal />
+      <DuplicateRoutineModal />
+
+      <SaveItemsToRoutineModal />
+      <SaveHistoryItemsModal />
+      <AddRawItemToHistoryModal />
+      <SaveHistoryNoteModal />
+      <AddHistoryModal />
+
+      <HistorySettingsModal />
+      <HistoryItemsSettingsModal />
+      <RoutineSettingsModal />
+    </>
   );
 };
 
-export default Home;
+export default Routines;
