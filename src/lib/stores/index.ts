@@ -15,13 +15,14 @@ export const useLoadStore = () => {
         storage.getAll('items'),
         storage.getAll('groups'),
         storage.getAll('routines'),
-        getHistories(selectedMonth.valueOf(), dayjs().endOf('month').valueOf()),
+        getHistories(selectedMonth.valueOf(), selectedMonth.endOf('month').valueOf()),
       ]);
 
       itemsStore.setState({ items: items.sort((a, b) => a.createdAt - b.createdAt), isReady: true });
       groupsStore.setState({ groups: groups.sort((a, b) => a.createdAt - b.createdAt), isReady: true });
       routinesStore.setState({ routines, isReady: true });
-      historiesStore.setState({ histories, selectedMonth: selectedMonth.format('YYYY-MM') });
+      const selectedDate = dayjs().startOf('day').format('YYYY-MM-DD');
+      historiesStore.setState({ histories, selectedMonth: selectedMonth.format('YYYY-MM'), selectedDate });
     })();
   }, []);
 };

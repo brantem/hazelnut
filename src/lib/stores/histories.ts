@@ -40,7 +40,15 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
   setSelectedMonth: async (selectedMonth) => {
     const from = dayjs(selectedMonth);
     const histories = await getHistories(from.valueOf(), from.add(1, 'month').valueOf());
-    set({ histories, selectedMonth, selectedDate: null });
+
+    let selectedDate;
+    if (selectedMonth === dayjs().startOf('month').format('YYYY-MM')) {
+      selectedDate = dayjs().startOf('day').format('YYYY-MM-DD');
+    } else {
+      const history = histories[histories.length - 1];
+      selectedDate = history ? dayjs(history.date).startOf('day').format('YYYY-MM-DD') : null;
+    }
+    set({ histories, selectedMonth, selectedDate });
   },
 
   selectedDate: undefined,
@@ -206,11 +214,12 @@ export const getHistories = async (from: number, to: number) => {
   const index = await storage.index('histories', 'createdAt');
   if (!index) return [];
   let cursor = await index.openCursor(IDBKeyRange.bound(from, to));
-  const values: StoreValue<Schema, 'histories'>[] = [];
+  const histories: StoreValue<Schema, 'histories'>[] = [];
   while (cursor) {
-    values.push(cursor.value);
+    const history = cursor.value;
+    histories.push({ ...history, date: dayjs(history.date).format('YYYY-MM-DD') });
     cursor = await cursor.continue();
   }
-  return values;
+  return histories.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 };
 /* c8 ignore stop */

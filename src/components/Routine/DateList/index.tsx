@@ -28,22 +28,21 @@ const DateItem = ({ date, isSelected }: DateItemProps) => {
 const DateList = () => {
   const listRef = useRef<HTMLDivElement>(null);
 
-  const { dates, selectedMonth, selectedDate, setSelectedDate, cleanup } = useHistoriesStore((state) => {
-    const dates = state.histories
-      .reduce((dates, history) => {
-        const date = dayjs(history.date).startOf('day').toISOString();
-        return dates.indexOf(date) === -1 ? [...dates, date] : dates;
-      }, [] as string[])
-      .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+  const { dates, selectedMonth, selectedDate, setSelectedDate } = useHistoriesStore((state) => {
+    const dates = state.histories.reduce((dates, history) => {
+      const date = dayjs(history.date).startOf('day').format('YYYY-MM-DD');
+      return dates.indexOf(date) === -1 ? [...dates, date] : dates;
+    }, [] as string[]);
+
+    const currentMonth = dayjs().startOf('month').format('YYYY-MM');
+    const currentDate = dayjs().startOf('day').format('YYYY-MM-DD');
+    if (state.selectedMonth === currentMonth && dates.indexOf(currentDate) === -1) dates.push(currentDate);
+
     return {
       dates,
       selectedMonth: state.selectedMonth,
       selectedDate: state.selectedDate,
       setSelectedDate: state.setSelectedDate,
-      cleanup: () => {
-        state.setSelectedMonth(dayjs().format('YYYY-MM'));
-        state.setSelectedDate(null);
-      },
     };
   });
 
@@ -53,8 +52,6 @@ const DateList = () => {
 
     const selected = document.querySelector('[aria-selected="true"]');
     if (selected) selected.scrollIntoView({ inline: 'start' });
-
-    return cleanup;
   }, []);
 
   useEffect(() => {
