@@ -74,6 +74,7 @@ describe('SaveRoutineModal', () => {
       screen.getByText('Save').click();
     });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
+    const currentDay = getCurrentDay();
     const values = {
       title: 'Routine 1a',
       color: 'amber',
@@ -81,7 +82,7 @@ describe('SaveRoutineModal', () => {
         startAt: dayjs().startOf('day').valueOf(),
         interval: 1,
         frequency: 'WEEKLY',
-        days: sortDays([getCurrentDay(), 'TUESDAY']),
+        days: sortDays(currentDay === 'TUESDAY' ? [currentDay] : [currentDay, 'TUESDAY']),
       },
       time: '01:00',
     };

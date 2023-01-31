@@ -34,7 +34,7 @@ const Header = ({ navigations, actions }: HeaderProps) => {
         </div>
 
         {actions?.length ? (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2" data-testid="header-actions">
             {actions.map((action, i) => {
               if (action.skip) return null;
               return 'render' in action ? (

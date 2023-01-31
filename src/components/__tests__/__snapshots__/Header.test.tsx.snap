@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`Header 1`] = `
+exports[`Header > should render successfully 1`] = `
 <div>
   <header
     class="flex items-center justify-between py-3 px-4"
@@ -14,6 +14,7 @@ exports[`Header 1`] = `
     </div>
     <div
       class="flex items-center space-x-2"
+      data-testid="header-actions"
     >
       <button
         class="rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-500 dark:focus:ring-neutral-700 disabled:opacity-70 dark:text-white enabled:hover:bg-neutral-100 dark:enabled:hover:bg-neutral-800 px-3 py-1.5 text-sm"
@@ -23,6 +24,22 @@ exports[`Header 1`] = `
       <span>
         Action 3
       </span>
+    </div>
+  </header>
+</div>
+`;
+
+exports[`Header > should render successfully without actions 1`] = `
+<div>
+  <header
+    class="flex items-center justify-between py-3 px-4"
+  >
+    <div
+      class="flex items-center text-xl font-semibold dark:text-white md:text-2xl"
+    >
+      <h1>
+        A
+      </h1>
     </div>
   </header>
 </div>
