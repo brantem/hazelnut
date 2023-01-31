@@ -1,12 +1,11 @@
 import { useReducer } from 'react';
-import { EllipsisHorizontalIcon, ChevronUpIcon, PencilSquareIcon } from '@heroicons/react/20/solid';
+import { EllipsisHorizontalIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
-import dynamic from 'next/dynamic';
 
 import Card from 'components/Card';
 import NumberInput from 'components/NumberInput';
 import Checkbox from 'components/Checkbox';
-import Button from 'components/Button';
+import Note from 'components/History/Note';
 
 import { useHistoriesStore } from 'lib/stores';
 import { useModal } from 'lib/hooks';
@@ -14,8 +13,6 @@ import type { History } from 'types/history';
 import * as constants from 'data/constants';
 import { ItemType } from 'types/item';
 import { getNumberInputShade } from 'lib/helpers';
-
-const Markdown = dynamic(() => import('components/Markdown'));
 
 type ItemListProps = {
   history: History;
@@ -112,38 +109,14 @@ const HistoryCard = ({ history }: HistoryProps) => {
     >
       {!minimized && <ItemList history={history} />}
 
-      {!minimized && history.note && (
-        <div className="pt-3" data-testid="history-card-note">
-          <div className="mb-1 flex items-center justify-between space-x-3">
-            <h4 className={`text-${history.color}-500`}>Note</h4>
-            <Button
-              color={history.color}
-              variant="ghost"
-              className="rounded-full !p-1"
-              onClick={() => {
-                setHistory(history);
-                saveNoteModal.show();
-              }}
-              data-testid="history-card-note-action"
-            >
-              <PencilSquareIcon className="h-5 w-5" />
-            </Button>
-          </div>
-          <Markdown
-            className="text-sm text-neutral-500 dark:text-neutral-400"
-            options={{
-              overrides: {
-                hr: {
-                  props: {
-                    className: 'border-neutral-300',
-                  },
-                },
-              },
-            }}
-          >
-            {history.note}
-          </Markdown>
-        </div>
+      {!minimized && (
+        <Note
+          history={history}
+          onActionClick={() => {
+            setHistory(history);
+            saveNoteModal.show();
+          }}
+        />
       )}
     </Card>
   );
