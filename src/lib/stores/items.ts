@@ -1,5 +1,5 @@
-import create from 'zustand';
-import createVanilla from 'zustand/vanilla';
+import { useStore } from 'zustand';
+import { createStore } from 'zustand/vanilla';
 import { nanoid } from 'nanoid';
 
 import { Item } from 'types/item';
@@ -21,7 +21,7 @@ export type ItemsState = {
   isReady: boolean;
 };
 
-export const itemsStore = createVanilla<ItemsState>()((set, get) => ({
+export const itemsStore = createStore<ItemsState>()((set, get) => ({
   items: [],
   item: null,
   setItem: (item) => set({ item }),
@@ -64,4 +64,8 @@ export const itemsStore = createVanilla<ItemsState>()((set, get) => ({
   isReady: false,
 }));
 
-export const useItemsStore = create(itemsStore);
+export function useItemsStore(): ItemsState;
+export function useItemsStore<T>(selector: (state: ItemsState) => T, equals?: (a: T, b: T) => boolean): T;
+export function useItemsStore(selector?: any, equals?: any) {
+  return useStore(itemsStore, selector, equals);
+}

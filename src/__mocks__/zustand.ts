@@ -1,4 +1,4 @@
-import actualCreate, { StateCreator } from 'zustand';
+import { create as actualCreate, StateCreator } from 'zustand';
 import { act } from 'react-dom/test-utils';
 
 const storeResetFns = new Set<() => void>();

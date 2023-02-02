@@ -1,5 +1,5 @@
-import create from 'zustand';
-import createVanilla from 'zustand/vanilla';
+import { useStore } from 'zustand';
+import { createStore } from 'zustand/vanilla';
 import { nanoid } from 'nanoid';
 
 import { Group } from 'types/group';
@@ -17,7 +17,7 @@ type GroupsState = {
   isReady: boolean;
 };
 
-export const groupsStore = createVanilla<GroupsState>()((set, get) => ({
+export const groupsStore = createStore<GroupsState>()((set, get) => ({
   groups: [],
   group: null,
   setGroup: (group) => set({ group }),
@@ -43,4 +43,8 @@ export const groupsStore = createVanilla<GroupsState>()((set, get) => ({
   isReady: false,
 }));
 
-export const useGroupsStore = create(groupsStore);
+export function useGroupsStore(): GroupsState;
+export function useGroupsStore<T>(selector: (state: GroupsState) => T, equals?: (a: T, b: T) => boolean): T;
+export function useGroupsStore(selector?: any, equals?: any) {
+  return useStore(groupsStore, selector, equals);
+}

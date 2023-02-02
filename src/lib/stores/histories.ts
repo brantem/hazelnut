@@ -1,5 +1,5 @@
-import create from 'zustand';
-import createVanilla from 'zustand/vanilla';
+import { useStore } from 'zustand';
+import { createStore } from 'zustand/vanilla';
 import dayjs from 'dayjs';
 import { StoreValue } from 'idb';
 import { nanoid } from 'nanoid';
@@ -31,7 +31,7 @@ export type HistoriesState = {
   remove: (routineId: string, date: string) => void;
 };
 
-export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
+export const historiesStore = createStore<HistoriesState>()((set, get) => ({
   histories: [],
   history: null,
   setHistory: (history) => set({ history }),
@@ -207,7 +207,11 @@ export const historiesStore = createVanilla<HistoriesState>()((set, get) => ({
   },
 }));
 
-export const useHistoriesStore = create(historiesStore);
+export function useHistoriesStore(): HistoriesState;
+export function useHistoriesStore<T>(selector: (state: HistoriesState) => T, equals?: (a: T, b: T) => boolean): T;
+export function useHistoriesStore(selector?: any, equals?: any) {
+  return useStore(historiesStore, selector, equals);
+}
 
 /* c8 ignore start */
 export const getHistories = async (from: number, to: number) => {

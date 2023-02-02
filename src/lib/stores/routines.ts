@@ -1,5 +1,5 @@
-import create from 'zustand';
-import createVanilla from 'zustand/vanilla';
+import { useStore } from 'zustand';
+import { createStore } from 'zustand/vanilla';
 import { nanoid } from 'nanoid';
 
 import { Routine } from 'types/routine';
@@ -17,7 +17,7 @@ type RoutinesState = {
   isReady: boolean;
 };
 
-export const routinesStore = createVanilla<RoutinesState>()((set, get) => ({
+export const routinesStore = createStore<RoutinesState>()((set, get) => ({
   routines: [],
   routine: null,
   setRoutine: (routine) => set({ routine }),
@@ -43,4 +43,8 @@ export const routinesStore = createVanilla<RoutinesState>()((set, get) => ({
   isReady: false,
 }));
 
-export const useRoutinesStore = create(routinesStore);
+export function useRoutinesStore(): RoutinesState;
+export function useRoutinesStore<T>(selector: (state: RoutinesState) => T, equals?: (a: T, b: T) => boolean): T;
+export function useRoutinesStore(selector?: any, equals?: any) {
+  return useStore(routinesStore, selector, equals);
+}
