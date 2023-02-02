@@ -85,7 +85,6 @@ describe('RoutineCard', () => {
     const history = { id: routine.id, date: dayjs().startOf('day').toISOString(), items: [], note: 'a' } as any;
     await act(() => historiesStore.setState({ histories: [history] }));
     const { result } = renderHook(() => useHistoriesStore());
-    console.log(result.current.histories);
     const setHistory = vi.spyOn(result.current, 'setHistory').mockImplementation(() => {});
 
     render(<RoutineCard routine={routine} />);
