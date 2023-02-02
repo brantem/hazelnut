@@ -1,9 +1,10 @@
+import dayjs from 'dayjs';
 import { render, screen, act, renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import RoutineCard from 'components/Routine/RoutineCard';
 
-import { useRoutinesStore, useItemsStore, useModalStore } from 'lib/stores';
+import { historiesStore, useHistoriesStore, useRoutinesStore, useItemsStore, useModalStore } from 'lib/stores';
 import { Routine } from 'types/routine';
 import * as constants from 'data/constants';
 
@@ -75,5 +76,23 @@ describe('RoutineCard', () => {
     expect(edit).toHaveBeenCalledWith('routine-1', { minimized: true });
     rerender(<RoutineCard routine={{ ...routine, minimized: true }} />);
     expect(screen.queryByTestId('routine-card-items')).not.toBeInTheDocument();
+  });
+
+  it('should show note', async () => {
+    const modal = renderHook(() => useModalStore());
+    const show = vi.spyOn(modal.result.current, 'show').mockImplementation(() => {});
+
+    const history = { id: routine.id, date: dayjs().startOf('day').toISOString(), items: [], note: 'a' } as any;
+    await act(() => historiesStore.setState({ histories: [history] }));
+    const { result } = renderHook(() => useHistoriesStore());
+    console.log(result.current.histories);
+    const setHistory = vi.spyOn(result.current, 'setHistory').mockImplementation(() => {});
+
+    render(<RoutineCard routine={routine} />);
+
+    expect(screen.getByTestId('note')).toBeInTheDocument();
+    act(() => screen.getByTestId('note-action').click());
+    expect(setHistory).toHaveBeenCalledWith(history);
+    expect(show).toHaveBeenCalledWith(constants.modals.saveHistoryNote);
   });
 });

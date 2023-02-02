@@ -15,7 +15,7 @@ type NoteProps = {
 const Note = ({ history, onActionClick }: NoteProps) => {
   if (!history.note) return null;
   return (
-    <div className="pt-3" data-testid="history-card-note">
+    <div className="pt-3" data-testid="note">
       <div className="mb-1 flex items-center justify-between space-x-3">
         <h4 className={`text-${history.color}-500`}>Note</h4>
         <Button
@@ -23,7 +23,7 @@ const Note = ({ history, onActionClick }: NoteProps) => {
           variant="ghost"
           className="rounded-full !p-1"
           onClick={onActionClick}
-          data-testid="history-card-note-action"
+          data-testid="note-action"
         >
           <PencilSquareIcon className="h-5 w-5" />
         </Button>

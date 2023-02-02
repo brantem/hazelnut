@@ -1,8 +1,9 @@
-import { useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
 import type { NextPage } from 'next';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import Router from 'next/router';
+import dayjs from 'dayjs';
 
 import Layout from 'components/Layout';
 import MonthPickerAction from 'components/Routine/MonthPickerAction';
@@ -27,7 +28,14 @@ import { useModal, useSearch } from 'lib/hooks';
 import * as constants from 'data/constants';
 
 const Routines: NextPage = () => {
-  const isHistory = useHistoriesStore((state) => !!state.selectedDate);
+  const { isHistory, isTodaySelected } = useHistoriesStore(
+    useCallback((state) => {
+      return {
+        isHistory: !!state.selectedDate,
+        isTodaySelected: state.selectedDate === dayjs().startOf('day').toISOString(),
+      };
+    }, []),
+  );
   const routines = useRoutinesStore((state) => ({ isEmpty: state.routines.length === 0, isReady: state.isReady }));
   const items = useItemsStore((state) => ({ isEmpty: state.items.length === 0, isReady: state.isReady }));
   const clearRoutine = useRoutinesStore((state) => () => state.routine && state.setRoutine(null));
@@ -89,7 +97,7 @@ const Routines: NextPage = () => {
 
             <DateList />
 
-            {!isHistory ? <RoutineList /> : <HistoryList />}
+            {!isHistory || isTodaySelected ? <RoutineList /> : <HistoryList />}
           </>
         ) : (
           isReady && (

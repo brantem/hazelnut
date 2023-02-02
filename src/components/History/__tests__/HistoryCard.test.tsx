@@ -61,8 +61,8 @@ describe('HistoryCard', () => {
     const _history = { ...history, note: 'a' };
     render(<HistoryCard history={_history} />);
 
-    expect(screen.getByTestId('history-card-note')).toBeInTheDocument();
-    act(() => screen.getByTestId('history-card-note-action').click());
+    expect(screen.getByTestId('note')).toBeInTheDocument();
+    act(() => screen.getByTestId('note-action').click());
     expect(setHistory).toHaveBeenCalledWith(_history);
     expect(show).toHaveBeenCalledWith(constants.modals.saveHistoryNote);
   });
