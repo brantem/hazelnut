@@ -1,22 +1,28 @@
 import { useCallback } from 'react';
+import dayjs from 'dayjs';
 
 import RoutineCard from 'components/Routine/RoutineCard';
 
-import { useRoutinesStore } from 'lib/stores';
-import { isMatch, sortRoutines } from 'lib/helpers';
+import { useHistoriesStore, useRoutinesStore } from 'lib/stores';
+import { isMatch, sortRoutines, isRoutineActive } from 'lib/helpers';
 import { useSearch } from 'lib/hooks';
 import * as constants from 'data/constants';
 
 const RoutineList = () => {
   const search = useSearch(constants.searches.routines);
+  const selectedDate = useHistoriesStore((state) => state.selectedDate);
   const routines = useRoutinesStore(
     useCallback(
       (state) => {
-        const routines = sortRoutines(state.routines);
+        const currentDate = dayjs().startOf('day').toISOString();
+        const routines =
+          currentDate === selectedDate
+            ? sortRoutines(state.routines.filter((routine) => isRoutineActive(routine)))
+            : sortRoutines(state.routines);
         if (!search.value) return routines;
         return routines.filter((routine) => isMatch(routine.title, search.value));
       },
-      [search.value],
+      [selectedDate, search.value],
     ),
   );
 
