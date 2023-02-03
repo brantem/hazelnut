@@ -3,7 +3,7 @@
 exports[`EmptySection 1`] = `
 <div>
   <section
-    class="flex h-full flex-col items-center justify-center"
+    class="flex h-full flex-col items-center justify-center dark:text-white"
     data-testid="empty-section"
   >
     <p
@@ -13,7 +13,7 @@ exports[`EmptySection 1`] = `
       Title
     </p>
     <button
-      class="rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-500 dark:focus:ring-neutral-700 disabled:opacity-70 bg-black text-white enabled:hover:bg-neutral-800 px-4 py-1.5"
+      class="rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-500 dark:focus:ring-neutral-700 disabled:opacity-70 bg-black text-white px-4 py-1.5 dark:bg-white dark:text-black"
       data-testid="empty-section-action"
     >
       Action

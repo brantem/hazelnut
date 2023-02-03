@@ -2,7 +2,7 @@ import { InputHTMLAttributes } from 'react';
 
 import { cn } from 'lib/helpers';
 
-type InputProps = React.DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
+export type InputProps = React.DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
   label?: string;
 };
 

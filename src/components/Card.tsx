@@ -16,10 +16,9 @@ type CardProps = Omit<React.DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HT
 
 const Card = ({ title, color, actions = [], children, ...props }: CardProps) => {
   return (
-    <div className={`px-4 py-3 bg-${color}-50 dark:bg-${color}-900/20 dark:text-white`} data-testid="card" {...props}>
+    <div className={`px-4 py-3 bg-${color}-50 dark:bg-${color}-900/40 dark:text-white`} data-testid="card" {...props}>
       <div className="flex h-8 items-center justify-between space-x-3">
         <h3 className={`text-sm font-semibold uppercase text-${color}-600 truncate`}>{title}</h3>
-
         <div className="flex flex-shrink-0 items-center space-x-2">
           {actions.map((action, i) => {
             if (action.skip) return null;
@@ -39,7 +38,6 @@ const Card = ({ title, color, actions = [], children, ...props }: CardProps) => 
           })}
         </div>
       </div>
-
       {children}
     </div>
   );

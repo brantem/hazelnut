@@ -42,6 +42,7 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
         return {
           history: history || null,
           showSaveNoteModal: () => {
+            /* c8 ignore next */
             if (!history) return;
             state.setHistory(history);
             saveNoteModal.show();

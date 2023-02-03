@@ -23,7 +23,7 @@ const Item = ({ className, children, label, isSelected, onSelect, ...props }: It
       <span
         className={cn(
           `flex h-10 w-10 items-center justify-center rounded-full`,
-          !isSelected && 'bg-neutral-100 dark:bg-neutral-800',
+          !isSelected && 'bg-neutral-100 dark:bg-neutral-900',
           isSelected && 'border-black bg-black text-white dark:bg-white dark:text-black',
         )}
       >

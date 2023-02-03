@@ -55,7 +55,7 @@ const DateList = () => {
 
   return (
     <section
-      className="sticky top-0 z-10 flex w-full flex-1 items-stretch justify-end bg-white dark:bg-neutral-900"
+      className="sticky top-0 z-10 flex w-full flex-1 items-stretch justify-end bg-white dark:bg-black"
       data-testid="date-list"
     >
       <div className="flex items-center space-x-4 overflow-x-auto px-4" ref={listRef}>

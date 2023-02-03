@@ -1,7 +1,6 @@
 import { useCallback, useReducer } from 'react';
 import type { NextPage } from 'next';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import clsx from 'clsx';
 
 import Layout from 'components/Layout';
 import Search from 'components/Search';
@@ -13,7 +12,7 @@ import ItemSettingsModal from 'components/Item/ItemSettingsModal';
 import EmptySection from 'components/sections/EmptySection';
 
 import { useGroupsStore, useItemsStore } from 'lib/stores';
-import { isMatch } from 'lib/helpers';
+import { isMatch, cn } from 'lib/helpers';
 import { useModal, useSearch } from 'lib/hooks';
 import * as constants from 'data/constants';
 
@@ -54,7 +53,7 @@ const Items: NextPage = () => {
           actions: [
             {
               children: <MagnifyingGlassIcon className="h-5 w-5" />,
-              className: clsx('!px-1.5', isSearching && 'bg-neutral-100'),
+              className: cn('!px-1.5', isSearching && 'bg-neutral-100 dark:bg-white dark:text-black'),
               onClick: () => {
                 if (isSearching) search.change('');
                 toggleIsSearching();
@@ -75,11 +74,13 @@ const Items: NextPage = () => {
         {groups.length > 0 ? (
           <>
             {isSearching && (
-              <Search
-                placeholder="Search for groups or items by title"
-                searchKey={constants.searches.items}
-                className="sticky top-0 bg-white px-4 pt-1 pb-3 dark:bg-neutral-900"
-              />
+              <div className="sticky top-0 bg-white px-4 pt-1 pb-3 dark:bg-black">
+                <Search
+                  placeholder="Search for groups or items by title"
+                  searchKey={constants.searches.items}
+                  className="dark:bg-neutral-900"
+                />
+              </div>
             )}
 
             <section className="space-y-3">

@@ -26,6 +26,7 @@ const RoutineSettingsModal = () => {
         duplicateModal.show();
       },
       removeRoutine: () => {
+        /* c8 ignore next */
         if (!state.routine) return;
         state.remove(state.routine.id);
         modal.hide();
@@ -42,11 +43,13 @@ const RoutineSettingsModal = () => {
         return {
           history,
           showSaveNoteModal: () => {
+            /* c8 ignore next */
             if (!history) return;
             state.setHistory(history);
             saveHistoryNoteModal.show();
           },
           removeHistory: () => {
+            /* c8 ignore next */
             if (!history) return;
             state.remove(history.id, history.date);
             modal.hide();

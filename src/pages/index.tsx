@@ -1,7 +1,6 @@
 import { useCallback, useReducer } from 'react';
 import type { NextPage } from 'next';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import clsx from 'clsx';
 import Router from 'next/router';
 import dayjs from 'dayjs';
 
@@ -26,6 +25,7 @@ import EmptySection from 'components/sections/EmptySection';
 import { useHistoriesStore, useRoutinesStore, useItemsStore } from 'lib/stores';
 import { useModal, useSearch } from 'lib/hooks';
 import * as constants from 'data/constants';
+import { cn } from 'lib/helpers';
 
 const Routines: NextPage = () => {
   const { isHistory, isTodaySelected } = useHistoriesStore(
@@ -55,7 +55,7 @@ const Routines: NextPage = () => {
           actions: [
             {
               children: <MagnifyingGlassIcon className="h-5 w-5" />,
-              className: clsx('!px-1.5', isSearching && 'bg-neutral-100'),
+              className: cn('!px-1.5', isSearching && 'bg-neutral-100 dark:bg-white dark:text-black'),
               onClick: () => {
                 if (isSearching) search.change('');
                 toggleIsSearching();
@@ -88,11 +88,13 @@ const Routines: NextPage = () => {
         {!isEmpty ? (
           <>
             {isSearching && (
-              <Search
-                placeholder="Search for routines by title"
-                searchKey={constants.searches.routines}
-                className="sticky top-0 bg-white px-4 pt-1 pb-3 dark:bg-neutral-900"
-              />
+              <div className="sticky top-0 bg-white px-4 pt-1 pb-3 dark:bg-black">
+                <Search
+                  placeholder="Search for routines by title"
+                  searchKey={constants.searches.routines}
+                  className="dark:bg-neutral-900"
+                />
+              </div>
             )}
 
             <DateList />
