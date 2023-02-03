@@ -9,7 +9,7 @@ import {
   IndexNames,
 } from 'idb';
 
-import { Schema, SchemaV1 } from 'types/storage';
+import { Schema, SchemaV1, SchemaV3 } from 'types/storage';
 import { omit } from 'lib/helpers';
 
 export const migrateFromLocalStorage = <Name extends StoreNames<Schema>>(
@@ -72,11 +72,18 @@ const migrateV1ToV2 = async (transaction: IDBPTransaction<Schema, ArrayLike<Stor
 };
 
 const migrateV2ToV3 = async (transaction: IDBPTransaction<Schema, ArrayLike<StoreNames<Schema>>, 'versionchange'>) => {
-  const store = transaction.objectStore('histories');
+  // prettier-ignore
+  const store = transaction.objectStore('histories') as unknown as IDBPObjectStore<SchemaV3, ArrayLike<StoreNames<Schema>>, "histories", "versionchange">;
   store.createIndex('createdAt', 'createdAt');
 };
 
-const VERSION = 3;
+const migrateV3ToV4 = async (transaction: IDBPTransaction<Schema, ArrayLike<StoreNames<Schema>>, 'versionchange'>) => {
+  const store = transaction.objectStore('histories');
+  store.deleteIndex('createdAt');
+  store.createIndex('date', 'date');
+};
+
+const VERSION = 4;
 
 class Storage {
   db: Promise<IDBPDatabase<Schema>>;
@@ -94,6 +101,9 @@ class Storage {
               break;
             case 2:
               await migrateV2ToV3(transaction);
+              break;
+            case 3:
+              await migrateV3ToV4(transaction);
               break;
           }
         }

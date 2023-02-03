@@ -15,7 +15,7 @@ export const useLoadStore = () => {
         storage.getAll('items'),
         storage.getAll('groups'),
         storage.getAll('routines'),
-        getHistories(selectedMonth.valueOf(), selectedMonth.endOf('month').valueOf()),
+        getHistories(selectedMonth.toISOString(), selectedMonth.endOf('month').toISOString()),
       ]);
 
       itemsStore.setState({ items: items.sort((a, b) => a.createdAt - b.createdAt), isReady: true });

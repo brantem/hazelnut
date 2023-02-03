@@ -39,7 +39,7 @@ export const historiesStore = createStore<HistoriesState>()((set, get) => ({
   selectedMonth: undefined,
   setSelectedMonth: async (selectedMonth) => {
     const from = dayjs(selectedMonth);
-    const histories = await getHistories(from.valueOf(), from.add(1, 'month').valueOf());
+    const histories = await getHistories(from.toISOString(), from.add(1, 'month').toISOString());
 
     let selectedDate;
     if (selectedMonth === dayjs().startOf('month').format('YYYY-MM')) {
@@ -214,8 +214,8 @@ export function useHistoriesStore(selector?: any, equals?: any) {
 }
 
 /* c8 ignore start */
-export const getHistories = async (from: number, to: number) => {
-  const index = await storage.index('histories', 'createdAt');
+export const getHistories = async (from: string, to: string) => {
+  const index = await storage.index('histories', 'date');
   if (!index) return [];
   let cursor = await index.openCursor(IDBKeyRange.bound(from, to));
   const histories: StoreValue<Schema, 'histories'>[] = [];
