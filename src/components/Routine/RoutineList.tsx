@@ -27,7 +27,7 @@ const RoutineList = () => {
   );
 
   return (
-    <section className="space-y-3" data-testid="routine-list">
+    <section className="flex-1 space-y-3 overflow-y-auto" data-testid="routine-list">
       {routines.length
         ? routines.map((routine, i) => <RoutineCard key={i} routine={routine} showAction isItemSortable />)
         : search.value && <p className="mx-4 mt-3 text-center text-neutral-500">No results found</p>}

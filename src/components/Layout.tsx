@@ -12,7 +12,7 @@ const Layout = ({ header, children }: LayoutProps) => {
   return (
     <>
       <Header {...header} navigations={navigations} />
-      <main className="flex-1 overflow-y-auto">{children}</main>
+      <main className="flex flex-1 flex-col overflow-y-hidden">{children}</main>
       <Nav navigations={navigations} />
     </>
   );

@@ -83,7 +83,7 @@ const Items: NextPage = () => {
               </div>
             )}
 
-            <section className="space-y-3">
+            <section className="flex-1 space-y-3 overflow-y-auto">
               {groups.map((group, i) => (
                 <GroupCard key={i} group={group} />
               ))}

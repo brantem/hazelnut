@@ -22,7 +22,7 @@ const HistoryList = () => {
   );
 
   return (
-    <section className="space-y-3" data-testid="history-list">
+    <section className="flex-1 space-y-3 overflow-y-auto" data-testid="history-list">
       {histories.length
         ? histories.map((history, i) => <HistoryCard key={i} history={history} />)
         : search.value && <p className="mx-4 mt-3 text-center text-neutral-500">No results found</p>}
