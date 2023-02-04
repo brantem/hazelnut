@@ -39,7 +39,7 @@ export const historiesStore = createStore<HistoriesState>()((set, get) => ({
   selectedMonth: undefined,
   setSelectedMonth: async (selectedMonth) => {
     const from = dayjs(selectedMonth);
-    const histories = await getHistories(from.toISOString(), from.add(1, 'month').toISOString());
+    const histories = await getHistories(from.toISOString(), from.endOf('month').toISOString());
 
     let selectedDate;
     if (selectedMonth === dayjs().startOf('month').format('YYYY-MM')) {
