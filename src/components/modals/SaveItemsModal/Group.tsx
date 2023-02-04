@@ -39,7 +39,11 @@ export const Group = ({ group, itemIds, disabledItemIds, onItemClick }: GroupPro
   return (
     <li>
       <div className="flex items-center space-x-3">
-        <span className={`max-w-full flex-shrink-0 truncate text-${group.color}-500 font-semibold`}>{group.title}</span>
+        <span
+          className={`max-w-full flex-shrink-0 truncate text-${group.color}-500 dark:text-${group.color}-600 font-semibold`}
+        >
+          {group.title}
+        </span>
 
         <hr className="flex-1 dark:border-neutral-600" />
 

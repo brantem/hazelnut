@@ -17,7 +17,9 @@ const Note = ({ history, onActionClick }: NoteProps) => {
   return (
     <div className="pt-3" data-testid="note">
       <div className="mb-1 flex items-center justify-between space-x-3">
-        <h4 className={`text-${history.color}-500`}>Note</h4>
+        <h4 className={`text-${history.color}-500 dark:text-${history.color}-700 text-sm font-semibold uppercase`}>
+          Note
+        </h4>
         <Button
           color={history.color}
           variant="ghost"
