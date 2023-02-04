@@ -6,7 +6,6 @@ import { useModal } from 'lib/hooks';
 
 const HistoryItemsSettingsModal = () => {
   const history = useHistoriesStore((state) => state.history);
-  const modal = useModal(constants.modals.historyItemsSetttings);
   const addExistingItemsModal = useModal(constants.modals.addExistingItemsToHistory);
   const addRawItemModal = useModal(constants.modals.addRawItemToHistory);
 
@@ -25,17 +24,11 @@ const HistoryItemsSettingsModal = () => {
       actions={[
         {
           children: 'Edit',
-          onClick: () => {
-            modal.hide();
-            addExistingItemsModal.show();
-          },
+          onClick: addExistingItemsModal.show,
         },
         {
           children: 'Add New Item',
-          onClick: () => {
-            modal.hide();
-            addRawItemModal.show();
-          },
+          onClick: addRawItemModal.show,
         },
       ]}
       data-testid="history-settings-modal"

@@ -36,10 +36,7 @@ const GroupSettingsModal = () => {
       actions={[
         {
           children: 'Edit',
-          onClick: () => {
-            modal.hide();
-            saveModal.show();
-          },
+          onClick: saveModal.show,
         },
         {
           render: () => <DeleteButton onConfirm={remove} />,

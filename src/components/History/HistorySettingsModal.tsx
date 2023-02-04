@@ -31,10 +31,7 @@ const HistorySettingsModal = () => {
       actions={[
         {
           children: history?.note ? 'Edit Note' : 'Add Note',
-          onClick: () => {
-            modal.hide();
-            saveNoteModal.show();
-          },
+          onClick: saveNoteModal.show,
         },
         {
           render: () => <DeleteButton onConfirm={remove} />,

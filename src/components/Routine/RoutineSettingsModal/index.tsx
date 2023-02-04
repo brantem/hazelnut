@@ -35,7 +35,6 @@ const RoutineSettingsModal = () => {
           saveSaveNoteModal: () => {
             /* c8 ignore next */
             if (!history) return;
-            modal.hide();
             state.setHistory(history);
             saveNoteModal.show();
           },
@@ -67,10 +66,7 @@ const RoutineSettingsModal = () => {
       actions={[
         {
           children: 'Edit',
-          onClick: () => {
-            modal.hide();
-            saveModal.show();
-          },
+          onClick: saveModal.show,
         },
         {
           children: history?.note ? 'Edit Note' : 'Add Note',
@@ -79,10 +75,7 @@ const RoutineSettingsModal = () => {
         },
         {
           children: 'Duplicate',
-          onClick: () => {
-            modal.hide();
-            duplicateModal.show();
-          },
+          onClick: duplicateModal.show,
         },
         {
           render: () => <DeleteButton onConfirm={remove} />,
