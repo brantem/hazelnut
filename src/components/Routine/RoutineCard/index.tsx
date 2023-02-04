@@ -22,16 +22,16 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
   const saveItemsModal = useModal(constants.modals.saveItemsToRoutine);
   const settingsModal = useModal(constants.modals.routineSettings);
   const saveNoteModal = useModal(constants.modals.saveHistoryNote);
-  const { showSaveItemsModal, showSaveSettingsModal, editRoutine } = useRoutinesStore((state) => ({
+  const { showSaveItemsModal, showSettingsModal, edit } = useRoutinesStore((state) => ({
     showSaveItemsModal: () => {
       state.setRoutine(routine);
       saveItemsModal.show();
     },
-    showSaveSettingsModal: () => {
+    showSettingsModal: () => {
       state.setRoutine(routine);
       settingsModal.show();
     },
-    editRoutine: state.edit,
+    edit: (data: Parameters<typeof state.edit>[1]) => state.edit(routine.id, data),
   }));
   const { history, showSaveNoteModal } = useHistoriesStore(
     useCallback(
@@ -77,13 +77,13 @@ const RoutineCard = ({ routine, showAction, isItemSortable = false }: RoutinePro
         },
         {
           children: <EllipsisHorizontalIcon className="h-5 w-5" />,
-          onClick: showSaveSettingsModal,
+          onClick: showSettingsModal,
           testId: 'routine-card-settings',
           skip: !showAction,
         },
         {
           children: <ChevronUpIcon className={clsx('h-5 w-5', routine.minimized && 'rotate-180')} />,
-          onClick: () => editRoutine(routine.id, { minimized: !routine.minimized }),
+          onClick: () => edit({ minimized: !routine.minimized }),
           testId: 'routine-card-minimize',
         },
       ]}

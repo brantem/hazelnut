@@ -9,7 +9,13 @@ import { ItemType } from 'types/item';
 const ItemSettingsModal = () => {
   const modal = useModal(constants.modals.itemSettings);
   const saveModal = useModal(constants.modals.saveItem);
-  const { item, remove } = useItemsStore((state) => ({ item: state.item, remove: state.remove }));
+  const { item, remove } = useItemsStore((state) => ({
+    item: state.item,
+    remove: () => {
+      state.remove(state.item!.id);
+      modal.hide();
+    },
+  }));
 
   return (
     <SettingsModal
@@ -19,17 +25,13 @@ const ItemSettingsModal = () => {
       actions={[
         {
           children: 'Edit',
-          onClick: () => saveModal.show(),
+          onClick: () => {
+            modal.hide();
+            saveModal.show();
+          },
         },
         {
-          render: () => (
-            <DeleteButton
-              onConfirm={() => {
-                remove(item!.id);
-                modal.hide();
-              }}
-            />
-          ),
+          render: () => <DeleteButton onConfirm={remove} />,
         },
       ]}
       data-testid="item-settings-modal"

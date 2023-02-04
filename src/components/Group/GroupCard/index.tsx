@@ -16,10 +16,21 @@ type GroupCardProps = {
 };
 
 const GroupCard = ({ group }: GroupCardProps) => {
-  const { setGroup, edit } = useGroupsStore((state) => ({ setGroup: state.setGroup, edit: state.edit }));
-  const clearItem = useItemsStore((state) => () => state.item && state.setItem(null));
   const saveItemModal = useModal(constants.modals.saveItem);
   const settingsModal = useModal(constants.modals.groupSettings);
+  const clearItem = useItemsStore((state) => () => state.item && state.setItem(null));
+  const { showAddItemModal, showSettingsModal, edit } = useGroupsStore((state) => ({
+    showAddItemModal: () => {
+      state.setGroup(group);
+      clearItem();
+      saveItemModal.show();
+    },
+    showSettingsModal: () => {
+      state.setGroup(group);
+      settingsModal.show();
+    },
+    edit: (data: Parameters<typeof state.edit>[1]) => state.edit(group.id, data),
+  }));
 
   const search = useSearch(constants.searches.items);
   const isGroupMatch = useMemo(() => {
@@ -45,24 +56,17 @@ const GroupCard = ({ group }: GroupCardProps) => {
       actions={[
         {
           children: <PlusIcon className="h-5 w-5" />,
-          onClick: () => {
-            setGroup(group);
-            clearItem();
-            saveItemModal.show();
-          },
+          onClick: showAddItemModal,
           testId: 'group-card-add-item',
         },
         {
           children: <EllipsisHorizontalIcon className="h-5 w-5" />,
-          onClick: () => {
-            setGroup(group);
-            settingsModal.show();
-          },
+          onClick: showSettingsModal,
           testId: 'group-card-settings',
         },
         {
           children: <ChevronUpIcon className={clsx('h-5 w-5', group.minimized && 'rotate-180')} />,
-          onClick: () => edit(group.id, { minimized: !group.minimized }),
+          onClick: () => edit({ minimized: !group.minimized }),
           testId: 'group-card-minimize',
         },
       ]}

@@ -12,28 +12,18 @@ import { useModal } from 'lib/hooks';
 const RoutineSettingsModal = () => {
   const modal = useModal(constants.modals.routineSettings);
   const saveModal = useModal(constants.modals.saveRoutine);
-  const saveHistoryNoteModal = useModal(constants.modals.saveHistoryNote);
+  const saveNoteModal = useModal(constants.modals.saveHistoryNote);
   const duplicateModal = useModal(constants.modals.duplicateRoutine);
-  const { routine, showEditRoutineModal, showDuplicateRoutineModal, removeRoutine } = useRoutinesStore((state) => {
+  const { routine, remove } = useRoutinesStore((state) => {
     return {
       routine: state.routine,
-      showEditRoutineModal: () => {
-        state.setRoutine(routine);
-        saveModal.show();
-      },
-      showDuplicateRoutineModal: () => {
-        state.setRoutine(routine);
-        duplicateModal.show();
-      },
-      removeRoutine: () => {
-        /* c8 ignore next */
-        if (!state.routine) return;
-        state.remove(state.routine.id);
+      remove: () => {
+        state.remove(state.routine!.id);
         modal.hide();
       },
     };
   });
-  const { history, showSaveNoteModal, removeHistory } = useHistoriesStore(
+  const { history, saveSaveNoteModal, removeHistory } = useHistoriesStore(
     useCallback(
       (state) => {
         const currentDate = dayjs().startOf('day').toISOString();
@@ -42,11 +32,12 @@ const RoutineSettingsModal = () => {
           : null;
         return {
           history,
-          showSaveNoteModal: () => {
+          saveSaveNoteModal: () => {
             /* c8 ignore next */
             if (!history) return;
+            modal.hide();
             state.setHistory(history);
-            saveHistoryNoteModal.show();
+            saveNoteModal.show();
           },
           removeHistory: () => {
             /* c8 ignore next */
@@ -76,19 +67,30 @@ const RoutineSettingsModal = () => {
       actions={[
         {
           children: 'Edit',
-          onClick: showEditRoutineModal,
+          onClick: () => {
+            modal.hide();
+            saveModal.show();
+          },
         },
         {
           children: history?.note ? 'Edit Note' : 'Add Note',
-          onClick: showSaveNoteModal,
+          onClick: saveSaveNoteModal,
           skip: !history,
         },
         {
           children: 'Duplicate',
-          onClick: showDuplicateRoutineModal,
+          onClick: () => {
+            modal.hide();
+            duplicateModal.show();
+          },
         },
-        { render: () => <DeleteButton onConfirm={removeRoutine} /> },
-        { render: () => <DeleteButton text="Delete History" onConfirm={removeHistory} />, skip: !history },
+        {
+          render: () => <DeleteButton onConfirm={remove} />,
+        },
+        {
+          render: () => <DeleteButton text="Delete History" onConfirm={removeHistory} />,
+          skip: !history,
+        },
       ]}
       data-testid="routine-settings-modal"
     />

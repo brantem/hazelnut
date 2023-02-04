@@ -9,11 +9,13 @@ import * as constants from 'data/constants';
 
 const GroupSettingsModal = () => {
   const modal = useModal(constants.modals.groupSettings);
-  const saveGroupModal = useModal(constants.modals.saveGroup);
-  const { group, setGroup, remove } = useGroupsStore((state) => ({
+  const saveModal = useModal(constants.modals.saveGroup);
+  const { group, remove } = useGroupsStore((state) => ({
     group: state.group,
-    setGroup: state.setGroup,
-    remove: state.remove,
+    remove: () => {
+      state.remove(state.group!.id);
+      modal.hide();
+    },
   }));
 
   const itemsLength = useItemsStore(
@@ -35,19 +37,12 @@ const GroupSettingsModal = () => {
         {
           children: 'Edit',
           onClick: () => {
-            setGroup(group);
-            saveGroupModal.show();
+            modal.hide();
+            saveModal.show();
           },
         },
         {
-          render: () => (
-            <DeleteButton
-              onConfirm={() => {
-                remove(group!.id);
-                modal.hide();
-              }}
-            />
-          ),
+          render: () => <DeleteButton onConfirm={remove} />,
         },
       ]}
       data-testid="group-settings-modal"

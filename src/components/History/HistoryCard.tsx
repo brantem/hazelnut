@@ -62,10 +62,23 @@ type HistoryProps = {
 };
 
 const HistoryCard = ({ history }: HistoryProps) => {
-  const setHistory = useHistoriesStore((state) => state.setHistory);
   const itemsSettingsModal = useModal(constants.modals.historyItemsSetttings);
   const settingsModal = useModal(constants.modals.historySettings);
   const saveNoteModal = useModal(constants.modals.saveHistoryNote);
+  const { showItemsSettingsModal, showSettingsModal, showSaveNoteModal } = useHistoriesStore((state) => ({
+    showItemsSettingsModal: () => {
+      state.setHistory(history);
+      itemsSettingsModal.show();
+    },
+    showSettingsModal: () => {
+      state.setHistory(history);
+      settingsModal.show();
+    },
+    showSaveNoteModal: () => {
+      state.setHistory(history);
+      saveNoteModal.show();
+    },
+  }));
 
   const [minimized, toggleMinimized] = useReducer((prev) => !prev, false);
 
@@ -87,18 +100,12 @@ const HistoryCard = ({ history }: HistoryProps) => {
       actions={[
         {
           children: 'Items',
-          onClick: () => {
-            setHistory(history);
-            itemsSettingsModal.show();
-          },
+          onClick: showItemsSettingsModal,
           testId: 'history-card-items-settings',
         },
         {
           children: <EllipsisHorizontalIcon className="h-5 w-5" />,
-          onClick: () => {
-            setHistory(history);
-            settingsModal.show();
-          },
+          onClick: showSettingsModal,
           testId: 'history-card-settings',
         },
         {
@@ -111,15 +118,7 @@ const HistoryCard = ({ history }: HistoryProps) => {
     >
       {!minimized && <ItemList history={history} />}
 
-      {!minimized && (
-        <Note
-          history={history}
-          onActionClick={() => {
-            setHistory(history);
-            saveNoteModal.show();
-          }}
-        />
-      )}
+      {!minimized && <Note history={history} onActionClick={showSaveNoteModal} />}
     </Card>
   );
 };

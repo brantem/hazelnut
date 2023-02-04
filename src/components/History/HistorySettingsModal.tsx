@@ -7,11 +7,13 @@ import { useModal } from 'lib/hooks';
 
 const HistorySettingsModal = () => {
   const modal = useModal(constants.modals.historySettings);
-  const saveHistoryNoteModal = useModal(constants.modals.saveHistoryNote);
-  const { history, setHistory, remove } = useHistoriesStore((state) => ({
+  const saveNoteModal = useModal(constants.modals.saveHistoryNote);
+  const { history, remove } = useHistoriesStore((state) => ({
     history: state.history,
-    setHistory: state.setHistory,
-    remove: state.remove,
+    remove: () => {
+      state.remove(state.history!.id, state.history!.date);
+      modal.hide();
+    },
   }));
 
   return (
@@ -30,19 +32,12 @@ const HistorySettingsModal = () => {
         {
           children: history?.note ? 'Edit Note' : 'Add Note',
           onClick: () => {
-            setHistory(history);
-            saveHistoryNoteModal.show();
+            modal.hide();
+            saveNoteModal.show();
           },
         },
         {
-          render: () => (
-            <DeleteButton
-              onConfirm={() => {
-                remove(history!.id, history!.date);
-                modal.hide();
-              }}
-            />
-          ),
+          render: () => <DeleteButton onConfirm={remove} />,
         },
       ]}
       data-testid="history-settings-modal"
