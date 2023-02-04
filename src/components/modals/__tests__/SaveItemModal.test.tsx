@@ -61,7 +61,7 @@ describe('SaveItemModal', () => {
     fireEvent.change(screen.getByLabelText('Type'), { target: { value: ItemType.Number } });
 
     const minCompleted = screen.getByLabelText<HTMLInputElement>('Min Completed');
-    expect(minCompleted.value).toEqual('1');
+    expect(minCompleted.value).toEqual('0');
     fireEvent.change(minCompleted, { target: { value: '2' } });
     expect(minCompleted.value).toEqual('2');
 

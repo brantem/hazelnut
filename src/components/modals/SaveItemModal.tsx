@@ -69,7 +69,7 @@ const SaveItemModal = ({ modalKey, item, onSave }: SaveItemModalProps) => {
                     formik.setFieldValue('settings', {});
                     break;
                   case ItemType.Number:
-                    formik.setFieldValue('settings', { minCompleted: 1, step: 1 });
+                    formik.setFieldValue('settings', { minCompleted: 0, step: 1 });
                     break;
                 }
               }}
@@ -86,17 +86,6 @@ const SaveItemModal = ({ modalKey, item, onSave }: SaveItemModalProps) => {
               <>
                 <Input
                   type="number"
-                  label="Min Completed"
-                  name="settings.minCompleted"
-                  value={formik.values.settings!.minCompleted}
-                  onChange={(e) => formik.setFieldValue('settings.minCompleted', parseInt(e.target.value))}
-                  disabled={formik.isSubmitting}
-                  required
-                  min={1}
-                />
-
-                <Input
-                  type="number"
                   label="Step"
                   name="settings.step"
                   value={formik.values.settings!.step}
@@ -104,6 +93,17 @@ const SaveItemModal = ({ modalKey, item, onSave }: SaveItemModalProps) => {
                   disabled={formik.isSubmitting}
                   required
                   min={1}
+                />
+
+                <Input
+                  type="number"
+                  label="Min Completed"
+                  name="settings.minCompleted"
+                  value={formik.values.settings!.minCompleted}
+                  onChange={(e) => formik.setFieldValue('settings.minCompleted', parseInt(e.target.value))}
+                  disabled={formik.isSubmitting}
+                  required
+                  min={0}
                 />
               </>
             )}

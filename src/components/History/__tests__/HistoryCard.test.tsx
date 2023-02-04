@@ -26,6 +26,17 @@ const history: History = {
       type: ItemType.Number,
       title: 'Item 2',
       settings: {
+        minCompleted: 0,
+        step: 1,
+      },
+      value: 0,
+      completedAt: null,
+    },
+    {
+      id: 'item-3',
+      type: ItemType.Number,
+      title: 'Item 3',
+      settings: {
         minCompleted: 1,
         step: 1,
       },
@@ -91,16 +102,15 @@ describe('HistoryCard', () => {
     const saveItem = vi.spyOn(histories.result.current, 'saveItem').mockImplementation(() => {});
 
     const { rerender } = render(<HistoryCard history={history} />);
-
-    act(() => screen.getByTestId('number-input-increment').click());
+    act(() => screen.getAllByTestId('number-input-increment')[0].click());
     expect(saveItem).toHaveBeenCalledWith(history.id, history.items[1].id, { value: 1, done: true });
 
     const _history = { ...history };
     _history.items[1].value = 1;
     _history.items[1].completedAt = Date.now();
     rerender(<HistoryCard history={_history} />);
-    act(() => screen.getByTestId('number-input-decrement').click());
-    expect(saveItem).toHaveBeenCalledWith(_history.id, _history.items[1].id, { value: 0, done: false });
+    act(() => screen.getAllByTestId('number-input-decrement')[0].click());
+    expect(saveItem).toHaveBeenCalledWith(_history.id, _history.items[1].id, { value: 0, done: true });
   });
 
   it('should open add items settings modal', () => {

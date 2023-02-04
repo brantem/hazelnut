@@ -27,18 +27,24 @@ const generateRoutine = (i: number, data?: Partial<Omit<Routine, 'id' | 'title' 
 };
 
 const routine = generateRoutine(1, { itemIds: ['item-1'] });
-const routine2 = generateRoutine(2, { itemIds: ['item-1', 'item-2'] });
+const routine2 = generateRoutine(2, { itemIds: ['item-1', 'item-2', 'item-3'] });
 
 const generateItem = (i: number, data?: Partial<Omit<Item, 'id' | 'title'>>) => {
   const item = { id: 'item-' + i, title: 'Item ' + i, ...(data || {}) } as Item;
 
-  if (data?.type === ItemType.Number && !item.settings) item.settings = { minCompleted: 1, step: 1 };
+  if (data?.type === ItemType.Number && !item.settings) item.settings = { minCompleted: 0, step: 1 };
 
   return item;
 };
 
 const item1 = generateItem(1, { groupId: 'group-1', createdAt: 0 });
 const item2 = generateItem(2, { groupId: 'group-1', type: ItemType.Number, createdAt: 0 });
+const item3 = generateItem(3, {
+  groupId: 'group-1',
+  type: ItemType.Number,
+  createdAt: 0,
+  settings: { minCompleted: 1, step: 1 },
+});
 
 describe('ItemList', () => {
   beforeAll(() => {
@@ -50,8 +56,9 @@ describe('ItemList', () => {
 
     const items = renderHook(() => useItemsStore());
     act(() => {
-      items.result.current.add('group-1', generateItem(1, { createdAt: 0 }));
-      items.result.current.add('group-1', generateItem(2, { type: ItemType.Number, createdAt: 0 }));
+      items.result.current.add('group-1', item1);
+      items.result.current.add('group-1', item2);
+      items.result.current.add('group-1', item3);
     });
   });
 
@@ -77,7 +84,7 @@ describe('ItemList', () => {
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
     fireEvent.keyDown(handle, { code: 'Space' });
     await waitFor(() => new Promise((res) => setTimeout(res, 0)));
-    await expect(edit).toHaveBeenCalledWith(routine2.id, { itemIds: ['item-2', 'item-1'] });
+    await expect(edit).toHaveBeenCalledWith(routine2.id, { itemIds: ['item-2', 'item-1', 'item-3'] });
   });
 
   it('should save item', async () => {
@@ -98,9 +105,9 @@ describe('ItemList', () => {
 
     render(<ItemList routine={routine2} isSortable />);
 
-    act(() => screen.getByTestId('number-input-increment').click());
+    act(() => screen.getAllByTestId('number-input-increment')[0].click());
     expect(saveItem).toHaveBeenCalledWith(routine2.id, item2.id, { value: 1, done: true }, true);
-    act(() => screen.getByTestId('number-input-decrement').click());
-    expect(saveItem).toHaveBeenCalledWith(routine2.id, item2.id, { value: 0, done: false }, true);
+    act(() => screen.getAllByTestId('number-input-decrement')[0].click());
+    expect(saveItem).toHaveBeenCalledWith(routine2.id, item2.id, { value: 0, done: true }, true);
   });
 });

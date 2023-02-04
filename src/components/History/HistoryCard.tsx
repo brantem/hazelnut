@@ -35,7 +35,7 @@ const ItemList = ({ history }: ItemListProps) => {
                   label={item.title}
                   color={history.color}
                   value={value}
-                  renderValue={(value) => `${value} / ${minCompleted}`}
+                  renderValue={(value) => (minCompleted === 0 ? value : `${value} / ${minCompleted}`)}
                   onChange={(value) => saveItem(history.id, item.id, { value, done: value >= minCompleted })}
                   className={clsx(shade > 0 && `bg-${history.color}-${shade}`, shade > 300 && 'text-white')}
                   step={item.settings!.step}

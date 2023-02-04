@@ -138,6 +138,7 @@ describe('isRoutineActive', () => {
 
 test('getNumberInputShade', () => {
   expect(getNumberInputShade(0, 0)).toEqual(0);
+  expect(getNumberInputShade(0, 1)).toEqual(500);
   expect(getNumberInputShade(50, 0)).toEqual(0);
 
   expect(getNumberInputShade(50, 10)).toEqual(100);

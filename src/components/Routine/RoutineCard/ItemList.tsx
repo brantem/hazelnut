@@ -45,7 +45,7 @@ const Item = ({ routine, item, isSortable }: ItemProps) => {
                 label={item.title}
                 color={routine.color}
                 value={value}
-                renderValue={(value) => `${value} / ${minCompleted}`}
+                renderValue={(value) => (minCompleted === 0 ? value : `${value} / ${minCompleted}`)}
                 onChange={(value) => saveItem(routine.id, item.id, { value, done: value >= minCompleted }, true)}
                 className={clsx(shade > 0 && `bg-${routine.color}-${shade}`, shade > 300 && 'text-white')}
                 step={item.settings.step}
