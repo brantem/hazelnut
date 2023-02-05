@@ -40,9 +40,11 @@ const Card = ({ title, data, onSave }: CardProps) => {
   const [value, setValue] = useState('');
 
   return (
-    <section className="border-b">
+    <section className="border-b dark:border-neutral-800">
       <div className="flex items-center justify-between space-x-3 px-4 py-2">
-        <h3 className="truncate rounded-md bg-neutral-100 px-1.5 py-0.5 font-mono text-sm">{title}</h3>
+        <h3 className="truncate rounded-md bg-neutral-100 px-1.5 py-0.5 font-mono text-sm dark:bg-neutral-900 dark:text-white">
+          {title}
+        </h3>
 
         <div className="flex flex-shrink-0 items-center space-x-2">
           {isImportActive ? (
@@ -99,14 +101,16 @@ const Card = ({ title, data, onSave }: CardProps) => {
 
       {isImportActive ? (
         <input
-          className="w-full bg-neutral-100 px-4 py-2"
+          className="w-full bg-neutral-100 px-4 py-2 dark:bg-neutral-900 dark:text-white"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           autoFocus
         />
       ) : (
         !isMinimized && (
-          <pre className="max-h-96 overflow-y-auto bg-neutral-100 px-4 py-2">{JSON.stringify(data, null, 2)}</pre>
+          <pre className="max-h-96 overflow-y-auto bg-neutral-100 px-4 py-2 dark:bg-neutral-900 dark:text-white">
+            {JSON.stringify(data, null, 2)}
+          </pre>
         )
       )}
     </section>
