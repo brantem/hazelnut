@@ -28,7 +28,7 @@ const Header = ({ navigations, actions }: HeaderProps) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <header className="flex items-center justify-between py-3 px-4">
+      <header className="flex h-14 items-center justify-between py-3 px-4">
         <div className="flex items-center text-xl font-semibold dark:text-white md:text-2xl">
           <h1>{navigation.text}</h1>
         </div>
