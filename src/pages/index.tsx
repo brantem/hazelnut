@@ -52,6 +52,7 @@ const Routines: NextPage = () => {
     <>
       <Layout
         header={{
+          onTitleDoubleClick: () => Router.push('/_debug'),
           actions: [
             {
               children: <MagnifyingGlassIcon className="h-5 w-5" />,

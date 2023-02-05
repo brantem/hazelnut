@@ -12,11 +12,12 @@ type Action = { skip?: boolean } & (
 );
 
 export type HeaderProps = {
+  onTitleDoubleClick?: () => void;
   navigations: Navigation[];
   actions?: Action[];
 };
 
-const Header = ({ navigations, actions }: HeaderProps) => {
+const Header = ({ onTitleDoubleClick, navigations, actions }: HeaderProps) => {
   const router = useRouter();
   const navigation = useMemo(() => {
     return navigations.find((navigation) => navigation.href === router.pathname)!;
@@ -30,7 +31,7 @@ const Header = ({ navigations, actions }: HeaderProps) => {
       </Head>
       <header className="flex h-14 items-center justify-between py-3 px-4">
         <div className="flex items-center text-xl font-semibold dark:text-white md:text-2xl">
-          <h1>{navigation.text}</h1>
+          <h1 onDoubleClick={onTitleDoubleClick}>{navigation.text}</h1>
         </div>
 
         {actions?.length ? (

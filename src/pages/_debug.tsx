@@ -1,6 +1,7 @@
 import { useReducer, useState } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Router from 'next/router';
 import { CodeBracketIcon } from '@heroicons/react/24/outline';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
@@ -155,6 +156,7 @@ const Debug: NextPage = () => {
       </Head>
 
       <Header
+        onTitleDoubleClick={() => Router.push('/')}
         navigations={[
           {
             icon: <CodeBracketIcon className="h-6 w-6" />,

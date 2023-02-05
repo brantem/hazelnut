@@ -1,4 +1,4 @@
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, act, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import Header from 'components/Header';
@@ -18,9 +18,11 @@ const navigations = [
 
 describe('Header', () => {
   it('should render successfully', () => {
+    const onTitleDoubleClick = vi.fn(() => {});
     const onActionClick = vi.fn(() => {});
     const { container } = render(
       <Header
+        onTitleDoubleClick={onTitleDoubleClick}
         navigations={navigations}
         actions={[
           {
@@ -40,6 +42,9 @@ describe('Header', () => {
     expect(container).toMatchSnapshot();
 
     expect(screen.getByText('A')).toBeInTheDocument();
+    fireEvent.dblClick(screen.getByText('A'));
+    expect(onTitleDoubleClick).toHaveBeenCalled();
+
     expect(screen.queryByText('B')).not.toBeInTheDocument();
 
     act(() => screen.getByText('Action 1').click());
